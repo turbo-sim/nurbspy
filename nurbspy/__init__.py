@@ -15,7 +15,7 @@ from .minimal_example          import *
 
 
 # Package info
-__version__ = "1.1.2"
+__version__ = "1.1.3"
 PACKAGE_NAME = "nurbspy"
 URL_GITHUB = "https://github.com/turbo-sim/nurbspy"
 URL_DOCS = "https://turbo-sim.github.io/nurbspy/"
