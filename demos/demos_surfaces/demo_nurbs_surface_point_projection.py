@@ -52,7 +52,7 @@ nurbsSurface = nrb.NurbsSurface(control_points=P)
 P0 = np.asarray([0.50, 0.50, 0.50]).reshape((3,1))
 
 # Compute projected time
-u0, v0 = nurbsSurface.project_point_to_curve(P0)
+u0, v0 = nurbsSurface.project_point_to_surface(P0)
 S0 = nurbsSurface.get_value(u0, v0)
 
 # Plot the NURBS surface and the projected point

@@ -3,6 +3,7 @@
 # -------------------------------------------------------------------------------------------------------------------- #
 import numpy as np
 import scipy.special
+import scipy.optimize
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
@@ -929,9 +930,9 @@ class NurbsSurface:
                 # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
                 # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
                 # ax_xy.zaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(8)
-                for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(8)
-                for t in ax.zaxis.get_major_ticks(): t.label.set_fontsize(8)
+                for t in ax.xaxis.get_major_ticks(): t.label1.set_fontsize(8)
+                for t in ax.yaxis.get_major_ticks(): t.label1.set_fontsize(8)
+                for t in ax.zaxis.get_major_ticks(): t.label1.set_fontsize(8)
                 ax.xaxis.set_rotate_label(False)
                 ax.yaxis.set_rotate_label(False)
                 ax.zaxis.set_rotate_label(False)
@@ -979,9 +980,9 @@ class NurbsSurface:
                 # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
                 # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
                 # ax_xy.zaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(8)
-                for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(8)
-                for t in ax.zaxis.get_major_ticks(): t.label.set_fontsize(8)
+                for t in ax.xaxis.get_major_ticks(): t.label1.set_fontsize(8)
+                for t in ax.yaxis.get_major_ticks(): t.label1.set_fontsize(8)
+                for t in ax.zaxis.get_major_ticks(): t.label1.set_fontsize(8)
                 ax.xaxis.set_rotate_label(False)
                 ax.yaxis.set_rotate_label(False)
                 ax.zaxis.set_rotate_label(False)
@@ -1363,43 +1364,88 @@ class NurbsSurface:
     # ---------------------------------------------------------------------------------------------------------------- #
     # Define the point projection problem class (Pygmo's user-defined problem)
     # ---------------------------------------------------------------------------------------------------------------- #
-    def project_point_to_surface(self, P, algorithm_name='lbfgs'):
+    def project_point_to_surface(self, P):
 
         """ Solve the point projection problem for the prescribed point `P` """
+        # Initialize the problem
+        problem = self.PointToSurfaceProjectionProblem(self.get_value, self.get_derivative, P)
 
-        # Import pygmo
-        import pygmo as pg
+        # Bounds for u and v
+        bounds = list(zip(*problem.get_bounds()))
 
-        # Create the optimization algorithm
-        myAlgorithm = pg.algorithm(pg.nlopt(algorithm_name))
-        myAlgorithm.extract(pg.nlopt).xtol_rel = 1e-6
-        myAlgorithm.extract(pg.nlopt).ftol_rel = 1e-6
-        myAlgorithm.extract(pg.nlopt).xtol_abs = 1e-6
-        myAlgorithm.extract(pg.nlopt).ftol_abs = 1e-6
-        myAlgorithm.extract(pg.nlopt).maxeval = 100
-        myAlgorithm.set_verbosity(0)
+        # Objective and gradient
+        objective = lambda x: problem.fitness(x)[0]
+        gradient = lambda x: problem.gradient(x)
 
-        # Create the optimization problem
-        myProblem = pg.problem(self.PointToSurfaceProjectionProblem(self.get_value, self.get_derivative, P))
-
-        # Create the population
-        myPopulation = pg.population(prob=myProblem, size=1)
-
-        # Create a list with the different starting points
-        U0 = self.U[0:-1] +  1/ 2 * (self.U[1:] - self.U[0:-1])
-        V0 = self.V[0:-1] + 1 / 2 * (self.V[1:] - self.V[0:-1])
+        # Generate grid of starting points (as before)
+        U0 = self.U[0:-1] + 0.5 * (self.U[1:] - self.U[0:-1])
+        V0 = self.V[0:-1] + 0.5 * (self.V[1:] - self.V[0:-1])
         U0, V0 = np.meshgrid(U0, V0)
         U0, V0 = U0.flatten(), V0.flatten()
+
+        # Choose the starting point with lowest objective
+        best_x0 = None
+        best_f = np.inf
         for u0, v0 in zip(U0, V0):
-            myPopulation.push_back([u0, v0])
+            x0 = np.array([u0, v0])
+            f_val = objective(x0)
+            if f_val < best_f:
+                best_f = f_val
+                best_x0 = x0
 
-        # Solve the optimization problem (evolve the population in Pygmo's jargon)
-        myPopulation = myAlgorithm.evolve(myPopulation)
+        # Run optimization from best starting point
+        result = scipy.optimize.minimize(
+            fun=objective,
+            x0=best_x0,
+            jac=gradient,
+            bounds=bounds,
+            method="L-BFGS-B",
+            options={
+                "disp": False,
+                "maxiter": 200,
+                "ftol": 1e-6,
+                "gtol": 1e-6,
+            },
+        )
 
-        # Get the optimum
-        u, v = myPopulation.champion_x
+        if not result.success:
+            raise RuntimeError(f"Optimization failed: {result.message}")
 
-        return u, v
+        return result.x[0], result.x[1]
+    
+        # # Import pygmo
+        # import pygmo as pg
+
+        # # Create the optimization algorithm
+        # myAlgorithm = pg.algorithm(pg.nlopt(algorithm_name))
+        # myAlgorithm.extract(pg.nlopt).xtol_rel = 1e-6
+        # myAlgorithm.extract(pg.nlopt).ftol_rel = 1e-6
+        # myAlgorithm.extract(pg.nlopt).xtol_abs = 1e-6
+        # myAlgorithm.extract(pg.nlopt).ftol_abs = 1e-6
+        # myAlgorithm.extract(pg.nlopt).maxeval = 100
+        # myAlgorithm.set_verbosity(0)
+
+        # # Create the optimization problem
+        # myProblem = pg.problem(self.PointToSurfaceProjectionProblem(self.get_value, self.get_derivative, P))
+
+        # # Create the population
+        # myPopulation = pg.population(prob=myProblem, size=1)
+
+        # # Create a list with the different starting points
+        # U0 = self.U[0:-1] +  1/ 2 * (self.U[1:] - self.U[0:-1])
+        # V0 = self.V[0:-1] + 1 / 2 * (self.V[1:] - self.V[0:-1])
+        # U0, V0 = np.meshgrid(U0, V0)
+        # U0, V0 = U0.flatten(), V0.flatten()
+        # for u0, v0 in zip(U0, V0):
+        #     myPopulation.push_back([u0, v0])
+
+        # # Solve the optimization problem (evolve the population in Pygmo's jargon)
+        # myPopulation = myAlgorithm.evolve(myPopulation)
+
+        # # Get the optimum
+        # u, v = myPopulation.champion_x
+
+        # return u, v
 
     class PointToSurfaceProjectionProblem:
 

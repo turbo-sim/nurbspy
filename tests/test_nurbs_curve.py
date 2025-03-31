@@ -193,7 +193,7 @@ def test_nurbs_curve_arclength():
     def get_arclegth_differential(u):
         dCdu = myCurve.get_derivative(u, order=1)
         dLdu = np.sqrt(np.sum(dCdu ** 2, axis=0))  # dL/du = [(dx_0/du)^2 + ... + (dx_n/du)^2]^(1/2)
-        return dLdu
+        return dLdu.item() if dLdu.size == 1 else dLdu
     length_adaptative = scipy.integrate.quad(get_arclegth_differential, 0, 1)[0]
 
     # Check the arc length error

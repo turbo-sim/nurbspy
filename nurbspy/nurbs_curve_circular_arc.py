@@ -195,9 +195,9 @@ class CircularArc:
             R = np.real(self.R)
             x, y = O + R * np.cos(u) * X + R * np.sin(u) * Y
             ax.plot(x, y, 'b')
-            ax.plot([0, O[0]], [0, O[1]], 'ko-', markersize=3.5, markerfacecolor='w')
-            ax.plot([O[0], P_start[0]], [O[1], P_start[1]], 'ko-', markersize=3.5, markerfacecolor='w')
-            ax.plot([O[0], P_end[0]], [O[1], P_end[1]], 'ko-', markersize=3.5, markerfacecolor='w')
+            ax.plot([0, self.O[0]], [0, self.O[1]], 'ko-', markersize=3.5, markerfacecolor='w')
+            ax.plot([self.O[0], P_start[0]], [self.O[1], P_start[1]], 'ko-', markersize=3.5, markerfacecolor='w')
+            ax.plot([self.O[0], P_end[0]], [self.O[1], P_end[1]], 'ko-', markersize=3.5, markerfacecolor='w')
 
         elif self.ndim == 3:
 
@@ -211,9 +211,9 @@ class CircularArc:
             R = np.real(self.R)
             x, y, z =  O + R*np.cos(u)*X + R*np.sin(u)*Y
             ax.plot(x, y, z, 'b')
-            ax.plot([0, O[0]], [0, O[1]], [0, O[2]], 'ko-', markersize=3.5, markerfacecolor='w')
-            ax.plot([O[0], P_start[0]], [O[1], P_start[1]], [O[2], P_start[2]], 'ko-', markersize=3.5, markerfacecolor='w')
-            ax.plot([O[0], P_end[0]], [O[1], P_end[1]], [O[2], P_end[2]], 'ko-', markersize=3.5, markerfacecolor='w')
+            ax.plot([0, self.O[0]], [0, self.O[1]], [0, self.O[2]], 'ko-', markersize=3.5, markerfacecolor='w')
+            ax.plot([self.O[0], P_start[0]], [self.O[1], P_start[1]], [self.O[2], P_start[2]], 'ko-', markersize=3.5, markerfacecolor='w')
+            ax.plot([self.O[0], P_end[0]], [self.O[1], P_end[1]], [self.O[2], P_end[2]], 'ko-', markersize=3.5, markerfacecolor='w')
 
         else:
             raise Exception('The number of dimensions must be 2 or 3')

@@ -4,6 +4,7 @@
 import numpy as np
 import scipy.special
 import scipy.integrate
+import scipy.optimize
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
@@ -800,7 +801,7 @@ class NurbsCurve:
         def get_arclegth_differential(u):
             dCdu = self.get_derivative(u, order=1)
             dLdu = np.sqrt(np.sum(dCdu ** 2, axis=0))  # dL/du = [(dx_0/du)^2 + ... + (dx_n/du)^2]^(1/2)
-            return dLdu
+            return dLdu.item() if dLdu.size == 1 else dLdu
 
         # Compute the arc length of C(t) in the interval [u1, u2] by numerical integration
         arclength = scipy.integrate.fixed_quad(get_arclegth_differential, u1, u2, n=10)[0]
@@ -827,8 +828,8 @@ class NurbsCurve:
                 ax.set_ylabel('NURBS curve value', fontsize=12, color='k', labelpad=12)
                 # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
                 # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)
-                for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)
+                # for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)
+                # for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)
                 if ticks_off:
                     ax.set_xticks([])
                     ax.set_yticks([])
@@ -843,8 +844,8 @@ class NurbsCurve:
                 ax.set_ylabel('$y$ axis', fontsize=12, color='k', labelpad=12)
                 # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
                 # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)
-                for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)
+                # for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)
+                # for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)
                 if ticks_off:
                     ax.set_xticks([])
                     ax.set_yticks([])
@@ -872,9 +873,9 @@ class NurbsCurve:
                 # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
                 # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
                 # ax_xy.zaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(8)
-                for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(8)
-                for t in ax.zaxis.get_major_ticks(): t.label.set_fontsize(8)
+                # for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(8)
+                # for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(8)
+                # for t in ax.zaxis.get_major_ticks(): t.label.set_fontsize(8)
                 ax.xaxis.set_rotate_label(False)
                 ax.yaxis.set_rotate_label(False)
                 ax.zaxis.set_rotate_label(False)
@@ -1204,40 +1205,83 @@ class NurbsCurve:
     # ---------------------------------------------------------------------------------------------------------------- #
     # Define the point projection problem class (Pygmo's user-defined problem)
     # ---------------------------------------------------------------------------------------------------------------- #
-    def project_point_to_curve(self, P, algorithm_name='lbfgs'):
+    def project_point_to_curve(self, P):
 
         """ Solve the point projection problem for the prescribed point `P` """
 
-        # Import pygmo
-        import pygmo as pg
+        # Create the problem instance
+        problem = self.PointToCurveProjectionProblem(self.get_value, self.get_derivative, P)
 
-        # Create the optimization algorithm
-        myAlgorithm = pg.algorithm(pg.nlopt(algorithm_name))
-        myAlgorithm.extract(pg.nlopt).xtol_rel = 1e-6
-        myAlgorithm.extract(pg.nlopt).ftol_rel = 1e-6
-        myAlgorithm.extract(pg.nlopt).xtol_abs = 1e-6
-        myAlgorithm.extract(pg.nlopt).ftol_abs = 1e-6
-        myAlgorithm.extract(pg.nlopt).maxeval = 100
-        myAlgorithm.set_verbosity(0)
+        # Bounds for u
+        bounds = list(zip(*problem.get_bounds()))  # -> [(0.0, 1.0)]
 
-        # Create the optimization problem
-        myProblem = pg.problem(self.PointToCurveProjectionProblem(self.get_value, self.get_derivative, P))
+        # Objective and gradient
+        objective = lambda x: problem.fitness(x)[0]
+        gradient = lambda x: problem.gradient(x)
 
-        # Create the population
-        myPopulation = pg.population(prob=myProblem, size=0)
+        # Generate midpoints of knot spans
+        U0 = self.U[0:-1] + 0.5 * (self.U[1:] - self.U[0:-1])
 
-        # Create a list with the different starting points
-        U0 = self.U[0:-1] + 1/2 * (self.U[1:] - self.U[0:-1])
+        # Select best starting point
+        best_x0 = None
+        best_f = np.inf
         for u0 in U0:
-            myPopulation.push_back([u0])
+            x0 = np.array([u0])
+            f_val = objective(x0)
+            if f_val < best_f:
+                best_f = f_val
+                best_x0 = x0
 
-        # Solve the optimization problem (evolve the population in Pygmo's jargon)
-        myPopulation = myAlgorithm.evolve(myPopulation)
+        # Run optimization
+        result = scipy.optimize.minimize(
+            fun=objective,
+            x0=best_x0,
+            jac=gradient,
+            bounds=bounds,
+            method="L-BFGS-B",
+            options={
+                "disp": False,
+                "maxiter": 100,
+                "ftol": 1e-6,
+                "gtol": 1e-6,
+            },
+        )
 
-        # Get the optimum
-        u = myPopulation.champion_x[0]
+        if not result.success:
+            raise RuntimeError(f"Optimization failed: {result.message}")
 
-        return u
+        return result.x[0]
+
+        # # Import pygmo
+        # import pygmo as pg
+
+        # # Create the optimization algorithm
+        # myAlgorithm = pg.algorithm(pg.nlopt(algorithm_name))
+        # myAlgorithm.extract(pg.nlopt).xtol_rel = 1e-6
+        # myAlgorithm.extract(pg.nlopt).ftol_rel = 1e-6
+        # myAlgorithm.extract(pg.nlopt).xtol_abs = 1e-6
+        # myAlgorithm.extract(pg.nlopt).ftol_abs = 1e-6
+        # myAlgorithm.extract(pg.nlopt).maxeval = 100
+        # myAlgorithm.set_verbosity(0)
+
+        # # Create the optimization problem
+        # myProblem = pg.problem(self.PointToCurveProjectionProblem(self.get_value, self.get_derivative, P))
+
+        # # Create the population
+        # myPopulation = pg.population(prob=myProblem, size=0)
+
+        # # Create a list with the different starting points
+        # U0 = self.U[0:-1] + 1/2 * (self.U[1:] - self.U[0:-1])
+        # for u0 in U0:
+        #     myPopulation.push_back([u0])
+
+        # # Solve the optimization problem (evolve the population in Pygmo's jargon)
+        # myPopulation = myAlgorithm.evolve(myPopulation)
+
+        # # Get the optimum
+        # u = myPopulation.champion_x[0]
+
+        # return u
 
     class PointToCurveProjectionProblem:
 
