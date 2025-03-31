@@ -9,10 +9,6 @@ from .nurbs_surface_extruded   import *
 from .nurbs_surface_revolution import *
 from .nurbs_surface_coons      import *
 
-# Import minimum working example
-from .minimal_example          import *
-
-
 
 # Package info
 __version__ = "1.1.5"
@@ -51,4 +47,27 @@ def print_package_info():
     print(info)
     print(BREAKLINE)
 
+
+
+# NURBS curve minimal working example
+def minimal_example():
+
+    # Import packages
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from .nurbs_curve import NurbsCurve
+    print_package_info()
+
+    # Define the array of control points
+    P = np.zeros((2,5))
+    P[:, 0] = [0.20, 0.50]
+    P[:, 1] = [0.40, 0.70]
+    P[:, 2] = [0.80, 0.60]
+    P[:, 3] = [0.80, 0.40]
+    P[:, 4] = [0.40, 0.20]
+
+    # Create and plot the Bezier curve
+    bezierCurve = NurbsCurve(control_points=P)
+    bezierCurve.plot()
+    plt.show()
 

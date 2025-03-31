@@ -66,20 +66,11 @@ In addition,  `nurbspy` can work with real and complex data types natively. This
  - [pygmo](https://github.com/esa/pagmo2) (optimization library)
  - [matplotlib](https://matplotlib.org/) (visualization library)
 
-In addition, `nurbspy` uses [pytest](https://docs.pytest.org/en/latest/) for local tests.
-
 
 `nurbspy` is available on Linux via the [pip](https://pip.pypa.io/en/stable/) package manager. The installation with pip is straightfoward:
 
 ```bash
 pip install nurbspy
-```
-
-
-`nurbspy` is also available on Linux, Windows, and macOS via the [conda](https://docs.conda.io/en/latest/) installer. In order to install `nurbspy` via conda you need to add `conda-forge` and `roberagro` to the list of available channels:
-
-```shell
-conda install nurbspy --channel conda-forge --channel roberagro
 ```
 
 You can verify that `nurbspy` was installed successfully with this minimal Python script:
@@ -93,7 +84,7 @@ nurbspy.minimal_example.run()
 or by typing this one-liner on your terminal:
 
 ```python
-python3 -c "import nurbspy; nurbspy.minimal_example.run()"
+python -c "import nurbspy; nurbspy.minimal_example()"
 ```
 
 ## Minimal working examples
