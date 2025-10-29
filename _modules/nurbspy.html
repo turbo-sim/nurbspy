@@ -1,0 +1,427 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nurbspy &#8212; nurbspy v1.2.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=15ee6cd7"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/nurbspy';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy v1.2.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../source/api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../source/api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../source/api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../source/api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../source/api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../source/api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source/api/nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source/api/nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source/api/nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source/api/nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source/api/nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source/api/nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source/api/nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source/api/nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source/api/nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for nurbspy</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Import geometry modules</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_basis_functions</span><span class="w">    </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_curve</span><span class="w">              </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_curve_circular_arc</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_surface</span><span class="w">            </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_surface_bilinear</span><span class="w">   </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_surface_ruled</span><span class="w">      </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_surface_extruded</span><span class="w">   </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_surface_revolution</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_surface_coons</span><span class="w">      </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.graphics</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># Package info</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.2.1&quot;</span>
+<span class="n">PACKAGE_NAME</span> <span class="o">=</span> <span class="s2">&quot;nurbspy&quot;</span>
+<span class="n">URL_GITHUB</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/turbo-sim/nurbspy&quot;</span>
+<span class="n">URL_DOCS</span> <span class="o">=</span> <span class="s2">&quot;https://turbo-sim.github.io/nurbspy/&quot;</span>
+<span class="c1"># URL_DTU = &quot;https://thermalpower.dtu.dk/&quot;</span>
+<span class="n">BREAKLINE</span> <span class="o">=</span> <span class="mi">80</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span>
+
+
+<div class="viewcode-block" id="print_banner">
+<a class="viewcode-back" href="../source/api/nurbspy.html#nurbspy.print_banner">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">print_banner</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prints a banner.&quot;&quot;&quot;</span>
+    <span class="n">banner</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        _   __           __                    </span>
+<span class="s2">       / | / /_  _______/ /_  _________  __  __</span>
+<span class="s2">      /  |/ / / / / ___/ __ \/ ___/ __ \/ / / /</span>
+<span class="s2">     / /|  / /_/ / /  / /_/ (__  ) /_/ / /_/ / </span>
+<span class="s2">    /_/ |_/\__,_/_/  /_.___/____/ .___/\__, /  </span>
+<span class="s2">                               /_/    /____/   </span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">BREAKLINE</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">banner</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">BREAKLINE</span><span class="p">)</span></div>
+
+    <span class="c1"># https://manytools.org/hacker-tools/ascii-banner/</span>
+    <span class="c1"># Style: Slant</span>
+
+
+<div class="viewcode-block" id="print_package_info">
+<a class="viewcode-back" href="../source/api/nurbspy.html#nurbspy.print_package_info">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">print_package_info</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prints package information with predefined values.&quot;&quot;&quot;</span>
+
+    <span class="n">info</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot; Version:       </span><span class="si">{</span><span class="n">__version__</span><span class="si">}</span>
+<span class="s2"> Repository:    </span><span class="si">{</span><span class="n">URL_GITHUB</span><span class="si">}</span>
+<span class="s2"> Documentation: </span><span class="si">{</span><span class="n">URL_DOCS</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
+    <span class="n">print_banner</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">BREAKLINE</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">BREAKLINE</span><span class="p">)</span></div>
+
+
+<span class="c1"># NURBS curve minimal working example</span>
+<div class="viewcode-block" id="minimal_example">
+<a class="viewcode-back" href="../source/api/nurbspy.html#nurbspy.minimal_example">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">minimal_example</span><span class="p">():</span>
+
+    <span class="c1"># Import packages</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_curve</span><span class="w"> </span><span class="kn">import</span> <span class="n">NurbsCurve</span>
+    <span class="n">print_package_info</span><span class="p">()</span>
+
+    <span class="c1"># Define the array of control points</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+    <span class="n">P</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.20</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">]</span>
+    <span class="n">P</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.40</span><span class="p">,</span> <span class="mf">0.70</span><span class="p">]</span>
+    <span class="n">P</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.60</span><span class="p">]</span>
+    <span class="n">P</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.40</span><span class="p">]</span>
+    <span class="n">P</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.40</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">]</span>
+
+    <span class="c1"># Create and plot the Bezier curve</span>
+    <span class="n">bezierCurve</span> <span class="o">=</span> <span class="n">NurbsCurve</span><span class="p">(</span><span class="n">control_points</span><span class="o">=</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">bezierCurve</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+
+<span class="n">print_package_info</span><span class="p">()</span>
+<span class="n">set_plot_options</span><span class="p">()</span>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

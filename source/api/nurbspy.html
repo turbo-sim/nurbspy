@@ -1,0 +1,634 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>nurbspy package &#8212; nurbspy v1.2.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=15ee6cd7"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'source/api/nurbspy';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="nurbspy.jax package" href="nurbspy.jax.html" />
+    <link rel="prev" title="Nurbspy: A lighweight Python NURBS library" href="../../index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy v1.2.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">nurbspy package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/source/api/nurbspy.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>nurbspy package</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.minimal_example"><code class="docutils literal notranslate"><span class="pre">minimal_example()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.print_banner"><code class="docutils literal notranslate"><span class="pre">print_banner()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.print_package_info"><code class="docutils literal notranslate"><span class="pre">print_package_info()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-nurbspy">
+<span id="nurbspy-package"></span><h1>nurbspy package<a class="headerlink" href="#module-nurbspy" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="nurbspy.minimal_example">
+<span class="sig-prename descclassname"><span class="pre">nurbspy.</span></span><span class="sig-name descname"><span class="pre">minimal_example</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy.html#minimal_example"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.minimal_example" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nurbspy.print_banner">
+<span class="sig-prename descclassname"><span class="pre">nurbspy.</span></span><span class="sig-name descname"><span class="pre">print_banner</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy.html#print_banner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.print_banner" title="Link to this definition">#</a></dt>
+<dd><p>Prints a banner.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nurbspy.print_package_info">
+<span class="sig-prename descclassname"><span class="pre">nurbspy.</span></span><span class="sig-name descname"><span class="pre">print_package_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy.html#print_package_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.print_package_info" title="Link to this definition">#</a></dt>
+<dd><p>Prints package information with predefined values.</p>
+</dd></dl>
+
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.jax.html">nurbspy.jax package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.jax.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_basis_functions.html#nurbspy.jax.nurbs_basis_functions.compute_all_basis_polynomials_derivatives"><code class="docutils literal notranslate"><span class="pre">compute_all_basis_polynomials_derivatives()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_basis_functions.html#nurbspy.jax.nurbs_basis_functions.compute_basis_polynomials"><code class="docutils literal notranslate"><span class="pre">compute_basis_polynomials()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_basis_functions.html#nurbspy.jax.nurbs_basis_functions.compute_basis_polynomials_derivatives"><code class="docutils literal notranslate"><span class="pre">compute_basis_polynomials_derivatives()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_basis_functions.html#nurbspy.jax.nurbs_basis_functions.compute_basis_polynomials_derivatives_jax"><code class="docutils literal notranslate"><span class="pre">compute_basis_polynomials_derivatives_jax()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.binomial_coeff"><code class="docutils literal notranslate"><span class="pre">binomial_coeff()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.compute_all_bspline_derivatives"><code class="docutils literal notranslate"><span class="pre">compute_all_bspline_derivatives()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.compute_all_nurbs_derivatives"><code class="docutils literal notranslate"><span class="pre">compute_all_nurbs_derivatives()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.compute_bspline_coordinates"><code class="docutils literal notranslate"><span class="pre">compute_bspline_coordinates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.compute_nurbs_coordinates"><code class="docutils literal notranslate"><span class="pre">compute_nurbs_coordinates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.merge_nurbs_curves"><code class="docutils literal notranslate"><span class="pre">merge_nurbs_curves()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_curve_circular_arc.html#nurbspy.jax.nurbs_curve_circular_arc.CircularArc"><code class="docutils literal notranslate"><span class="pre">CircularArc</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.graphics.html">nurbspy.graphics module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.graphics.html#nurbspy.graphics.create_gif"><code class="docutils literal notranslate"><span class="pre">create_gif()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.graphics.html#nurbspy.graphics.create_mp4"><code class="docutils literal notranslate"><span class="pre">create_mp4()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.graphics.html#nurbspy.graphics.print_installed_fonts"><code class="docutils literal notranslate"><span class="pre">print_installed_fonts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.graphics.html#nurbspy.graphics.print_rc_parameters"><code class="docutils literal notranslate"><span class="pre">print_rc_parameters()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.graphics.html#nurbspy.graphics.savefig_in_formats"><code class="docutils literal notranslate"><span class="pre">savefig_in_formats()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.graphics.html#nurbspy.graphics.scale_graphics_x"><code class="docutils literal notranslate"><span class="pre">scale_graphics_x()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.graphics.html#nurbspy.graphics.scale_graphics_y"><code class="docutils literal notranslate"><span class="pre">scale_graphics_y()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.graphics.html#nurbspy.graphics.set_plot_options"><code class="docutils literal notranslate"><span class="pre">set_plot_options()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_basis_functions.html#nurbspy.nurbs_basis_functions.compute_basis_polynomials"><code class="docutils literal notranslate"><span class="pre">compute_basis_polynomials()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_basis_functions.html#nurbspy.nurbs_basis_functions.compute_basis_polynomials_derivatives"><code class="docutils literal notranslate"><span class="pre">compute_basis_polynomials_derivatives()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.PointToCurveProjectionProblem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem.fitness"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.PointToCurveProjectionProblem.fitness()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem.get_bounds"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.PointToCurveProjectionProblem.get_bounds()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem.gradient"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.PointToCurveProjectionProblem.gradient()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.compute_bspline_coordinates"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.compute_bspline_coordinates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.compute_bspline_derivatives"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.compute_bspline_derivatives()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.compute_nurbs_coordinates"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.compute_nurbs_coordinates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.compute_nurbs_derivatives"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.compute_nurbs_derivatives()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_arclength"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_arclength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_binormal"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_binormal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_curvature"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_curvature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_derivative"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_derivative()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_normal"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_normal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_normal_2D"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_normal_2D()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_tangent"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_tangent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_torsion"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_torsion()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_value"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.plot"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.plot_control_points"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_control_points()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.plot_curvature"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_curvature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.plot_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_curve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.plot_frenet_serret"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_frenet_serret()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.plot_torsion"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_torsion()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.project_point_to_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.project_point_to_curve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.rescale_plot"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.rescale_plot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.merge_nurbs_curves"><code class="docutils literal notranslate"><span class="pre">merge_nurbs_curves()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_curve_circular_arc.html#nurbspy.nurbs_curve_circular_arc.CircularArc"><code class="docutils literal notranslate"><span class="pre">CircularArc</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve_circular_arc.html#nurbspy.nurbs_curve_circular_arc.CircularArc.intersect_lines"><code class="docutils literal notranslate"><span class="pre">CircularArc.intersect_lines()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve_circular_arc.html#nurbspy.nurbs_curve_circular_arc.CircularArc.make_nurbs_circular_arc"><code class="docutils literal notranslate"><span class="pre">CircularArc.make_nurbs_circular_arc()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_curve_circular_arc.html#nurbspy.nurbs_curve_circular_arc.CircularArc.plot"><code class="docutils literal notranslate"><span class="pre">CircularArc.plot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface"><code class="docutils literal notranslate"><span class="pre">NurbsSurface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.PointToSurfaceProjectionProblem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.fitness"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.PointToSurfaceProjectionProblem.fitness()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.get_bounds"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.PointToSurfaceProjectionProblem.get_bounds()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.gradient"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.PointToSurfaceProjectionProblem.gradient()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.attach_nurbs_udir"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.attach_nurbs_udir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.attach_nurbs_vdir"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.attach_nurbs_vdir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.compute_bspline_coordinates"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.compute_bspline_coordinates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.compute_bspline_derivatives"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.compute_bspline_derivatives()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.compute_nurbs_coordinates"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.compute_nurbs_coordinates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.compute_nurbs_derivatives"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.compute_nurbs_derivatives()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.get_curvature"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_curvature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.get_derivative"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_derivative()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.get_isocurve_u"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_isocurve_u()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.get_isocurve_v"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_isocurve_v()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.get_normals"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_normals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.get_value"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot_boundary"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.plot_boundary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot_control_points"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.plot_control_points()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot_curvature"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.plot_curvature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot_isocurve_u"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.plot_isocurve_u()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot_isocurve_v"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.plot_isocurve_v()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot_normals"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.plot_normals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot_surface"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.plot_surface()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.project_point_to_surface"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.project_point_to_surface()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.rescale_plot"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.rescale_plot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.make_offset_surface"><code class="docutils literal notranslate"><span class="pre">make_offset_surface()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_bilinear.html#nurbspy.nurbs_surface_bilinear.NurbsSurfaceBilinear"><code class="docutils literal notranslate"><span class="pre">NurbsSurfaceBilinear</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface_bilinear.html#nurbspy.nurbs_surface_bilinear.NurbsSurfaceBilinear.make_nurbs_surface"><code class="docutils literal notranslate"><span class="pre">NurbsSurfaceBilinear.make_nurbs_surface()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_coons.html#nurbspy.nurbs_surface_coons.NurbsSurfaceCoons"><code class="docutils literal notranslate"><span class="pre">NurbsSurfaceCoons</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface_coons.html#nurbspy.nurbs_surface_coons.NurbsSurfaceCoons.make_nurbs_surface"><code class="docutils literal notranslate"><span class="pre">NurbsSurfaceCoons.make_nurbs_surface()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_extruded.html#nurbspy.nurbs_surface_extruded.NurbsSurfaceExtruded"><code class="docutils literal notranslate"><span class="pre">NurbsSurfaceExtruded</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface_extruded.html#nurbspy.nurbs_surface_extruded.NurbsSurfaceExtruded.make_Nurbs_surface"><code class="docutils literal notranslate"><span class="pre">NurbsSurfaceExtruded.make_Nurbs_surface()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_revolution.html#nurbspy.nurbs_surface_revolution.NurbsSurfaceRevolution"><code class="docutils literal notranslate"><span class="pre">NurbsSurfaceRevolution</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface_revolution.html#nurbspy.nurbs_surface_revolution.NurbsSurfaceRevolution.intersect_lines"><code class="docutils literal notranslate"><span class="pre">NurbsSurfaceRevolution.intersect_lines()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface_revolution.html#nurbspy.nurbs_surface_revolution.NurbsSurfaceRevolution.make_nurbs_surface"><code class="docutils literal notranslate"><span class="pre">NurbsSurfaceRevolution.make_nurbs_surface()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface_revolution.html#nurbspy.nurbs_surface_revolution.NurbsSurfaceRevolution.project_point_to_line"><code class="docutils literal notranslate"><span class="pre">NurbsSurfaceRevolution.project_point_to_line()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_ruled.html#nurbspy.nurbs_surface_ruled.NurbsSurfaceRuled"><code class="docutils literal notranslate"><span class="pre">NurbsSurfaceRuled</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.nurbs_surface_ruled.html#nurbspy.nurbs_surface_ruled.NurbsSurfaceRuled.make_nurbs_surface"><code class="docutils literal notranslate"><span class="pre">NurbsSurfaceRuled.make_nurbs_surface()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Nurbspy: A lighweight Python NURBS library</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nurbspy.jax.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">nurbspy.jax package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.minimal_example"><code class="docutils literal notranslate"><span class="pre">minimal_example()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.print_banner"><code class="docutils literal notranslate"><span class="pre">print_banner()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.print_package_info"><code class="docutils literal notranslate"><span class="pre">print_package_info()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1126 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>nurbspy.jax.nurbs_curve module &#8212; nurbspy v1.2.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=15ee6cd7"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'source/api/nurbspy.jax.nurbs_curve';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="nurbspy.jax.nurbs_curve_circular_arc module" href="nurbspy.jax.nurbs_curve_circular_arc.html" />
+    <link rel="prev" title="nurbspy.jax.nurbs_basis_functions module" href="nurbspy.jax.nurbs_basis_functions.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy v1.2.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="nurbspy.html">nurbspy package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="nurbspy.jax.html">nurbspy.jax package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/source/api/nurbspy.jax.nurbs_curve.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>nurbspy.jax.nurbs_curve module</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.P"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.P</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.U</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U_mults"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.U_mults</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U_values"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.U_values</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.W"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.W</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.curve_type"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.curve_type</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_arclength()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_binormal()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_curvature"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_curvature()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_derivative"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_derivative()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_normal"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_normal()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_tangent"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_tangent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_torsion"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_torsion()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_value"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_value()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.ndim"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.ndim</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.p"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.p</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_control_points"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_control_points()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curvature"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_curvature()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_curve()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_frenet_serret()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_torsion"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_torsion()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_point_to_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.project_point_to_curve()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_points_to_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.project_points_to_curve()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.rescale_plot"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.rescale_plot()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.binomial_coeff"><code class="docutils literal notranslate"><span class="pre">binomial_coeff()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.compute_all_bspline_derivatives"><code class="docutils literal notranslate"><span class="pre">compute_all_bspline_derivatives()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.compute_all_nurbs_derivatives"><code class="docutils literal notranslate"><span class="pre">compute_all_nurbs_derivatives()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.compute_bspline_coordinates"><code class="docutils literal notranslate"><span class="pre">compute_bspline_coordinates()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.compute_nurbs_coordinates"><code class="docutils literal notranslate"><span class="pre">compute_nurbs_coordinates()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.merge_nurbs_curves"><code class="docutils literal notranslate"><span class="pre">merge_nurbs_curves()</span></code></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-nurbspy.jax.nurbs_curve">
+<span id="nurbspy-jax-nurbs-curve-module"></span><h1>nurbspy.jax.nurbs_curve module<a class="headerlink" href="#module-nurbspy.jax.nurbs_curve" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nurbspy.jax.nurbs_curve.</span></span><span class="sig-name descname"><span class="pre">NurbsCurve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Create a NURBS (Non-Uniform Rational Basis Spline) curve object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>control_points</strong><span class="classifier">ndarray with shape (ndim, n+1)</span></dt><dd><p>Array containing the coordinates of the control points
+The first dimension of <cite>P</cite> spans the coordinates of the control points (any number of dimensions)
+The second dimension of <cite>P</cite> spans the u-direction control points (0,1,…,n)</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">ndarray with shape (n+1,)</span></dt><dd><p>Array containing the weight of the control points</p>
+</dd>
+<dt><strong>degree</strong><span class="classifier">int</span></dt><dd><p>Degree of the basis polynomials</p>
+</dd>
+<dt><strong>knots</strong><span class="classifier">ndarray with shape (r+1=n+p+2,)</span></dt><dd><p>The knot vector in the u-direction
+Set the multiplicity of the first and last entries equal to <cite>p+1</cite> to obtain a clamped NURBS</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_arclength</span></code></a>([u1, u2, n_points])</p></td>
+<td><p>Compute the arc length of a parametric curve in the interval [u1,u2] using numerical quadrature</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_binormal</span></code></a>(u)</p></td>
+<td><p>Evaluate the unit binormal vector along the curve for the given u-parameterization.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_curvature" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_curvature</span></code></a>(u)</p></td>
+<td><p>Evaluate the curvature of the curve for the input u-parametrization</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_derivative" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_derivative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_derivative</span></code></a>(u, order)</p></td>
+<td><p>Evaluate the derivative of the curve for the input u-parametrization</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_normal" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_normal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normal</span></code></a>(u)</p></td>
+<td><p>Evaluate the unit normal vector along the curve for the given u-parameterization.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_tangent" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_tangent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tangent</span></code></a>(u)</p></td>
+<td><p>Evaluate the unit tangent vector along the curve for the given u-parameterization.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_torsion" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_torsion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_torsion</span></code></a>(u)</p></td>
+<td><p>Evaluate the torsion of the curve for the input u-parametrization</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_value" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_value</span></code></a>(u)</p></td>
+<td><p>Evaluate the coordinates of the curve for the input <cite>u</cite> parametrization</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot" title="nurbspy.jax.nurbs_curve.NurbsCurve.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>([fig, ax, curve, control_points, ...])</p></td>
+<td><p>Create a plot and return the figure and axes handles</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_control_points" title="nurbspy.jax.nurbs_curve.NurbsCurve.plot_control_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_control_points</span></code></a>(fig, ax[, linewidth, ...])</p></td>
+<td><p>Plot the control points of the NURBS curve</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve" title="nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_curve</span></code></a>(fig, ax[, linewidth, linestyle, ...])</p></td>
+<td><p>Plot the coordinates of the NURBS curve</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret" title="nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_frenet_serret</span></code></a>(fig, ax[, frame_number, ...])</p></td>
+<td><p>Plot some Frenet-Serret reference frames along the NURBS curve</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_point_to_curve" title="nurbspy.jax.nurbs_curve.NurbsCurve.project_point_to_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_point_to_curve</span></code></a>(Q[, max_iters])</p></td>
+<td><p>Project a point onto the NURBS curve by solving the orthogonality condition.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_points_to_curve" title="nurbspy.jax.nurbs_curve.NurbsCurve.project_points_to_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_points_to_curve</span></code></a>(Q_all)</p></td>
+<td><p>Vectorized projection of multiple points onto the NURBS curve.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.rescale_plot" title="nurbspy.jax.nurbs_curve.NurbsCurve.rescale_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rescale_plot</span></code></a>(fig, ax)</p></td>
+<td><p>Adjust the aspect ratio of the figure</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>plot_curvature</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot_torsion</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Notes</p>
+<p>This class includes methods to compute:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Curve coordinates for any number of dimensions</p></li>
+<li><p>Analytic curve derivatives of any order and number of dimensions</p></li>
+<li><p>The unitary tangent, normal and binormal vectors (Frenet-Serret reference frame) in 2D and 3D</p></li>
+<li><p>The analytic curvature and torsion in 2D and 3D</p></li>
+<li><dl class="simple">
+<dt>The arc length of the curve in any number of dimensions.</dt><dd><p>The arc length is compute by numerical quadrature using analytic derivative information</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>The class can be used to represent polynomial and rational Bézier, B-Spline and NURBS curves
+The type of curve depends on the initialization arguments</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Polymnomial Bézier: Provide the array of control points</p></li>
+<li><p>Rational Bézier:    Provide the arrays of control points and weights</p></li>
+<li><p>B-Spline:           Provide the array of control points, degree and knot vector</p></li>
+<li><p>NURBS:              Provide the arrays of control points and weights, degree and knot vector</p></li>
+</ul>
+</div></blockquote>
+<p>In addition, this class supports operations with real and complex numbers
+The data type used for the computations is detected from the data type of the arguments
+Using complex numbers can be useful to compute the derivative of the shape using the complex step method</p>
+<p class="rubric">References</p>
+<p>The NURBS Book. See references to equations and algorithms throughout the code
+L. Piegl and W. Tiller
+Springer, second edition</p>
+<p>Curves and Surfaces for CADGD. See references to equations the source code
+G. Farin
+Morgan Kaufmann Publishers, fifth edition</p>
+<p>All references correspond to The NURBS book unless it is explicitly stated that they come from Farin’s book</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.P">
+<span class="sig-name descname"><span class="pre">P</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Array</span></em><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.P" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.U">
+<span class="sig-name descname"><span class="pre">U</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Array</span></em><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.U_mults">
+<span class="sig-name descname"><span class="pre">U_mults</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Array</span></em><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U_mults" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.U_values">
+<span class="sig-name descname"><span class="pre">U_values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Array</span></em><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U_values" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.W">
+<span class="sig-name descname"><span class="pre">W</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Array</span></em><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.W" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.curve_type">
+<span class="sig-name descname"><span class="pre">curve_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.curve_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength">
+<span class="sig-name descname"><span class="pre">get_arclength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">41</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.get_arclength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength" title="Link to this definition">#</a></dt>
+<dd><p>Compute the arc length of a parametric curve in the interval [u1,u2] using numerical quadrature</p>
+<p>The definition of the arc length is given by equation 10.3 (Farin’s textbook)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>u1</strong><span class="classifier">scalar</span></dt><dd><p>Lower limit of integration for the arc length computation</p>
+</dd>
+<dt><strong>u2</strong><span class="classifier">scalar</span></dt><dd><p>Upper limit of integration for the arc length computation</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>L</strong><span class="classifier">scalar</span></dt><dd><p>Arc length of NURBS curve in the interval [u1, u2]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal">
+<span class="sig-name descname"><span class="pre">get_binormal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.get_binormal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the unit binormal vector along the curve for the given u-parameterization.</p>
+<dl class="simple">
+<dt>The binormal is defined as:</dt><dd><p>b(u) = (C’(u) x C’’(u)) / ||C’(u) x C’’(u)||</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>u</strong><span class="classifier">scalar or ndarray (N,)</span></dt><dd><p>Parametric coordinates.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>binormal</strong><span class="classifier">ndarray (ndim, N)</span></dt><dd><p>Unit binormal vectors.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.get_curvature">
+<span class="sig-name descname"><span class="pre">get_curvature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.get_curvature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_curvature" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the curvature of the curve for the input u-parametrization</p>
+<p>The definition of the curvature is given by equation 10.7 (Farin’s textbook)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>u</strong><span class="classifier">scalar or ndarray with shape (N,)</span></dt><dd><p>Scalar or array containing the u-parameter used to evaluate the curvature</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>curvature</strong><span class="classifier">scalar or ndarray with shape (N, )</span></dt><dd><p>Scalar or array containing the curvature of the curve</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.get_derivative">
+<span class="sig-name descname"><span class="pre">get_derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.get_derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_derivative" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the derivative of the curve for the input u-parametrization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>u</strong><span class="classifier">scalar or ndarray with shape (N,)</span></dt><dd><p>Scalar or array containing the u-parameter used to evaluate the curve</p>
+</dd>
+<dt><strong>order</strong><span class="classifier">integer</span></dt><dd><p>Order of the derivative</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dC</strong><span class="classifier">ndarray with shape (ndim, N)</span></dt><dd><p>Array containing the derivative of the desired order
+The first dimension of <cite>dC</cite> spans the <cite>(x,y,z)</cite> coordinates
+The second dimension of <cite>dC</cite> spans the <cite>u</cite> parametrization sample points</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.get_normal">
+<span class="sig-name descname"><span class="pre">get_normal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.get_normal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_normal" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the unit normal vector along the curve for the given u-parameterization.</p>
+<dl class="simple">
+<dt>For 2D or 3D curves, the normal is defined as:</dt><dd><p>n(u) = (C’(u) x (C’’(u) x C’(u))) / ||C’(u) x (C’’(u) x C’(u))||</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>u</strong><span class="classifier">scalar or ndarray (N,)</span></dt><dd><p>Parametric coordinates.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>normal</strong><span class="classifier">ndarray (ndim, N)</span></dt><dd><p>Unit normal vectors.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.get_tangent">
+<span class="sig-name descname"><span class="pre">get_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.get_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_tangent" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the unit tangent vector along the curve for the given u-parameterization.</p>
+<dl class="simple">
+<dt>The tangent is defined as:</dt><dd><p>t(u) = C’(u) / ||C’(u)||</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>u</strong><span class="classifier">scalar or ndarray (N,)</span></dt><dd><p>Parametric coordinates.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>tangent</strong><span class="classifier">ndarray (ndim, N)</span></dt><dd><p>Unit tangent vectors.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.get_torsion">
+<span class="sig-name descname"><span class="pre">get_torsion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.get_torsion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_torsion" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the torsion of the curve for the input u-parametrization</p>
+<p>The definition of the torsion is given by equation 10.8 (Farin’s textbook)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>u</strong><span class="classifier">scalar or ndarray with shape (N,)</span></dt><dd><p>Scalar or array containing the u-parameter used to evaluate the torsion</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>torsion</strong><span class="classifier">scalar or ndarray with shape (N, )</span></dt><dd><p>Scalar or array containing the torsion of the curve</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.get_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_value" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the coordinates of the curve for the input <cite>u</cite> parametrization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>u</strong><span class="classifier">scalar or ndarray with shape (N,)</span></dt><dd><p>Parameter used to evaluate the curve</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>C</strong><span class="classifier">ndarray with shape (ndim, N)</span></dt><dd><p>Array containing the coordinates of the curve
+The first dimension of <cite>C</cite> spans the <cite>(x,y,z)</cite> coordinates
+The second dimension of <cite>C</cite> spans the <cite>u</cite> parametrization sample points</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.ndim">
+<span class="sig-name descname"><span class="pre">ndim</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.ndim" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.p">
+<span class="sig-name descname"><span class="pre">p</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.p" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curve</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frenet_serret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis_off</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ticks_off</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot" title="Link to this definition">#</a></dt>
+<dd><p>Create a plot and return the figure and axes handles</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.plot_control_points">
+<span class="sig-name descname"><span class="pre">plot_control_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linestyle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'-.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'red'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">markersize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">markerstyle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'o'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.plot_control_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_control_points" title="Link to this definition">#</a></dt>
+<dd><p>Plot the control points of the NURBS curve</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.plot_curvature">
+<span class="sig-name descname"><span class="pre">plot_curvature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linestyle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'-'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.plot_curvature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curvature" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve">
+<span class="sig-name descname"><span class="pre">plot_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linestyle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'-'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.plot_curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve" title="Link to this definition">#</a></dt>
+<dd><p>Plot the coordinates of the NURBS curve</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret">
+<span class="sig-name descname"><span class="pre">plot_frenet_serret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.plot_frenet_serret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret" title="Link to this definition">#</a></dt>
+<dd><p>Plot some Frenet-Serret reference frames along the NURBS curve</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.plot_torsion">
+<span class="sig-name descname"><span class="pre">plot_torsion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linestyle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'-'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.plot_torsion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_torsion" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.project_point_to_curve">
+<span class="sig-name descname"><span class="pre">project_point_to_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.project_point_to_curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_point_to_curve" title="Link to this definition">#</a></dt>
+<dd><p>Project a point onto the NURBS curve by solving the orthogonality condition.</p>
+<p>The projection point <cite>C(u*)</cite> minimizes the squared Euclidean distance to <cite>Q</cite>:</p>
+<blockquote>
+<div><p>f(u) = ||C(u) - Q||²</p>
+</div></blockquote>
+<p>The stationary condition is obtained from:</p>
+<blockquote>
+<div><p>f’(u) = 2 (C(u) - Q) · C’(u) = 0</p>
+</div></blockquote>
+<p>which ensures that the vector from the curve to the point is orthogonal to the tangent
+of the curve at the projection point.</p>
+<p>The nonlinear equation is solved with a bounded Newton method (<cite>optimistix.Newton</cite>),
+ensuring that <cite>u_star</cite> remains within [0, 1].</p>
+<p>The initial guess is determined heuristically from the control polygon
+(see <cite>_initial_guess_from_polygon</cite>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>Q</strong><span class="classifier">array_like, shape (ndim,)</span></dt><dd><p>Coordinates of the point to be projected onto the curve.</p>
+</dd>
+<dt><strong>max_iters</strong><span class="classifier">int, optional</span></dt><dd><p>Maximum number of Newton iterations used by the solver. Default is 32.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>u_star</strong><span class="classifier">float</span></dt><dd><p>Parameter value in [0, 1] corresponding to the orthogonal projection of <cite>Q</cite> onto the curve.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.project_points_to_curve">
+<span class="sig-name descname"><span class="pre">project_points_to_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q_all</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.project_points_to_curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_points_to_curve" title="Link to this definition">#</a></dt>
+<dd><p>Vectorized projection of multiple points onto the NURBS curve.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>Q_all</strong><span class="classifier">array_like, shape (ndim, n_points)</span></dt><dd><p>Points to project onto the curve.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>u_all</strong><span class="classifier">ndarray, shape (n_points,)</span></dt><dd><p>Parameter values of the orthogonal projections.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.rescale_plot">
+<span class="sig-name descname"><span class="pre">rescale_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.rescale_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.rescale_plot" title="Link to this definition">#</a></dt>
+<dd><p>Adjust the aspect ratio of the figure</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.binomial_coeff">
+<span class="sig-prename descclassname"><span class="pre">nurbspy.jax.nurbs_curve.</span></span><span class="sig-name descname"><span class="pre">binomial_coeff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#binomial_coeff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.binomial_coeff" title="Link to this definition">#</a></dt>
+<dd><p>JAX-compatible binomial coefficient C(n, k) using the gamma function.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.compute_all_bspline_derivatives">
+<span class="sig-prename descclassname"><span class="pre">nurbspy.jax.nurbs_curve.</span></span><span class="sig-name descname"><span class="pre">compute_all_bspline_derivatives</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">up_to_order</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#compute_all_bspline_derivatives"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.compute_all_bspline_derivatives" title="Link to this definition">#</a></dt>
+<dd><p>Compute all analytic derivatives of a polynomial B-spline curve up to a specified order.</p>
+<p>This function evaluates the curve and its parametric derivatives
+using the analytic derivatives of the B-spline basis functions.
+For each derivative order <cite>k</cite>, the derivative of the curve is given by</p>
+<blockquote>
+<div><p>C^(k)(u) = Σ_i P_i * d^k N_{i,p}(u) / du^k</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>P</strong><span class="classifier">ndarray (ndim, n+1)</span></dt><dd><p>Control point coordinates.</p>
+</dd>
+<dt><strong>p</strong><span class="classifier">int</span></dt><dd><p>Degree of the B-spline.</p>
+</dd>
+<dt><strong>U</strong><span class="classifier">ndarray (n+p+2,)</span></dt><dd><p>Knot vector.</p>
+</dd>
+<dt><strong>u</strong><span class="classifier">ndarray (Nu,)</span></dt><dd><p>Parametric evaluation points.</p>
+</dd>
+<dt><strong>up_to_order</strong><span class="classifier">int</span></dt><dd><p>Maximum derivative order to compute (0 ≤ order ≤ p).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>bspline_derivatives</strong><span class="classifier">ndarray (up_to_order+1, ndim, Nu)</span></dt><dd><p>Derivatives of the B-spline curve, where
+<cite>bspline_derivatives[k, :, :] = d^k C(u) / du^k</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.compute_all_nurbs_derivatives">
+<span class="sig-prename descclassname"><span class="pre">nurbspy.jax.nurbs_curve.</span></span><span class="sig-name descname"><span class="pre">compute_all_nurbs_derivatives</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">up_to_order</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#compute_all_nurbs_derivatives"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.compute_all_nurbs_derivatives" title="Link to this definition">#</a></dt>
+<dd><p>Compute all analytic derivatives of a NURBS curve up to a specified order.</p>
+<p>This function extends the polynomial B-spline derivative computation
+to rational NURBS curves by applying the quotient rule recursively,
+following Algorithm A4.2 from The NURBS Book (Piegl &amp; Tiller, 2nd ed.):</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>P</strong><span class="classifier">ndarray (ndim, n+1)</span></dt><dd><p>Control point coordinates.</p>
+</dd>
+<dt><strong>W</strong><span class="classifier">ndarray (n+1,)</span></dt><dd><p>Control point weights.</p>
+</dd>
+<dt><strong>p</strong><span class="classifier">int</span></dt><dd><p>Degree of the NURBS.</p>
+</dd>
+<dt><strong>U</strong><span class="classifier">ndarray (n+p+2,)</span></dt><dd><p>Knot vector.</p>
+</dd>
+<dt><strong>u</strong><span class="classifier">ndarray (Nu,)</span></dt><dd><p>Parametric evaluation points.</p>
+</dd>
+<dt><strong>up_to_order</strong><span class="classifier">int</span></dt><dd><p>Maximum derivative order to compute (0 ≤ order ≤ p).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>nurbs_derivatives</strong><span class="classifier">ndarray (up_to_order+1, ndim, Nu)</span></dt><dd><p>Derivatives of the NURBS curve</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.compute_bspline_coordinates">
+<span class="sig-prename descclassname"><span class="pre">nurbspy.jax.nurbs_curve.</span></span><span class="sig-name descname"><span class="pre">compute_bspline_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#compute_bspline_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.compute_bspline_coordinates" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the coordinates of a B-spline curve for a given parameter <cite>u</cite>.</p>
+<p>This function computes the coordinates of a polynomial B-spline curve using
+the standard basis expansion (Equation 3.1 in The NURBS Book).
+The implementation corresponds to Algorithm A3.1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>P</strong><span class="classifier">ndarray (ndim, n+1)</span></dt><dd><p>Array of control point coordinates.
+The first dimension spans spatial coordinates <cite>(x, y, z, …)</cite>,
+and the second spans the control points along the curve <cite>(0, 1, …, n)</cite>.</p>
+</dd>
+<dt><strong>p</strong><span class="classifier">int</span></dt><dd><p>Degree of the B-spline basis functions.</p>
+</dd>
+<dt><strong>U</strong><span class="classifier">ndarray (r+1 = n + p + 2,)</span></dt><dd><p>Knot vector in the u-direction.
+The first and last entries typically have multiplicity <cite>p + 1</cite> for a clamped spline.</p>
+</dd>
+<dt><strong>u</strong><span class="classifier">scalar or ndarray (N,)</span></dt><dd><p>Parametric coordinate(s) at which to evaluate the curve.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>C</strong><span class="classifier">ndarray (ndim, N)</span></dt><dd><p>Coordinates of the evaluated B-spline curve points.
+The first dimension spans the spatial coordinates,
+and the second spans the parametric evaluation points <cite>u</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The computation is vectorized and uses matrix multiplication for efficiency.</p></li>
+<li><p>For rational curves (NURBS), use <cite>compute_nurbs_coordinates</cite> instead.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.compute_nurbs_coordinates">
+<span class="sig-prename descclassname"><span class="pre">nurbspy.jax.nurbs_curve.</span></span><span class="sig-name descname"><span class="pre">compute_nurbs_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#compute_nurbs_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.compute_nurbs_coordinates" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the coordinates of a NURBS (Non-Uniform Rational B-Spline) curve for a given parameter <cite>u</cite>.</p>
+<p>This function computes the coordinates of the NURBS curve in <em>homogeneous space</em> using
+the standard B-spline basis and the control point weights (Equation 4.5 in The NURBS Book),
+and then maps them back to ordinary space via the rational perspective division (Equation 1.16).
+The implementation corresponds to Algorithm A4.1 from The NURBS Book.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>P</strong><span class="classifier">ndarray (ndim, n+1)</span></dt><dd><p>Array of control point coordinates.
+The first dimension spans spatial coordinates <cite>(x, y, z, …)</cite>,
+and the second spans the control points along the curve <cite>(0, 1, …, n)</cite>.</p>
+</dd>
+<dt><strong>W</strong><span class="classifier">ndarray (n+1,)</span></dt><dd><p>Weights associated with each control point.</p>
+</dd>
+<dt><strong>p</strong><span class="classifier">int</span></dt><dd><p>Degree of the B-spline basis functions.</p>
+</dd>
+<dt><strong>U</strong><span class="classifier">ndarray (r+1 = n + p + 2,)</span></dt><dd><p>Knot vector in the u-direction.
+The first and last entries typically have multiplicity <cite>p + 1</cite> for a clamped spline.</p>
+</dd>
+<dt><strong>u</strong><span class="classifier">scalar or ndarray (N,)</span></dt><dd><p>Parametric coordinate(s) at which to evaluate the curve.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>C</strong><span class="classifier">ndarray (ndim, N)</span></dt><dd><p>Coordinates of the evaluated curve points.
+The first dimension spans the spatial coordinates,
+and the second spans the parametric evaluation points <cite>u</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The computation is fully vectorized and uses matrix multiplication for efficiency.</p></li>
+<li><p>The function supports arbitrary spatial dimensions.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.merge_nurbs_curves">
+<span class="sig-prename descclassname"><span class="pre">nurbspy.jax.nurbs_curve.</span></span><span class="sig-name descname"><span class="pre">merge_nurbs_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nurbs_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#merge_nurbs_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.merge_nurbs_curves" title="Link to this definition">#</a></dt>
+<dd><p>Merge multiple NURBS curves into a single continuous curve with C⁰ continuity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>nurbs_list</strong><span class="classifier">list of NurbsCurve</span></dt><dd><p>List of NURBS curve instances to merge. All must have the same polynomial degree.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>merged</strong><span class="classifier">NurbsCurve</span></dt><dd><p>A new NURBS curve representing the concatenation of all input curves.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Each curve is mapped to a subinterval of [0, 1] with equal length.</p></li>
+<li><p>Adjacent curves are connected with multiplicity p + 1 (C⁰ continuity).</p></li>
+<li><p>A small epsilon offset is applied at internal joins to avoid Gmsh issues
+related to repeated knots with multiplicity exactly equal to degree.</p></li>
+</ul>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="nurbspy.jax.nurbs_basis_functions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">nurbspy.jax.nurbs_basis_functions module</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nurbspy.jax.nurbs_curve_circular_arc.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">nurbspy.jax.nurbs_curve_circular_arc module</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.P"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.P</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.U</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U_mults"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.U_mults</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U_values"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.U_values</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.W"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.W</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.curve_type"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.curve_type</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_arclength()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_binormal()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_curvature"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_curvature()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_derivative"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_derivative()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_normal"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_normal()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_tangent"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_tangent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_torsion"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_torsion()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_value"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_value()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.ndim"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.ndim</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.p"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.p</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_control_points"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_control_points()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curvature"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_curvature()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_curve()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_frenet_serret()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_torsion"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_torsion()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_point_to_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.project_point_to_curve()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_points_to_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.project_points_to_curve()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.rescale_plot"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.rescale_plot()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.binomial_coeff"><code class="docutils literal notranslate"><span class="pre">binomial_coeff()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.compute_all_bspline_derivatives"><code class="docutils literal notranslate"><span class="pre">compute_all_bspline_derivatives()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.compute_all_nurbs_derivatives"><code class="docutils literal notranslate"><span class="pre">compute_all_nurbs_derivatives()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.compute_bspline_coordinates"><code class="docutils literal notranslate"><span class="pre">compute_bspline_coordinates()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.compute_nurbs_coordinates"><code class="docutils literal notranslate"><span class="pre">compute_nurbs_coordinates()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.merge_nurbs_curves"><code class="docutils literal notranslate"><span class="pre">merge_nurbs_curves()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

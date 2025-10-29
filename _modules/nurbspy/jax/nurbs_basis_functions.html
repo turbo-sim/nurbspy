@@ -1,0 +1,652 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nurbspy.jax.nurbs_basis_functions &#8212; nurbspy v1.2.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=15ee6cd7"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/nurbspy/jax/nurbs_basis_functions';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy v1.2.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../source/api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for nurbspy.jax.nurbs_basis_functions</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.lax</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">lax</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+
+<span class="c1"># -------------------------------------------------------------------------------------------------------------------- #</span>
+<span class="c1"># Standalone function to compute basis function values</span>
+<span class="c1"># -------------------------------------------------------------------------------------------------------------------- #</span>
+<div class="viewcode-block" id="compute_basis_polynomials">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_basis_functions.html#nurbspy.jax.nurbs_basis_functions.compute_basis_polynomials">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_basis_polynomials</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate B-spline basis functions of degree `p` for a set of parameter values `u`.</span>
+
+<span class="sd">    The function implements the Cox-de Boor recursion formula using JAX and vectorizes</span>
+<span class="sd">    the scalar evaluation over multiple u-values using `jax.vmap`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : int</span>
+<span class="sd">        Highest index of the basis functions (number of functions = n+1).</span>
+<span class="sd">    p : int</span>
+<span class="sd">        Degree of the basis polynomials.</span>
+<span class="sd">    U : array_like</span>
+<span class="sd">        Knot vector of length n+p+2 defining the B-spline basis.</span>
+<span class="sd">        The first and last knots should typically have multiplicity p+1 for clamped splines.</span>
+<span class="sd">    u : float or array_like</span>
+<span class="sd">        Scalar or array of parameter values where the basis functions are evaluated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    N : ndarray of shape (n+1, Nu)</span>
+<span class="sd">        Array containing all basis functions evaluated at each u value.</span>
+<span class="sd">        The first axis spans the basis index i, the second spans the parameter samples.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert to JAX arrays</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+
+    <span class="c1"># Define scalar evaluation function</span>
+    <span class="n">basis_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">uu</span><span class="p">:</span> <span class="n">_basis_single_u</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">uu</span><span class="p">)</span>
+
+    <span class="c1"># Vectorize over all u-values</span>
+    <span class="n">N_all</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">basis_fn</span><span class="p">)(</span><span class="n">u</span><span class="p">)</span>
+
+    <span class="c1"># Transpose so that shape = (n+1, Nu)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">N_all</span><span class="p">)</span></div>
+
+
+<span class="c1"># Apply JIT compilation</span>
+<span class="n">compute_basis_polynomials</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span>
+    <span class="n">compute_basis_polynomials</span><span class="p">,</span>
+    <span class="n">static_argnames</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_basis_single_u</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate all (n+1) B-spline basis functions of degree p at a single scalar u.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Number of knot spans</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">U</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="c1"># Initialize zeroth-degree basis functions</span>
+    <span class="c1"># All intervals are [U[i], U[i+1]) except the last one, which is closed</span>
+    <span class="n">is_interior</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span> <span class="o">&gt;=</span> <span class="n">U</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">u</span> <span class="o">&lt;</span> <span class="n">U</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="n">is_last</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span> <span class="o">==</span> <span class="n">U</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">==</span> <span class="n">U</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">N0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">is_interior</span> <span class="o">|</span> <span class="n">is_last</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="c1"># Initialize storage</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">N</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">N0</span><span class="p">)</span>
+
+    <span class="c1"># The recursive computation is implemented via JAX-controlled loops</span>
+    <span class="c1"># using lax.fori_loop for XLA fusion (faster than Python loops).</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">outer_body</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute all basis functions of degree k from degree k-1.&quot;&quot;&quot;</span>
+        <span class="n">m_k</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="n">k</span>  <span class="c1"># number of active basis entries shrinks with degree</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">inner_body</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Compute N[k,i] from N[k-1,i] and N[k-1,i+1] (Cox-de Boor recursion).&quot;&quot;&quot;</span>
+            <span class="n">denom1</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">term1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom1</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">u</span> <span class="o">-</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="n">denom1</span> <span class="o">*</span> <span class="n">N</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+
+            <span class="n">denom2</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">term2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom2</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span> <span class="o">/</span> <span class="n">denom2</span> <span class="o">*</span> <span class="n">N</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+
+            <span class="c1"># Update entry N[k, i] (immutably, handled efficiently by JAX)</span>
+            <span class="k">return</span> <span class="n">N</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">term1</span> <span class="o">+</span> <span class="n">term2</span><span class="p">)</span>
+
+        <span class="c1"># Apply inner loop over all i indices for degree k</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">fori_loop</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">m_k</span><span class="p">,</span> <span class="n">inner_body</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">N</span>
+
+    <span class="c1"># Outer loop over polynomial degree (1 → p)</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">fori_loop</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">outer_body</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+
+    <span class="c1"># Return only the (n+1) basis functions of degree p</span>
+    <span class="k">return</span> <span class="n">N</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="p">:</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+
+
+<span class="c1"># -------------------------------------------------------------------------------------------------------------------- #</span>
+<span class="c1"># Standalone function to compute basis function derivatives</span>
+<span class="c1"># -------------------------------------------------------------------------------------------------------------------- #</span>
+<div class="viewcode-block" id="compute_all_basis_polynomials_derivatives">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_basis_functions.html#nurbspy.jax.nurbs_basis_functions.compute_all_basis_polynomials_derivatives">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_all_basis_polynomials_derivatives</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate the analytic derivatives of B-spline basis functions of degree `p`.</span>
+
+<span class="sd">    The function implements the recursive derivative relations for B-spline basis functions</span>
+<span class="sd">    (following the same recursion pattern as the basis definition). Computations are</span>
+<span class="sd">    vectorized across multiple u-values using `jax.vmap`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : int</span>
+<span class="sd">        Highest index of the basis functions (number of functions = n+1).</span>
+<span class="sd">    p : int</span>
+<span class="sd">        Degree of the basis polynomials.</span>
+<span class="sd">    U : array_like</span>
+<span class="sd">        Knot vector of length n+p+2 defining the B-spline basis.</span>
+<span class="sd">    u : float or array_like</span>
+<span class="sd">        Scalar or array of parameter values where the derivatives are evaluated.</span>
+<span class="sd">    derivative_order : int</span>
+<span class="sd">        Order of the derivative to compute (0 ≤ derivative_order ≤ p).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    N_ders : ndarray of shape (n+1, Nu)</span>
+<span class="sd">        Array containing the analytic derivative of each basis function at all u-values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Vectorize across u-values</span>
+    <span class="n">all_derivatives</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">uu</span><span class="p">:</span> <span class="n">_basis_all_derivatives_single_u</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">uu</span><span class="p">))(</span><span class="n">u</span><span class="p">)</span>
+
+    <span class="c1"># Transpose shape (Nu, p+1, n+1) to (p+1, n+1, Nu)</span>
+    <span class="n">all_derivatives</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">all_derivatives</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">all_derivatives</span></div>
+
+
+<span class="c1"># Apply JIT compilation</span>
+<span class="n">compute_all_basis_polynomials_derivatives</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span>
+    <span class="n">compute_all_basis_polynomials_derivatives</span><span class="p">,</span>
+    <span class="n">static_argnames</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_basis_all_derivatives_single_u</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute all derivatives d^r/du^r N_{i,p}(u) for r = (0,...,p).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    N_ders : ndarray, shape (p+1, n+1)</span>
+<span class="sd">        N_ders[r, i] = r-th derivative of basis function i of degree p at u.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Degree-0 basis and its derivatives (only the function itself)</span>
+    <span class="n">N0</span> <span class="o">=</span> <span class="n">_basis_single_u</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+    <span class="n">N_ders</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">N_ders</span> <span class="o">=</span> <span class="n">N_ders</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">N0</span><span class="p">)</span>
+
+    <span class="c1"># Helper: Build all derivatives for a given degree d</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_degree_block</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">N_prev</span><span class="p">):</span>
+        <span class="c1"># Allocate derivatives for this degree</span>
+        <span class="n">N_block</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># Zeroth derivative → degree-d basis</span>
+        <span class="n">N_d</span> <span class="o">=</span> <span class="n">_basis_single_u</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+        <span class="n">N_block</span> <span class="o">=</span> <span class="n">N_block</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">N_d</span><span class="p">)</span>
+
+        <span class="c1"># Higher derivatives follow recursive formula</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">N_prev_r</span> <span class="o">=</span> <span class="n">N_prev</span><span class="p">[</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">N_r</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,))</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">denom1</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">d</span><span class="p">]</span> <span class="o">-</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">denom2</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="n">term1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom1</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">d</span> <span class="o">*</span> <span class="n">N_prev_r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">denom1</span><span class="p">)</span>
+                <span class="n">term2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom2</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">d</span> <span class="o">*</span> <span class="n">N_prev_r</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">denom2</span><span class="p">)</span>
+                <span class="n">N_r</span> <span class="o">=</span> <span class="n">N_r</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">term1</span> <span class="o">-</span> <span class="n">term2</span><span class="p">)</span>
+
+            <span class="n">N_block</span> <span class="o">=</span> <span class="n">N_block</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">N_r</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">N_block</span>
+
+    <span class="c1"># Build successively from degree 1 to p</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">N_ders</span> <span class="o">=</span> <span class="n">build_degree_block</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">N_ders</span><span class="p">)</span>
+
+    <span class="c1"># Final N_ders contains all derivatives for degree p</span>
+    <span class="k">return</span> <span class="n">N_ders</span>  <span class="c1"># Shape (p+1, n+1)</span>
+
+
+<div class="viewcode-block" id="compute_basis_polynomials_derivatives">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_basis_functions.html#nurbspy.jax.nurbs_basis_functions.compute_basis_polynomials_derivatives">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_basis_polynomials_derivatives</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">derivative_order</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return only the specified derivative order of B-spline basis functions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Compute derivatives up to order &quot;p&quot;</span>
+    <span class="n">all_derivatives</span> <span class="o">=</span> <span class="n">compute_all_basis_polynomials_derivatives</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+
+    <span class="c1"># Define selector helper functions</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">in_range</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">all_derivatives</span><span class="p">[</span><span class="n">order</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">out_of_range</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+    <span class="c1"># Return the derivative of the desired order</span>
+    <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span>
+        <span class="n">derivative_order</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="p">,</span>
+        <span class="n">in_range</span><span class="p">,</span>
+        <span class="n">out_of_range</span><span class="p">,</span>
+        <span class="n">operand</span><span class="o">=</span><span class="n">derivative_order</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<span class="c1"># Apply JIT compilation</span>
+<span class="n">compute_basis_polynomials_derivatives</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span>
+    <span class="n">compute_basis_polynomials_derivatives</span><span class="p">,</span>
+    <span class="n">static_argnames</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">),</span>
+<span class="p">)</span>
+
+
+
+<span class="c1"># -------------------------------------------------------------------------------------------------------------------- #</span>
+<span class="c1"># Verification of analytic formulas against automatic differentiation</span>
+<span class="c1"># -------------------------------------------------------------------------------------------------------------------- #</span>
+<div class="viewcode-block" id="compute_basis_polynomials_derivatives_jax">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_basis_functions.html#nurbspy.jax.nurbs_basis_functions.compute_basis_polynomials_derivatives_jax">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_basis_polynomials_derivatives_jax</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">derivative_order</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate derivatives of B-spline basis functions using JAX automatic differentiation.</span>
+
+<span class="sd">    This method uses nested applications of `jax.jacfwd` on the scalar evaluation function</span>
+<span class="sd">    `_basis_single_u()` to compute derivatives of arbitrary order. It is mathematically</span>
+<span class="sd">    exact within floating-point precision and provides a useful verification of the analytic</span>
+<span class="sd">    recursive formulation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : int</span>
+<span class="sd">        Highest index of the basis functions (number of functions = n+1).</span>
+<span class="sd">    p : int</span>
+<span class="sd">        Degree of the basis polynomials.</span>
+<span class="sd">    U : array_like</span>
+<span class="sd">        Knot vector of length n+p+2 defining the B-spline basis.</span>
+<span class="sd">    u : float or array_like</span>
+<span class="sd">        Scalar or array of parameter values where the derivatives are evaluated.</span>
+<span class="sd">    derivative_order : int</span>
+<span class="sd">        Order of the derivative to compute (0 ≤ derivative_order ≤ p).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    N_ders : ndarray of shape (n+1, Nu)</span>
+<span class="sd">        Array containing the derivatives of each basis function evaluated at all u-values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert to JAX arrays</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+
+    <span class="c1"># Define scalar basis function</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">basis_scalar</span><span class="p">(</span><span class="n">uu</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_basis_single_u</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">uu</span><span class="p">)</span>
+
+    <span class="c1"># Precompute all derivatives up to order p</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">all_derivatives_fn</span><span class="p">(</span><span class="n">uu</span><span class="p">):</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">basis_scalar</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="p">(</span><span class="n">uu</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">uu</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>  <span class="c1"># shape (p+1, n+1)</span>
+
+    <span class="c1"># Vectorize over u-values</span>
+    <span class="n">all_derivatives</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">all_derivatives_fn</span><span class="p">)(</span><span class="n">u</span><span class="p">)</span>
+
+    <span class="c1"># Reorder shape (Nu, p+1, n+1) to (p+1, n+1, Nu)</span>
+    <span class="n">all_derivatives</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">all_derivatives</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+    <span class="c1"># Dynamically select derivative order</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">in_range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">all_derivatives</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">out_of_range</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+    <span class="n">N_ders</span> <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span>
+        <span class="n">derivative_order</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="p">,</span>
+        <span class="n">in_range</span><span class="p">,</span>
+        <span class="n">out_of_range</span><span class="p">,</span>
+        <span class="n">operand</span><span class="o">=</span><span class="n">derivative_order</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">N_ders</span>  <span class="c1"># Shape (n+1, Nu)</span></div>
+
+
+
+<span class="c1"># JIT compile with only n and p static</span>
+<span class="n">compute_basis_polynomials_derivatives_jax</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span>
+    <span class="n">compute_basis_polynomials_derivatives_jax</span><span class="p">,</span>
+    <span class="n">static_argnames</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">),</span>
+<span class="p">)</span>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

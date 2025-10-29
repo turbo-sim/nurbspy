@@ -1,0 +1,1694 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nurbspy.jax.nurbs_curve &#8212; nurbspy v1.2.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=15ee6cd7"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/nurbspy/jax/nurbs_curve';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy v1.2.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../source/api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for nurbspy.jax.nurbs_curve</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">equinox</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">optimistix</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">quadax</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_basis_functions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">compute_basis_polynomials</span><span class="p">,</span>
+    <span class="n">compute_all_basis_polynomials_derivatives</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="binomial_coeff">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.binomial_coeff">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">binomial_coeff</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;JAX-compatible binomial coefficient C(n, k) using the gamma function.&quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
+        <span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">gammaln</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="o">-</span> <span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">gammaln</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="o">-</span> <span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">gammaln</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># ----------------------------------------------------------- #</span>
+<span class="c1"># Standalone functions to compute values</span>
+<span class="c1"># ----------------------------------------------------------- #</span>
+<div class="viewcode-block" id="compute_nurbs_coordinates">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.compute_nurbs_coordinates">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_nurbs_coordinates</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate the coordinates of a NURBS (Non-Uniform Rational B-Spline) curve for a given parameter `u`.</span>
+
+<span class="sd">    This function computes the coordinates of the NURBS curve in *homogeneous space* using</span>
+<span class="sd">    the standard B-spline basis and the control point weights (Equation 4.5 in The NURBS Book),</span>
+<span class="sd">    and then maps them back to ordinary space via the rational perspective division (Equation 1.16).</span>
+<span class="sd">    The implementation corresponds to Algorithm A4.1 from The NURBS Book.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    P : ndarray (ndim, n+1)</span>
+<span class="sd">        Array of control point coordinates.</span>
+<span class="sd">        The first dimension spans spatial coordinates `(x, y, z, ...)`,</span>
+<span class="sd">        and the second spans the control points along the curve `(0, 1, ..., n)`.</span>
+
+<span class="sd">    W : ndarray (n+1,)</span>
+<span class="sd">        Weights associated with each control point.</span>
+
+<span class="sd">    p : int</span>
+<span class="sd">        Degree of the B-spline basis functions.</span>
+
+<span class="sd">    U : ndarray (r+1 = n + p + 2,)</span>
+<span class="sd">        Knot vector in the u-direction.</span>
+<span class="sd">        The first and last entries typically have multiplicity `p + 1` for a clamped spline.</span>
+
+<span class="sd">    u : scalar or ndarray (N,)</span>
+<span class="sd">        Parametric coordinate(s) at which to evaluate the curve.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    C : ndarray (ndim, N)</span>
+<span class="sd">        Coordinates of the evaluated curve points.</span>
+<span class="sd">        The first dimension spans the spatial coordinates,</span>
+<span class="sd">        and the second spans the parametric evaluation points `u`.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The computation is fully vectorized and uses matrix multiplication for efficiency.</span>
+<span class="sd">    - The function supports arbitrary spatial dimensions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Highest index of the control points (counting from zero)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="c1"># Evaluate the B-spline basis functions N_i,p(u)</span>
+    <span class="n">N_basis</span> <span class="o">=</span> <span class="n">compute_basis_polynomials</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+
+    <span class="c1"># Map control points to homogeneous space: P_w = (x*w, y*w, z*w, w)</span>
+    <span class="n">P_w</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">P</span> <span class="o">*</span> <span class="n">W</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">W</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Evaluate the curve in homogeneous space: C_w = Σ_i N_i,p(u) * P_w[i]</span>
+    <span class="c1"># (implemented efficiently via matrix multiplication)</span>
+    <span class="n">C_w</span> <span class="o">=</span> <span class="n">P_w</span> <span class="o">@</span> <span class="n">N_basis</span>
+
+    <span class="c1"># Project back to Euclidean space: (x, y, z) = (x*w, y*w, z*w) / w</span>
+    <span class="k">return</span> <span class="n">C_w</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">/</span> <span class="n">C_w</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:]</span></div>
+
+
+
+<div class="viewcode-block" id="compute_bspline_coordinates">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.compute_bspline_coordinates">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_bspline_coordinates</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate the coordinates of a B-spline curve for a given parameter `u`.</span>
+
+<span class="sd">    This function computes the coordinates of a polynomial B-spline curve using</span>
+<span class="sd">    the standard basis expansion (Equation 3.1 in The NURBS Book).</span>
+<span class="sd">    The implementation corresponds to Algorithm A3.1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    P : ndarray (ndim, n+1)</span>
+<span class="sd">        Array of control point coordinates.</span>
+<span class="sd">        The first dimension spans spatial coordinates `(x, y, z, ...)`,</span>
+<span class="sd">        and the second spans the control points along the curve `(0, 1, ..., n)`.</span>
+
+<span class="sd">    p : int</span>
+<span class="sd">        Degree of the B-spline basis functions.</span>
+
+<span class="sd">    U : ndarray (r+1 = n + p + 2,)</span>
+<span class="sd">        Knot vector in the u-direction.</span>
+<span class="sd">        The first and last entries typically have multiplicity `p + 1` for a clamped spline.</span>
+
+<span class="sd">    u : scalar or ndarray (N,)</span>
+<span class="sd">        Parametric coordinate(s) at which to evaluate the curve.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    C : ndarray (ndim, N)</span>
+<span class="sd">        Coordinates of the evaluated B-spline curve points.</span>
+<span class="sd">        The first dimension spans the spatial coordinates,</span>
+<span class="sd">        and the second spans the parametric evaluation points `u`.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The computation is vectorized and uses matrix multiplication for efficiency.</span>
+<span class="sd">    - For rational curves (NURBS), use `compute_nurbs_coordinates` instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Highest index of the control points (counting from zero)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="c1"># Evaluate B-spline basis functions N_i,p(u)</span>
+    <span class="n">N_basis</span> <span class="o">=</span> <span class="n">compute_basis_polynomials</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+
+    <span class="c1"># Evaluate curve coordinates using matrix multiplication</span>
+    <span class="c1"># C = Σ_i N_i,p(u) * P[i]</span>
+    <span class="k">return</span> <span class="n">P</span> <span class="o">@</span> <span class="n">N_basis</span></div>
+
+
+
+<span class="c1"># ----------------------------------------------------------- #</span>
+<span class="c1"># Standalone functions to compute derivatives</span>
+<span class="c1"># ----------------------------------------------------------- #</span>
+<div class="viewcode-block" id="compute_all_bspline_derivatives">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.compute_all_bspline_derivatives">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_all_bspline_derivatives</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">up_to_order</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute all analytic derivatives of a polynomial B-spline curve up to a specified order.</span>
+
+<span class="sd">    This function evaluates the curve and its parametric derivatives</span>
+<span class="sd">    using the analytic derivatives of the B-spline basis functions.</span>
+<span class="sd">    For each derivative order `k`, the derivative of the curve is given by</span>
+
+<span class="sd">        C^(k)(u) = Σ_i P_i * d^k N_{i,p}(u) / du^k</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    P : ndarray (ndim, n+1)</span>
+<span class="sd">        Control point coordinates.</span>
+<span class="sd">    p : int</span>
+<span class="sd">        Degree of the B-spline.</span>
+<span class="sd">    U : ndarray (n+p+2,)</span>
+<span class="sd">        Knot vector.</span>
+<span class="sd">    u : ndarray (Nu,)</span>
+<span class="sd">        Parametric evaluation points.</span>
+<span class="sd">    up_to_order : int</span>
+<span class="sd">        Maximum derivative order to compute (0 ≤ order ≤ p).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bspline_derivatives : ndarray (up_to_order+1, ndim, Nu)</span>
+<span class="sd">        Derivatives of the B-spline curve, where</span>
+<span class="sd">        `bspline_derivatives[k, :, :] = d^k C(u) / du^k`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Ensure inputs are JAX arrays</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">ndim</span><span class="p">,</span> <span class="n">Nu</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">u</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">max_order</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">up_to_order</span><span class="p">)</span>
+
+    <span class="c1"># Get all basis derivatives up to order p → (p+1, n+1, Nu)</span>
+    <span class="n">all_Nders</span> <span class="o">=</span> <span class="n">compute_all_basis_polynomials_derivatives</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+
+    <span class="c1"># Allocate curve derivatives (up_to_order+1, ndim, Nu)</span>
+    <span class="n">bspline_derivatives</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">up_to_order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ndim</span><span class="p">,</span> <span class="n">Nu</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">P</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="c1"># Compute derivatives by matrix multiplication for all relevant orders</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">bspline_derivatives</span> <span class="o">=</span> <span class="n">bspline_derivatives</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">P</span> <span class="o">@</span> <span class="n">all_Nders</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">bspline_derivatives</span></div>
+
+
+
+<div class="viewcode-block" id="compute_all_nurbs_derivatives">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.compute_all_nurbs_derivatives">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_all_nurbs_derivatives</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">up_to_order</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute all analytic derivatives of a NURBS curve up to a specified order.</span>
+
+<span class="sd">    This function extends the polynomial B-spline derivative computation</span>
+<span class="sd">    to rational NURBS curves by applying the quotient rule recursively,</span>
+<span class="sd">    following Algorithm A4.2 from The NURBS Book (Piegl &amp; Tiller, 2nd ed.):</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    P : ndarray (ndim, n+1)</span>
+<span class="sd">        Control point coordinates.</span>
+
+<span class="sd">    W : ndarray (n+1,)</span>
+<span class="sd">        Control point weights.</span>
+
+<span class="sd">    p : int</span>
+<span class="sd">        Degree of the NURBS.</span>
+
+<span class="sd">    U : ndarray (n+p+2,)</span>
+<span class="sd">        Knot vector.</span>
+
+<span class="sd">    u : ndarray (Nu,)</span>
+<span class="sd">        Parametric evaluation points.</span>
+
+<span class="sd">    up_to_order : int</span>
+<span class="sd">        Maximum derivative order to compute (0 ≤ order ≤ p).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nurbs_derivatives : ndarray (up_to_order+1, ndim, Nu)</span>
+<span class="sd">        Derivatives of the NURBS curve</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Ensure inputs are JAX arrays</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+
+    <span class="c1"># Define sizes</span>
+    <span class="n">ndim</span><span class="p">,</span> <span class="n">Nu</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">u</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">max_order</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">up_to_order</span><span class="p">)</span>
+
+    <span class="c1"># Map control points to homogeneous coordinates: P_w = (x*w, y*w, z*w, w)</span>
+    <span class="n">P_w</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">P</span> <span class="o">*</span> <span class="n">W</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">W</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Compute all B-spline derivatives in homogeneous space → (up_to_order+1, ndim+1, Nu)</span>
+    <span class="n">bspline_derivatives</span> <span class="o">=</span> <span class="n">compute_all_bspline_derivatives</span><span class="p">(</span><span class="n">P_w</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">up_to_order</span><span class="p">)</span>
+
+    <span class="c1"># Split spatial and weight components</span>
+    <span class="n">A_ders</span> <span class="o">=</span> <span class="n">bspline_derivatives</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>  <span class="c1"># shape (up_to_order+1, ndim, Nu)</span>
+    <span class="n">w_ders</span> <span class="o">=</span> <span class="n">bspline_derivatives</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:]</span>  <span class="c1"># shape (up_to_order+1, 1, Nu)</span>
+
+    <span class="c1"># Allocate NURBS derivatives (up_to_order+1, ndim, Nu)</span>
+    <span class="n">nurbs_derivatives</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">up_to_order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ndim</span><span class="p">,</span> <span class="n">Nu</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">P</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="c1"># Zeroth derivative: C(u) = A0 / w0</span>
+    <span class="n">nurbs_derivatives</span> <span class="o">=</span> <span class="n">nurbs_derivatives</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">A_ders</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">w_ders</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># Recursive computation for higher-order derivatives (Algorithm A4.2)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">outer_body</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">nurbs_derivatives</span><span class="p">):</span>
+        <span class="c1"># Start with the corresponding derivative of A (homogeneous numerator)</span>
+        <span class="n">temp_num</span> <span class="o">=</span> <span class="n">A_ders</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+
+        <span class="c1"># Subtract recursive terms involving lower derivatives</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">inner_body</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">temp_num</span><span class="p">):</span>
+            <span class="n">coeff</span> <span class="o">=</span> <span class="n">binomial_coeff</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">temp_num</span> <span class="o">-</span> <span class="n">coeff</span> <span class="o">*</span> <span class="n">w_ders</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">nurbs_derivatives</span><span class="p">[</span><span class="n">order</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span>
+
+        <span class="n">temp_num</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">fori_loop</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inner_body</span><span class="p">,</span> <span class="n">temp_num</span><span class="p">)</span>
+
+        <span class="c1"># Divide by zeroth weight derivative to get ordinary-space derivative</span>
+        <span class="n">nurbs_derivatives</span> <span class="o">=</span> <span class="n">nurbs_derivatives</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">order</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">temp_num</span> <span class="o">/</span> <span class="n">w_ders</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">nurbs_derivatives</span>
+
+    <span class="n">nurbs_derivatives</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">fori_loop</span><span class="p">(</span>
+        <span class="mi">1</span><span class="p">,</span> <span class="n">max_order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">outer_body</span><span class="p">,</span> <span class="n">nurbs_derivatives</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">nurbs_derivatives</span></div>
+
+
+
+<span class="c1"># ----------------------------------------------------------- #</span>
+<span class="c1"># Main NURBS curve class</span>
+<span class="c1"># ----------------------------------------------------------- #</span>
+<div class="viewcode-block" id="NurbsCurve">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NurbsCurve</span><span class="p">(</span><span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a NURBS (Non-Uniform Rational Basis Spline) curve object</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    control_points : ndarray with shape (ndim, n+1)</span>
+<span class="sd">        Array containing the coordinates of the control points</span>
+<span class="sd">        The first dimension of `P` spans the coordinates of the control points (any number of dimensions)</span>
+<span class="sd">        The second dimension of `P` spans the u-direction control points (0,1,...,n)</span>
+
+<span class="sd">    weights : ndarray with shape (n+1,)</span>
+<span class="sd">        Array containing the weight of the control points</span>
+
+<span class="sd">    degree : int</span>
+<span class="sd">        Degree of the basis polynomials</span>
+
+<span class="sd">    knots : ndarray with shape (r+1=n+p+2,)</span>
+<span class="sd">        The knot vector in the u-direction</span>
+<span class="sd">        Set the multiplicity of the first and last entries equal to `p+1` to obtain a clamped NURBS</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This class includes methods to compute:</span>
+
+<span class="sd">        - Curve coordinates for any number of dimensions</span>
+<span class="sd">        - Analytic curve derivatives of any order and number of dimensions</span>
+<span class="sd">        - The unitary tangent, normal and binormal vectors (Frenet-Serret reference frame) in 2D and 3D</span>
+<span class="sd">        - The analytic curvature and torsion in 2D and 3D</span>
+<span class="sd">        - The arc length of the curve in any number of dimensions.</span>
+<span class="sd">            The arc length is compute by numerical quadrature using analytic derivative information</span>
+
+<span class="sd">    The class can be used to represent polynomial and rational Bézier, B-Spline and NURBS curves</span>
+<span class="sd">    The type of curve depends on the initialization arguments</span>
+
+<span class="sd">        - Polymnomial Bézier: Provide the array of control points</span>
+<span class="sd">        - Rational Bézier:    Provide the arrays of control points and weights</span>
+<span class="sd">        - B-Spline:           Provide the array of control points, degree and knot vector</span>
+<span class="sd">        - NURBS:              Provide the arrays of control points and weights, degree and knot vector</span>
+
+<span class="sd">    In addition, this class supports operations with real and complex numbers</span>
+<span class="sd">    The data type used for the computations is detected from the data type of the arguments</span>
+<span class="sd">    Using complex numbers can be useful to compute the derivative of the shape using the complex step method</span>
+
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    The NURBS Book. See references to equations and algorithms throughout the code</span>
+<span class="sd">    L. Piegl and W. Tiller</span>
+<span class="sd">    Springer, second edition</span>
+
+<span class="sd">    Curves and Surfaces for CADGD. See references to equations the source code</span>
+<span class="sd">    G. Farin</span>
+<span class="sd">    Morgan Kaufmann Publishers, fifth edition</span>
+
+<span class="sd">    All references correspond to The NURBS book unless it is explicitly stated that they come from Farin&#39;s book</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">P</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span>  <span class="c1"># (ndim, n+1)</span>
+    <span class="n">W</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span>  <span class="c1"># (n+1,)</span>
+    <span class="n">p</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">U</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span>  <span class="c1"># (r+1,)</span>
+    <span class="n">curve_type</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">ndim</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">U_values</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">U_mults</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">control_points</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">knots</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Void initialization</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">control_points</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">degree</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">knots</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curve_type</span> <span class="o">=</span> <span class="s2">&quot;Void&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">P</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">U_values</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">U_mults</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,))</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Convert inputs to JAX arrays</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">control_points</span><span class="p">)</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">degree</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">knots</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">knots</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="c1"># Automatic curve type deduction from arguments</span>
+        <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">degree</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">knots</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curve_type</span> <span class="o">=</span> <span class="s2">&quot;Bezier&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">W</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">P</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">n</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">p</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">degree</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">knots</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curve_type</span> <span class="o">=</span> <span class="s2">&quot;R-Bezier&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">n</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">p</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">knots</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curve_type</span> <span class="o">=</span> <span class="s2">&quot;B-Spline&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">W</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">P</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">knots</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curve_type</span> <span class="o">=</span> <span class="s2">&quot;B-Spline&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">p</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="n">W</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">P</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">knots</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Clamped NURBS (weights given, knots auto-generated)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curve_type</span> <span class="o">=</span> <span class="s2">&quot;NURBS&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">p</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="n">W</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">P</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># General NURBS (weights and knots provided)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curve_type</span> <span class="o">=</span> <span class="s2">&quot;NURBS&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">knots</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">P</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="n">W</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">P</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="c1"># Assign class attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">P</span> <span class="o">=</span> <span class="n">P</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">W</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">U</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">U_values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_mults</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Validation (only once at initialization)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;control_points must have shape (ndim, n+1)&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;weights must be 1D (n+1,)&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;degree must be a scalar integer&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;knots must be 1D (r+1,)&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Mismatch between number of control points and weights&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Knot vector length </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">)</span><span class="si">}</span><span class="s2"> does not match n+p+1=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="c1"># ---------------------------------------------------------------------------------------------------------------- #</span>
+    <span class="c1"># Define functions to compute NURBS properties</span>
+    <span class="c1"># ---------------------------------------------------------------------------------------------------------------- #</span>
+<div class="viewcode-block" id="NurbsCurve.get_value">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_value">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate the coordinates of the curve for the input `u` parametrization</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        u : scalar or ndarray with shape (N,)</span>
+<span class="sd">            Parameter used to evaluate the curve</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        C : ndarray with shape (ndim, N)</span>
+<span class="sd">            Array containing the coordinates of the curve</span>
+<span class="sd">            The first dimension of `C` spans the `(x,y,z)` coordinates</span>
+<span class="sd">            The second dimension of `C` spans the `u` parametrization sample points</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">compute_nurbs_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.get_derivative">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_derivative">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_derivative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate the derivative of the curve for the input u-parametrization</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        u : scalar or ndarray with shape (N,)</span>
+<span class="sd">            Scalar or array containing the u-parameter used to evaluate the curve</span>
+
+<span class="sd">        order : integer</span>
+<span class="sd">            Order of the derivative</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dC : ndarray with shape (ndim, N)</span>
+<span class="sd">            Array containing the derivative of the desired order</span>
+<span class="sd">            The first dimension of `dC` spans the `(x,y,z)` coordinates</span>
+<span class="sd">            The second dimension of `dC` spans the `u` parametrization sample points</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Compute the array of curve derivatives up to order `derivative_order` and slice the desired values</span>
+        <span class="k">return</span> <span class="n">compute_all_nurbs_derivatives</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">order</span><span class="p">)[</span>
+            <span class="n">order</span><span class="p">,</span> <span class="o">...</span>
+        <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.get_tangent">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_tangent">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate the unit tangent vector along the curve for the given u-parameterization.</span>
+
+<span class="sd">        The tangent is defined as:</span>
+<span class="sd">            t(u) = C&#39;(u) / ||C&#39;(u)||</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        u : scalar or ndarray (N,)</span>
+<span class="sd">            Parametric coordinates.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tangent : ndarray (ndim, N)</span>
+<span class="sd">            Unit tangent vectors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dC</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dC</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dC</span> <span class="o">/</span> <span class="n">norm</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.get_normal">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_normal">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_normal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate the unit normal vector along the curve for the given u-parameterization.</span>
+
+<span class="sd">        For 2D or 3D curves, the normal is defined as:</span>
+<span class="sd">            n(u) = (C&#39;(u) x (C&#39;&#39;(u) x C&#39;(u))) / ||C&#39;(u) x (C&#39;&#39;(u) x C&#39;(u))||</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        u : scalar or ndarray (N,)</span>
+<span class="sd">            Parametric coordinates.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        normal : ndarray (ndim, N)</span>
+<span class="sd">            Unit normal vectors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Derivatives</span>
+        <span class="n">ders</span> <span class="o">=</span> <span class="n">compute_all_nurbs_derivatives</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">up_to_order</span><span class="o">=</span><span class="mi">2</span>
+        <span class="p">)</span>
+        <span class="n">dC</span><span class="p">,</span> <span class="n">ddC</span> <span class="o">=</span> <span class="n">ders</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ders</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="c1"># Embed to 3D for consistent cross product operations</span>
+        <span class="n">dC3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">dC</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+        <span class="n">ddC3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">ddC</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+
+        <span class="c1"># Compute normaø, n = dC × (ddC × dC)</span>
+        <span class="n">n_num</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span>
+            <span class="n">dC3</span><span class="p">,</span>
+            <span class="n">jnp</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">ddC3</span><span class="p">,</span> <span class="n">dC3</span><span class="p">,</span> <span class="n">axisa</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">axisb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">axisc</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">axisa</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">axisb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">axisc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Normalize safely (avoid division by zero)</span>
+        <span class="n">n_norm</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">n_num</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">n_norm</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">n_norm</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">n_norm</span><span class="p">)</span>
+        <span class="n">n3</span> <span class="o">=</span> <span class="n">n_num</span> <span class="o">/</span> <span class="n">n_norm</span>
+
+        <span class="c1"># Slice back to original dimension</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">n3</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="k">return</span> <span class="n">n</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.get_binormal">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_binormal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate the unit binormal vector along the curve for the given u-parameterization.</span>
+
+<span class="sd">        The binormal is defined as:</span>
+<span class="sd">            b(u) = (C&#39;(u) x C&#39;&#39;(u)) / ||C&#39;(u) x C&#39;&#39;(u)||</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        u : scalar or ndarray (N,)</span>
+<span class="sd">            Parametric coordinates.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        binormal : ndarray (ndim, N)</span>
+<span class="sd">            Unit binormal vectors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Derivatives</span>
+        <span class="n">ders</span> <span class="o">=</span> <span class="n">compute_all_nurbs_derivatives</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">up_to_order</span><span class="o">=</span><span class="mi">2</span>
+        <span class="p">)</span>
+        <span class="n">dC</span><span class="p">,</span> <span class="n">ddC</span> <span class="o">=</span> <span class="n">ders</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ders</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="c1"># Embed to 3D</span>
+        <span class="n">dC3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">dC</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+        <span class="n">ddC3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">ddC</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+
+        <span class="c1"># Compute binormal</span>
+        <span class="n">b_num</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">dC3</span><span class="p">,</span> <span class="n">ddC3</span><span class="p">,</span> <span class="n">axisa</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">axisb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">axisc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Normalize safely</span>
+        <span class="n">b_norm</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b_num</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">b_norm</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">b_norm</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">b_norm</span><span class="p">)</span>
+        <span class="n">b3</span> <span class="o">=</span> <span class="n">b_num</span> <span class="o">/</span> <span class="n">b_norm</span>
+
+        <span class="c1"># Slice back to original dimension</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b3</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="k">return</span> <span class="n">b</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.get_curvature">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_curvature">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_curvature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate the curvature of the curve for the input u-parametrization</span>
+
+<span class="sd">        The definition of the curvature is given by equation 10.7 (Farin&#39;s textbook)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        u : scalar or ndarray with shape (N,)</span>
+<span class="sd">            Scalar or array containing the u-parameter used to evaluate the curvature</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        curvature : scalar or ndarray with shape (N, )</span>
+<span class="sd">            Scalar or array containing the curvature of the curve</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Derivatives</span>
+        <span class="n">ders</span> <span class="o">=</span> <span class="n">compute_all_nurbs_derivatives</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">up_to_order</span><span class="o">=</span><span class="mi">2</span>
+        <span class="p">)</span>
+        <span class="n">dC</span><span class="p">,</span> <span class="n">ddC</span> <span class="o">=</span> <span class="n">ders</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ders</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="c1"># Embed to 3D for consistent cross products</span>
+        <span class="n">dC3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">dC</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+        <span class="n">ddC3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">ddC</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+
+        <span class="c1"># Cross product and norms</span>
+        <span class="n">cross_dd_d</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">dC3</span><span class="p">,</span> <span class="n">ddC3</span><span class="p">,</span> <span class="n">axisa</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">axisb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">axisc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">cross_dd_d</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">denom</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dC3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span>
+        <span class="n">denom</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">denom</span><span class="p">)</span>
+
+        <span class="n">curvature</span> <span class="o">=</span> <span class="n">num</span> <span class="o">/</span> <span class="n">denom</span>
+        <span class="k">return</span> <span class="n">curvature</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.get_torsion">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_torsion">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_torsion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate the torsion of the curve for the input u-parametrization</span>
+
+<span class="sd">        The definition of the torsion is given by equation 10.8 (Farin&#39;s textbook)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        u : scalar or ndarray with shape (N,)</span>
+<span class="sd">            Scalar or array containing the u-parameter used to evaluate the torsion</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        torsion : scalar or ndarray with shape (N, )</span>
+<span class="sd">            Scalar or array containing the torsion of the curve</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Derivatives</span>
+        <span class="n">ders</span> <span class="o">=</span> <span class="n">compute_all_nurbs_derivatives</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">up_to_order</span><span class="o">=</span><span class="mi">3</span>
+        <span class="p">)</span>
+        <span class="n">dC</span><span class="p">,</span> <span class="n">ddC</span><span class="p">,</span> <span class="n">dddC</span> <span class="o">=</span> <span class="n">ders</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ders</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ders</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+        <span class="c1"># Embed to 3D for consistent cross products</span>
+        <span class="n">dC3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">dC</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+        <span class="n">ddC3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">ddC</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+        <span class="n">dddC3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">dddC</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+
+        <span class="c1"># Cross product and normalization</span>
+        <span class="n">cross_d_dd</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">dC3</span><span class="p">,</span> <span class="n">ddC3</span><span class="p">,</span> <span class="n">axisa</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">axisb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">axisc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">cross_d_dd</span> <span class="o">*</span> <span class="n">dddC3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">denom</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">cross_d_dd</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">denom</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">denom</span><span class="p">)</span>
+
+        <span class="n">torsion</span> <span class="o">=</span> <span class="n">num</span> <span class="o">/</span> <span class="n">denom</span>
+        <span class="k">return</span> <span class="n">torsion</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.get_arclength">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_arclength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">n_points</span><span class="o">=</span><span class="mi">41</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the arc length of a parametric curve in the interval [u1,u2] using numerical quadrature</span>
+
+<span class="sd">        The definition of the arc length is given by equation 10.3 (Farin&#39;s textbook)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        u1 : scalar</span>
+<span class="sd">            Lower limit of integration for the arc length computation</span>
+
+<span class="sd">        u2 : scalar</span>
+<span class="sd">            Upper limit of integration for the arc length computation</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        L : scalar</span>
+<span class="sd">            Arc length of NURBS curve in the interval [u1, u2]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Define the integrand</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">integrand</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+            <span class="n">dC</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># (ndim, len(u))</span>
+            <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dC</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># ||C&#39;(u)||</span>
+
+        <span class="c1"># Perform fixed quadrature over [u1, u2]</span>
+        <span class="n">rule</span> <span class="o">=</span> <span class="n">quadax</span><span class="o">.</span><span class="n">ClenshawCurtisRule</span><span class="p">(</span><span class="n">n_points</span><span class="p">)</span>
+        <span class="n">arclength</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">integrand</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">arclength</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span></div>
+
+
+    <span class="c1"># ---------------------------------------------------------------------------------------------------------------- #</span>
+    <span class="c1"># Define functions to solve point projection problem</span>
+    <span class="c1"># ---------------------------------------------------------------------------------------------------------------- #</span>
+<div class="viewcode-block" id="NurbsCurve.project_points_to_curve">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.project_points_to_curve">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">project_points_to_curve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Q_all</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Vectorized projection of multiple points onto the NURBS curve.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Q_all : array_like, shape (ndim, n_points)</span>
+<span class="sd">            Points to project onto the curve.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        u_all : ndarray, shape (n_points,)</span>
+<span class="sd">            Parameter values of the orthogonal projections.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project_point_to_curve</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="mi">1</span><span class="p">)(</span><span class="n">Q_all</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.project_point_to_curve">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.project_point_to_curve">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">project_point_to_curve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Project a point onto the NURBS curve by solving the orthogonality condition.</span>
+
+<span class="sd">        The projection point `C(u*)` minimizes the squared Euclidean distance to `Q`:</span>
+
+<span class="sd">            f(u) = ||C(u) - Q||²</span>
+
+<span class="sd">        The stationary condition is obtained from:</span>
+
+<span class="sd">            f&#39;(u) = 2 (C(u) - Q) · C&#39;(u) = 0</span>
+
+<span class="sd">        which ensures that the vector from the curve to the point is orthogonal to the tangent</span>
+<span class="sd">        of the curve at the projection point.</span>
+
+<span class="sd">        The nonlinear equation is solved with a bounded Newton method (`optimistix.Newton`),</span>
+<span class="sd">        ensuring that `u_star` remains within [0, 1].</span>
+
+<span class="sd">        The initial guess is determined heuristically from the control polygon</span>
+<span class="sd">        (see `_initial_guess_from_polygon`).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Q : array_like, shape (ndim,)</span>
+<span class="sd">            Coordinates of the point to be projected onto the curve.</span>
+<span class="sd">        max_iters : int, optional</span>
+<span class="sd">            Maximum number of Newton iterations used by the solver. Default is 32.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        u_star : float</span>
+<span class="sd">            Parameter value in [0, 1] corresponding to the orthogonal projection of `Q` onto the curve.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Ensure shape (ndim,)</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+        <span class="c1"># Function whose root defines orthogonality condition</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">residual</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+            <span class="n">dC</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">C</span> <span class="o">-</span> <span class="n">Q</span><span class="p">)</span> <span class="o">*</span> <span class="n">dC</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">r</span>
+
+        <span class="c1"># Heuristic initial guess from control polygon</span>
+        <span class="n">u0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_projection_initial_guess</span><span class="p">(</span><span class="n">Q</span><span class="p">)])</span>
+
+        <span class="c1"># Run bounded Newton solver</span>
+        <span class="n">solver</span> <span class="o">=</span> <span class="n">optx</span><span class="o">.</span><span class="n">Newton</span><span class="p">(</span><span class="n">rtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">optx</span><span class="o">.</span><span class="n">root_find</span><span class="p">(</span>
+            <span class="n">residual</span><span class="p">,</span>
+            <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">,</span>
+            <span class="n">y0</span><span class="o">=</span><span class="n">u0</span><span class="p">,</span>
+            <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lower&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">&quot;upper&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span>
+            <span class="n">throw</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">max_steps</span><span class="o">=</span><span class="n">max_iters</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Return scalar value of u</span>
+        <span class="n">u_star</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">u_star</span></div>
+
+
+    <span class="c1"># def _projection_initial_guess(self, Q):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     Estimate a good initial guess for u by locating the control point closest to Q</span>
+    <span class="c1">#     and mapping its index proportionally to the active knot span [U[p], U[-p-1]].</span>
+    <span class="c1">#     This provides a fast and robust starting value for the projection solver.</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     P, U, p = self.P, self.U, self.p</span>
+    <span class="c1">#     diff = P - Q[:, None]</span>
+    <span class="c1">#     dist2 = jnp.sum(diff * diff, axis=0)</span>
+    <span class="c1">#     j = jnp.argmin(dist2)</span>
+    <span class="c1">#     n = P.shape[1] - 1</span>
+    <span class="c1">#     u_min, u_max = U[p], U[-p - 1]  # interior knot range</span>
+    <span class="c1">#     u0 = u_min + (u_max - u_min) * (j / n)</span>
+    <span class="c1">#     return jnp.clip(u0, 0.0, 1.0)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_projection_initial_guess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">101</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate a good initial guess for the projection parameter `u`</span>
+<span class="sd">        using a greedy sampling strategy.</span>
+
+<span class="sd">        The curve is sampled at `n_samples` uniformly spaced parameter values</span>
+<span class="sd">        within [U[0], U[-1]], and the point `C(u)` closest to the query</span>
+<span class="sd">        point `Q` is selected as the initial guess.</span>
+
+<span class="sd">        This provides a robust starting point for the Newton-based projection,</span>
+<span class="sd">        especially for highly curved or nonuniform NURBS.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span>
+        <span class="n">u_min</span><span class="p">,</span> <span class="n">u_max</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">U</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">u_candidates</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">u_min</span><span class="p">,</span> <span class="n">u_max</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
+        <span class="n">C_candidates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">u_candidates</span><span class="p">)</span>  <span class="c1"># (ndim, n_samples)</span>
+        <span class="n">dist2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">C_candidates</span> <span class="o">-</span> <span class="n">Q</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">i_best</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">dist2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">u_candidates</span><span class="p">[</span><span class="n">i_best</span><span class="p">]</span>
+
+    <span class="c1"># ---------------------------------------------------------------------------------------------------------------- #</span>
+    <span class="c1"># Define functions for plotting</span>
+    <span class="c1"># ---------------------------------------------------------------------------------------------------------------- #</span>
+<div class="viewcode-block" id="NurbsCurve.plot">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">curve</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">control_points</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">frenet_serret</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">axis_off</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">ticks_off</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a plot and return the figure and axes handles&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="c1"># One dimension (law of evolution)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+                <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$u$ parameter&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;NURBS curve value&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+                <span class="c1"># ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
+                <span class="c1"># ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
+                <span class="c1"># for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)</span>
+                <span class="c1"># for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)</span>
+                <span class="k">if</span> <span class="n">ticks_off</span><span class="p">:</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+                <span class="k">if</span> <span class="n">axis_off</span><span class="p">:</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Two dimensions (plane curve)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+                <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x$ axis&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y$ axis&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+                <span class="c1"># ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
+                <span class="c1"># ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
+                <span class="c1"># for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)</span>
+                <span class="c1"># for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)</span>
+                <span class="k">if</span> <span class="n">ticks_off</span><span class="p">:</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+                <span class="k">if</span> <span class="n">axis_off</span><span class="p">:</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Three dimensions (space curve)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+                <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="n">azim</span><span class="o">=-</span><span class="mi">120</span><span class="p">,</span> <span class="n">elev</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">fill</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">fill</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">zaxis</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">fill</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">zaxis</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">_alpha</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">_alpha</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">zaxis</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">_alpha</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x$ axis&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y$ axis&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;$z$ axis&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+                <span class="c1"># ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
+                <span class="c1"># ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
+                <span class="c1"># ax_xy.zaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
+                <span class="c1"># for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(8)</span>
+                <span class="c1"># for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(8)</span>
+                <span class="c1"># for t in ax.zaxis.get_major_ticks(): t.label.set_fontsize(8)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_rotate_label</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_rotate_label</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">zaxis</span><span class="o">.</span><span class="n">set_rotate_label</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">ticks_off</span><span class="p">:</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">set_zticks</span><span class="p">([])</span>
+                <span class="k">if</span> <span class="n">axis_off</span><span class="p">:</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The number of dimensions must be 1, 2 or 3&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Add objects to the plot</span>
+        <span class="k">if</span> <span class="n">curve</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot_curve</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">control_points</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot_control_points</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">frenet_serret</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot_frenet_serret</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+
+        <span class="c1"># Set the scaling of the axes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rescale_plot</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.plot_curve">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_curve</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">u1</span><span class="o">=</span><span class="mf">0.00</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.00</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the coordinates of the NURBS curve&quot;&quot;&quot;</span>
+
+        <span class="c1"># One dimension (law of evolution)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="mi">501</span><span class="p">)</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+        <span class="c1"># Two dimensions (plane curve)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="mi">501</span><span class="p">)</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+        <span class="c1"># Three dimensions (space curve)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="mi">501</span><span class="p">)</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The number of dimensions must be 1, 2 or 3&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.plot_control_points">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot_control_points">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_control_points</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fig</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span>
+        <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-.&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+        <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">markerstyle</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the control points of the NURBS curve&quot;&quot;&quot;</span>
+
+        <span class="c1"># One dimension (law of evolution)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">Px</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">Px</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">Px</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="n">markerstyle</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_markersize</span><span class="p">(</span><span class="n">markersize</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgecolor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_markerfacecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_zorder</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+            <span class="c1"># line.set_label(&#39; &#39;)</span>
+
+        <span class="c1"># Two dimensions (plane curve)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">Px</span><span class="p">,</span> <span class="n">Py</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span>
+            <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Px</span><span class="p">,</span> <span class="n">Py</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="n">markerstyle</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_markersize</span><span class="p">(</span><span class="n">markersize</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgecolor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_markerfacecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_zorder</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+            <span class="c1"># line.set_label(&#39; &#39;)</span>
+
+        <span class="c1"># Three dimensions (space curve)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">Px</span><span class="p">,</span> <span class="n">Py</span><span class="p">,</span> <span class="n">Pz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span>
+            <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Px</span><span class="p">,</span> <span class="n">Py</span><span class="p">,</span> <span class="n">Pz</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="n">markerstyle</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_markersize</span><span class="p">(</span><span class="n">markersize</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgecolor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_markerfacecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">set_zorder</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+            <span class="c1"># line.set_label(&#39; &#39;)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The number of dimensions must be 2 or 3&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.plot_frenet_serret">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_frenet_serret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">frame_number</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">frame_scale</span><span class="o">=</span><span class="mf">0.10</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot some Frenet-Serret reference frames along the NURBS curve&quot;&quot;&quot;</span>
+
+        <span class="c1"># Compute the tangent, normal and binormal unitary vectors</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">frame_number</span><span class="p">)</span>
+        <span class="n">position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="n">tangent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tangent</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="n">normal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_normal</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="n">binormal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_binormal</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+
+        <span class="c1"># Compute a length scale (fraction of the curve arc length)</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">frame_scale</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_arclength</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># Two dimensions (plane curve)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+
+            <span class="c1"># Plot the frames of reference</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">frame_number</span><span class="p">):</span>
+
+                <span class="c1"># Plot the tangent vector</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">position</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
+                <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">tangent</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">7.5</span><span class="p">)</span>
+
+                <span class="c1"># Plot the normal vector</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">position</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
+                <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">normal</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">7.5</span><span class="p">)</span>
+
+            <span class="c1"># Plot the origin of the vectors</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">position</span>
+            <span class="p">(</span><span class="n">points</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">set_markersize</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="mf">1.25</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">set_markeredgecolor</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">set_markerfacecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">set_zorder</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+            <span class="c1"># points.set_label(&#39; &#39;)</span>
+
+        <span class="c1"># Three dimensions (space curve)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+
+            <span class="c1"># Plot the frames of reference</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">frame_number</span><span class="p">):</span>
+
+                <span class="c1"># Plot the tangent vector</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">position</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
+                <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">tangent</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                <span class="c1"># Plot the norma vector</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">position</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
+                <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">normal</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                <span class="c1"># Plot the binormal vector</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">position</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
+                <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">binormal</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># Plot the origin of the vectors</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">position</span>
+            <span class="p">(</span><span class="n">points</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">set_markersize</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="mf">1.25</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">set_markeredgecolor</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">set_markerfacecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+            <span class="n">points</span><span class="o">.</span><span class="n">set_zorder</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+            <span class="c1"># points.set_label(&#39; &#39;)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The number of dimensions must be 2 or 3&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.rescale_plot">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.rescale_plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rescale_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adjust the aspect ratio of the figure&quot;&quot;&quot;</span>
+
+        <span class="c1"># Two dimensions (plane curve)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+
+            <span class="c1"># Set the aspect ratio of the data</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+
+            <span class="c1"># Adjust pad</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+
+        <span class="c1"># Three dimensions (space curve)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+
+            <span class="c1"># Set axes aspect ratio</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">autoscale</span><span class="p">(</span><span class="n">enable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+            <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+            <span class="n">z_min</span><span class="p">,</span> <span class="n">z_max</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_zlim</span><span class="p">()</span>
+            <span class="n">x_mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_min</span> <span class="o">+</span> <span class="n">x_max</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">y_mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_min</span> <span class="o">+</span> <span class="n">y_max</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">z_mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">z_min</span> <span class="o">+</span> <span class="n">z_max</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="c1"># L = jnp.max((x_max - x_min, y_max - y_min, z_max - z_min)) / 2</span>
+            <span class="n">L</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_max</span> <span class="o">-</span> <span class="n">x_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">-</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">z_max</span> <span class="o">-</span> <span class="n">z_min</span><span class="p">]))</span> <span class="o">/</span> <span class="mi">2</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim3d</span><span class="p">(</span><span class="n">x_mid</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">x_mid</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim3d</span><span class="p">(</span><span class="n">y_mid</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">y_mid</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_zlim3d</span><span class="p">(</span><span class="n">z_mid</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">z_mid</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span>
+
+            <span class="c1"># Adjust pad</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.plot_curvature">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curvature">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_curvature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">):</span>
+
+        <span class="c1"># Create the figure</span>
+        <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$u$ parameter&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Curvature&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="c1"># ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
+        <span class="c1"># ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_major_ticks</span><span class="p">():</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_major_ticks</span><span class="p">():</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+        <span class="c1"># ax_xy.set_xticks([])</span>
+        <span class="c1"># ax_xy.set_yticks([])</span>
+        <span class="c1"># ax_xy.axis(&#39;off&#39;)</span>
+
+        <span class="c1"># Plot the curvature distribution</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">501</span><span class="p">)</span>
+        <span class="n">curvature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_curvature</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">curvature</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mf">1.25</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_markersize</span><span class="p">(</span><span class="mf">3.5</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgecolor</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_markerfacecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Adjust pad</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">w_pad</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">h_pad</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.plot_torsion">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot_torsion">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_torsion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">):</span>
+
+        <span class="c1"># Create the figure</span>
+        <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$u$ parameter&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Torsion&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="c1"># ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
+        <span class="c1"># ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_major_ticks</span><span class="p">():</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_major_ticks</span><span class="p">():</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+        <span class="c1"># ax_xy.set_xticks([])</span>
+        <span class="c1"># ax_xy.set_yticks([])</span>
+        <span class="c1"># ax_xy.axis(&#39;off&#39;)</span>
+
+        <span class="c1"># Plot the curvature distribution</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">501</span><span class="p">)</span>
+        <span class="n">torsion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_torsion</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">torsion</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mf">1.25</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_markersize</span><span class="p">(</span><span class="mf">3.5</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgecolor</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">set_markerfacecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Set the aspect ratio of the figure</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="mf">1.00</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+        <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span><span class="p">))</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">)</span>
+
+        <span class="c1"># Adjust pad</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">w_pad</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">h_pad</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+</div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------------------------------------------- #</span>
+<span class="c1"># Miscellaneous functions</span>
+<span class="c1"># ---------------------------------------------------------------------------------------------------------------- #</span>
+<div class="viewcode-block" id="merge_nurbs_curves">
+<a class="viewcode-back" href="../../../source/api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.merge_nurbs_curves">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">merge_nurbs_curves</span><span class="p">(</span><span class="n">nurbs_list</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Merge multiple NURBS curves into a single continuous curve with C⁰ continuity.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nurbs_list : list of NurbsCurve</span>
+<span class="sd">        List of NURBS curve instances to merge. All must have the same polynomial degree.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    merged : NurbsCurve</span>
+<span class="sd">        A new NURBS curve representing the concatenation of all input curves.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    * Each curve is mapped to a subinterval of [0, 1] with equal length.</span>
+<span class="sd">    * Adjacent curves are connected with multiplicity p + 1 (C⁰ continuity).</span>
+<span class="sd">    * A small epsilon offset is applied at internal joins to avoid Gmsh issues</span>
+<span class="sd">      related to repeated knots with multiplicity exactly equal to degree.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nurbs_list</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Need at least two NURBS curves to merge.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check that all curves share the same degree</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">nurbs_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">p</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">nurbs_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">p</span> <span class="o">!=</span> <span class="n">p</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All NURBS curves must have the same degree.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Merge control points and weights</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">c</span><span class="o">.</span><span class="n">P</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">nurbs_list</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">c</span><span class="o">.</span><span class="n">W</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">nurbs_list</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Knot vector construction</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-8</span>
+    <span class="n">n_segments</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nurbs_list</span><span class="p">)</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">n_segments</span>
+
+    <span class="n">U_start</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,))</span>
+    <span class="n">U_end</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,))</span>
+    <span class="n">U_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">U_start</span><span class="p">]</span>
+
+    <span class="c1"># Build knot pieces for each curve and junction</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nurbs_list</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">U_local</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># internal knots</span>
+        <span class="n">U_scaled</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">+</span> <span class="n">U_local</span> <span class="o">*</span> <span class="n">delta</span>
+        <span class="n">U_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">U_scaled</span><span class="p">)</span>
+
+        <span class="c1"># Add midpoint knot between curves (except last)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n_segments</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">u_mid</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,),</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta</span><span class="p">)</span>
+            <span class="n">u_mid</span> <span class="o">=</span> <span class="n">u_mid</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">-</span> <span class="n">eps</span><span class="p">)</span>
+            <span class="n">u_mid</span> <span class="o">=</span> <span class="n">u_mid</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
+            <span class="n">U_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u_mid</span><span class="p">)</span>
+
+    <span class="n">U_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">U_end</span><span class="p">)</span>
+
+    <span class="c1"># Concatenate all parts</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">U_list</span><span class="p">)</span>
+
+    <span class="c1"># Return merged curve</span>
+    <span class="k">return</span> <span class="n">nurbs_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
+        <span class="n">control_points</span><span class="o">=</span><span class="n">P</span><span class="p">,</span>
+        <span class="n">weights</span><span class="o">=</span><span class="n">W</span><span class="p">,</span>
+        <span class="n">degree</span><span class="o">=</span><span class="n">p</span><span class="p">,</span>
+        <span class="n">knots</span><span class="o">=</span><span class="n">U</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
