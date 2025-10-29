@@ -12,7 +12,7 @@ from .nurbs_surface_coons      import *
 from .graphics import *
 
 # Package info
-__version__ = "1.2.0"
+__version__ = "1.2.1"
 PACKAGE_NAME = "nurbspy"
 URL_GITHUB = "https://github.com/turbo-sim/nurbspy"
 URL_DOCS = "https://turbo-sim.github.io/nurbspy/"

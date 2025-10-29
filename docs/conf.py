@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.abspath(".."))
 project = "nurbspy"
 copyright = ""
 author = "Roberto Agromayor"
-release = "v1.2.0"
+release = "v1.2.1"
 
 # Define extensions
 extensions = [
