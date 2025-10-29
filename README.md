@@ -8,6 +8,8 @@ The classes and methods were inspired by the algorithms presented in [The NURBS 
 `nurbspy` aims to be a simple NURBS library, not a fully fledged CAD kernel. If you need a powerful, open source CAD kernel we recommend you to check out the C++ [OpenCascade](https://www.opencascade.com/doc/occt-7.4.0/overview/html/index.html) library. If you feel that OpenCascade is too complex or you are not sure how to start using it, [this repository](https://github.com/RoberAgro/primer_open_cascade) might be useful for you!
 
 
+[Documentation](https://turbo-sim.github.io/nurbspy/)
+
 <p style="margin-top:1cm;"> </p>
 <p align="center">
         <img src="./docs/images/python_logo.svg" height="120" width="400"/>
