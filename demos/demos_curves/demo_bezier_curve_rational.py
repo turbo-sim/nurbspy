@@ -6,7 +6,7 @@
 # Importing packages
 # -------------------------------------------------------------------------------------------------------------------- #
 import numpy as np
-import nurbspy as nrb
+import nurbspy.jax as nrb
 import matplotlib.pyplot as plt
 
 

@@ -23,14 +23,14 @@ class NurbsSurface:
         ----------
         control_points : ndarray with shape (ndim, n+1, m+1)
             Array containing the coordinates of the control points
-            The first dimension of ´P´ spans the coordinates of the control points (any number of dimensions)
-            The second dimension of ´P´ spans the u-direction control points (0, 1, ..., n)
-            The third dimension of ´P´ spans the v-direction control points (0, 1, ..., m)
+            The first dimension of `P` spans the coordinates of the control points (any number of dimensions)
+            The second dimension of `P` spans the u-direction control points (0, 1, ..., n)
+            The third dimension of `P` spans the v-direction control points (0, 1, ..., m)
 
         weights : ndarray with shape (n+1, m+1)
             Array containing the weight of the control points
-            The first dimension of ´W´ spans the u-direction control points weights (0, 1, ..., n)
-            The second dimension of ´W´ spans the v-direction control points weights (0, 1, ..., m)
+            The first dimension of `W` spans the u-direction control points weights (0, 1, ..., n)
+            The second dimension of `W` spans the v-direction control points weights (0, 1, ..., m)
 
         u_degree : int
             Degree of the u-basis polynomials
@@ -40,11 +40,11 @@ class NurbsSurface:
 
         u_knots : ndarray with shape (r+1=n+p+2,)
             Knot vector in the u-direction
-            Set the multiplicity of the first and last entries equal to ´p+1´ to obtain a clamped spline
+            Set the multiplicity of the first and last entries equal to `p+1` to obtain a clamped spline
 
         v_knots : ndarray with shape (s+1=m+q+2,)
             Knot vector in the v-direction
-            Set the multiplicity of the first and last entries equal to ´q+1´ to obtain a clamped spline
+            Set the multiplicity of the first and last entries equal to `q+1` to obtain a clamped spline
 
         Notes
         -----
@@ -228,8 +228,8 @@ class NurbsSurface:
         -------
         S : ndarray with shape (ndim, N)
             Array containing the coordinates of the surface
-            The first dimension of ´S´ spans the ´(x,y,z)´ coordinates
-            The second dimension of ´S´ spans the (u,v) parametrization sample points
+            The first dimension of `S` spans the `(x,y,z)` coordinates
+            The second dimension of `S` spans the (u,v) parametrization sample points
 
         """
 
@@ -256,14 +256,14 @@ class NurbsSurface:
         ----------
         P : ndarray with shape (ndim, n+1, m+1)
             Array containing the coordinates of the control points
-            The first dimension of ´P´ spans the coordinates of the control points (any number of dimensions)
-            The second dimension of ´P´ spans the u-direction control points (0, 1, ..., n)
-            The third dimension of ´P´ spans the v-direction control points (0, 1, ..., m)
+            The first dimension of `P` spans the coordinates of the control points (any number of dimensions)
+            The second dimension of `P` spans the u-direction control points (0, 1, ..., n)
+            The third dimension of `P` spans the v-direction control points (0, 1, ..., m)
 
         W : ndarray with shape (n+1, m+1)
             Array containing the weight of the control points
-            The first dimension of ´W´ spans the u-direction control points weights (0, 1, ..., n)
-            The second dimension of ´W´ spans the v-direction control points weights (0, 1, ..., m)
+            The first dimension of `W` spans the u-direction control points weights (0, 1, ..., n)
+            The second dimension of `W` spans the v-direction control points weights (0, 1, ..., m)
 
         p : int
             Degree of the u-basis polynomials
@@ -273,11 +273,11 @@ class NurbsSurface:
 
         U : ndarray with shape (r+1=n+p+2,)
             Knot vector in the u-direction
-            Set the multiplicity of the first and last entries equal to ´p+1´ to obtain a clamped spline
+            Set the multiplicity of the first and last entries equal to `p+1` to obtain a clamped spline
 
         V : ndarray with shape (s+1=m+q+2,)
             Knot vector in the v-direction
-            Set the multiplicity of the first and last entries equal to ´q+1´ to obtain a clamped spline
+            Set the multiplicity of the first and last entries equal to `q+1` to obtain a clamped spline
 
         u : scalar or ndarray with shape (N,)
             u-parameter used to evaluate the surface
@@ -289,8 +289,8 @@ class NurbsSurface:
         -------
         S : ndarray with shape (ndim, N)
             Array containing the NURBS surface coordinates
-            The first dimension of ´S´ spans the ´(x,y,z)´ coordinates
-            The second dimension of ´S´ spans the (u,v) parametrization sample points
+            The first dimension of `S` spans the `(x,y,z)` coordinates
+            The second dimension of `S` spans the (u,v) parametrization sample points
 
         """
 
@@ -343,9 +343,9 @@ class NurbsSurface:
         ----------
         P : ndarray with shape (ndim, n+1, m+1)
             Array containing the coordinates of the control points
-            The first dimension of ´P´ spans the coordinates of the control points (any number of dimensions)
-            The second dimension of ´P´ spans the u-direction control points (0, 1, ..., n)
-            The third dimension of ´P´ spans the v-direction control points (0, 1, ..., m)
+            The first dimension of `P` spans the coordinates of the control points (any number of dimensions)
+            The second dimension of `P` spans the u-direction control points (0, 1, ..., n)
+            The third dimension of `P` spans the v-direction control points (0, 1, ..., m)
 
         p : int
             Degree of the u-basis polynomials
@@ -355,11 +355,11 @@ class NurbsSurface:
 
         U : ndarray with shape (r+1=n+p+2,)
             Knot vector in the u-direction
-            Set the multiplicity of the first and last entries equal to ´p+1´ to obtain a clamped spline
+            Set the multiplicity of the first and last entries equal to `p+1` to obtain a clamped spline
 
         V : ndarray with shape (s+1=m+q+2,)
             Knot vector in the v-direction
-            Set the multiplicity of the first and last entries equal to ´q+1´ to obtain a clamped spline
+            Set the multiplicity of the first and last entries equal to `q+1` to obtain a clamped spline
 
         u : scalar or ndarray with shape (N,)
             u-parameter used to evaluate the surface
@@ -371,8 +371,8 @@ class NurbsSurface:
         -------
         S : ndarray with shape (ndim, N)
             Array containing the NURBS surface coordinates
-            The first dimension of ´S´ spans the ´(x,y,z)´ coordinates
-            The second dimension of ´S´ spans the (u,v) parametrization sample points
+            The first dimension of `S` spans the `(x,y,z)` coordinates
+            The second dimension of `S` spans the (u,v) parametrization sample points
 
         """
 
@@ -432,8 +432,8 @@ class NurbsSurface:
         -------
         dS : ndarray with shape (ndim, N)
             Array containing the derivative of the desired order
-            The first dimension of ´dC´ spans the ´(x,y,z)´ coordinates
-            The second dimension of ´dC´ spans the ´u´ parametrization sample points
+            The first dimension of `dC` spans the `(x,y,z)` coordinates
+            The second dimension of `dC` spans the `u` parametrization sample points
 
         """
 
@@ -456,14 +456,14 @@ class NurbsSurface:
         ----------
         P : ndarray with shape (ndim, n+1, m+1)
             Array containing the coordinates of the control points
-            The first dimension of ´P´ spans the coordinates of the control points (any number of dimensions)
-            The second dimension of ´P´ spans the u-direction control points (0, 1, ..., n)
-            The third dimension of ´P´ spans the v-direction control points (0, 1, ..., m)
+            The first dimension of `P` spans the coordinates of the control points (any number of dimensions)
+            The second dimension of `P` spans the u-direction control points (0, 1, ..., n)
+            The third dimension of `P` spans the v-direction control points (0, 1, ..., m)
 
         W : ndarray with shape (n+1, m+1)
             Array containing the weight of the control points
-            The first dimension of ´W´ spans the u-direction control points weights (0, 1, ..., n)
-            The second dimension of ´W´ spans the v-direction control points weights (0, 1, ..., m)
+            The first dimension of `W` spans the u-direction control points weights (0, 1, ..., n)
+            The second dimension of `W` spans the v-direction control points weights (0, 1, ..., m)
 
         p : int
             Degree of the u-basis polynomials
@@ -473,11 +473,11 @@ class NurbsSurface:
 
         U : ndarray with shape (r+1=n+p+2,)
             Knot vector in the u-direction
-            Set the multiplicity of the first and last entries equal to ´p+1´ to obtain a clamped spline
+            Set the multiplicity of the first and last entries equal to `p+1` to obtain a clamped spline
 
         V : ndarray with shape (s+1=m+q+2,)
             Knot vector in the v-direction
-            Set the multiplicity of the first and last entries equal to ´q+1´ to obtain a clamped spline
+            Set the multiplicity of the first and last entries equal to `q+1` to obtain a clamped spline
 
         u : scalar or ndarray with shape (N,)
             u-parameter used to evaluate the surface
@@ -559,9 +559,9 @@ class NurbsSurface:
         ----------
         P : ndarray with shape (ndim, n+1, m+1)
             Array containing the coordinates of the control points
-            The first dimension of ´P´ spans the coordinates of the control points (any number of dimensions)
-            The second dimension of ´P´ spans the u-direction control points (0, 1, ..., n)
-            The third dimension of ´P´ spans the v-direction control points (0, 1, ..., m)
+            The first dimension of `P` spans the coordinates of the control points (any number of dimensions)
+            The second dimension of `P` spans the u-direction control points (0, 1, ..., n)
+            The third dimension of `P` spans the v-direction control points (0, 1, ..., m)
 
         p : int
             Degree of the u-basis polynomials
@@ -571,11 +571,11 @@ class NurbsSurface:
 
         U : ndarray with shape (r+1=n+p+2,)
             Knot vector in the u-direction
-            Set the multiplicity of the first and last entries equal to ´p+1´ to obtain a clamped spline
+            Set the multiplicity of the first and last entries equal to `p+1` to obtain a clamped spline
 
         V : ndarray with shape (s+1=m+q+2,)
             Knot vector in the v-direction
-            Set the multiplicity of the first and last entries equal to ´q+1´ to obtain a clamped spline
+            Set the multiplicity of the first and last entries equal to `q+1` to obtain a clamped spline
 
         u : scalar or ndarray with shape (N,)
             u-parameter used to evaluate the surface

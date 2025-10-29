@@ -6,7 +6,7 @@
 # Importing packages
 # -------------------------------------------------------------------------------------------------------------------- #
 import numpy as np
-import nurbspy as nrb
+import nurbspy.jax as nrb
 import matplotlib.pyplot as plt
 
 
@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 # 3D NURBS curve example
 # -------------------------------------------------------------------------------------------------------------------- #
 # Define the array of control points
-P = np.zeros((3,5))
+P = np.zeros((3, 5))
 P[:, 0] = [0.00, 0.00, 0.00]
 P[:, 1] = [0.00, 0.30, 0.05]
 P[:, 2] = [0.25, 0.30, 0.30]

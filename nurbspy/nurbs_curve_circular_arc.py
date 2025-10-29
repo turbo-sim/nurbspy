@@ -224,9 +224,3 @@ class CircularArc:
 
         return fig, ax
 
-
-
-
-
-
-

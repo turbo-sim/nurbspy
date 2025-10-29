@@ -9,6 +9,7 @@ from .nurbs_surface_extruded   import *
 from .nurbs_surface_revolution import *
 from .nurbs_surface_coons      import *
 
+from .graphics import *
 
 # Package info
 __version__ = "1.1.5"
@@ -47,8 +48,6 @@ def print_package_info():
     print(info)
     print(BREAKLINE)
 
-
-
 # NURBS curve minimal working example
 def minimal_example():
 
@@ -71,3 +70,6 @@ def minimal_example():
     bezierCurve.plot()
     plt.show()
 
+
+print_package_info()
+set_plot_options()

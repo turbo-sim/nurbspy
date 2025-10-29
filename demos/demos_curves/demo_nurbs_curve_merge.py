@@ -10,7 +10,7 @@
 # Importing packages
 # -------------------------------------------------------------------------------------------------------------------- #
 import numpy as np
-import nurbspy as nrb
+import nurbspy.jax as nrb
 import matplotlib.pyplot as plt
 
 
@@ -103,7 +103,7 @@ nurbs3 = nrb.NurbsCurve(control_points=P, weights=W, degree=p, knots=U)
 # -------------------------------------------------------------------------------------------------------------------- #
 # Merge the NURBS curves
 # -------------------------------------------------------------------------------------------------------------------- #
-nurbsMerged = (nurbs1.attach_nurbs(nurbs2)).attach_nurbs(nurbs3)
+nurbsMerged = nrb.merge_nurbs_curves([nurbs1, nurbs2, nurbs3])
 
 
 # -------------------------------------------------------------------------------------------------------------------- #

@@ -6,7 +6,7 @@
 # Importing packages
 # -------------------------------------------------------------------------------------------------------------------- #
 import numpy as np
-import nurbspy as nrb
+import nurbspy.jax as nrb
 import matplotlib.pyplot as plt
 
 
@@ -35,6 +35,6 @@ C0 = nurbs2D.get_value(u0)
 fig, ax = nurbs2D.plot()
 Px, Py = P0.flatten()
 Cx, Cy = C0.flatten()
-ax.plot([Px, Cx], [Py, Cy], color='black', linestyle='--', marker='o', markeredgecolor='r', markerfacecolor='w')
+ax.plot([Px, Cx], [Py, Cy], color='black', linestyle='--', marker='o', markeredgecolor='b', markerfacecolor='w')
 plt.show()
 

@@ -23,8 +23,8 @@ class NurbsCurve:
         ----------
         control_points : ndarray with shape (ndim, n+1)
             Array containing the coordinates of the control points
-            The first dimension of ´P´ spans the coordinates of the control points (any number of dimensions)
-            The second dimension of ´P´ spans the u-direction control points (0,1,...,n)
+            The first dimension of `P` spans the coordinates of the control points (any number of dimensions)
+            The second dimension of `P` spans the u-direction control points (0,1,...,n)
 
         weights : ndarray with shape (n+1,)
             Array containing the weight of the control points
@@ -34,7 +34,7 @@ class NurbsCurve:
 
         knots : ndarray with shape (r+1=n+p+2,)
             The knot vector in the u-direction
-            Set the multiplicity of the first and last entries equal to ´p+1´ to obtain a clamped NURBS
+            Set the multiplicity of the first and last entries equal to `p+1` to obtain a clamped NURBS
 
 
         Notes
@@ -162,6 +162,23 @@ class NurbsCurve:
             # Define the weight of the control points
             weights = np.ones((n + 1), dtype=control_points.dtype)
 
+        # NURBS curve initialization (weights are provided but the knot vector is not)
+        elif weights is not None and knots is None:
+
+            # Set the curve type flag
+            self.curve_type = 'NURBS'
+
+            # Set the number of dimensions of the problem
+            self.ndim = np.shape(control_points)[0]
+
+            # Maximum index of the control points (counting from zero)
+            n = np.shape(control_points)[1] - 1
+
+            # Define the knot vector (clamped spline)
+            knots = np.concatenate((np.zeros(degree), np.linspace(0, 1, n - degree + 2), np.ones(degree)))
+
+            # Convert the weights array to the correct format and dtype
+            weights = np.asarray(weights, dtype=control_points.dtype)
 
         # NURBS curve initialization
         else:
@@ -200,8 +217,8 @@ class NurbsCurve:
         -------
         C : ndarray with shape (ndim, N)
             Array containing the coordinates of the curve
-            The first dimension of ´C´ spans the ´(x,y,z)´ coordinates
-            The second dimension of ´C´ spans the ´u´ parametrization sample points
+            The first dimension of `C` spans the `(x,y,z)` coordinates
+            The second dimension of `C` spans the `u` parametrization sample points
 
         """
 
@@ -223,8 +240,8 @@ class NurbsCurve:
         ----------
         P : ndarray with shape (ndim, n+1)
             Array containing the coordinates of the control points
-            The first dimension of ´P´ spans the coordinates of the control points (any number of dimensions)
-            The second dimension of ´P´ spans the u-direction control points ´(0,1,...,n)´
+            The first dimension of `P` spans the coordinates of the control points (any number of dimensions)
+            The second dimension of `P` spans the u-direction control points `(0,1,...,n)`
 
         W : ndarray with shape (n+1,)
             Array containing the weight of the control points
@@ -234,7 +251,7 @@ class NurbsCurve:
 
         U : ndarray with shape (r+1=n+p+2,)
             Knot vector in the u-direction
-            Set the multiplicity of the first and last entries equal to ´p+1´ to obtain a clamped spline
+            Set the multiplicity of the first and last entries equal to `p+1` to obtain a clamped spline
 
         u : scalar or ndarray with shape (N,)
             Parameter used to evaluate the curve
@@ -243,8 +260,8 @@ class NurbsCurve:
         -------
         C : ndarray with shape (ndim, N)
             Array containing the coordinates of the curve
-            The first dimension of ´C´ spans the ´(x,y,z)´ coordinates
-            The second dimension of ´C´ spans the ´u´ parametrization sample points
+            The first dimension of `C` spans the `(x,y,z)` coordinates
+            The second dimension of `C` spans the `u` parametrization sample points
 
         """
 
@@ -289,15 +306,15 @@ class NurbsCurve:
         ----------
         P : ndarray with shape (ndim, n+1)
             Array containing the coordinates of the control points
-            The first dimension of ´P´ spans the coordinates of the control points (any number of dimensions)
-            The second dimension of ´P´ spans the u-direction control points ´(0,1,...,n)´
+            The first dimension of `P` spans the coordinates of the control points (any number of dimensions)
+            The second dimension of `P` spans the u-direction control points `(0,1,...,n)`
 
         p : int
             Degree of the B-Spline basis polynomials
 
         U : ndarray with shape (r+1=n+p+2,)
             Knot vector in the u-direction
-            Set the multiplicity of the first and last entries equal to ´p+1´ to obtain a clamped spline
+            Set the multiplicity of the first and last entries equal to `p+1` to obtain a clamped spline
 
         u : scalar or ndarray with shape (N,)
             Parameter used to evaluate the curve
@@ -306,8 +323,8 @@ class NurbsCurve:
         -------
         C : ndarray with shape (ndim, N)
             Array containing the coordinates of the curve
-            The first dimension of ´C´ spans the ´(x,y,z)´ coordinates
-            The second dimension of ´C´ spans the ´u´ parametrization sample points
+            The first dimension of `C` spans the `(x,y,z)` coordinates
+            The second dimension of `C` spans the `u` parametrization sample points
 
         """
 
@@ -350,8 +367,8 @@ class NurbsCurve:
         -------
         dC : ndarray with shape (ndim, N)
             Array containing the derivative of the desired order
-            The first dimension of ´dC´ spans the ´(x,y,z)´ coordinates
-            The second dimension of ´dC´ spans the ´u´ parametrization sample points
+            The first dimension of `dC` spans the `(x,y,z)` coordinates
+            The second dimension of `dC` spans the `u` parametrization sample points
 
         """
 
@@ -374,8 +391,8 @@ class NurbsCurve:
         ----------
         P : ndarray with shape (ndim, n+1)
             Array containing the coordinates of the control points
-            The first dimension of ´P´ spans the coordinates of the control points ´(x,y,z)´
-            The second dimension of ´P´ spans the u-direction control points ´(0,1,...,n)´
+            The first dimension of `P` spans the coordinates of the control points `(x,y,z)`
+            The second dimension of `P` spans the u-direction control points `(0,1,...,n)`
 
         W : ndarray with shape (n+1,)
             Array containing the weight of the control points
@@ -385,7 +402,7 @@ class NurbsCurve:
 
         U : ndarray with shape (r+1=n+p+2,)
             Knot vector in the u-direction
-            Set the multiplicity of the first and last entries equal to ´p+1´ to obtain a clamped spline
+            Set the multiplicity of the first and last entries equal to `p+1` to obtain a clamped spline
 
         u : scalar or ndarray with shape (N,)
             Parameter used to evaluate the curve
@@ -447,15 +464,15 @@ class NurbsCurve:
         ----------
         P : ndarray with shape (ndim, n+1)
             Array containing the coordinates of the control points
-            The first dimension of ´P´ spans the coordinates of the control points ´(x,y,z)´
-            The second dimension of ´P´ spans the u-direction control points ´(0,1,...,n)´
+            The first dimension of `P` spans the coordinates of the control points `(x,y,z)`
+            The second dimension of `P` spans the u-direction control points `(0,1,...,n)`
 
         p : int
             Degree of the B-Spline basis polynomials
 
         U : ndarray with shape (r+1=n+p+2,)
             Knot vector in the u-direction
-            Set the multiplicity of the first and last entries equal to ´p+1´ to obtain a clamped spline
+            Set the multiplicity of the first and last entries equal to `p+1` to obtain a clamped spline
 
         u : scalar or ndarray with shape (N,)
             Parameter used to evaluate the curve
@@ -504,44 +521,6 @@ class NurbsCurve:
 
 
     # ---------------------------------------------------------------------------------------------------------------- #
-    # Miscellaneous methods
-    # ---------------------------------------------------------------------------------------------------------------- #
-    def attach_nurbs(self, new_nurbs):
-
-        """ Attatch a new NURBS curve to the end of the instance NURBS curve and return the merged NURBS curve"""
-
-        # Check that the NURBS curves have the same degree
-        if self.p != new_nurbs.p:
-            raise Exception("In order to merge, the two NURBS curves must have the same degree")
-
-        # Combine the control points
-        P = np.concatenate((self.P, new_nurbs.P), axis=1)
-
-        # Combine the control point weights
-        W = np.concatenate((self.W, new_nurbs.W), axis=0)
-
-        # Highest index of the control points
-        n1 = np.shape(self.P)[1] - 1
-        n2 = np.shape(new_nurbs.P)[1] - 1
-
-        # Combine the knot vectors (inner knot has p+1 multiplicity)
-        eps = 0
-        U_start = np.zeros((self.p + 1,))
-        U_end = np.ones((self.p + 1,))
-        U_mid = np.ones((self.p + 1,)) / 2
-        U_mid[0] = U_mid[0] - eps       # Quick and dirty fix for GMSH (avoid multiplicity equal to degree)
-        U_mid[-1] = U_mid[-1] + eps     # Quick and dirty fix for GMSH (avoid multiplicity equal to degree)
-        U1 = 0.00 + self.U[self.p + 1:n1 + 1] / 2
-        U2 = 0.50 + new_nurbs.U[self.p + 1:n2 + 1] / 2
-        U = np.concatenate((U_start, U1, U_mid, U2, U_end))
-
-        # Create the merged NURBS curve
-        mergedNurbs = NurbsCurve(control_points=P, weights=W, degree=self.p, knots=U)
-
-        return mergedNurbs
-
-
-    # ---------------------------------------------------------------------------------------------------------------- #
     # Compute the Frenet-Serret unitary vectors
     # ---------------------------------------------------------------------------------------------------------------- #
     def get_tangent(self, u):
@@ -559,8 +538,8 @@ class NurbsCurve:
         -------
         tangent : ndarray with shape (ndim, N)
             Array containing the unitary tangent vector
-            The first dimension of ´tangent´ spans the ´(x,y,z)´ coordinates
-            The second dimension of ´tangent´ spans the ´u´ parametrization sample points
+            The first dimension of `tangent` spans the `(x,y,z)` coordinates
+            The second dimension of `tangent` spans the `u` parametrization sample points
 
         """
 
@@ -591,8 +570,8 @@ class NurbsCurve:
         -------
         normal : ndarray with shape (ndim, N)
             Array containing the unitary normal vector
-            The first dimension of ´normal´ spans the ´(x,y,z)´ coordinates
-            The second dimension of ´normal´ spans the ´u´ parametrization sample points
+            The first dimension of `normal` spans the `(x,y,z)` coordinates
+            The second dimension of `normal` spans the `u` parametrization sample points
 
         """
 
@@ -633,8 +612,8 @@ class NurbsCurve:
         -------
         binormal : ndarray with shape (ndim, N)
             Array containing the unitary binormal vector
-            The first dimension of ´binormal´ spans the ´(x,y,z)´ coordinates
-            The second dimension of ´binormal´ spans the ´u´ parametrization sample points
+            The first dimension of `binormal` spans the `(x,y,z)` coordinates
+            The second dimension of `binormal` spans the `u` parametrization sample points
 
         """
 
@@ -672,8 +651,8 @@ class NurbsCurve:
         -------
         normal : ndarray with shape (2, N)
             Array containing the unitary normal vector
-            The first dimension of ´normal´ spans the ´(x,y,z)´ coordinates
-            The second dimension of ´normal´ spans the ´u´ parametrization sample points
+            The first dimension of `normal` spans the `(x,y,z)` coordinates
+            The second dimension of `normal` spans the `u` parametrization sample points
 
         """
 
@@ -1316,3 +1295,81 @@ class NurbsCurve:
             else:
                 gradient = np.asarray(0)[np.newaxis]
             return gradient
+
+
+
+
+import numpy as np
+
+# ---------------------------------------------------------------------------------------------------------------- #
+# Miscellaneous functions
+# ---------------------------------------------------------------------------------------------------------------- #
+def merge_nurbs_curves(nurbs_list):
+    """
+    Merge multiple NURBS curves into a single continuous curve with C⁰ continuity.
+
+    Parameters
+    ----------
+    nurbs_list : list of NurbsCurve
+        List of NURBS curve instances to merge. All must have the same polynomial degree.
+
+    Returns
+    -------
+    merged : NurbsCurve
+        A new NURBS curve representing the concatenation of all input curves.
+
+    Notes
+    -----
+    * Each curve is mapped to a subinterval of [0, 1] with equal length.
+    * Adjacent curves are connected with multiplicity p + 1 (C⁰ continuity).
+    * A small epsilon offset is applied at internal joins to avoid Gmsh issues
+      related to repeated knots with multiplicity exactly equal to degree.
+    """
+    if len(nurbs_list) < 2:
+        raise ValueError("Need at least two NURBS curves to merge.")
+
+    # Check that all curves share the same degree
+    p = nurbs_list[0].p
+    for c in nurbs_list[1:]:
+        if c.p != p:
+            raise ValueError("All NURBS curves must have the same degree.")
+
+    # Merge control points and weights
+    P = np.concatenate([c.P for c in nurbs_list], axis=1)
+    W = np.concatenate([c.W for c in nurbs_list], axis=0)
+
+    # Knot vector construction
+    eps = 1e-8
+    n_segments = len(nurbs_list)
+    delta = 1.0 / n_segments
+
+    U_start = np.zeros((p + 1,))
+    U_end = np.ones((p + 1,))
+    U_list = [U_start]
+
+    # Build knot pieces for each curve and junction
+    for i, c in enumerate(nurbs_list):
+        n = c.P.shape[1] - 1
+        U_local = c.U[p + 1 : n + 1]  # internal knots
+        U_scaled = i * delta + U_local * delta
+        U_list.append(U_scaled)
+
+        # Add midpoint knot between curves (except last)
+        if i < n_segments - 1:
+            u_mid = np.full((p + 1,), (i + 1) * delta)
+            u_mid[0] = (i + 1) * delta - eps
+            u_mid[-1] = (i + 1) * delta + eps
+            U_list.append(u_mid)
+
+    U_list.append(U_end)
+
+    # Concatenate all parts
+    U = np.concatenate(U_list)
+
+    # Return merged curve
+    return nurbs_list[0].__class__(
+        control_points=P,
+        weights=W,
+        degree=p,
+        knots=U,
+    )

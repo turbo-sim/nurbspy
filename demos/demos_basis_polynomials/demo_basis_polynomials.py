@@ -6,7 +6,7 @@
 # Importing packages
 # -------------------------------------------------------------------------------------------------------------------- #
 import numpy as np
-import nurbspy as nrb
+import nurbspy.jax as nrb
 import matplotlib.pyplot as plt
 
 
@@ -24,10 +24,7 @@ p = 3
 U = np.concatenate((np.zeros(p), np.linspace(0, 1, n - p + 2), np.ones(p)))
 
 # Define a new u-parametrization suitable for finite differences
-h = 1e-5
-hh = h + h**2
-Nu = 1000
-u = np.linspace(0.00 + hh, 1.00 - hh, Nu)       # Make sure that the limits [0, 1] also work when making changes
+u = np.linspace(0.00, 1.00, 1001)       # Make sure that the limits [0, 1] also work when making changes
 
 # Compute the basis polynomials and derivatives
 N_basis   = nrb.compute_basis_polynomials(n, p, U, u)
@@ -39,7 +36,7 @@ ddN_basis = nrb.compute_basis_polynomials_derivatives(n, p, U, u, derivative_ord
 # Plot the basis polynomials
 # -------------------------------------------------------------------------------------------------------------------- #
 # Create the figure
-fig = plt.figure(figsize=(15, 5))
+fig = plt.figure(figsize=(15, 4.5))
 
 # Plot the basis polynomials
 ax1 = fig.add_subplot(131)
@@ -99,28 +96,8 @@ for i in range(n+1):
 ax3.legend(ncol=1, loc='right', bbox_to_anchor=(1.60, 0.50), fontsize=10, edgecolor='k', framealpha=1.0)
 
 # Adjust pad
-plt.tight_layout(pad=5.0, w_pad=None, h_pad=None)
+plt.tight_layout(pad=1.)
 
 # Show the figure
 plt.show()
 
-
-
-# # -------------------------------------------------------------------------------------------------------------------- #
-# # Check that the computations are correct
-# # -------------------------------------------------------------------------------------------------------------------- #
-# # Check that the sum of the basis polynomials is equal to one (partition of unity property)
-# print('The two-norm of partition of unity error is     :  ', np.sum((np.sum(N_basis, axis=0) - 1.00) ** 2) ** (1 / 2))
-#
-# # Check the first derivative against a finite difference aproximation
-# a = -1/2*compute_basis_polynomials(n, p, U, u - h)
-# b = +1/2*compute_basis_polynomials(n, p, U, u + h)
-# dN_fd = (a+b)/h
-# print('The two-norm of the first derivative error is   :  ', np.sum((dN_basis-dN_fd)**2)**(1/2)/Nu)
-#
-# # Check the second derivative against a finite difference aproximation
-# a = +1*compute_basis_polynomials(n, p, U, u - h)
-# b = -2*compute_basis_polynomials(n, p, U, u)
-# c = +1*compute_basis_polynomials(n, p, U, u + h)
-# ddN_fd = (a+b+c)/h**2
-# print('The two-norm of the second derivative error is  :  ', np.sum((ddN_basis-ddN_fd)**2)**(1/2)/Nu)

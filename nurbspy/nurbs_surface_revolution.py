@@ -205,7 +205,7 @@ class NurbsSurfaceRevolution:
 
     def project_point_to_line(self, S, T, P):
 
-        """ Compute the projection of a point ´P´ into the line given by ´S + u*T´ """
+        """ Compute the projection of a point `P` into the line given by `S + u*T` """
 
         # Analytic formula (not hard to derive by hand)
         P_projected = S + np.sum(T * (P - S)) / np.sum(T * T) * T

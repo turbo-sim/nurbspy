@@ -8,7 +8,7 @@ import os
 import time
 import pdb
 import numpy as np
-import nurbspy as nrb
+import nurbspy.jax as nrb
 
 
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -114,38 +114,6 @@ def test_basis_function_zeroth_derivative():
     assert error < 1e-8
 
 
-def test_basis_function_first_derivative_cs():
-
-    """ Test the first derivative of the basis polynomials against the complex step method """
-
-    # Maximum index of the basis polynomials (counting from zero)
-    n = 4
-
-    # Define the order of the basis polynomials
-    p = 3
-
-    # Define the knot vector (clamped spline)
-    # p+1 zeros, n-p equispaced points between 0 and 1, and p+1 ones. In total r+1 points where r=n+p+1
-    U = np.concatenate((np.zeros(p), np.linspace(0, 1, n - p + 2), np.ones(p)))
-
-    # Define a new u-parametrization suitable for finite differences
-    h = 1e-12
-    hh = h + h ** 2
-    Nu = 1000
-    u = np.linspace(0.00 + hh, 1.00 - hh, Nu)  # Make sure that the limits [0, 1] also work when making changes
-
-    # Compute the basis polynomials derivatives analytically
-    dN_basis = nrb.compute_basis_polynomials_derivatives(n, p, U, u, derivative_order=1)
-
-    # Compute the basis polynomials derivatives using the complex step method
-    dN_fd = np.imag(nrb.compute_basis_polynomials(n, p, U, u + h*1j)) / h
-
-    # Check the error
-    error = np.sum((dN_basis - dN_fd) ** 2) ** (1 / 2) / Nu
-    print('The two-norm of the first derivative error is   :  ', error)
-    assert error < 1e-12
-
-
 def test_basis_function_first_derivative_cfd():
 
     """ Test the first derivative of the basis polynomials against central finite differences """
@@ -222,6 +190,5 @@ def test_basis_function_second_derivative_cfd():
 test_basis_function_example_1()
 test_partition_of_unity_property()
 test_basis_function_zeroth_derivative()
-test_basis_function_first_derivative_cs()
 test_basis_function_first_derivative_cfd()
 test_basis_function_second_derivative_cfd()
