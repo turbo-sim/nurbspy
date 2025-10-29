@@ -21,6 +21,7 @@ diffrax = "^0.7.0"
 optimistix = "^0.0.10"
 quadax = "^0.2.10"
 PyYAML = "^6.0.2"
+toml = "^0.10.2"
 cycler = "^0.12.1"
 numba = "^0.61.0"
 
