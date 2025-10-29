@@ -1,43 +1,43 @@
-# name: Deploy docs to GitHub Pages
+name: Deploy docs to GitHub Pages
 
-# on:
-#   push:
-#     branches:
-#       - main 
+on:
+  push:
+    branches:
+      - main 
 
-# permissions:
-#   contents: write
+permissions:
+  contents: write
 
-# jobs:
-#   docs:
-#     runs-on: ubuntu-latest
+jobs:
+  docs:
+    runs-on: ubuntu-latest
 
-#     steps:
-#     - name: Checkout repository
-#       uses: actions/checkout@v2
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-#     - name: Set up Python
-#       uses: actions/setup-python@v2
-#       with:
-#         python-version: '3.11'
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
 
-#     - name: Install Poetry
-#       run: |
-#         curl -sSL https://install.python-poetry.org | python3 -
-#         echo "$HOME/.local/bin" >> $GITHUB_PATH
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-#     - name: Install dependencies (including dev)
-#       run: poetry install
+    - name: Install dependencies (including dev)
+      run: poetry install
 
-#     - name: Build Sphinx documentation
-#       run: |
-#         cd docs
-#         poetry run python build_docs.py
+    - name: Build Sphinx documentation
+      run: |
+        cd docs
+        poetry run python build_docs.py
 
-#     - name: Deploy to GitHub Pages
-#       uses: peaceiris/actions-gh-pages@v3
-#       with:
-#         github_token: ${{ secrets.GITHUB_TOKEN }}
-#         publish_dir: docs/_build/
-#         keep_files: true
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/_build/
+        keep_files: true
         
