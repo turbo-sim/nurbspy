@@ -32,7 +32,7 @@ jobs:
     - name: Build Sphinx documentation
       run: |
         cd docs
-        poetry run python build_docs.py
+        poetry run python build_docs.py --no-autobuild
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
