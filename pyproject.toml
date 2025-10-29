@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nurbspy"
-version = "1.1.5"
+version = "1.2.0"
 description = "A lightweight library for NURBS curves and surfaces"
 authors = ["Roberto Agromayor <rober.agro@gmail.com>"]
 license = "MIT"
