@@ -51,4 +51,4 @@ build-backend = "poetry.core.masonry.api"
 
 
 # Rememeber to add --tags when publishing a new version
-# git push origin master --tags
+# git push origin main --tags
