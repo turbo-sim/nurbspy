@@ -1,13 +1,13 @@
 # nurbspy
 
+📦 **PyPI package**: [https://pypi.org/project/nurbspy/](https://pypi.org/project/nurbspy/)
+
+📚 **Documentation**: [https://turbo-sim.github.io/nurbspy/](https://turbo-sim.github.io/nurbspy/) *(under construction)* 
+
 
 ## Description
 `nurbspy` is a Python package for Non-Uniform Rational Basis Spline (NURBS) curves and surfaces.
 The classes and methods were inspired by the algorithms presented in [The NURBS Book](https://doi.org/10.1007/978-3-642-59223-2) and the code was implemented using vectorized [Numpy](https://numpy.org/) functions and [Numba's](http://numba.pydata.org/) just-in-time compilation decorators to achieve C-like speed.
-
-📦 **PyPI package**: [https://pypi.org/project/nurbspy/](https://pypi.org/project/nurbspy/)
-
-📚 **Documentation**: [https://turbo-sim.github.io/nurbspy/](https://turbo-sim.github.io/nurbspy/) *(under construction)* 
 
 `nurbspy` aims to be a simple NURBS library, not a fully fledged CAD kernel. If you need a powerful, open source CAD kernel we recommend you to check out the C++ [OpenCascade](https://www.opencascade.com/doc/occt-7.4.0/overview/html/index.html) library. If you feel that OpenCascade is too complex or you are not sure how to start using it, [this repository](https://github.com/RoberAgro/primer_open_cascade) might be useful for you!
 
