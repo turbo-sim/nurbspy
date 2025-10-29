@@ -191,36 +191,34 @@ def compute_all_nurbs_derivatives(P, W, p, U, u, up_to_order):
     Compute all analytic derivatives of a NURBS curve up to a specified order.
 
     This function extends the polynomial B-spline derivative computation
-    to rational NURBS curves by applying the quotient rule recursively
-    following Algorithm A4.2 from *The NURBS Book* (Piegl & Tiller, 2nd ed.):
-
-        C^(r)(u) = (1 / w(u)) [
-            A^(r)(u) - Σ_{i=1}^r (r choose i) * w^(i)(u) * C^(r-i)(u)
-        ]
-
-    where A^(r) and w^(r) are the r-th derivatives of the homogeneous
-    numerator and weight function, respectively.
+    to rational NURBS curves by applying the quotient rule recursively,
+    following Algorithm A4.2 from The NURBS Book (Piegl & Tiller, 2nd ed.):
 
     Parameters
     ----------
     P : ndarray (ndim, n+1)
         Control point coordinates.
+
     W : ndarray (n+1,)
         Control point weights.
+
     p : int
         Degree of the NURBS.
+
     U : ndarray (n+p+2,)
         Knot vector.
+
     u : ndarray (Nu,)
         Parametric evaluation points.
+
     up_to_order : int
         Maximum derivative order to compute (0 ≤ order ≤ p).
 
     Returns
     -------
     nurbs_derivatives : ndarray (up_to_order+1, ndim, Nu)
-        Derivatives of the NURBS curve, where
-        `nurbs_derivatives[k, :, :] = d^k C(u) / du^k`.
+        Derivatives of the NURBS curve
+
     """
     # Ensure inputs are JAX arrays
     P = jnp.asarray(P)

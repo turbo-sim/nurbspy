@@ -26,11 +26,23 @@ numba = "^0.61.0"
 
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.3.5"
+ipython = ">=8.13,<8.17"
 black = "^25.1.0"
-ipython = "^8.23.0"
-toml = "^0.10.2"
+pytest = "^8.3.5"
+pyzotero = "^1.5.19"
+numpydoc = "^1.7.0"
+sphinx = "^7.3.7"
+sphinx-tabs = "^3.4.5"
+sphinx-book-theme = "^1.1.2"
+sphinx-rtd-theme = "^2.0.0"
+sphinxcontrib-bibtex = "^2.6.2"
+sphinxawesome-theme = "^5.1.5"
+sphinx-design = "^0.6.0"
+sphinx-togglebutton = "^0.3.2"
 bump2version = "^1.0.1"
+pydantic = "^2.7.2"
+sphinx-autobuild = "^2024.10.3"
+myst-parser = "^4.0.1"
 
 
 [build-system]
@@ -39,4 +51,4 @@ build-backend = "poetry.core.masonry.api"
 
 
 # Rememeber to add --tags when publishing a new version
-# git push origin main --tags
+# git push origin master --tags
