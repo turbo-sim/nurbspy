@@ -67,32 +67,49 @@ def _basis_single_u(n, p, U, u):
     N = jnp.zeros((p + 1, m))
     N = N.at[0, :].set(N0)
 
-    # The recursive computation is implemented via JAX-controlled loops
-    # using lax.fori_loop for XLA fusion (faster than Python loops).
-    def outer_body(k, N):
-        """Compute all basis functions of degree k from degree k-1."""
-        m_k = m - k  # number of active basis entries shrinks with degree
-
-        def inner_body(i, N):
-            """Compute N[k,i] from N[k-1,i] and N[k-1,i+1] (Cox-de Boor recursion)."""
+    # Recursive Cox–de Boor construction
+    for k in range(1, int(p) + 1):              # degree loop (small and static)
+        m_k = m - k
+        for i in range(m_k):                    # active span loop
             denom1 = U[i + k] - U[i]
-            term1 = jnp.where(denom1 == 0.0, 0.0, (u - U[i]) / denom1 * N[k - 1, i])
+            term1 = jnp.where(denom1 == 0.0, 0.0,
+                               (u - U[i]) / denom1 * N[k - 1, i])
 
             denom2 = U[i + k + 1] - U[i + 1]
-            term2 = jnp.where(denom2 == 0.0, 0.0, (U[i + k + 1] - u) / denom2 * N[k - 1, i + 1])
+            term2 = jnp.where(denom2 == 0.0, 0.0,
+                               (U[i + k + 1] - u) / denom2 * N[k - 1, i + 1])
 
-            # Update entry N[k, i] (immutably, handled efficiently by JAX)
-            return N.at[k, i].set(term1 + term2)
+            N = N.at[k, i].set(term1 + term2)
 
-        # Apply inner loop over all i indices for degree k
-        N = lax.fori_loop(0, m_k, inner_body, N)
-        return N
-
-    # Outer loop over polynomial degree (1 → p)
-    N = lax.fori_loop(1, p + 1, outer_body, N)
-
-    # Return only the (n+1) basis functions of degree p
+    # Return only the active basis functions of final degree
     return N[p, :n + 1]
+
+    # # The recursive computation is implemented via JAX-controlled loops
+    # # using lax.fori_loop for XLA fusion (faster than Python loops).
+    # def outer_body(k, N):
+    #     """Compute all basis functions of degree k from degree k-1."""
+    #     m_k = m - k  # number of active basis entries shrinks with degree
+
+    #     def inner_body(i, N):
+    #         """Compute N[k,i] from N[k-1,i] and N[k-1,i+1] (Cox-de Boor recursion)."""
+    #         denom1 = U[i + k] - U[i]
+    #         term1 = jnp.where(denom1 == 0.0, 0.0, (u - U[i]) / denom1 * N[k - 1, i])
+
+    #         denom2 = U[i + k + 1] - U[i + 1]
+    #         term2 = jnp.where(denom2 == 0.0, 0.0, (U[i + k + 1] - u) / denom2 * N[k - 1, i + 1])
+
+    #         # Update entry N[k, i] (immutably, handled efficiently by JAX)
+    #         return N.at[k, i].set(term1 + term2)
+
+    #     # Apply inner loop over all i indices for degree k
+    #     N = lax.fori_loop(0, m_k, inner_body, N)
+    #     return N
+
+    # # Outer loop over polynomial degree (1 → p)
+    # N = lax.fori_loop(1, p + 1, outer_body, N)
+
+    # # Return only the (n+1) basis functions of degree p
+    # return N[p, :n + 1]
 
 
 # -------------------------------------------------------------------------------------------------------------------- #
