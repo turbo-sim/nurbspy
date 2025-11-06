@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>nurbspy.jax.nurbs_curve module &#8212; nurbspy v1.2.2 documentation</title>
+    <title>nurbspy.jax.nurbs_curve module &#8212; nurbspy v1.2.3 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=029aecb1"></script>
+    <script src="../../_static/documentation_options.js?v=b9666eac"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -141,7 +141,7 @@
   
   
   
-    <p class="title logo__title">nurbspy v1.2.2 documentation</p>
+    <p class="title logo__title">nurbspy v1.2.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -328,11 +328,10 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.P"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.P</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.U</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U_mults"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.U_mults</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U_values"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.U_values</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.W"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.W</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.curve_type"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.curve_type</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_arclength()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_quad"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_arclength_quad()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_binormal()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_curvature"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_curvature()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_derivative"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_derivative()</span></code></a></li>
@@ -348,8 +347,9 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_curve()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_frenet_serret()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_torsion"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_torsion()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_point_to_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.project_point_to_curve()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_points_to_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.project_points_to_curve()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_points"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.project_points()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_arclength"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.reparametrize_by_arclength()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_coordinate"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.reparametrize_by_coordinate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.rescale_plot"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.rescale_plot()</span></code></a></li>
 </ul>
 </li>
@@ -397,47 +397,53 @@ Set the multiplicity of the first and last entries equal to <cite>p+1</cite> to 
 <p class="rubric">Methods</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_arclength</span></code></a>([u1, u2, n_points])</p></td>
-<td><p>Compute the arc length of a parametric curve in the interval [u1,u2] using numerical quadrature</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_arclength</span></code></a>([u1, u2, tol])</p></td>
+<td><p>Compute the arc length of the NURBS curve over the parameter interval [u₁, u₂] by numerically integrating the local curve speed as an ordinary differential equation (ODE).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_binormal</span></code></a>(u)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_quad" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_quad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_arclength_quad</span></code></a>([u1, u2, n_points])</p></td>
+<td><p>Compute the arc length of the NURBS curve over the parameter interval [u₁, u₂] using fixed-point numerical quadrature.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_binormal</span></code></a>(u)</p></td>
 <td><p>Evaluate the unit binormal vector along the curve for the given u-parameterization.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_curvature" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_curvature</span></code></a>(u)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_curvature" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_curvature</span></code></a>(u)</p></td>
 <td><p>Evaluate the curvature of the curve for the input u-parametrization</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_derivative" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_derivative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_derivative</span></code></a>(u, order)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_derivative" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_derivative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_derivative</span></code></a>(u, order)</p></td>
 <td><p>Evaluate the derivative of the curve for the input u-parametrization</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_normal" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_normal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normal</span></code></a>(u)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_normal" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_normal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normal</span></code></a>(u)</p></td>
 <td><p>Evaluate the unit normal vector along the curve for the given u-parameterization.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_tangent" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_tangent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tangent</span></code></a>(u)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_tangent" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_tangent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tangent</span></code></a>(u)</p></td>
 <td><p>Evaluate the unit tangent vector along the curve for the given u-parameterization.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_torsion" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_torsion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_torsion</span></code></a>(u)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_torsion" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_torsion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_torsion</span></code></a>(u)</p></td>
 <td><p>Evaluate the torsion of the curve for the input u-parametrization</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_value" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_value</span></code></a>(u)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_value" title="nurbspy.jax.nurbs_curve.NurbsCurve.get_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_value</span></code></a>(u)</p></td>
 <td><p>Evaluate the coordinates of the curve for the input <cite>u</cite> parametrization</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot" title="nurbspy.jax.nurbs_curve.NurbsCurve.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>([fig, ax, curve, control_points, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot" title="nurbspy.jax.nurbs_curve.NurbsCurve.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>([fig, ax, curve, control_points, ...])</p></td>
 <td><p>Create a plot and return the figure and axes handles</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_control_points" title="nurbspy.jax.nurbs_curve.NurbsCurve.plot_control_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_control_points</span></code></a>(fig, ax[, linewidth, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_control_points" title="nurbspy.jax.nurbs_curve.NurbsCurve.plot_control_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_control_points</span></code></a>(fig, ax[, linewidth, ...])</p></td>
 <td><p>Plot the control points of the NURBS curve</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve" title="nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_curve</span></code></a>(fig, ax[, linewidth, linestyle, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve" title="nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_curve</span></code></a>(fig, ax[, linewidth, linestyle, ...])</p></td>
 <td><p>Plot the coordinates of the NURBS curve</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret" title="nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_frenet_serret</span></code></a>(fig, ax[, frame_number, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret" title="nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_frenet_serret</span></code></a>(fig, ax[, frame_number, ...])</p></td>
 <td><p>Plot some Frenet-Serret reference frames along the NURBS curve</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_point_to_curve" title="nurbspy.jax.nurbs_curve.NurbsCurve.project_point_to_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_point_to_curve</span></code></a>(Q[, max_iters])</p></td>
-<td><p>Project a point onto the NURBS curve by solving the orthogonality condition.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_points_to_curve" title="nurbspy.jax.nurbs_curve.NurbsCurve.project_points_to_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_points_to_curve</span></code></a>(Q_all)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_points" title="nurbspy.jax.nurbs_curve.NurbsCurve.project_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_points</span></code></a>(Q_all[, tol])</p></td>
 <td><p>Vectorized projection of multiple points onto the NURBS curve.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_arclength" title="nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_arclength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reparametrize_by_arclength</span></code></a>([tol])</p></td>
+<td><p>Construct a callable function that reparametrizes the NURBS curve by arc length, returning the corresponding parameter values u(s) for prescribed arc-length positions s.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_coordinate" title="nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_coordinate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reparametrize_by_coordinate</span></code></a>([dim, tol])</p></td>
+<td><p>Construct a callable function that reparametrizes the NURBS curve by one of its coordinate components, returning the corresponding parameter values u(x).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_curve.NurbsCurve.rescale_plot" title="nurbspy.jax.nurbs_curve.NurbsCurve.rescale_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rescale_plot</span></code></a>(fig, ax)</p></td>
 <td><p>Adjust the aspect ratio of the figure</p></td>
@@ -503,16 +509,6 @@ Morgan Kaufmann Publishers, fifth edition</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.U_mults">
-<span class="sig-name descname"><span class="pre">U_mults</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Array</span></em><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U_mults" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.U_values">
-<span class="sig-name descname"><span class="pre">U_values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Array</span></em><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U_values" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.W">
 <span class="sig-name descname"><span class="pre">W</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Array</span></em><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.W" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
@@ -524,21 +520,70 @@ Morgan Kaufmann Publishers, fifth edition</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength">
-<span class="sig-name descname"><span class="pre">get_arclength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">41</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.get_arclength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength" title="Link to this definition">#</a></dt>
-<dd><p>Compute the arc length of a parametric curve in the interval [u1,u2] using numerical quadrature</p>
-<p>The definition of the arc length is given by equation 10.3 (Farin’s textbook)</p>
+<span class="sig-name descname"><span class="pre">get_arclength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.get_arclength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength" title="Link to this definition">#</a></dt>
+<dd><p>Compute the arc length of the NURBS curve over the parameter interval [u₁, u₂]
+by numerically integrating the local curve speed as an ordinary differential equation (ODE).</p>
+<p>The arc length of a parametric curve C(u) = [x(u), y(u), z(u)]ᵀ is defined as</p>
+<blockquote>
+<div><p>L(u₁, u₂) = ∫ ‖C’(u)‖ du,</p>
+</div></blockquote>
+<p>where C’(u) = dC/du and ‖C’(u)‖ = √(x’(u)² + y’(u)² + z’(u)²) is the instantaneous
+curve speed. This equation can be expressed as an initial-value problem:</p>
+<blockquote>
+<div><p>ds/du = ‖C’(u)‖,     s(u₁) = 0,</p>
+</div></blockquote>
+<p>which is solved numerically over [u₁, u₂] to obtain the cumulative arc length L = s(u₂).</p>
+<p>The ODE is integrated using a fifth-order Dormand-Prince (Dopri5) adaptive solver
+with a PID stepsize controller. The integration tolerances (relative and absolute)
+are both set to <cite>tol</cite>, which ensures consistent accuracy across varying cspeeds and curvatures.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>u1</strong><span class="classifier">scalar</span></dt><dd><p>Lower limit of integration for the arc length computation</p>
+<dt><strong>u1</strong><span class="classifier">float, optional</span></dt><dd><p>Lower limit of integration for the arc length computation (default: 0.0).</p>
 </dd>
-<dt><strong>u2</strong><span class="classifier">scalar</span></dt><dd><p>Upper limit of integration for the arc length computation</p>
+<dt><strong>u2</strong><span class="classifier">float, optional</span></dt><dd><p>Upper limit of integration for the arc length computation (default: 1.0).</p>
+</dd>
+<dt><strong>tol</strong><span class="classifier">float, optional</span></dt><dd><p>Relative and absolute tolerance for the adaptive ODE solver (default: 1e-6).</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>L</strong><span class="classifier">scalar</span></dt><dd><p>Arc length of NURBS curve in the interval [u1, u2]</p>
+<dt><strong>L</strong><span class="classifier">float</span></dt><dd><p>Arc length of the curve segment C(u) for u ∈ [u₁, u₂].</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_quad">
+<span class="sig-name descname"><span class="pre">get_arclength_quad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">41</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.get_arclength_quad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_quad" title="Link to this definition">#</a></dt>
+<dd><p>Compute the arc length of the NURBS curve over the parameter interval [u₁, u₂]
+using fixed-point numerical quadrature.</p>
+<p>The arc length of a parametric curve C(u) = [x(u), y(u), z(u)]ᵀ is defined as</p>
+<blockquote>
+<div><p>L(u₁, u₂) = ∫‖C’(u)‖ du,</p>
+</div></blockquote>
+<p>where C’(u) = dC/du and ‖C’(u)‖ = √(x’(u)² + y’(u)² + z’(u)²) is the local curve speed.</p>
+<p>This function evaluates the integral in Eq. (1) using a Clenshaw-Curtis quadrature rule
+with a prescribed number of nodes <cite>n_points</cite>. The integrand is evaluated at fixed
+quadrature points, making this method computationally cheaper than adaptive ODE
+integration but generally less accurate for rational B-splines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>u1</strong><span class="classifier">float, optional</span></dt><dd><p>Lower bound of the parameter domain (default: 0.0).</p>
+</dd>
+<dt><strong>u2</strong><span class="classifier">float, optional</span></dt><dd><p>Upper bound of the parameter domain (default: 1.0).</p>
+</dd>
+<dt><strong>n_points</strong><span class="classifier">int, optional</span></dt><dd><p>Number of quadrature points used in the Clenshaw-Curtis rule (default: 41).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>L</strong><span class="classifier">float</span></dt><dd><p>Arc length of the curve segment C(u) for u ∈ [u₁, u₂].</p>
 </dd>
 </dl>
 </dd>
@@ -619,7 +664,10 @@ The second dimension of <cite>dC</cite> spans the <cite>u</cite> parametrization
 <span class="sig-name descname"><span class="pre">get_normal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.get_normal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_normal" title="Link to this definition">#</a></dt>
 <dd><p>Evaluate the unit normal vector along the curve for the given u-parameterization.</p>
 <dl class="simple">
-<dt>For 2D or 3D curves, the normal is defined as:</dt><dd><p>n(u) = (C’(u) x (C’’(u) x C’(u))) / ||C’(u) x (C’’(u) x C’(u))||</p>
+<dt>For 2D or 3D curves, the normal is defined as:</dt><dd><ul class="simple">
+<li><p>2D:  n(u) = (-t_y, t_x)</p></li>
+<li><p>3D:  n(u) = (C’(u) x (C’’(u) x C’(u))) / ||C’(u) x (C’’(u) x C’(u))||</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -717,7 +765,7 @@ The second dimension of <cite>C</cite> spans the <cite>u</cite> parametrization 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.plot">
-<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curve</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frenet_serret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis_off</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ticks_off</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curve</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frenet_serret</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis_off</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ticks_off</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rescale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot" title="Link to this definition">#</a></dt>
 <dd><p>Create a plot and return the figure and axes handles</p>
 </dd></dl>
 
@@ -750,9 +798,9 @@ The second dimension of <cite>C</cite> spans the <cite>u</cite> parametrization 
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.project_point_to_curve">
-<span class="sig-name descname"><span class="pre">project_point_to_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.project_point_to_curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_point_to_curve" title="Link to this definition">#</a></dt>
-<dd><p>Project a point onto the NURBS curve by solving the orthogonality condition.</p>
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.project_points">
+<span class="sig-name descname"><span class="pre">project_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q_all</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.project_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_points" title="Link to this definition">#</a></dt>
+<dd><p>Vectorized projection of multiple points onto the NURBS curve.</p>
 <p>The projection point <cite>C(u*)</cite> minimizes the squared Euclidean distance to <cite>Q</cite>:</p>
 <blockquote>
 <div><p>f(u) = ||C(u) - Q||²</p>
@@ -765,20 +813,19 @@ The second dimension of <cite>C</cite> spans the <cite>u</cite> parametrization 
 of the curve at the projection point.</p>
 <p>The nonlinear equation is solved with a bounded Newton method (<cite>optimistix.Newton</cite>),
 ensuring that <cite>u_star</cite> remains within [0, 1].</p>
-<p>The initial guess is determined heuristically from the control polygon
-(see <cite>_initial_guess_from_polygon</cite>).</p>
+<p>The initial guess is determined heuristically from the properties of the knot vector and control polygon</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>Q</strong><span class="classifier">array_like, shape (ndim,)</span></dt><dd><p>Coordinates of the point to be projected onto the curve.</p>
+<dt><strong>Q_all</strong><span class="classifier">array_like, shape (ndim, n_points)</span></dt><dd><p>Points to project onto the curve.</p>
 </dd>
-<dt><strong>max_iters</strong><span class="classifier">int, optional</span></dt><dd><p>Maximum number of Newton iterations used by the solver. Default is 32.</p>
+<dt><strong>tol</strong><span class="classifier">float, optional</span></dt><dd><p>Relative and absolute tolerance for the Newton solver (default: 1e-9).</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>u_star</strong><span class="classifier">float</span></dt><dd><p>Parameter value in [0, 1] corresponding to the orthogonal projection of <cite>Q</cite> onto the curve.</p>
+<dt><strong>u_all</strong><span class="classifier">ndarray, shape (n_points,)</span></dt><dd><p>Parameter values of the orthogonal projections.</p>
 </dd>
 </dl>
 </dd>
@@ -786,19 +833,102 @@ ensuring that <cite>u_star</cite> remains within [0, 1].</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.project_points_to_curve">
-<span class="sig-name descname"><span class="pre">project_points_to_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q_all</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.project_points_to_curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_points_to_curve" title="Link to this definition">#</a></dt>
-<dd><p>Vectorized projection of multiple points onto the NURBS curve.</p>
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_arclength">
+<span class="sig-name descname"><span class="pre">reparametrize_by_arclength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.reparametrize_by_arclength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_arclength" title="Link to this definition">#</a></dt>
+<dd><p>Construct a callable function that reparametrizes the NURBS curve by arc length,
+returning the corresponding parameter values u(s) for prescribed arc-length positions s.</p>
+<dl class="simple">
+<dt>Let the parametric curve be</dt><dd><p>C(u) = [x(u), y(u), z(u)]ᵀ,      u ∈ [0, 1].</p>
+</dd>
+</dl>
+<p>The arc length of a parametric curve C(u) = [x(u), y(u), z(u)]ᵀ is defined as</p>
+<blockquote>
+<div><p>s(u₁, u₂) = ∫ ‖C’(u)‖ du,</p>
+</div></blockquote>
+<p>where C’(u) = dC/du and ‖C’(u)‖ = √(x’(u)² + y’(u)² + z’(u)²) is the instantaneous
+curve speed. This equation can be expressed as an initial-value problem:</p>
+<blockquote>
+<div><p>ds/du = ‖C’(u)‖,  with   s(0) = 0,</p>
+</div></blockquote>
+<p>which is solved numerically over [0, 1] to obtain the cumulative arc length s_total.</p>
+<p>To obtain the inverse mapping u(s), this routine solves the reciprocal ODE</p>
+<blockquote>
+<div><p>du/ds = 1 / ‖C’(u)‖,    with   u(0) = 0.</p>
+</div></blockquote>
+<p>The integration of this equation yields a continuous function u(s) that relates
+the normalized arc-length coordinate s to the corresponding curve parameter u.</p>
+<p>Computationally, the method proceeds in two stages:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Compute the total arc length s_total by direct integration</p></li>
+<li><p>Obtain the inverse mapping u(s) by inverse integration</p></li>
+</ol>
+</div></blockquote>
+<p>The method returns the total arc length s_total and a compiled,
+vectorized function handle u(s), built from a dense interpolation of the ODE
+solution, for efficient and differentiable evaluation of the inverse mapping.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>Q_all</strong><span class="classifier">array_like, shape (ndim, n_points)</span></dt><dd><p>Points to project onto the curve.</p>
+<dt><strong>tol</strong><span class="classifier">float, optional</span></dt><dd><p>Relative and absolute tolerance for the adaptive ODE solver (default: 1e-6).</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>u_all</strong><span class="classifier">ndarray, shape (n_points,)</span></dt><dd><p>Parameter values of the orthogonal projections.</p>
+<dt><strong>u_of_s</strong><span class="classifier">callable</span></dt><dd><p>A JAX-compiled, vectorized function u(s) constructed from a dense
+interpolation of the ODE solution. Evaluating u_of_s(s) returns
+the corresponding curve parameter(s) for prescribed arc-length
+position(s) s ∈ [0, s_total].</p>
+</dd>
+<dt><strong>s_total</strong><span class="classifier">float</span></dt><dd><p>The total cumulative arc length of the curve over the parameter
+interval [0, 1].</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_coordinate">
+<span class="sig-name descname"><span class="pre">reparametrize_by_coordinate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-09</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nurbspy/jax/nurbs_curve.html#NurbsCurve.reparametrize_by_coordinate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_coordinate" title="Link to this definition">#</a></dt>
+<dd><p>Construct a callable function that reparametrizes the NURBS curve by one of its
+coordinate components, returning the corresponding parameter values u(x).</p>
+<p>Let the curve be defined parametrically as</p>
+<blockquote>
+<div><p>C(u) = [C₀(u), C₁(u), …, Cₙ₋₁(u)]ᵀ,   u ∈ [0, 1].</p>
+</div></blockquote>
+<p>This function reparametrizes the curve using the coordinate C_dim(u) as the
+independent variable. For a given coordinate value x*, the corresponding
+parameter u* is obtained by solving</p>
+<blockquote>
+<div><p>R(u) = C_dim(u) - x* = 0.</p>
+</div></blockquote>
+<p>This equation is solved using a bounded Newton iteration implemented through
+<cite>optimistix.root_find</cite>, ensuring u* ∈ [0, 1]. The process is vectorized and
+JIT-compiled under JAX for efficient batch evaluation.</p>
+<p>The resulting callable maps coordinate values x → u(x), providing the inverse
+parameterization where one coordinate (e.g. x) serves as the independent variable.
+The actual curve points can subsequently be obtained as C(u(x)) if desired.</p>
+<p>The mapping is well-defined only if C_dim(u) is monotonic over [0, 1].</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dim</strong><span class="classifier">int, optional</span></dt><dd><p>Index of the coordinate used as independent variable. Default is 0
+(the first coordinate component, typically x).</p>
+</dd>
+<dt><strong>tol</strong><span class="classifier">float, optional</span></dt><dd><p>Relative and absolute tolerance for the Newton solver (default: 1e-9).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt>callable</dt><dd><p>A JAX-compiled, vectorized function handle u(x) that returns the parameter
+values corresponding to the specified coordinate values x, i.e.</p>
+<blockquote>
+<div><p>u(x) = C_i⁻¹(x),</p>
+</div></blockquote>
+<p>where C_i⁻¹ denotes the inverse mapping of the coordinate function C_i(u) over the domain [0, 1].</p>
 </dd>
 </dl>
 </dd>
@@ -1045,11 +1175,10 @@ related to repeated knots with multiplicity exactly equal to degree.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.P"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.P</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.U</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U_mults"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.U_mults</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.U_values"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.U_values</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.W"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.W</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.curve_type"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.curve_type</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_arclength()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_quad"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_arclength_quad()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_binormal()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_curvature"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_curvature()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.get_derivative"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_derivative()</span></code></a></li>
@@ -1065,8 +1194,9 @@ related to repeated knots with multiplicity exactly equal to degree.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_curve()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_frenet_serret()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.plot_torsion"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_torsion()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_point_to_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.project_point_to_curve()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_points_to_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.project_points_to_curve()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.project_points"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.project_points()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_arclength"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.reparametrize_by_arclength()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_coordinate"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.reparametrize_by_coordinate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.nurbs_curve.NurbsCurve.rescale_plot"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.rescale_plot()</span></code></a></li>
 </ul>
 </li>
