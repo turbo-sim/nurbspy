@@ -28,7 +28,7 @@ nurbs2D = nrb.NurbsCurve(control_points=P, degree=3)
 P0 = np.asarray([0.50, 0.50])
 
 # Compute projected time
-u0 = nurbs2D.project_point_to_curve(P0)
+u0 = nurbs2D._project_point_scalar(P0)
 C0 = nurbs2D.get_value(u0)
 
 # Plot the NURBS curve and the projected point

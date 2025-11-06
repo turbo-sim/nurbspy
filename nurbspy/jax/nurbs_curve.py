@@ -2,7 +2,8 @@ import jax
 import jax.numpy as jnp
 import equinox as eqx
 import optimistix as optx
-import quadax
+import diffrax as dfx
+import quadax as qdx
 
 import matplotlib.pyplot as plt
 
@@ -229,6 +230,7 @@ def compute_all_nurbs_derivatives(P, W, p, U, u, up_to_order):
     # Define sizes
     ndim, Nu = P.shape[0], u.size
     max_order = min(p, up_to_order)
+    # max_order = p
 
     # Map control points to homogeneous coordinates: P_w = (x*w, y*w, z*w, w)
     P_w = jnp.concatenate((P * W[None, :], W[None, :]), axis=0)
@@ -246,26 +248,24 @@ def compute_all_nurbs_derivatives(P, W, p, U, u, up_to_order):
     # Zeroth derivative: C(u) = A0 / w0
     nurbs_derivatives = nurbs_derivatives.at[0].set(A_ders[0] / w_ders[0])
 
-    # Recursive computation for higher-order derivatives (Algorithm A4.2)
-    def outer_body(order, nurbs_derivatives):
+   # Recursive computation for higher-order derivatives (Algorithm A4.2)
+    # Using simple Python loops - unrolled at JIT compilation with no runtime overhead
+    for order in range(1, max_order + 1):
         # Start with the corresponding derivative of A (homogeneous numerator)
         temp_num = A_ders[order]
-
-        # Subtract recursive terms involving lower derivatives
-        def inner_body(i, temp_num):
+        
+        # Subtract recursive terms: temp_num -= Σ(i=1 to order) C(order,i) * w_ders[i] * C^(order-i)
+        for i in range(1, order + 1):
             coeff = binomial_coeff(order, i)
-            return temp_num - coeff * w_ders[i] * nurbs_derivatives[order - i]
-
-        temp_num = jax.lax.fori_loop(1, order + 1, inner_body, temp_num)
-
+            temp_num = temp_num - coeff * w_ders[i] * nurbs_derivatives[order - i]
+        
         # Divide by zeroth weight derivative to get ordinary-space derivative
         nurbs_derivatives = nurbs_derivatives.at[order].set(temp_num / w_ders[0])
-        return nurbs_derivatives
-
-    nurbs_derivatives = jax.lax.fori_loop(
-        1, max_order + 1, outer_body, nurbs_derivatives
-    )
+    
     return nurbs_derivatives
+
+    # # Recursive computation for higher-order derivatives (Algorithm A4.2)
+
 
 
 # ----------------------------------------------------------- #
@@ -335,8 +335,6 @@ class NurbsCurve(eqx.Module):
     U: jnp.ndarray  # (r+1,)
     curve_type: str
     ndim: int
-    U_values: jnp.ndarray
-    U_mults: jnp.ndarray
 
     def __init__(self, control_points=None, weights=None, degree=None, knots=None):
         # Void initialization
@@ -352,8 +350,8 @@ class NurbsCurve(eqx.Module):
             self.W = jnp.zeros((0,))
             self.p = 0
             self.U = jnp.zeros((0,))
-            self.U_values = jnp.zeros((0,))
-            self.U_mults = jnp.zeros((0,))
+            # self.U_values = jnp.zeros((0,))
+            # self.U_mults = jnp.zeros((0,))
             return
 
         # Convert inputs to JAX arrays
@@ -415,7 +413,6 @@ class NurbsCurve(eqx.Module):
         self.W = W
         self.p = p
         self.U = U
-        self.U_values, self.U_mults = jnp.unique(U, return_counts=True)
 
         # Validation (only once at initialization)
         if self.P.ndim != 2:
@@ -509,7 +506,8 @@ class NurbsCurve(eqx.Module):
         Evaluate the unit normal vector along the curve for the given u-parameterization.
 
         For 2D or 3D curves, the normal is defined as:
-            n(u) = (C'(u) x (C''(u) x C'(u))) / ||C'(u) x (C''(u) x C'(u))||
+            - 2D:  n(u) = (-t_y, t_x)
+            - 3D:  n(u) = (C'(u) x (C''(u) x C'(u))) / ||C'(u) x (C''(u) x C'(u))||
 
         Parameters
         ----------
@@ -522,32 +520,49 @@ class NurbsCurve(eqx.Module):
             Unit normal vectors.
         """
 
-        # Derivatives
+        # Compute curve derivatives up to second order
         ders = compute_all_nurbs_derivatives(
             self.P, self.W, self.p, self.U, u, up_to_order=2
         )
         dC, ddC = ders[1], ders[2]
 
-        # Embed to 3D for consistent cross product operations
-        dC3 = jnp.pad(dC, ((0, 3 - self.ndim), (0, 0)))
-        ddC3 = jnp.pad(ddC, ((0, 3 - self.ndim), (0, 0)))
+        # Compute and normalize tangent vector
+        t = dC / jnp.linalg.norm(dC, axis=0, keepdims=True)
 
-        # Compute normaø, n = dC × (ddC × dC)
-        n_num = jnp.cross(
-            dC3,
-            jnp.cross(ddC3, dC3, axisa=0, axisb=0, axisc=0),
-            axisa=0,
-            axisb=0,
-            axisc=0,
-        )
+        # Define inner functions for 2D and 3D normal computation
+        # Return padded (3, N) arrays so jax.lax.cond shapes match
+        def normal_2d(_):
+            # Normal is obtained by a +90° rotation of the tangent vector.
+            n = jnp.vstack([-t[1], t[0]])
+            n /= jnp.linalg.norm(n, axis=0, keepdims=True)
+            # Pad to (3, N) to match 3D branch output shape
+            n3 = jnp.pad(n, ((0, 3 - n.shape[0]), (0, 0)))
+            return n3
 
-        # Normalize safely (avoid division by zero)
-        n_norm = jnp.linalg.norm(n_num, axis=0, keepdims=True)
-        n_norm = jnp.where(n_norm == 0.0, 1.0, n_norm)
-        n3 = n_num / n_norm
+        def normal_3d(_):
+            # Embed in 3D for cross product operations
+            dC3 = jnp.pad(dC, ((0, 3 - self.ndim), (0, 0)))
+            ddC3 = jnp.pad(ddC, ((0, 3 - self.ndim), (0, 0)))
 
-        # Slice back to original dimension
+            # Compute n = dC × (ddC × dC)
+            n_num = jnp.cross(
+                dC3,
+                jnp.cross(ddC3, dC3, axisa=0, axisb=0, axisc=0),
+                axisa=0, axisb=0, axisc=0,
+            )
+
+            # Normalize safely (avoid division by zero)
+            n_norm = jnp.linalg.norm(n_num, axis=0, keepdims=True)
+            n_norm = jnp.where(n_norm == 0.0, 1.0, n_norm)
+            n = n_num / n_norm
+            return n  # Already (3, N)
+        
+        # Select appropriate formulation using jax.lax.cond (JIT-safe conditional)
+        n3 = jax.lax.cond(self.ndim == 2, normal_2d, normal_3d, operand=None)
+
+        # Slice back to original curve dimensionality (2D or 3D)
         n = n3[: self.ndim, :]
+
         return n
 
     @eqx.filter_jit
@@ -663,24 +678,97 @@ class NurbsCurve(eqx.Module):
         torsion = num / denom
         return torsion
 
-    @eqx.filter_jit
-    def get_arclength(self, u1=0.0, u2=1.0, n_points=41):
-        """Compute the arc length of a parametric curve in the interval [u1,u2] using numerical quadrature
 
-        The definition of the arc length is given by equation 10.3 (Farin's textbook)
+    @eqx.filter_jit
+    def get_arclength(self, u1=0.0, u2=1.0, tol=1e-6):
+        """
+        Compute the arc length of the NURBS curve over the parameter interval [u₁, u₂]
+        by numerically integrating the local curve speed as an ordinary differential equation (ODE).
+
+        The arc length of a parametric curve C(u) = [x(u), y(u), z(u)]ᵀ is defined as
+
+            L(u₁, u₂) = ∫ ‖C'(u)‖ du,
+
+        where C'(u) = dC/du and ‖C'(u)‖ = √(x'(u)² + y'(u)² + z'(u)²) is the instantaneous
+        curve speed. This equation can be expressed as an initial-value problem:
+
+            ds/du = ‖C'(u)‖,     s(u₁) = 0,
+
+        which is solved numerically over [u₁, u₂] to obtain the cumulative arc length L = s(u₂).
+
+        The ODE is integrated using a fifth-order Dormand-Prince (Dopri5) adaptive solver
+        with a PID stepsize controller. The integration tolerances (relative and absolute)
+        are both set to `tol`, which ensures consistent accuracy across varying cspeeds and curvatures.
 
         Parameters
         ----------
-        u1 : scalar
-            Lower limit of integration for the arc length computation
+        u1 : float, optional
+            Lower limit of integration for the arc length computation (default: 0.0).
 
-        u2 : scalar
-            Upper limit of integration for the arc length computation
+        u2 : float, optional
+            Upper limit of integration for the arc length computation (default: 1.0).
+
+        tol : float, optional
+            Relative and absolute tolerance for the adaptive ODE solver (default: 1e-6).
 
         Returns
         -------
-        L : scalar
-            Arc length of NURBS curve in the interval [u1, u2]
+        L : float
+            Arc length of the curve segment C(u) for u ∈ [u₁, u₂].
+        """
+
+        dC_fun = eqx.filter_jit(lambda u: self.get_derivative(u, 1)[:, 0])
+        def f(u, s, args):
+            return jnp.linalg.norm(dC_fun(u))
+
+        ctrl = dfx.PIDController(rtol=tol, atol=tol)
+        term = dfx.ODETerm(f)
+        sol = dfx.diffeqsolve(
+            term,
+            solver=dfx.Dopri5(),
+            t0=u1,
+            t1=u2,
+            y0=0.0,
+            dt0=1e-6,
+            stepsize_controller=ctrl,
+            adjoint=dfx.DirectAdjoint(),
+            saveat=dfx.SaveAt(t1=True),  # Only need final value
+        )
+
+        return sol.ys.squeeze()
+    
+    @eqx.filter_jit
+    def get_arclength_quad(self, u1=0.0, u2=1.0, n_points=41):
+        """
+        Compute the arc length of the NURBS curve over the parameter interval [u₁, u₂]
+        using fixed-point numerical quadrature.
+
+        The arc length of a parametric curve C(u) = [x(u), y(u), z(u)]ᵀ is defined as
+
+            L(u₁, u₂) = ∫‖C'(u)‖ du,
+
+        where C'(u) = dC/du and ‖C'(u)‖ = √(x'(u)² + y'(u)² + z'(u)²) is the local curve speed.
+
+        This function evaluates the integral in Eq. (1) using a Clenshaw-Curtis quadrature rule
+        with a prescribed number of nodes `n_points`. The integrand is evaluated at fixed
+        quadrature points, making this method computationally cheaper than adaptive ODE
+        integration but generally less accurate for rational B-splines.
+
+        Parameters
+        ----------
+        u1 : float, optional
+            Lower bound of the parameter domain (default: 0.0).
+
+        u2 : float, optional
+            Upper bound of the parameter domain (default: 1.0).
+
+        n_points : int, optional
+            Number of quadrature points used in the Clenshaw-Curtis rule (default: 41).
+
+        Returns
+        -------
+        L : float
+            Arc length of the curve segment C(u) for u ∈ [u₁, u₂].
 
         """
 
@@ -690,34 +778,170 @@ class NurbsCurve(eqx.Module):
             return jnp.linalg.norm(dC, axis=0)  # ||C'(u)||
 
         # Perform fixed quadrature over [u1, u2]
-        rule = quadax.ClenshawCurtisRule(n_points)
+        rule = qdx.ClenshawCurtisRule(n_points)
         arclength, err, *_ = rule.integrate(integrand, u1, u2, args=())
         return jnp.asarray(arclength).squeeze()
+
+    def reparametrize_by_arclength(self, tol=1e-6):
+        """
+        Construct a callable function that reparametrizes the NURBS curve by arc length,
+        returning the corresponding parameter values u(s) for prescribed arc-length positions s.
+
+        Let the parametric curve be
+            C(u) = [x(u), y(u), z(u)]ᵀ,      u ∈ [0, 1].
+
+        The arc length of a parametric curve C(u) = [x(u), y(u), z(u)]ᵀ is defined as
+
+            s(u₁, u₂) = ∫ ‖C'(u)‖ du,
+
+        where C'(u) = dC/du and ‖C'(u)‖ = √(x'(u)² + y'(u)² + z'(u)²) is the instantaneous
+        curve speed. This equation can be expressed as an initial-value problem:
+
+            ds/du = ‖C'(u)‖,  with   s(0) = 0,
+                                   
+        which is solved numerically over [0, 1] to obtain the cumulative arc length s_total.
+
+        To obtain the inverse mapping u(s), this routine solves the reciprocal ODE
+
+            du/ds = 1 / ‖C'(u)‖,    with   u(0) = 0.
+
+        The integration of this equation yields a continuous function u(s) that relates
+        the normalized arc-length coordinate s to the corresponding curve parameter u.
+
+        Computationally, the method proceeds in two stages:
+
+            1. Compute the total arc length s_total by direct integration
+            2. Obtain the inverse mapping u(s) by inverse integration
+
+        The method returns the total arc length s_total and a compiled,
+        vectorized function handle u(s), built from a dense interpolation of the ODE
+        solution, for efficient and differentiable evaluation of the inverse mapping.
+
+        Parameters
+        ----------
+        tol : float, optional
+            Relative and absolute tolerance for the adaptive ODE solver (default: 1e-6).
+
+        Returns
+        -------
+        u_of_s : callable
+            A JAX-compiled, vectorized function u(s) constructed from a dense
+            interpolation of the ODE solution. Evaluating u_of_s(s) returns
+            the corresponding curve parameter(s) for prescribed arc-length
+            position(s) s ∈ [0, s_total].
+
+        s_total : float
+            The total cumulative arc length of the curve over the parameter
+            interval [0, 1].
+        """
+        # Direct integration: compute total arclength
+        s_total = self.get_arclength(u1=0.0, u2=1.0, tol=tol)
+
+        # Inverse integration: compute mapping u(s)
+        def f_inverse(s, u, args):
+            u = jnp.clip(u, 0.0, 1.0)
+            dC = self.get_derivative(u, order=1)
+            speed = jnp.linalg.norm(dC[:, 0])
+            return 1.0 / (speed + 1e-12)
+
+        term_inv = dfx.ODETerm(f_inverse)
+        ctrl = dfx.PIDController(rtol=tol, atol=tol)
+        sol_inv = dfx.diffeqsolve(
+            term_inv,
+            solver=dfx.Dopri5(),
+            t0=0.0,
+            t1=s_total,
+            y0=0.0,
+            dt0=1e-4,
+            stepsize_controller=ctrl,
+            adjoint=dfx.DirectAdjoint(),
+            saveat=dfx.SaveAt(dense=True, t1=True),
+        )
+
+        # Return compiled and vectorized function handle
+        return jax.jit(jax.vmap(sol_inv.evaluate)), s_total
+
+
+    def reparametrize_by_coordinate(self, dim=0, tol=1e-9):
+        """
+        Construct a callable function that reparametrizes the NURBS curve by one of its
+        coordinate components, returning the corresponding parameter values u(x).
+
+        Let the curve be defined parametrically as
+
+            C(u) = [C₀(u), C₁(u), ..., Cₙ₋₁(u)]ᵀ,   u ∈ [0, 1].
+
+        This function reparametrizes the curve using the coordinate C_dim(u) as the
+        independent variable. For a given coordinate value x*, the corresponding
+        parameter u* is obtained by solving
+
+            R(u) = C_dim(u) - x* = 0.
+
+        This equation is solved using a bounded Newton iteration implemented through
+        `optimistix.root_find`, ensuring u* ∈ [0, 1]. The process is vectorized and
+        JIT-compiled under JAX for efficient batch evaluation.
+
+        The resulting callable maps coordinate values x → u(x), providing the inverse
+        parameterization where one coordinate (e.g. x) serves as the independent variable.
+        The actual curve points can subsequently be obtained as C(u(x)) if desired.
+
+        The mapping is well-defined only if C_dim(u) is monotonic over [0, 1].
+
+        Parameters
+        ----------
+        dim : int, optional
+            Index of the coordinate used as independent variable. Default is 0
+            (the first coordinate component, typically x).
+        tol : float, optional
+            Relative and absolute tolerance for the Newton solver (default: 1e-9).
+
+        Returns
+        -------
+        callable
+            A JAX-compiled, vectorized function handle u(x) that returns the parameter
+            values corresponding to the specified coordinate values x, i.e.
+
+                u(x) = C_i⁻¹(x),
+
+            where C_i⁻¹ denotes the inverse mapping of the coordinate function C_i(u) over the domain [0, 1].
+        """
+        func_handle = lambda xq: self._get_u_for_coordinate(xq, dim=dim, tol=tol)
+        return jax.jit(jax.vmap(func_handle))
+
+    def _get_u_for_coordinate(self, x_query, dim=0, max_iters=64, tol=1e-9):
+        # Residual function: difference between coordinate component and target
+        def residual(u, args):
+            C = self.get_value(u).squeeze()
+            return C[dim] - x_query
+
+        # Heuristic initial guess from normalized coordinate
+        # (works well if the curve is monotonic in this dimension)
+        u0 = jnp.array([0.5])
+
+        # Configure Newton solver
+        solver = optx.Newton(rtol=tol, atol=tol)
+
+        # Run bounded Newton solve for u ∈ [0, 1]
+        result = optx.root_find(
+            residual,
+            solver=solver,
+            y0=u0,
+            options={"lower": 0.0, "upper": 1.0},
+            throw=False,
+            max_steps=max_iters,
+        )
+
+        # Return scalar result
+        return result.value.squeeze()
+
 
     # ---------------------------------------------------------------------------------------------------------------- #
     # Define functions to solve point projection problem
     # ---------------------------------------------------------------------------------------------------------------- #
     @eqx.filter_jit
-    def project_points_to_curve(self, Q_all):
+    def project_points(self, Q_all, tol=1e-6):
         """
         Vectorized projection of multiple points onto the NURBS curve.
-
-        Parameters
-        ----------
-        Q_all : array_like, shape (ndim, n_points)
-            Points to project onto the curve.
-
-        Returns
-        -------
-        u_all : ndarray, shape (n_points,)
-            Parameter values of the orthogonal projections.
-        """
-        return jax.vmap(self.project_point_to_curve, in_axes=1)(Q_all)
-
-    @eqx.filter_jit
-    def project_point_to_curve(self, Q, max_iters=32):
-        """
-        Project a point onto the NURBS curve by solving the orthogonality condition.
 
         The projection point `C(u*)` minimizes the squared Euclidean distance to `Q`:
 
@@ -733,21 +957,24 @@ class NurbsCurve(eqx.Module):
         The nonlinear equation is solved with a bounded Newton method (`optimistix.Newton`),
         ensuring that `u_star` remains within [0, 1].
 
-        The initial guess is determined heuristically from the control polygon
-        (see `_initial_guess_from_polygon`).
+        The initial guess is determined heuristically from the properties of the knot vector and control polygon
 
         Parameters
         ----------
-        Q : array_like, shape (ndim,)
-            Coordinates of the point to be projected onto the curve.
-        max_iters : int, optional
-            Maximum number of Newton iterations used by the solver. Default is 32.
+        Q_all : array_like, shape (ndim, n_points)
+            Points to project onto the curve.
+        tol : float, optional
+            Relative and absolute tolerance for the Newton solver (default: 1e-9).
 
         Returns
         -------
-        u_star : float
-            Parameter value in [0, 1] corresponding to the orthogonal projection of `Q` onto the curve.
+        u_all : ndarray, shape (n_points,)
+            Parameter values of the orthogonal projections.
         """
+        return jax.vmap(self._project_point_scalar, in_axes=1)(Q_all)
+
+    def _project_point_scalar(self, Q, max_iters=32, tol=1e-9):
+        """Project a single point onto the NURBS curve by solving the orthogonality condition"""
         # Ensure shape (ndim,)
         Q = jnp.asarray(Q).squeeze()
 
@@ -762,7 +989,7 @@ class NurbsCurve(eqx.Module):
         u0 = jnp.array([self._projection_initial_guess(Q)])
 
         # Run bounded Newton solver
-        solver = optx.Newton(rtol=1e-6, atol=1e-8)
+        solver = optx.Newton(rtol=tol, atol=tol)
         result = optx.root_find(
             residual,
             solver=solver,
@@ -777,40 +1004,41 @@ class NurbsCurve(eqx.Module):
 
         return u_star
 
-    # def _projection_initial_guess(self, Q):
-    #     """
-    #     Estimate a good initial guess for u by locating the control point closest to Q
-    #     and mapping its index proportionally to the active knot span [U[p], U[-p-1]].
-    #     This provides a fast and robust starting value for the projection solver.
-    #     """
-    #     P, U, p = self.P, self.U, self.p
-    #     diff = P - Q[:, None]
-    #     dist2 = jnp.sum(diff * diff, axis=0)
-    #     j = jnp.argmin(dist2)
-    #     n = P.shape[1] - 1
-    #     u_min, u_max = U[p], U[-p - 1]  # interior knot range
-    #     u0 = u_min + (u_max - u_min) * (j / n)
-    #     return jnp.clip(u0, 0.0, 1.0)
-
-    def _projection_initial_guess(self, Q, n_samples=101):
+    def _projection_initial_guess(self, Q):
         """
-        Estimate a good initial guess for the projection parameter `u`
-        using a greedy sampling strategy.
-
-        The curve is sampled at `n_samples` uniformly spaced parameter values
-        within [U[0], U[-1]], and the point `C(u)` closest to the query
-        point `Q` is selected as the initial guess.
-
-        This provides a robust starting point for the Newton-based projection,
-        especially for highly curved or nonuniform NURBS.
+        Estimate a good initial guess for u by locating the control point closest to Q
+        and mapping its index proportionally to the active knot span [U[p], U[-p-1]].
+        This provides a fast and robust starting value for the projection solver.
         """
-        U = self.U
-        u_min, u_max = U[0], U[-1]
-        u_candidates = jnp.linspace(u_min, u_max, n_samples)
-        C_candidates = self.get_value(u_candidates)  # (ndim, n_samples)
-        dist2 = jnp.sum((C_candidates - Q[:, None]) ** 2, axis=0)
-        i_best = jnp.argmin(dist2)
-        return u_candidates[i_best]
+        P, U, p = self.P, self.U, self.p
+        diff = P - Q[:, None]
+        dist2 = jnp.sum(diff * diff, axis=0)
+        j = jnp.argmin(dist2)
+        n = P.shape[1] - 1
+        u_min, u_max = U[p], U[-p - 1]  # interior knot range
+        u0 = u_min + (u_max - u_min) * (j / n)
+        return jnp.clip(u0, 0.0, 1.0)
+
+    # def _projection_initial_guess(self, Q, n_samples=101):
+    #     """
+    #     Estimate a good initial guess for the projection parameter `u`
+    #     using a greedy sampling strategy.
+
+    #     The curve is sampled at `n_samples` uniformly spaced parameter values
+    #     within [U[0], U[-1]], and the point `C(u)` closest to the query
+    #     point `Q` is selected as the initial guess.
+
+    #     This provides a robust starting point for the Newton-based projection,
+    #     especially for highly curved or nonuniform NURBS.
+    #     """
+    #     U = self.U
+    #     u_min, u_max = U[0], U[-1]
+    #     u_candidates = jnp.linspace(u_min, u_max, n_samples)
+    #     C_candidates = self.get_value(u_candidates)  # (ndim, n_samples)
+    #     dist2 = jnp.sum((C_candidates - Q[:, None]) ** 2, axis=0)
+    #     i_best = jnp.argmin(dist2)
+    #     return u_candidates[i_best]
+
 
     # ---------------------------------------------------------------------------------------------------------------- #
     # Define functions for plotting
@@ -824,6 +1052,7 @@ class NurbsCurve(eqx.Module):
         frenet_serret=False,
         axis_off=False,
         ticks_off=False,
+        rescale=True,
     ):
         """Create a plot and return the figure and axes handles"""
 
@@ -907,7 +1136,8 @@ class NurbsCurve(eqx.Module):
             self.plot_frenet_serret(fig, ax)
 
         # Set the scaling of the axes
-        self.rescale_plot(fig, ax)
+        if rescale:
+            self.rescale_plot(fig, ax)
 
         return fig, ax
 
@@ -1025,7 +1255,7 @@ class NurbsCurve(eqx.Module):
         binormal = self.get_binormal(u)
 
         # Compute a length scale (fraction of the curve arc length)
-        scale = float(frame_scale * self.get_arclength(0, 1))
+        scale = float(frame_scale * self.get_arclength(0.0, 1.0))
 
         # Two dimensions (plane curve)
         if self.ndim == 2:

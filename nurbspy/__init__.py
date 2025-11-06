@@ -71,5 +71,5 @@ def minimal_example():
     plt.show()
 
 
-print_package_info()
-set_plot_options()
+# print_package_info()
+# set_plot_options()

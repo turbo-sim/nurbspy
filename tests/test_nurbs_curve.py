@@ -601,7 +601,7 @@ def test_nurbs_curve_point_projection():
     Q = 1.1*nurbs3D.get_value(u0).squeeze()
 
     # Project the point back onto the NURBS curve
-    u_proj = nurbs3D.project_point_to_curve(Q)
+    u_proj = nurbs3D._project_point_scalar(Q)
     Q_proj = nurbs3D.get_value(u_proj).squeeze()
     dC_proj = nurbs3D.get_derivative(u_proj, 1).squeeze()
 
