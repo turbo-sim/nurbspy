@@ -1401,7 +1401,7 @@ class NurbsSurface:
             bounds=bounds,
             method="L-BFGS-B",
             options={
-                "disp": False,
+                # "disp": False,
                 "maxiter": 200,
                 "ftol": 1e-6,
                 "gtol": 1e-6,
