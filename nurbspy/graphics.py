@@ -1,7 +1,9 @@
 import os
+import itertools
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
 # Attempt to import imageio for video generatioj
 try:
@@ -145,6 +147,98 @@ def set_plot_options(
 
     # Update the internal Matplotlib settings dictionary
     mpl.rcParams.update(rcParams)
+
+
+def style_3d_axes(ax, elev=30, azim=-105, pane_alpha=0.9):
+    """
+    Apply nurbspy's standard styling to a 3D Matplotlib axes.
+
+    Sets the viewing angle, hides the default 3D grid in favor of plain
+    panes, and keeps the panes and tick density consistent across the x,
+    y, and z axes.
+
+    Two Matplotlib quirks otherwise make 3D axes look inconsistent or
+    incomplete:
+
+    - Setting ``pane._alpha`` directly (as opposed to calling
+      ``pane.set_alpha()``) does not update the pane's rendered face and
+      edge colors, since those already carry their own baked-in alpha.
+      The pane edges then stay at Matplotlib's default translucency
+      instead of the requested ``pane_alpha``, which can make the box
+      outline look faint or broken.
+    - Matplotlib's rcParams only expose minor-tick visibility for the x
+      and y axes ("xtick.minor.visible" / "ytick.minor.visible"); there
+      is no equivalent "ztick" namespace. So whenever minor ticks are
+      enabled globally, a 3D plot's x and y axes pick them up while z
+      never does, making tick density look inconsistent between axes.
+      Minor ticks are turned off on all three axes here to keep them
+      consistent.
+    """
+    ax.view_init(azim=azim, elev=elev)
+    ax.grid(False)
+
+    for axis in (ax.xaxis, ax.yaxis, ax.zaxis):
+        axis.pane.fill = False
+        axis.pane.set_edgecolor('k')
+        axis.pane.set_alpha(pane_alpha)
+        axis.set_rotate_label(False)
+        axis.set_minor_locator(mpl.ticker.NullLocator())
+
+
+def _box_edges(xlim, ylim, zlim):
+    """The 12 corner-to-corner segments of the cuboid spanned by 3 limit pairs."""
+    corners = list(itertools.product(xlim, ylim, zlim))
+    # Two corners form a cuboid edge when they differ along exactly one axis
+    return [
+        (a, b)
+        for a, b in itertools.combinations(corners, 2)
+        if sum(ai != bi for ai, bi in zip(a, b)) == 1
+    ]
+
+
+class _AutoUpdatingBox(Line3DCollection):
+    """
+    A Line3DCollection that redraws itself from the axes' current x/y/z
+    limits every time it is rendered.
+
+    Matplotlib projects a Line3DCollection's fixed 3D coordinates using
+    whatever view/aspect matrix is current at draw time, but it never
+    recomputes those coordinates themselves. So a box built once from the
+    axes limits at creation time goes stale -- and renders as a distorted,
+    misaligned wireframe -- as soon as anything later changes those limits
+    or the box aspect ratio (e.g. a caller setting custom xlim/ylim/zlim
+    after the plot was created). Recomputing the 12 edges in
+    do_3d_projection(), which Matplotlib calls on every render (including
+    savefig, not just interactive display), keeps the box correct no
+    matter when the limits were last changed.
+    """
+
+    def do_3d_projection(self):
+        self.set_segments(_box_edges(self.axes.get_xlim3d(),
+                                      self.axes.get_ylim3d(),
+                                      self.axes.get_zlim3d()))
+        return super().do_3d_projection()
+
+
+def close_3d_box(ax, color='k', linewidth=1.25, alpha=0.9, zorder=0):
+    """
+    Draw the full 12-edge wireframe of a 3D axes' bounding box.
+
+    By design, Matplotlib's 3D axes only draw panes (and their edges) for
+    the 3 faces of the bounding cuboid currently facing away from the
+    viewer, so the box always looks like an open corner rather than a
+    closed cuboid, no matter how the panes are styled. This adds the
+    missing edges explicitly.
+
+    The box tracks the axes' x/y/z limits at render time (see
+    _AutoUpdatingBox), so it is safe to call this before a caller makes
+    further changes to the limits or box aspect ratio -- e.g. right after
+    plotting data, as rescale_plot() does.
+    """
+    edges = _box_edges(ax.get_xlim3d(), ax.get_ylim3d(), ax.get_zlim3d())
+    box = _AutoUpdatingBox(edges, colors=color, linewidths=linewidth, alpha=alpha, zorder=zorder)
+    ax.add_collection3d(box)
+    return box
 
 
 def print_installed_fonts():

@@ -11,6 +11,7 @@ from .nurbs_basis_functions import (
     compute_basis_polynomials,
     compute_all_basis_polynomials_derivatives,
 )
+from ..graphics import style_3d_axes, close_3d_box
 
 
 def binomial_coeff(n, k):
@@ -1094,17 +1095,7 @@ class NurbsCurve(eqx.Module):
             elif self.ndim == 3:
                 fig = plt.figure(figsize=(6, 5))
                 ax = fig.add_subplot(111, projection="3d")
-                ax.view_init(azim=-120, elev=30)
-                ax.grid(False)
-                ax.xaxis.pane.fill = False
-                ax.yaxis.pane.fill = False
-                ax.zaxis.pane.fill = False
-                ax.xaxis.pane.set_edgecolor("k")
-                ax.yaxis.pane.set_edgecolor("k")
-                ax.zaxis.pane.set_edgecolor("k")
-                ax.xaxis.pane._alpha = 1.0
-                ax.yaxis.pane._alpha = 1.0
-                ax.zaxis.pane._alpha = 1.0
+                style_3d_axes(ax, elev=30, azim=-120, pane_alpha=1.0)
                 ax.set_xlabel("$x$ axis", fontsize=12, color="k", labelpad=12)
                 ax.set_ylabel("$y$ axis", fontsize=12, color="k", labelpad=12)
                 ax.set_zlabel("$z$ axis", fontsize=12, color="k", labelpad=12)
@@ -1114,9 +1105,6 @@ class NurbsCurve(eqx.Module):
                 # for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(8)
                 # for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(8)
                 # for t in ax.zaxis.get_major_ticks(): t.label.set_fontsize(8)
-                ax.xaxis.set_rotate_label(False)
-                ax.yaxis.set_rotate_label(False)
-                ax.zaxis.set_rotate_label(False)
                 if ticks_off:
                     ax.set_xticks([])
                     ax.set_yticks([])
@@ -1352,6 +1340,9 @@ class NurbsCurve(eqx.Module):
             ax.set_xlim3d(x_mid - 1.0 * L, x_mid + 1.0 * L)
             ax.set_ylim3d(y_mid - 1.0 * L, y_mid + 1.0 * L)
             ax.set_zlim3d(z_mid - 1.0 * L, z_mid + 1.0 * L)
+
+            # Draw the full box outline now that the limits are final
+            close_3d_box(ax)
 
             # Adjust pad
             plt.tight_layout(pad=1.0)

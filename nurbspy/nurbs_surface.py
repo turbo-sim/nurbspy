@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits  import mplot3d
 from .nurbs_curve  import NurbsCurve
 from .nurbs_basis_functions  import compute_basis_polynomials, compute_basis_polynomials_derivatives
+from .graphics                import style_3d_axes, close_3d_box
 
 
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -913,17 +914,7 @@ class NurbsSurface:
             if self.ndim == 1:
                 fig = mpl.pyplot.figure(figsize=(6, 5))
                 ax = fig.add_subplot(111, projection='3d')
-                ax.view_init(azim=-105, elev=30)
-                ax.grid(False)
-                ax.xaxis.pane.fill = False
-                ax.yaxis.pane.fill = False
-                ax.zaxis.pane.fill = False
-                ax.xaxis.pane.set_edgecolor('k')
-                ax.yaxis.pane.set_edgecolor('k')
-                ax.zaxis.pane.set_edgecolor('k')
-                ax.xaxis.pane._alpha = 0.9
-                ax.yaxis.pane._alpha = 0.9
-                ax.zaxis.pane._alpha = 0.9
+                style_3d_axes(ax, elev=30, azim=-105)
                 ax.set_xlabel('$u$ parameter', fontsize=11, color='k', labelpad=18)
                 ax.set_ylabel('$v$ parameter', fontsize=11, color='k', labelpad=18)
                 ax.set_zlabel('NURBS value', fontsize=11, color='k', labelpad=18)
@@ -933,9 +924,6 @@ class NurbsSurface:
                 for t in ax.xaxis.get_major_ticks(): t.label1.set_fontsize(8)
                 for t in ax.yaxis.get_major_ticks(): t.label1.set_fontsize(8)
                 for t in ax.zaxis.get_major_ticks(): t.label1.set_fontsize(8)
-                ax.xaxis.set_rotate_label(False)
-                ax.yaxis.set_rotate_label(False)
-                ax.zaxis.set_rotate_label(False)
                 if ticks_off:
                     ax.set_xticks([])
                     ax.set_yticks([])
@@ -963,17 +951,7 @@ class NurbsSurface:
             elif self.ndim == 3:
                 fig = mpl.pyplot.figure(figsize=(6, 5))
                 ax = fig.add_subplot(111, projection='3d')
-                ax.view_init(azim=-105, elev=30)
-                ax.grid(False)
-                ax.xaxis.pane.fill = False
-                ax.yaxis.pane.fill = False
-                ax.zaxis.pane.fill = False
-                ax.xaxis.pane.set_edgecolor('k')
-                ax.yaxis.pane.set_edgecolor('k')
-                ax.zaxis.pane.set_edgecolor('k')
-                ax.xaxis.pane._alpha = 0.9
-                ax.yaxis.pane._alpha = 0.9
-                ax.zaxis.pane._alpha = 0.9
+                style_3d_axes(ax, elev=30, azim=-105)
                 ax.set_xlabel('$x$ axis', fontsize=11, color='k', labelpad=18)
                 ax.set_ylabel('$y$ axis', fontsize=11, color='k', labelpad=18)
                 ax.set_zlabel('$z$ axis', fontsize=11, color='k', labelpad=18)
@@ -983,9 +961,6 @@ class NurbsSurface:
                 for t in ax.xaxis.get_major_ticks(): t.label1.set_fontsize(8)
                 for t in ax.yaxis.get_major_ticks(): t.label1.set_fontsize(8)
                 for t in ax.zaxis.get_major_ticks(): t.label1.set_fontsize(8)
-                ax.xaxis.set_rotate_label(False)
-                ax.yaxis.set_rotate_label(False)
-                ax.zaxis.set_rotate_label(False)
                 if ticks_off:
                     ax.set_xticks([])
                     ax.set_yticks([])
@@ -998,6 +973,8 @@ class NurbsSurface:
         if self.ndim == 1:
             if surface:        self.plot_surface(fig, ax, color=surface_color, colorbar=colorbar, Nu=Nu, Nv=Nv)
             if control_points: self.plot_control_points(fig, ax)
+            ax.autoscale(enable=True)
+            close_3d_box(ax)
 
 
         if self.ndim == 2:
@@ -1283,6 +1260,9 @@ class NurbsSurface:
         ax.set_ylim3d(y_mid - 1.0 * L, y_mid + 1.0 * L)
         ax.set_zlim3d(z_mid - 1.0 * L, z_mid + 1.0 * L)
 
+        # Draw the full box outline now that the limits are final
+        close_3d_box(ax)
+
         # Adjust pad
         plt.tight_layout(pad=5.0, w_pad=None, h_pad=None)
 
@@ -1293,17 +1273,7 @@ class NurbsSurface:
         if fig is None:
             fig = mpl.pyplot.figure(figsize=(6, 5))
             ax = fig.add_subplot(111, projection='3d')
-        ax.view_init(azim=-105, elev=30)
-        ax.grid(False)
-        ax.xaxis.pane.fill = False
-        ax.yaxis.pane.fill = False
-        ax.zaxis.pane.fill = False
-        ax.xaxis.pane.set_edgecolor('k')
-        ax.yaxis.pane.set_edgecolor('k')
-        ax.zaxis.pane.set_edgecolor('k')
-        ax.xaxis.pane._alpha = 0.9
-        ax.yaxis.pane._alpha = 0.9
-        ax.zaxis.pane._alpha = 0.9
+        style_3d_axes(ax, elev=30, azim=-105)
         ax.set_xlabel('$x$ axis', fontsize=11, color='k', labelpad=18)
         ax.set_ylabel('$y$ axis', fontsize=11, color='k', labelpad=18)
         ax.set_zlabel('$z$ axis', fontsize=11, color='k', labelpad=18)
@@ -1313,9 +1283,6 @@ class NurbsSurface:
         for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(8)
         for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(8)
         for t in ax.zaxis.get_major_ticks(): t.label.set_fontsize(8)
-        ax.xaxis.set_rotate_label(False)
-        ax.yaxis.set_rotate_label(False)
-        ax.zaxis.set_rotate_label(False)
         # ax_xy.set_xticks([])
         # ax_xy.set_yticks([])
         # ax_xy.set_zticks([])
@@ -1354,6 +1321,10 @@ class NurbsSurface:
                         zorder=0,
                         ccount=50,
                         rcount=50)
+
+        # Draw the full box outline now that the limits are final
+        ax.autoscale(enable=True)
+        close_3d_box(ax)
 
         # Adjust pad
         plt.tight_layout(pad=5.0, w_pad=None, h_pad=None)
