@@ -67,12 +67,6 @@
   a `demos/documentation/*.py` script can still silently desync its image
   from the committed PNG with no warning, same as before the script
   existed.
-- **Give the new `docs/source/` tree a full read-through before release.**
-  `getting_started/`, `theory/`, `references/`, and `api_reference.md` all
-  landed in the last few commits. Worth a full
-  `poetry run python docs/build_docs.py --no-autobuild` and a manual
-  read-through to catch any broken cross-references or MyST syntax issues
-  a partial local preview might have missed.
-- **No CHANGELOG.** Version bumps (`Bump version: x.y.z -> x.y.z`) happen
-  in commits with no accompanying changelog entry, so there's no
-  user-facing record of what changed between PyPI releases.
+- [x] **No CHANGELOG.** Added `CHANGELOG.md`, backfilled from the git/tag
+  history. Keep it updated on future releases -- a backfilled changelog
+  that isn't maintained going forward just goes stale again.

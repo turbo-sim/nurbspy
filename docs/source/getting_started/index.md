@@ -125,3 +125,23 @@ run` prefix once the environment is active:
 ```bash
 python tests/run_tests.py
 ```
+
+### Bumping the version
+
+[bump-my-version](https://github.com/callowayproject/bump-my-version) updates
+the version in `pyproject.toml` and `nurbspy/__init__.py` together, then
+commits and tags the result, as configured in `.bumpversion.toml`:
+
+```bash
+poetry run bump-my-version bump patch   # 1.2.4 -> 1.2.5
+poetry run bump-my-version bump minor   # 1.2.4 -> 1.3.0
+poetry run bump-my-version bump major   # 1.2.4 -> 2.0.0
+```
+
+Preview the changes first with `--dry-run --verbose` (add `--allow-dirty` if
+the working tree is not clean); pass `--no-commit --no-tag` to only edit the
+files. Push the resulting commit and tag with:
+
+```bash
+git push origin main --tags
+```

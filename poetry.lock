@@ -207,16 +207,39 @@ jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
 uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
-name = "bump2version"
-version = "1.0.1"
-description = "Version-bump your software with a single command!"
+name = "bracex"
+version = "3.0.1"
+description = "Bash style brace expander."
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.10"
 groups = ["dev"]
 files = [
-    {file = "bump2version-1.0.1-py2.py3-none-any.whl", hash = "sha256:37f927ea17cde7ae2d7baf832f8e80ce3777624554a653006c9144f8017fe410"},
-    {file = "bump2version-1.0.1.tar.gz", hash = "sha256:762cb2bfad61f4ec8e2bdf452c7c267416f8c70dd9ecb1653fd0bbb01fa936e6"},
+    {file = "bracex-3.0.1-py3-none-any.whl", hash = "sha256:6523ad83aeb5098a4ee597cff0f964442ff74e460bd3fafaffab6a013ff2288c"},
+    {file = "bracex-3.0.1.tar.gz", hash = "sha256:4e38e32392e4a4780fe15d644bfc7c8514057cfc3861e060b11814ce829c25e4"},
 ]
+
+[[package]]
+name = "bump-my-version"
+version = "1.5.1"
+description = "Version bump your Python project"
+optional = false
+python-versions = ">=3.9"
+groups = ["dev"]
+files = [
+    {file = "bump_my_version-1.5.1-py3-none-any.whl", hash = "sha256:df3e2989d0d7fe704718feb24a5880f089b6b6369e427a4445b89c3adebfcff1"},
+    {file = "bump_my_version-1.5.1.tar.gz", hash = "sha256:5079e443ab8c9a9903f140b427ff9f6fe8dd54013a55a4cf48b89326f3a71c07"},
+]
+
+[package.dependencies]
+click = "!=8.4"
+httpx2 = "*"
+pydantic = ">=2.0.0"
+pydantic-settings = "*"
+questionary = "*"
+rich = "*"
+rich-click = "*"
+tomlkit = "*"
+wcmatch = ">=8.5.1"
 
 [[package]]
 name = "certifi"
@@ -715,6 +738,28 @@ socks = ["socksio (==1.*)"]
 trio = ["trio (>=0.22.0,<1.0)"]
 
 [[package]]
+name = "httpcore2"
+version = "2.3.0"
+description = "A minimal low-level HTTP client."
+optional = false
+python-versions = ">=3.10"
+groups = ["dev"]
+files = [
+    {file = "httpcore2-2.3.0-py3-none-any.whl", hash = "sha256:477e9e334f74e5240dcac002e890580f36a57d40ff0fb14cc9655731d23b8415"},
+    {file = "httpcore2-2.3.0.tar.gz", hash = "sha256:07327e251560960eea8e969d92d4c6a325feb13cca39e25340731336c3baf924"},
+]
+
+[package.dependencies]
+h11 = ">=0.16"
+truststore = ">=0.10"
+
+[package.extras]
+asyncio = ["anyio (>=4.5.0,<5.0)"]
+http2 = ["h2 (>=3,<5)"]
+socks = ["socksio (==1.*)"]
+trio = ["trio (>=0.22.0,<1.0)"]
+
+[[package]]
 name = "httpx"
 version = "0.28.1"
 description = "The next generation HTTP client."
@@ -738,6 +783,31 @@ cli = ["click (==8.*)", "pygments (==2.*)", "rich (>=10,<14)"]
 http2 = ["h2 (>=3,<5)"]
 socks = ["socksio (==1.*)"]
 zstd = ["zstandard (>=0.18.0)"]
+
+[[package]]
+name = "httpx2"
+version = "2.3.0"
+description = "The next generation HTTP client."
+optional = false
+python-versions = ">=3.10"
+groups = ["dev"]
+files = [
+    {file = "httpx2-2.3.0-py3-none-any.whl", hash = "sha256:6f393663bdf6dbe7fe90118e3eb5b2bd024a675cae0390ac08cec9198812d8b7"},
+    {file = "httpx2-2.3.0.tar.gz", hash = "sha256:227e7c41d95a76d4077a52640564132777215fc3394e07b66a3116c33d668fa9"},
+]
+
+[package.dependencies]
+anyio = "*"
+httpcore2 = "2.3.0"
+idna = "*"
+truststore = ">=0.10"
+
+[package.extras]
+brotli = ["brotli ; platform_python_implementation == \"CPython\"", "brotlicffi ; platform_python_implementation != \"CPython\""]
+cli = ["click (==8.*)", "pygments (==2.*)", "rich (>=10,<15)"]
+http2 = ["h2 (>=3,<5)"]
+socks = ["socksio (==1.*)"]
+zstd = ["zstandard (>=0.18.0) ; python_version <= \"3.13\""]
 
 [[package]]
 name = "idna"
@@ -2094,6 +2164,30 @@ files = [
 typing-extensions = ">=4.14.1"
 
 [[package]]
+name = "pydantic-settings"
+version = "2.15.0"
+description = "Settings management using Pydantic"
+optional = false
+python-versions = ">=3.10"
+groups = ["dev"]
+files = [
+    {file = "pydantic_settings-2.15.0-py3-none-any.whl", hash = "sha256:0ba092c291c94baceb5eff768aa0d56400a457585bc0175925a5a5510303da42"},
+    {file = "pydantic_settings-2.15.0.tar.gz", hash = "sha256:694b793e84f766ba76a90ebdefc01d0a9a045dab0382bee70393da93712ad117"},
+]
+
+[package.dependencies]
+pydantic = ">=2.7.0"
+python-dotenv = ">=0.21.0"
+typing-inspection = ">=0.4.0"
+
+[package.extras]
+aws-secrets-manager = ["boto3 (>=1.35.0)"]
+azure-key-vault = ["azure-identity (>=1.16.0)", "azure-keyvault-secrets (>=4.8.0)"]
+gcp-secret-manager = ["google-cloud-secret-manager (>=2.23.1)"]
+toml = ["tomli (>=2.0.1)"]
+yaml = ["pyyaml (>=6.0.1)"]
+
+[[package]]
 name = "pydata-sphinx-theme"
 version = "0.16.1"
 description = "Bootstrap-based Sphinx theme from the PyData community"
@@ -2187,6 +2281,21 @@ files = [
 
 [package.dependencies]
 six = ">=1.5"
+
+[[package]]
+name = "python-dotenv"
+version = "1.2.3"
+description = "Read key-value pairs from a .env file and set them as environment variables"
+optional = false
+python-versions = ">=3.10"
+groups = ["dev"]
+files = [
+    {file = "python_dotenv-1.2.3-py3-none-any.whl", hash = "sha256:904552145e8bfed22162c09dab1c2b9b54fefa7b23ba780f4f26ca0316b0f0d9"},
+    {file = "python_dotenv-1.2.3.tar.gz", hash = "sha256:a20a594dabeaa385725aa239d5244871c143ecb356add8a20fcf23773a6c3a35"},
+]
+
+[package.extras]
+cli = ["click (>=5.0)"]
 
 [[package]]
 name = "pytokens"
@@ -2367,6 +2476,21 @@ jax = ">=0.4.36,<0.11"
 numpy = ">=1.20.0,<2.5"
 
 [[package]]
+name = "questionary"
+version = "2.1.1"
+description = "Python library to build pretty command line user prompts ⭐️"
+optional = false
+python-versions = ">=3.9"
+groups = ["dev"]
+files = [
+    {file = "questionary-2.1.1-py3-none-any.whl", hash = "sha256:a51af13f345f1cdea62347589fbb6df3b290306ab8930713bfae4d475a7d4a59"},
+    {file = "questionary-2.1.1.tar.gz", hash = "sha256:3d7e980292bb0107abaa79c68dd3eee3c561b83a0f89ae482860b181c8bd412d"},
+]
+
+[package.dependencies]
+prompt_toolkit = ">=2.0,<4.0"
+
+[[package]]
 name = "requests"
 version = "2.34.2"
 description = "Python HTTP for Humans."
@@ -2387,6 +2511,42 @@ urllib3 = ">=1.26,<3"
 [package.extras]
 socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<8)"]
+
+[[package]]
+name = "rich"
+version = "15.0.0"
+description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
+optional = false
+python-versions = ">=3.9.0"
+groups = ["dev"]
+files = [
+    {file = "rich-15.0.0-py3-none-any.whl", hash = "sha256:33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb"},
+    {file = "rich-15.0.0.tar.gz", hash = "sha256:edd07a4824c6b40189fb7ac9bc4c52536e9780fbbfbddf6f1e2502c31b068c36"},
+]
+
+[package.dependencies]
+markdown-it-py = ">=2.2.0"
+pygments = ">=2.13.0,<3.0.0"
+
+[package.extras]
+jupyter = ["ipywidgets (>=7.5.1,<9)"]
+
+[[package]]
+name = "rich-click"
+version = "1.9.9"
+description = "Format click help output nicely with rich"
+optional = false
+python-versions = ">=3.8"
+groups = ["dev"]
+files = [
+    {file = "rich_click-1.9.9-py3-none-any.whl", hash = "sha256:365e7a9d0adb42e41ea832a0a12e02c44c079a26536dee688125eb9814f97274"},
+    {file = "rich_click-1.9.9.tar.gz", hash = "sha256:324cba7513cd4187ee92b2eef21f071714e45be062458c8b157bd7e0c81103e3"},
+]
+
+[package.dependencies]
+click = ">=8"
+colorama = {version = "*", markers = "platform_system == \"Windows\""}
+rich = ">=12"
 
 [[package]]
 name = "scipy"
@@ -2983,6 +3143,18 @@ files = [
 ]
 
 [[package]]
+name = "tomlkit"
+version = "0.15.1"
+description = "Style preserving TOML library"
+optional = false
+python-versions = ">=3.9"
+groups = ["dev"]
+files = [
+    {file = "tomlkit-0.15.1-py3-none-any.whl", hash = "sha256:177a05aece5a8ca5266fd3c448abb47b8d352f09d477d3ca8332db4d89b24304"},
+    {file = "tomlkit-0.15.1.tar.gz", hash = "sha256:e25bbf38843005246210a12982776f27f99cb9be67160e14434d0c0d21ee1e97"},
+]
+
+[[package]]
 name = "traitlets"
 version = "5.15.0"
 description = "Traitlets Python configuration system"
@@ -2997,6 +3169,18 @@ files = [
 [package.extras]
 docs = ["myst-parser", "pydata-sphinx-theme", "sphinx"]
 test = ["argcomplete (>=3.0.3)", "mypy (>=1.7.0)", "mypy (>=1.7.0,<1.19) ; platform_python_implementation == \"PyPy\"", "pre-commit", "pytest (>=7.0,<8.2)", "pytest-mock", "pytest-mypy-testing"]
+
+[[package]]
+name = "truststore"
+version = "0.10.4"
+description = "Verify certificates using native system trust stores"
+optional = false
+python-versions = ">=3.10"
+groups = ["dev"]
+files = [
+    {file = "truststore-0.10.4-py3-none-any.whl", hash = "sha256:adaeaecf1cbb5f4de3b1959b42d41f6fab57b2b1666adb59e89cb0b53361d981"},
+    {file = "truststore-0.10.4.tar.gz", hash = "sha256:9d91bd436463ad5e4ee4aba766628dd6cd7010cf3e2461756b3303710eebc301"},
+]
 
 [[package]]
 name = "typing-extensions"
@@ -3233,6 +3417,21 @@ files = [
 anyio = ">=3.0.0"
 
 [[package]]
+name = "wcmatch"
+version = "11.0.1"
+description = "Wildcard/glob file name matcher."
+optional = false
+python-versions = ">=3.10"
+groups = ["dev"]
+files = [
+    {file = "wcmatch-11.0.1-py3-none-any.whl", hash = "sha256:fd149ecddb9f0a88ea780017d6dde17c994e494e7f7303d4e3c9d6251f978f4b"},
+    {file = "wcmatch-11.0.1.tar.gz", hash = "sha256:1ea2b4fa678b8ca268253798d5963935df39132d47c3e241c0a0732224005e7d"},
+]
+
+[package.dependencies]
+bracex = ">=3.0"
+
+[[package]]
 name = "wcwidth"
 version = "0.7.0"
 description = "Measures the displayed width of unicode strings in a terminal"
@@ -3450,4 +3649,4 @@ jax = ["diffrax", "equinox", "jax", "jaxlib", "optimistix", "quadax"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.14"
-content-hash = "6c764c7a0f16fbd859523224a7e053ebfdeb0c18027e3048d014cc4004c6bec0"
+content-hash = "10c072cf7b90d31ba852715f14c186160e4d8b9b8baec26bd67821f68e4e8158"
