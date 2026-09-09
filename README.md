@@ -1,72 +1,34 @@
 # nurbspy
 
-📦 **PyPI package**: [https://pypi.org/project/nurbspy/](https://pypi.org/project/nurbspy/)
-
-📚 **Documentation**: [https://turbo-sim.github.io/nurbspy/](https://turbo-sim.github.io/nurbspy/) *(under construction)* 
-
-
 ## Description
 `nurbspy` is a Python package for Non-Uniform Rational Basis Spline (NURBS) curves and surfaces.
 The classes and methods were inspired by the algorithms presented in [The NURBS Book](https://doi.org/10.1007/978-3-642-59223-2) and the code was implemented using vectorized [Numpy](https://numpy.org/) functions and [Numba's](http://numba.pydata.org/) just-in-time compilation decorators to achieve C-like speed.
 
 `nurbspy` aims to be a simple NURBS library, not a fully fledged CAD kernel. If you need a powerful, open source CAD kernel we recommend you to check out the C++ [OpenCascade](https://www.opencascade.com/doc/occt-7.4.0/overview/html/index.html) library. If you feel that OpenCascade is too complex or you are not sure how to start using it, [this repository](https://github.com/RoberAgro/primer_open_cascade) might be useful for you!
 
- 
-<p style="margin-top:1cm;"> </p>
-<p align="center">
-        <img src="./docs/images/python_logo.svg" height="120" width="400"/>
-<p style="margin-bottom:0cm;"> </p>
-
-<p style="margin-top:0cm;"> </p>
-<p align="center">
-	<img src="./docs/images/numpy_logo.svg" height="100" width="250"/>
-	&emsp; &emsp; &emsp;
-	<img src="./docs/images/numba_logo.svg" height="100" width="300"/>
-</p>
-<p style="margin-bottom:1cm;"> </p>
+📚 **Documentation**: [https://turbo-sim.github.io/nurbspy/](https://turbo-sim.github.io/nurbspy/)
 
 ## Capabilities
 
-`nurbspy` has the following features for NURBS curves:
+`nurbspy` represents both curves and surfaces as rational or non-rational Bézier / B-Spline / NURBS geometries, built directly from control points, weights, and knot vectors. For both, it provides:
 
-- Constructors for rational and non-rational Bézier and B-Spline curves
-- Methods to evaluate curve coordinates
-- Methods to evaluate arbitrary-order derivatives analytically
-- Methods to evaluate the tangent, normal, and binormal unitary vectors (Frenet-Serret frame of reference)
-- Methods to compute the curvature and torsion
-- Methods to compute the arc-length of the curve by numerical quadrature
-- Methods to for point projection / point inversion
-- Methods to visualize the curve using the Matplotlib library
+- Evaluation of coordinates and arbitrary-order analytical derivatives
+- Curvature (and, for surfaces, mean and Gaussian curvature)
+- Point projection / point inversion
+- Matplotlib-based visualization
 
+Curves additionally offer the tangent, normal, and binormal unit vectors (Frenet-Serret frame), torsion, and arc-length by numerical quadrature. Surfaces additionally offer unit normal vectors, u- and v-isoparametric curves, and constructors for common special surfaces: bilinear, ruled, extruded, revolution, and Coons.
 
-In addition, `nurbspy` provides the following capabilities for NURBS surfaces:
+`nurbspy` also works with real and complex data types natively, so shape derivatives can be computed to machine precision with the [complex-step method](https://blogs.mathworks.com/cleve/2013/10/14/complex-step-differentiation/) instead of finite differences. This is useful for shape-optimization problems with many design variables that rely on gradient-based algorithms; `nurbspy` is, to our knowledge, the only Python NURBS package with native complex-number support.
 
+An optional [JAX](https://github.com/google/jax) backend (`nurbspy.jax`) additionally provides automatic differentiation and JIT compilation, see [Installation](#installation).
 
-- Constructors for rational and non-rational Bézier and B-Spline surfaces
-- Additional constructors for some common special surfaces:
-	- Bilinear surfaces
-	- Ruled surfaces
-	- Extruded surfaces
-	- Revolution surfaces
-	- Coons surfaces
-- Methods to evaluate surface coordinates
-- Methods to evaluate arbitrary-order derivatives analytically
-- Methods to evaluate the unitary normal vectors
-- Methods to evaluate the mean and Gaussian curvatures
-- Methods to compute u- and v-isoparametic curves
-- Methods to for point projection / point inversion
-- Methods to visualize the surface using the Matplotlib library
-
-In addition,  `nurbspy` can work with real and complex data types natively. This allows to compute accurate (down to [machine epsilon!](https://en.wikipedia.org/wiki/Machine_epsilon)) shape derivatives using the [complex step method](https://blogs.mathworks.com/cleve/2013/10/14/complex-step-differentiation/) and avoid the numerical error incurred by finite-difference derivative approximations. This shape sensitivity information is necessary to solve shape optimization problems with many design variables using gradient based-optimization algorithms. To our knowledge, `nurbspy` is the only Python package that provides the flexibility to work with complex numbers right away.
+See the documentation for the [theory](https://turbo-sim.github.io/nurbspy/theory/index.html) behind these capabilities (Bézier, B-Spline, NURBS, and G² continuity) and the [examples](https://turbo-sim.github.io/nurbspy/examples/index.html) gallery, with complete scripts and their numerical and graphical output.
 
 
 ## Installation
 
-`nurbspy` requires **Python 3.11 to 3.13**.
-
-### Install with pip
-
-For the NumPy/Numba interface:
+`nurbspy` requires **Python 3.11 to 3.13**. Install the latest release from [PyPI](https://pypi.org/project/nurbspy/):
 
 ```bash
 pip install nurbspy
@@ -94,40 +56,15 @@ If you installed the JAX extra, check it with:
 python -c "import nurbspy.jax"
 ```
 
-### Install from source with Poetry (developers)
-
-With Git and [Poetry](https://python-poetry.org/docs/#installation) installed,
-clone the repository and install the package and development tools:
-
-```bash
-git clone https://github.com/turbo-sim/nurbspy.git
-cd nurbspy
-poetry install --with dev
-```
-
-Poetry installs the package in editable mode, so changes to the source are
-available without reinstalling. The `dev` dependency group includes testing
-and documentation tools. To enable JAX as well:
-
-```bash
-poetry install --with dev --extras jax
-```
-
-The full test suite and API documentation build require the JAX extra because
-they import `nurbspy.jax`. After installing it, run the tests with:
-
-```bash
-poetry run pytest
-```
-
-JAX is a package **extra** so it can be selected by both pip and Poetry;
-`dev` is a dependency **group** for working on the repository.
+For installing from source, contributing, and running the test suite, see
+[Getting started](https://turbo-sim.github.io/nurbspy/getting_started/index.html)
+in the documentation.
 
 ## Minimal working examples
 
 ### NURBS curves
 
-`nurbspy` can  be used to create Bézier, B-Spline and NURBS curves. The type of curve depends on the arguments used to initialize the curve class. As an example, the following piece of code can be used to generate a degree four Bézier curve in two dimensions:
+`nurbspy` can be used to create Bézier, B-Spline and NURBS curves. The type of curve depends on the arguments used to initialize the curve class. As an example, the following piece of code can be used to generate a degree four Bézier curve in two dimensions:
 
 ```python
 # Import packages
@@ -149,20 +86,18 @@ bezierCurve.plot()
 plt.show()
 ```
 
-If the installation was succesful, you should be able to see the Bézier curve when you execute the previous code snippet.
+If the installation was successful, you should be able to see the Bézier curve when you execute the previous code snippet.
 
-<p style="margin-bottom:0.5cm;"> </p>
 <p align="center">
-        <img src="./docs/images/curve_example.svg" height="400" width="400"/>
+	<img src="./docs/images/curve_example.svg" height="350" width="350"/>
 </p>
-<p style="margin-bottom:0.5cm;"> </p>
 
-Check out the [curve demos](./demos/demos_curves) directory to see more examples showing the capabilities of the library and how to use them.
+Check out the [documentation examples](./demos/documentation) directory to see more examples showing the capabilities of the library and how to use them.
 
 
 ### NURBS surfaces
 
-Similarly, `nurbspy` can  be used to create Bézier, B-Spline and NURBS surfaces. The type of surface depends on the arguments used to initialize the surface class. As an example, the following code snippet can be used to generate a simple Bézier surface of degree 3 in the u-direction and degree 2 in the v-direction:
+Similarly, `nurbspy` can be used to create Bézier, B-Spline and NURBS surfaces. The type of surface depends on the arguments used to initialize the surface class. As an example, the following code snippet can be used to generate a simple Bézier surface of degree 3 in the u-direction and degree 2 in the v-direction:
 
 ```python
 # Import packages
@@ -200,19 +135,12 @@ plt.show()
 
 If the installation was successful, you should be able to see the Bézier surface when you execute the previous script.
 
-<p style="margin-top:0.0cm;"> </p>
 <p align="center">
-        <img src="./docs/images/surface_example.svg" height="500" width="500"/>
-<p style="margin-bottom:0.0cm;"> </p>
+	<img src="./docs/images/surface_example.svg" height="400" width="400"/>
+</p>
 
-
-Check out the [surface demos](./demos/demos_surfaces) directory to see more examples showing the capabilities of the library and how to use them.
-
-## Mathematical background
-
-Check out the [Bézier](./docs/A_Briefing_on_Bezier_Curves_and_Surfaces.pdf), [B-Spline](./docs/A_Briefing_on_B_Spline_Curves_and_Surfaces.pdf), and [NURBS](./docs/A_Briefing_on_NURBS_Curves_and_Surfaces.pdf) notes if you want to learn more about the definition and mathematical properties of these curves and surfaces
-
+Check out the [documentation examples](./demos/documentation) directory to see more examples showing the capabilities of the library and how to use them.
 
 ## Contact information
 
-`nurbspy` was developed by [Roberto Agromayor](https://www.ntnu.edu/employees/roberto.agromayor) under the supervision of Associate Professor [Lars O. Nord](https://www.ntnu.edu/employees/lars.nord) at the [Norwegian University of Science and Technology (NTNU)](https://www.ntnu.no/) as part of his PhD on turbomachinery shape optimization. Please, drop us an email to [roberto.agromayor@ntnu.no](mailto:roberto.agromayor@ntnu.no) if you have questions about the code or you have a bug to report!
+`nurbspy` was originally developed by [Roberto Agromayor](https://www.ntnu.edu/employees/roberto.agromayor) under the supervision of Associate Professor [Lars O. Nord](https://www.ntnu.edu/employees/lars.nord) at the [Norwegian University of Science and Technology (NTNU)](https://www.ntnu.no/) as part of his PhD on turbomachinery shape optimization, and has since been maintained and extended. Please, drop us an email to [roberto.agromayor@ntnu.no](mailto:roberto.agromayor@ntnu.no) if you have questions about the code or you have a bug to report!
