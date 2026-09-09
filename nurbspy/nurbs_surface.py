@@ -1335,9 +1335,30 @@ class NurbsSurface:
     # ---------------------------------------------------------------------------------------------------------------- #
     # Define the point projection problem class (Pygmo's user-defined problem)
     # ---------------------------------------------------------------------------------------------------------------- #
-    def project_point_to_surface(self, P):
+    def project_point_to_surface(self, P, maxiter=200, ftol=1e-6, gtol=1e-6):
 
-        """ Solve the point projection problem for the prescribed point `P` """
+        """
+        Solve the point projection problem for the prescribed point `P`
+
+        Parameters
+        ----------
+        P : ndarray
+            Point to be projected onto the surface.
+        maxiter : int, optional
+            Maximum number of L-BFGS-B iterations. Default is 200.
+        ftol : float, optional
+            Relative tolerance on the objective function used by L-BFGS-B
+            to decide convergence. Default is 1e-6.
+        gtol : float, optional
+            Tolerance on the gradient norm used by L-BFGS-B to decide
+            convergence. Default is 1e-6.
+
+        Returns
+        -------
+        u, v : scalar
+            Parameters of the closest point on the surface to `P`.
+
+        """
         # Initialize the problem
         problem = self.PointToSurfaceProjectionProblem(self.get_value, self.get_derivative, P)
 
@@ -1373,9 +1394,9 @@ class NurbsSurface:
             method="L-BFGS-B",
             options={
                 # "disp": False,
-                "maxiter": 200,
-                "ftol": 1e-6,
-                "gtol": 1e-6,
+                "maxiter": maxiter,
+                "ftol": ftol,
+                "gtol": gtol,
             },
         )
 
