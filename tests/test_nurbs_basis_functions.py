@@ -187,8 +187,10 @@ def test_basis_function_second_derivative_cfd():
 # -------------------------------------------------------------------------------------------------------------------- #
 # Check the functions manually
 # -------------------------------------------------------------------------------------------------------------------- #
-test_basis_function_example_1()
-test_partition_of_unity_property()
-test_basis_function_zeroth_derivative()
-test_basis_function_first_derivative_cfd()
-test_basis_function_second_derivative_cfd()
+# Run this file directly to inspect the checks or set debugger breakpoints.
+if __name__ == "__main__":
+    test_basis_function_example_1()
+    test_partition_of_unity_property()
+    test_basis_function_zeroth_derivative()
+    test_basis_function_first_derivative_cfd()
+    test_basis_function_second_derivative_cfd()

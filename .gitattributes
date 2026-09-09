@@ -1,0 +1,11 @@
+# Normalize line endings for all text files so Git handles conversion
+# consistently and stops warning about LF/CRLF replacement.
+* text=auto eol=lf
+
+# Explicitly mark binary files so Git never attempts EOL conversion on them.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary

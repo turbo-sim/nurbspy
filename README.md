@@ -62,34 +62,66 @@ In addition,  `nurbspy` can work with real and complex data types natively. This
 
 ## Installation
 
-`nurbspy` has the following mandatory runtime dependencies:
+`nurbspy` requires **Python 3.11 to 3.13**.
 
- - [numpy](https://numpy.org/) (multidimensional array library)
- - [scipy](https://www.scipy.org/) (scientific computing library)
- - [numba](http://numba.pydata.org/) (just-in-time Python compiler)
- - [pygmo](https://github.com/esa/pagmo2) (optimization library)
- - [matplotlib](https://matplotlib.org/) (visualization library)
+### Install with pip
 
-
-`nurbspy` is available on Linux via the [pip](https://pip.pypa.io/en/stable/) package manager. The installation with pip is straightfoward:
+For the NumPy/Numba interface:
 
 ```bash
 pip install nurbspy
 ```
 
-You can verify that `nurbspy` was installed successfully with this minimal Python script:
+To also install the optional JAX backend and its supporting libraries:
 
-```python
-# Nurbspy minimal working example
-import nurbspy
-nurbspy.minimal_example.run()
+```bash
+pip install "nurbspy[jax]"
 ```
 
-or by typing this one-liner on your terminal:
+Use `import nurbspy as nrb` for the NumPy interface, or
+`import nurbspy.jax as nrb` for the JAX interface. The default installation
+does not install JAX. The JAX backend currently uses the CPU.
 
-```python
-python -c "import nurbspy; nurbspy.minimal_example()"
+Verify the installation:
+
+```bash
+python -c "import nurbspy; print(nurbspy.__version__)"
 ```
+
+If you installed the JAX extra, check it with:
+
+```bash
+python -c "import nurbspy.jax"
+```
+
+### Install from source with Poetry (developers)
+
+With Git and [Poetry](https://python-poetry.org/docs/#installation) installed,
+clone the repository and install the package and development tools:
+
+```bash
+git clone https://github.com/turbo-sim/nurbspy.git
+cd nurbspy
+poetry install --with dev
+```
+
+Poetry installs the package in editable mode, so changes to the source are
+available without reinstalling. The `dev` dependency group includes testing
+and documentation tools. To enable JAX as well:
+
+```bash
+poetry install --with dev --extras jax
+```
+
+The full test suite and API documentation build require the JAX extra because
+they import `nurbspy.jax`. After installing it, run the tests with:
+
+```bash
+poetry run pytest
+```
+
+JAX is a package **extra** so it can be selected by both pip and Poetry;
+`dev` is a dependency **group** for working on the repository.
 
 ## Minimal working examples
 

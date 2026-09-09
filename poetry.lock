@@ -520,9 +520,10 @@ files = [
 name = "diffrax"
 version = "0.7.1"
 description = "GPU+autodiff-capable ODE/SDE/CDE solvers written in JAX."
-optional = false
+optional = true
 python-versions = ">=3.11"
 groups = ["main"]
+markers = "extra == \"jax\""
 files = [
     {file = "diffrax-0.7.1-py3-none-any.whl", hash = "sha256:049ac74a8246f51b93ccf1a8a99777d455841f1272990a475c75856f21127ceb"},
     {file = "diffrax-0.7.1.tar.gz", hash = "sha256:909f3df6a88de6f06040031a58baf01ed80d375388c0dff55511bfaaefc33f02"},
@@ -558,9 +559,10 @@ files = [
 name = "equinox"
 version = "0.12.2"
 description = "Elegant easy-to-use neural networks in JAX."
-optional = false
+optional = true
 python-versions = ">=3.10"
 groups = ["main"]
+markers = "extra == \"jax\""
 files = [
     {file = "equinox-0.12.2-py3-none-any.whl", hash = "sha256:0d9c09c077e7895a5334930ddb9ecd7d39840c3ad252cf8262aa8ddc6bb8ae97"},
     {file = "equinox-0.12.2.tar.gz", hash = "sha256:648e4206bbc53b228922e8f18cd3cffe543ddda1172c0002f8954e484bab0023"},
@@ -819,9 +821,10 @@ test-extra = ["curio", "matplotlib (!=3.2.0)", "nbformat", "numpy (>=1.21)", "pa
 name = "jax"
 version = "0.6.2"
 description = "Differentiate, compile, and transform Numpy code."
-optional = false
+optional = true
 python-versions = ">=3.10"
 groups = ["main"]
+markers = "extra == \"jax\""
 files = [
     {file = "jax-0.6.2-py3-none-any.whl", hash = "sha256:bb24a82dc60ccf704dcaf6dbd07d04957f68a6c686db19630dd75260d1fb788c"},
     {file = "jax-0.6.2.tar.gz", hash = "sha256:a437d29038cbc8300334119692744704ca7941490867b9665406b7f90665cd96"},
@@ -849,9 +852,10 @@ xprof = ["xprof"]
 name = "jaxlib"
 version = "0.6.2"
 description = "XLA library for JAX"
-optional = false
+optional = true
 python-versions = ">=3.10"
 groups = ["main"]
+markers = "extra == \"jax\""
 files = [
     {file = "jaxlib-0.6.2-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:da4601b2b5dc8c23d6afb293eacfb9aec4e1d1871cb2f29c5a151d103e73b0f8"},
     {file = "jaxlib-0.6.2-cp310-cp310-manylinux2014_aarch64.whl", hash = "sha256:4205d098ce8efb5f7fe2fe5098bae6036094dc8d8829f5e0e0d7a9b155326336"},
@@ -882,9 +886,10 @@ scipy = ">=1.12"
 name = "jaxtyping"
 version = "0.3.9"
 description = "Type annotations and runtime checking for shape and dtype of JAX/NumPy/PyTorch/etc. arrays."
-optional = false
+optional = true
 python-versions = ">=3.11"
 groups = ["main"]
+markers = "extra == \"jax\""
 files = [
     {file = "jaxtyping-0.3.9-py3-none-any.whl", hash = "sha256:a00557a9d616eff157491f06ed2e21ed94886fad3832399273eb912b345da378"},
     {file = "jaxtyping-0.3.9.tar.gz", hash = "sha256:f8c02d1b623d5f1b6665d4f3ddaec675d70004f16a792102c2fc51264190951d"},
@@ -1078,9 +1083,10 @@ files = [
 name = "lineax"
 version = "0.1.0"
 description = "Linear solvers in JAX and Equinox."
-optional = false
+optional = true
 python-versions = "~=3.10"
 groups = ["main"]
+markers = "extra == \"jax\""
 files = [
     {file = "lineax-0.1.0-py3-none-any.whl", hash = "sha256:f00911c6b07d427c4835db46856970c8348bc82a035b51f4386ad09382af957a"},
     {file = "lineax-0.1.0.tar.gz", hash = "sha256:5f1a8f060142af2cdbf7d66b99e8d3071c3aa734b677df6339df4b4c4c0554d2"},
@@ -1385,9 +1391,10 @@ files = [
 name = "ml-dtypes"
 version = "0.5.4"
 description = "ml_dtypes is a stand-alone implementation of several NumPy dtype extensions used in machine learning."
-optional = false
+optional = true
 python-versions = ">=3.9"
 groups = ["main"]
+markers = "extra == \"jax\""
 files = [
     {file = "ml_dtypes-0.5.4-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:b95e97e470fe60ed493fd9ae3911d8da4ebac16bd21f87ffa2b7c588bf22ea2c"},
     {file = "ml_dtypes-0.5.4-cp310-cp310-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:b4b801ebe0b477be666696bda493a9be8356f1f0057a57f1e35cd26928823e5a"},
@@ -1617,9 +1624,10 @@ sphinx = ">=6"
 name = "opt-einsum"
 version = "3.4.0"
 description = "Path optimization of einsum functions."
-optional = false
+optional = true
 python-versions = ">=3.8"
 groups = ["main"]
+markers = "extra == \"jax\""
 files = [
     {file = "opt_einsum-3.4.0-py3-none-any.whl", hash = "sha256:69bb92469f86a1565195ece4ac0323943e83477171b91d24c35afe028a90d7cd"},
     {file = "opt_einsum-3.4.0.tar.gz", hash = "sha256:96ca72f1b886d148241348783498194c577fa30a8faac108586b14f1ba4473ac"},
@@ -1629,9 +1637,10 @@ files = [
 name = "optimistix"
 version = "0.0.10"
 description = "Nonlinear optimisation in JAX and Equinox."
-optional = false
+optional = true
 python-versions = "~=3.9"
 groups = ["main"]
+markers = "extra == \"jax\""
 files = [
     {file = "optimistix-0.0.10-py3-none-any.whl", hash = "sha256:f10eb93d24311aca21fb6d1e74f39a4a38f976d5accbd577ef1705218609bfdc"},
     {file = "optimistix-0.0.10.tar.gz", hash = "sha256:80a481d66d64c9445eaf74158b71d65a9087b7e038f0c4bc7714ef5ff6350050"},
@@ -2343,9 +2352,10 @@ mcp = ["mcp[cli] (>=1.0.0) ; python_full_version >= \"3.10.0\""]
 name = "quadax"
 version = "0.2.13"
 description = "Numerical quadrature with JAX"
-optional = false
+optional = true
 python-versions = ">=3.10"
 groups = ["main"]
+markers = "extra == \"jax\""
 files = [
     {file = "quadax-0.2.13-py3-none-any.whl", hash = "sha256:4ab69b77cc3ecdf64fcb1c5091bcadd280386406eab3609002808084860a3eb0"},
     {file = "quadax-0.2.13.tar.gz", hash = "sha256:136359729026d42f8566dbdbfa361dab78ac906ffb8363705434fc5d4957354b"},
@@ -2999,6 +3009,7 @@ files = [
     {file = "typing_extensions-4.15.0-py3-none-any.whl", hash = "sha256:f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548"},
     {file = "typing_extensions-4.15.0.tar.gz", hash = "sha256:0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466"},
 ]
+markers = {main = "extra == \"jax\""}
 
 [[package]]
 name = "typing-inspection"
@@ -3088,9 +3099,10 @@ standard = ["colorama (>=0.4) ; sys_platform == \"win32\"", "httptools (>=0.6.3)
 name = "wadler-lindig"
 version = "0.1.7"
 description = "A Wadler–Lindig pretty-printer for Python."
-optional = false
+optional = true
 python-versions = ">=3.10"
 groups = ["main"]
+markers = "extra == \"jax\""
 files = [
     {file = "wadler_lindig-0.1.7-py3-none-any.whl", hash = "sha256:e3ec83835570fd0a9509f969162aeb9c65618f998b1f42918cfc8d45122fe953"},
     {file = "wadler_lindig-0.1.7.tar.gz", hash = "sha256:81d14d3fe77d441acf3ebd7f4aefac20c74128bf460e84b512806dccf7b2cd55"},
@@ -3432,7 +3444,10 @@ files = [
 tzdata = {version = ">=2020.1", markers = "sys_platform == \"win32\""}
 tzlocal = {version = ">=4.0", markers = "sys_platform != \"darwin\" and sys_platform != \"linux\""}
 
+[extras]
+jax = ["diffrax", "equinox", "jax", "jaxlib", "optimistix", "quadax"]
+
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.14"
-content-hash = "2b763f14200b91aad58677ccdf5005d953010651e703264af331762e8770efa8"
+content-hash = "6c764c7a0f16fbd859523224a7e053ebfdeb0c18027e3048d014cc4004c6bec0"

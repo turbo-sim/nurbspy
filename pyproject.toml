@@ -6,24 +6,29 @@ authors = ["Roberto Agromayor <rober.agro@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/turbo-sim/nurbspy"
-documentation = "https://github.com/turbo-sim/nurbspy"
-
+documentation = "https://turbo-sim.github.io/nurbspy/"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.14"
 numpy = "^2.3.0"
 scipy = "^1.16.1"
 matplotlib = "^3.10.6"
-jax = "^0.6.0"
-jaxlib = "^0.6.0"
-equinox = "^0.12.0"
-diffrax = "^0.7.0"
-optimistix = "^0.0.10"
-quadax = "^0.2.10"
 PyYAML = "^6.0.2"
 toml = "^0.10.2"
 cycler = "^0.12.1"
 numba = "^0.62.0"
+
+# Optional runtime dependencies for the nurbspy.jax backend.
+jax = { version = "^0.6.0", optional = true }
+jaxlib = { version = "^0.6.0", optional = true }
+equinox = { version = "^0.12.0", optional = true }
+diffrax = { version = "^0.7.0", optional = true }
+optimistix = { version = "^0.0.10", optional = true }
+quadax = { version = "^0.2.10", optional = true }
+
+
+[tool.poetry.extras]
+jax = ["jax", "jaxlib", "equinox", "diffrax", "optimistix", "quadax"]
 
 
 [tool.poetry.group.dev.dependencies]
