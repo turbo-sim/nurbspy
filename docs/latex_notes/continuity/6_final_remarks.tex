@@ -1,0 +1,21 @@
+
+
+\section{Suggested amendment to \textcite{Mykhaskiv2018}}
+
+The expressions for the endpoint curvature of \Bezier curves, \RefEqs{eq:bezier_curvature_u0}{eq:bezier_curvature_u1}, coincide with the relation used by \textcite{Mykhaskiv2018} for the 2D blade profile parametrization, except for the notation used. The relation using the notation from \textcite{Mykhaskiv2018} is reproduced here for reference
+\begin{equation*}
+    \mathrm{AB}^2 = \mathrm{curvature} \cdot \left(\frac{n-1}{n}\right) \cdot \mathrm{CH} \qquad \text{where} \qquad \mathrm{CH} = \mathrm{AC} \cdot \sin{\alpha}
+\end{equation*}
+
+We showed that this relation is only valid for \Bezier curves and that it should be slightly modified for the case of B-Spline curves, see \RefEqs{eq:bspline_curvature_u0}{eq:bspline_curvature_u1}. For this reason we propose the following correction to the expression used by \textcite{Mykhaskiv2018}.
+
+\textit{Modification for endpoint $u=0$}
+\begin{equation*}
+    \mathrm{AB}^2 = \mathrm{curvature} \cdot \textcolor{red}{\left( \frac{u_{p+1}}{u_{p+2}}  \right)} \cdot \left(\frac{p-1}{p}\right) \cdot \mathrm{CH}
+\end{equation*}
+
+\textit{Modification for endpoint $u=1$}
+\begin{equation*}
+    \mathrm{AB}^2 = \mathrm{curvature} \cdot  \textcolor{red}{\left( \frac{1-u_{n}}{1-u_{n-1}}  \right)} \cdot \left(\frac{p-1}{p}\right) \cdot \mathrm{CH}
+\end{equation*}
+

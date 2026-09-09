@@ -1,0 +1,36 @@
+\section{Application to airfoil parametrization}
+
+The equations for the endpoint curvature of NURBS curves can be used to specify the radius of curvature at the leading and trailing edges of an airfoil and ensure G$^2$ continuity between the upper and lower surfaces.
+
+\subsubsection*{Leading edge}
+Consider the construction of the suction side at the leading edge as illustrated in \RefFig{fig:leading_edge_construction}. The suction side is defined by the set of control points $\mathcal{P} = \{ \mathbf{P}_{0},\, \mathbf{P}_{2},\, \dots, \mathbf{P}_{n-2},\, \mathbf{P}_{n} \}$,
+where $\mathbf{P}_{0}$ is the start point of the camberline and $\mathbf{P}_{2}$ is computed from the thickness distribution.
+In order to impose the radius of curvature at the leading edge $\rho = 1/\kappa$, it is possible to insert an additional control point $\mathbf{P}_{1}$ at a distance $\norm{\mathbf{P}_{1}-\mathbf{P}_{0}}$ from $\mathbf{P}_{0}$ in the direction direction normal to the camberline $\mathbf{n}$, that is
+\begin{equation}
+    \mathbf{P}_{1} = \mathbf{P}_{0} +  \norm{\mathbf{P}_{1}-\mathbf{P}_{0}} \cdot \mathbf{n}
+\end{equation}
+
+The distance $\norm{\mathbf{P}_{1}-\mathbf{P}_{0}}$ can be computed explicitly solving from \RefEq{eq:nurbs_curvature_u0}:
+\begin{equation}
+      \norm{\mathbf{P}_{1}-\mathbf{P}_{0}}^{2} = \rho  \left( \frac{p-1}{p}  \right) \left( \frac{u_{p+1}}{u_{p+2}}  \right) \left(\frac{w_{0}\,w_{2}}{w_{1}^2} \right) \, \norm{ (\mathbf{P}_{2}-\mathbf{P}_{0}) \times \mathbf{n}}
+\end{equation}
+
+This equation applies to NURBS curves and includes \Bezier and B-Spline as special cases. Repeating the process for the pressure side using the same radius of curvature ensures G$^2$ continuity at the leading edge.
+
+
+
+\subsubsection*{Trailing edge}
+The procedure for the trailing edge is analogous. In this case, $\mathbf{P}_{n}$ is the endpoint of the camberline and $\mathbf{P}_{n-2}$ is computed from the thickness distribution, and $\mathbf{n}$ is the direction normal to the camberline.
+In order to impose the radius of curvature at the trailing edge it is possible to insert an additional control point $\mathbf{P}_{n-1}$ located at
+\begin{equation}
+    \mathbf{P}_{n-1} = \mathbf{P}_{n} +  \norm{\mathbf{P}_{n-1}-\mathbf{P}_{n}} \cdot \mathbf{n}
+\end{equation}
+
+The distance $\norm{\mathbf{P}_{n-1}-\mathbf{P}_{n}}$ can be computed explicitly solving from \RefEq{eq:nurbs_curvature_u1}:
+\begin{equation}
+      \norm{\mathbf{P}_{n-1}-\mathbf{P}_{n}}^{2} = \rho \left( \frac{p-1}{p}  \right) \,  \left( \frac{1-u_{n}}{1-u_{n-1}}  \right) \left(\frac{w_{n}\,w_{n-2}}{w_{n-1}^2} \right)  \, \norm{ (\mathbf{P}_{n-2}-\mathbf{P}_{n}) \times \mathbf{n}}
+\end{equation}
+
+This equation applies to NURBS curves and includes \Bezier and B-Spline as special cases. Repeating the process for the pressure side using the same radius of curvature ensures G$^2$ continuity at the trailing edge.
+
+

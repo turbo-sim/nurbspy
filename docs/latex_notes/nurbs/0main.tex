@@ -1,0 +1,56 @@
+\documentclass[11pt]{article}
+\input{01docsetup}
+
+\usepackage[a4paper,width=165mm,top=20mm,bottom=20mm,bindingoffset=0mm]{geometry}
+
+\renewcommand*\rmdefault{cmr}  % Computer Modern Roman
+% \renewcommand*\rmdefault{lmr}  % Latin Modern Roman
+% \renewcommand*\rmdefault{bch}  % Charter
+% \renewcommand*\rmdefault{ppl}  % Palatino
+% \renewcommand*\rmdefault{ptm}  % Times
+
+% Ref sections
+\newcommand{\RefSection}[1]{\hyperref[#1]{Section~\ref{#1}}}
+\newcommand{\RefSections}[2]{\hyperref[#1]{Sections~\ref{#1}~\textcolor{black}{and}~\ref{#2}}}
+\newcommand{\RefAppendix}[1]{\hyperref[#1]{Appendix~\ref{#1}}}
+% Ref figures
+\newcommand{\RefFig}[1]{\hyperref[#1]{Figure~\ref{#1}}}
+\newcommand{\RefFigs}[2]{\hyperref[#1]{Figures~\ref{#1}~\textcolor{black}{and}~\ref{#2}}}
+\newcommand{\RefFigss}[2]{\hyperref[#1]{Figures~\ref{#1}~\textcolor{black}{to}~\ref{#2}}}
+% Ref tables
+\newcommand{\RefTable}[1]{\hyperref[#1]{Table~\ref{#1}}}
+\newcommand{\RefTables}[2]{\hyperref[#1]{Tables~\ref{#1}~\textcolor{black}{and}~\ref{#2}}}
+\newcommand{\RefTabless}[2]{\hyperref[#1]{Tables~\ref{#1}~\textcolor{black}{to}~\ref{#2}}}
+% Ref equations
+\newcommand{\RefEq}[1]{\hyperref[#1]{Eq.~(\ref{#1})}}
+\newcommand{\RefEqs}[2]{\hyperref[#1]{Eqs.~(\ref{#1})~\textcolor{black}{and}~(\ref{#2})}}
+\newcommand{\RefEqss}[2]{\hyperref[#1]{Eqs.~(\ref{#1})~\textcolor{black}{to}~(\ref{#2})}}
+
+
+\newcommand{\Bezier}[0]{B\'{e}zier }
+
+% Load bibliographic file
+\addbibresource{references.bib}
+
+
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+{\LARGE \bf A briefing on NURBS curves and surfaces}\\
+\vspace{2ex}
+{\large Roberto Agromayor, \today }\\
+\end{center}
+
+This note introduces NURBS curves and surfaces and summarizes their most important mathematical properties. Most of the material used to prepare this note is available in the NURBS book \parencite[Chapter 4]{NURBS_book}.
+
+\input{NURBS_curves}
+\clearpage
+
+\input{NURBS_surfaces}
+
+ \printbibliography
+
+
+
+\end{document}

@@ -1,0 +1,68 @@
+\section{B-spline curve endpoint curvature formulas}
+\label{sec:bspline}
+
+\subsection{Definition}
+Consider the B-Spline curve given by:
+\begin{align}
+    \label{eq:def_bspline_curve}
+    \mathbf{C}(u)=\sum_{i=0}^{n} N_{i,p}(u)\, \mathbf{P}_{i} \quad \quad 0 \leq u \leq 1
+\end{align}
+
+where $p$ is the order of the curve, the coefficients $\mathbf{P}_{i}$ are called control points, and $N_{i,p}$ are the basis functions defined on the non-decreasing knot vector $U$:
+\begin{align}
+    U = [u_0,\, \dots,\, u_{r}] \in \mathds{R}^{r+1} \quad \text{with} \quad r = n + p + 1
+\end{align}
+
+The B-Spline basis functions are given by the recursive relation:
+\begin{align}
+    N_{i,0}(u) =  \begin{cases}
+    1& \mathrm{if} \quad u_{i}\leq u<u_{i+1}\\
+    0& \mathrm{otherwise}
+    \end{cases}
+\end{align}
+\begin{align}
+ N_{i,p}(u)= \frac {u-u_{i}}{u_{i+p}-u_{i}} N_{i,p-1}(u) + \frac {u_{i+p+1}-u}{u_{i+p+1}-u_{i+1}} N_{i+1,p-1}(u)
+\end{align}
+
+
+\subsection{Endpoint derivative formulas}
+
+The endpoint values and derivatives of a B-Spline curve are given by:
+
+\textit{- Endpoint value:}
+    \begin{align*}
+        \mathbf{C}(u=0) &= \mathbf{P}_{0} \\
+        \mathbf{C}(u=1) &= \mathbf{P}_{n}
+    \end{align*}
+    
+\textit{- Endpoint first derivative:}
+    \begin{align*}
+        \mathbf{\dot{C}}(u=0) &= \frac{p}{u_{p+1}}\,(\mathbf{P}_{1} - \mathbf{P}_{0}) \\
+        \mathbf{\dot{C}}(u=1) &= \frac{p}{1-u_{n}}\,(\mathbf{P}_{n} - \mathbf{P}_{n-1})
+    \end{align*}
+
+\textit{- Endpoint second derivative:} \\
+    \resizebox{0.95\linewidth}{!}{
+    \begin{minipage}{1.1\linewidth}
+    \begin{align*}
+        \mathbf{\ddot{C}}(u=0) &= \frac{p\, (p-1)}{u_{p+1}} \, \left[ \left(\frac{1}{u_{p+2}} \right) \left(\mathbf{P}_{2} - \mathbf{P}_{0} \right) -\left( \frac{1}{u_{p+1}}  + \frac{1}{u_{p+2}} \right) \left( \mathbf{P}_{1} - \mathbf{P}_{0} \right) \right] \\
+        \mathbf{\ddot{C}}(u=1) &= \frac{p\, (p-1)}{1-u_{n}} \, \left[ \left(\frac{1}{1-u_{n-1}} \right) \left( \mathbf{P}_{n-2} - \mathbf{P}_{n} \right) -\left( \frac{1}{1-u_{n}}  + \frac{1}{1-u_{n-1}} \right) \left( \mathbf{P}_{n-1} - \mathbf{P}_{n} \right) \right]
+    \end{align*}
+    \vspace{3pt}
+    \end{minipage}
+    }
+
+See \textcite[pp.~81--100]{NURBS_book} for a proof of the endpoint formulas.  
+
+
+\subsection{Endpoint curvature formulas}
+The endpoint curvature formulas can be easily derived inserting the first and second derivatives into the radius of curvature definition and noting that the vector cross product of two parallel vectors is zero:
+\begin{align}
+    \label{eq:bspline_curvature_u0}
+    \kappa(u=0) &=  \left( \frac{p-1}{p}  \right)  \left( \frac{u_{p+1}}{u_{p+2}}  \right) 
+    \frac{\norm{ \left(\mathbf{P}_{2}-\mathbf{P}_{0}\right) \times \left(\mathbf{P}_{1}-\mathbf{P}_{0}\right)} }{\norm{\mathbf{P}_{1}-\mathbf{P}_{0}}^3} \\
+    \kappa(u=1) &=  \left( \frac{p-1}{p}  \right)  \left( \frac{1-u_{n}}{1-u_{n-1}}  \right)
+    \frac{\norm{ \left(\mathbf{P}_{n-2}-\mathbf{P}_{n}\right) \times \left(\mathbf{P}_{n-1}-\mathbf{P}_{n}\right)} }{\norm{\mathbf{P}_{n-1}-\mathbf{P}_{n}}^3}
+        \label{eq:bspline_curvature_u1}
+\end{align}
+

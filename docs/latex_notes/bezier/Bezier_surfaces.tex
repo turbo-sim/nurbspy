@@ -1,0 +1,153 @@
+\section{\Bezier surfaces}
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Definition}
+
+A \Bezier surface is a parametric surface defined by:
+\begin{align}
+\label{eq:def_bspline_surface}
+\mathbf{S}(u,v)=\sum_{i=0}^{n} \sum_{j=0}^{m} B_{i,n}(u)\,  B_{j,m}(v)\, \mathbf{P}_{i,j} \quad \quad 0 \leq (u, \, v) \leq 1
+\end{align}
+
+where $n$ and $m$ are the orders of the surface in the $u$- and $v$-directions, the coefficients $\mathbf{P}_{i, j}$ are a bidirectional net of control points and $B_{i,n}(u)B_{j,m}(v)$ are the product of univariate Bernstein polynomials.
+
+The $u$-direction Bernstein polynomials are given by the explicit formula:
+\begin{align}
+    \label{eq:def_bernstein_explicit}
+    B_{i,n}(u) = \binom{n}{i}  \, (1-u)^{n-i} \, u^{i} = \frac{n!}{i! \, (n-i)!} \, (1-u)^{n-i} \, u^{i}  
+\end{align}
+or by the recursive relation:
+\begin{align}
+    \label{eq:def_bernstein_recursive}
+    B_{i,n}(u) = (1-u) \, B_{i,n-1}(u) + u \, B_{i-1,n-1}(u)
+\end{align}
+
+whereas the $v$-direction basis functions are defined in an analogous way replacing the variable $u$ by $v$ and the indices $i$ and $n$ by $j$ and $m$, respectively.
+
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Mathematical properties of tensor product Bernstein polynomials}
+Here is a list of some important properties of the tensor product Bernstein polynomials:
+
+\begin{enumerate}
+
+    \item $B_{i,n}(u)$ is a polynomial of degree $p$.
+    
+    $B_{j,m}(v)$ is a polynomial of degree $q$.
+    
+    \item Global support:
+    \begin{equation*}
+        B_{i,n}(u)B_{j,m}(v)>0 \text{ for } (u,v) \in (0,1)\times(0,1)
+    \end{equation*}
+    
+    \item Non-negativity:
+        \begin{equation*}
+            B_{i,n}(u)B_{j,m}(v) \geq 0 \quad \text{for all $i$, $j$, $p$, $q$, and $(u,v) \in [0, 1] \times [0, 1]$}
+        \end{equation*}
+
+    \item Partition of unity:
+        \begin{equation*}
+            \sum_{i=0}^n  \sum_{j=0}^{m} B_{i,n}(u) B_{j,m}(u) = 1 \text{ for all } (u,v) \in [0, 1] \times [0, 1]
+        \end{equation*}
+        
+    \item Continuity and differentiability:
+    
+    Tensor product Bernstein polynomials are continuous and infinitely differentiable.
+
+    \item Extrema:
+    
+    $B_{i,n}(u)B_{j,m}(v)$ attains exactly one maximum value in the region $(u,v) \in [0, 1] \times [0, 1]$.
+    
+    \item The first partial derivatives of the tensor product Bernstein polynomials are given by:
+    \begin{align*}
+    \frac{\partial}{\partial u} \left( B_{i,n}(u)B_{j,m}(v) \right) = B_{j,m}(v) \, \frac{\partial}{\partial u} \left(B_{i,n}(u)\right) \\
+        \frac{\partial}{\partial v} \left(B_{i,n}(u)B_{j,m}(v) \right) = B_{i,n}(u) \, \frac{\partial}{\partial v} \left(B_{j,m}(v)\right)
+    \end{align*}
+    
+\end{enumerate}
+
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Mathematical properties of \Bezier surfaces}
+Here is a list of some important properties of \Bezier surfaces:
+
+\begin{enumerate}
+
+    \item A \Bezier surface of degree $n \times q$ is defined by $(n+1) \times (m+1)$ control points and the components of $\mathbf{S}(u,v)$ are bivariate polynomials of degree $n \times m$.
+
+    \item Affine invariance:
+    
+    \Bezier surfaces are invariant under affine transformations such as rotations, displacements and scalings. This means that one can apply an affine transformation to the \Bezier surface by applying it to its set of control points.
+    
+    \item Convex hull property:
+    
+    All the points of a \Bezier surface are contained in the \textit{convex hull} of its control points.
+    The convex hull of a set of points $P = \{\mathbf{P}_{0},\, \dots,\, \mathbf{P}_{N}\}$ is denoted by $\mathcal{CH}(P)$ and it is the set of all the convex combinations of points:
+    \begin{equation*}
+     \mathcal{CH}(P) = \Big\{ \mathbf{C} =  \sum_{k=0}^{N} a_{k} \, \mathbf{P}_{k} \text{ such that } \sum_{k=0}^{N} a_{k} = 1 \text{ and } a_{k}\geq 0 \text{ for } k = 1,\, 2,\, \dots,\, N\Big\}
+    \end{equation*}
+    The convex hull property follows from the non-negativity and the partition-of-unity properties of the basis functions.
+    % The convex hull of a set of points is the minimal convex polytope that contains all the points
+
+    \item Global modification scheme:
+    
+    Modifying any of the interior control points will affect the location of all the points of the \Bezier surface except at $(u,v)=(0,0)$, $(u,v)=(0,1)$, $(u,v)=(1,0)$, and $(u,v)=(1,1)$.
+    
+    \item If triangulated, the net of control points represents a piecewise planar approximation to the \Bezier surface.
+
+    \item No known variation diminishing property.
+    
+    \item Continuity and differentiability:
+
+    \Bezier surfaces are continuous and infinitely differentiable.
+    
+    \item First and higher order derivatives:
+    
+    The first partial derivatives of a \Bezier surface are given by:
+        \begin{align*}
+            \frac{\partial\mathbf{S}}{\partial u} &= n \, \sum_{i=0}^{n-1} \sum_{j=0}^{m} B_{i,n-1}(u) B_{j,m}(v)\, \left( \mathbf{P}_{i+1,j} - \mathbf{P}_{i,j} \right) \\
+            \frac{\partial\mathbf{S}}{\partial v} &= m \, \sum_{i=0}^{m-1} \sum_{j=0}^{m} B_{i,n}(u) B_{j,m-1}(v)\, \left( \mathbf{P}_{i,j+1} - \mathbf{P}_{i,j} \right)
+        \end{align*}
+    
+    Since the derivative of a \Bezier surface is a new \Bezier surfaces, we can differentiate the original surface recursively to compute its $(k,l)$-th partial derivative:
+    \begin{align*}
+        \frac{\partial^{k+l}\mathbf{S}}{\partial u^{k} \partial v^{l}} = \sum_{i=0}^{n-k}\sum_{j=0}^{m-l} B_{i,n-k}(u)B_{j,m-l}(v) \, \mathbf{P}_{i,j}^{(k,l)}
+    \end{align*}
+    where:
+    \begin{equation*}
+        \mathbf{P}_{i,j}^{(k,l)} =  \begin{cases}
+            \mathbf{P}_{i,j} & \text{if $k=0$}\\[1.0ex]
+            (m-l+1) \, (\mathbf{P}_{i,j+1}^{(0,l-1)} - \mathbf{P}_{i,j}^{(0,l-1)}) &\text{if $k>0$ and $l=0$} \\[1.0ex]
+            (n-k+1) \, (\mathbf{P}_{i+1,j}^{(k-1,l)} - \mathbf{P}_{i,j}^{(k-1,l)}) &\text{if $k>0$ and $l>0$}
+            \end{cases}
+    \end{equation*}
+    
+    
+        
+    \item Corner point interpolation:
+    
+    The corners of a clamped B-Spline surface coincide with the corner points of its control net:
+    \begin{align*}
+        \mathbf{S}(u=0,\, v=0) &= \mathbf{P}_{0, 0} \\
+        \mathbf{S}(u=1,\, v=0) &= \mathbf{P}_{n, 0} \\
+        \mathbf{S}(u=0,\, v=1) &= \mathbf{P}_{0, m} \\
+        \mathbf{S}(u=1,\, v=1) &= \mathbf{P}_{n, m} \\
+    \end{align*}
+    
+
+    
+\end{enumerate}
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+

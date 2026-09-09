@@ -1,0 +1,283 @@
+%% Packages for bibliography
+% Use either natbib or biblatex
+%\usepackage[round]{natbib}  
+
+\usepackage[backend=biber,
+            bibstyle=authoryear,
+            citestyle=authoryear,
+            maxbibnames=9,
+            maxcitenames=2,
+            dashed=false,
+            firstinits=true,]
+            {biblatex}
+ 
+\usepackage{bibentry}
+
+% See other styles in sharelatex
+% https://www.sharelatex.com/learn/Biblatex_bibliography_styles
+
+
+%% Hyperref authoryear style
+% https://tex.stackexchange.com/questions/1687/hyperlink-name-with-biblatex-authoryear
+\DeclareCiteCommand{\cite}
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \printtext[bibhyperref]{\usebibmacro{cite}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+
+\DeclareCiteCommand*{\cite}
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \printtext[bibhyperref]{\usebibmacro{citeyear}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\parencite}[\mkbibparens]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+    \printtext[bibhyperref]{\usebibmacro{cite}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+
+\DeclareCiteCommand*{\parencite}[\mkbibparens]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+    \printtext[bibhyperref]{\usebibmacro{citeyear}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\footcite}[\mkbibfootnote]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+  \printtext[bibhyperref]{ \usebibmacro{cite}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\footcitetext}[\mkbibfootnotetext]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \printtext[bibhyperref]{\usebibmacro{cite}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\textcite}
+  {\boolfalse{cbx:parens}}
+  {\usebibmacro{citeindex}%
+   \printtext[bibhyperref]{\usebibmacro{textcite}}}
+  {\ifbool{cbx:parens}
+     {\bibcloseparen\global\boolfalse{cbx:parens}}
+     {}%
+   \multicitedelim}
+  {\usebibmacro{textcite:postnote}}
+  
+  
+  
+  
+%% Packages for figures
+\usepackage{graphicx}			%% Path to figures and more I guess
+\usepackage{epstopdf}			%% Needed for .eps files
+\usepackage{subfig}		    	%% Array of figures (incompatible with subcaption)
+\usepackage{float} 				%% Force floats position
+
+
+%% Packages for tables
+\usepackage{tabularx}			%% Advanced tables
+\usepackage{booktabs}			%% http://www.tablesgenerator.com/
+\usepackage{multirow}			%% Combine cells of tables
+\usepackage[flushleft]{threeparttable} % Add notes to a table
+\usepackage{adjustbox} 			%% Give maximum height-width
+\usepackage{rotating}			%% Sideways table
+%\usepackage{floatrow}			%% Table and figure side by side
+
+
+%% Packages for captions
+\usepackage[				    	%% Caption style
+font=small,labelfont=bf]
+{caption}
+%\usepackage{subcaption}			%% Make captions for subfigures
+\captionsetup{parskip=5pt}	    	%% Set the caption paragraph spacing
+
+
+%% Packages for math
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\usepackage[fleqn]{amsmath}		%% Subequations and more I guess
+\usepackage{nicefrac}			%% Cool fractions
+\usepackage[fleqn]{cases}		%% Piecewise function
+\usepackage{bm}					%% Bold greek symbols in math mode
+\usepackage{dsfont}             %% Caligraphic math months
+\usepackage{commath}            %% \norm
+
+
+%% Packages for links
+\usepackage{color}				%% Color for the text
+\usepackage{xcolor}				%% Advanced color for the text
+\usepackage[					%% Clickable links
+hypertexnames=false,
+bookmarksopen=true]{hyperref}	
+\hypersetup{
+    colorlinks,
+    linkcolor={blue!00!black},
+    citecolor={blue!30!black},
+    urlcolor={blue!30!black}}
+\usepackage{url}				%% Hyperlinks to webs
+% The option hypertexnames=false is set to prevent problems when the chapter numbering is modified (appendices)
+
+
+%% Dots for the table of contents
+\usepackage{tocloft}
+\renewcommand{\cftpartleader}{\cftdotfill{\cftdotsep}} % for parts
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}} % for chapters
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % for sections, if you really want! (It is default in report and book class (So you may not need it).
+% https://tex.stackexchange.com/questions/53898/how-to-get-lines-with-dots-in-the-table-of-contents-for-sections
+% ----------------------------------------------------------------
+
+
+%% Package for nomenclature
+\usepackage[intoc]{nomencl}
+\makenomenclature
+% Create nomenclature groups
+\usepackage{etoolbox}
+\renewcommand\nomgroup[1]{%
+  \item[\large\bfseries
+  \ifstrequal{#1}{A}{Symbols}{%
+  \ifstrequal{#1}{B}{Greek Letters}{%
+  \ifstrequal{#1}{C}{Acronyms}{%
+  \ifstrequal{#1}{D}{Subscripts}{}}}}%
+]\vspace{12pt}}
+% Add the units to nomenclature
+\newcommand{\nomunit}[1]{%
+\renewcommand{\nomentryend}{\hspace*{\fill}#1}}
+% The difficult thing is to prepare the compilation order
+% Check the documentation in the future
+
+
+%% Package for glossary
+\usepackage[toc,nonumberlist]{glossaries}
+%\setglossarystyle{long}
+\setglossarystyle{altlist}
+\renewcommand{\glsnamefont}[1]{\textbf{#1}}
+
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+
+
+\makeglossaries
+% The difficult thing is to prepare the compilation order
+% It requires a Perl distribution to work
+
+
+%% Packages to create lists (see my equations)
+\usepackage{enumitem}          %% List of definitions
+
+%% Spacing before a list and among the elements of the list
+\setlist[itemize]{itemsep=1pt, topsep=1pt}
+\setlist[enumerate]{itemsep=1pt, topsep=1pt}
+
+
+
+%% Packages to create appendices
+\usepackage{appendix}			%% Create appendix
+\usepackage{ifthen}     		%% Used to remove appendix tables and figures from the list of tables and figures
+
+
+
+%% Type of letter
+\usepackage{times}
+
+
+%% Set the indentation space
+\setlength{\parindent}{5pt}
+
+%% Set the spacing between paragraphs
+\setlength{\parskip}{5pt}
+
+%\usepackage{parskip}   			%% No idea what this does
+
+
+%% Set the spacing before and after equations
+\expandafter\def\expandafter\normalsize\expandafter{%
+    \normalsize
+    \setlength\abovedisplayskip{6pt}
+    \setlength\belowdisplayskip{6pt}
+    \setlength\abovedisplayshortskip{6pt}
+    \setlength\belowdisplayshortskip{6pt}
+}
+
+
+%% Set the spacing before and after title sections
+\usepackage{titlesec}
+\titlespacing\section{0pt}{18pt plus 0pt minus 0pt}{2pt plus 0pt minus 0pt}
+\titlespacing\subsection{0pt}{12pt plus 0pt minus 0pt}{2pt plus 0pt minus 0pt}
+\titlespacing\subsubsection{0pt}{8pt plus 0pt minus 0pt}{0pt plus 0pt minus 0pt}
+
+
+
+
+% %% Set the spacing for the table of contents
+% \usepackage{setspace}
+
+% %% Remove chapter spacing from lof and lot
+% \usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
+% \makeatletter
+% % \patchcmd{<cmd>}{<search>}{<replace>}{<succes>}{<failure>}
+% \patchcmd{\@chapter}{\addtocontents{lof}{\protect\addvspace{10\p@}}}{}{}{}
+% \patchcmd{\@chapter}{\addtocontents{lot}{\protect\addvspace{10\p@}}}{}{}{}
+% \makeatother
+
+% %% Packages specific from this template
+% \usepackage[Lenny]{fncychap}	%% Makes cool chapter headings
+
+% \usepackage{fancyhdr}
+% \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+% \renewcommand*\contentsname{Table of Contents}
+% \pagestyle{fancy}
+% \fancyhf{}
+% \renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
+% \renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+% \renewcommand{\headrulewidth}{0.1ex}
+% \renewcommand{\footrulewidth}{0.1ex}
+% \fancypagestyle{plain}{\fancyhf{}\fancyfoot[LE,RO]{\thepage}\renewcommand{\headrulewidth}{0ex}}
+
+% %% Reduce the spacing before the chapter
+% \makeatletter
+% \patchcmd{\@makechapterhead}{\vspace*{50\p@}}{\vspace*{-20\p@}}{}{}
+% \patchcmd{\@makeschapterhead}{\vspace*{50\p@}}{\vspace*{-20\p@}}{}{}
+% \patchcmd{\DOTI}{\vskip 80\p@}{\vskip 40\p@}{}{}
+% \patchcmd{\DOTIS}{\vskip 40\p@}{\vskip 0\p@}{}{}
+% \makeatother
+% %https://tex.stackexchange.com/questions/111643/decrease-space-before-and-after-chapter-in-fncychaps
+
+% %% Add the back page
+% \usepackage{afterpage}
+
+% \newcommand\blankpage{%
+%     \null
+%     \thispagestyle{empty}%
+%     \addtocounter{page}{-1}%
+%     \newpage}
+    
+%%% Prepare the numbering for the first sections
+% \pagenumbering{arabic} 				
+% \setcounter{page}{1}
+% \pagestyle{fancy}
+% \fancyhf{}
+% \renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
+% \renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+% \renewcommand{\headrulewidth}{0.1ex}
+% \renewcommand{\footrulewidth}{0.1ex}
+% \fancyfoot[LE,RO]{\thepage}
+% \fancypagestyle{plain}{\fancyhf{}\fancyfoot[LE,RO]{\thepage}\renewcommand{\headrulewidth}{0ex}}
+
+% % Protect the table of contents stretching
+% \addtocontents{toc}{\protect\setstretch{0.8}}
+
+
+
+
+% Avoid footnote page breaks
+\interfootnotelinepenalty=10000
+
+

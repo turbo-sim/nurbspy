@@ -1,0 +1,177 @@
+\section{B-Spline surfaces}
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Definition}
+
+A B-Spline surface, shorthand for basis spline surface, is a parametric surface defined by:
+\begin{align}
+\label{eq:def_bspline_surface}
+\mathbf{S}(u,v)=\sum_{i=0}^{n} \sum_{j=0}^{m} N_{i,p}(u)\,  N_{j,q}(v)\, \mathbf{P}_{i,j} \quad \quad 0 \leq (u, \, v) \leq 1
+\end{align}
+
+where $p$ and $q$ are the orders of the surface in the $u$- and $v$-directions, the coefficients $\mathbf{P}_{i, j}$ are a bidirectional net of control points and $N_{i,p}(u)N_{j,q}(v)$ are the product of univariate B-Spline basis functions defined on the non-decreasing knot vectors $U$ and $V$:
+\begin{align}
+    U = [u_0,\, \dots,\, u_{r}] \in \mathds{R}^{r+1} \quad &\text{with} \quad r = n + p + 1 \\
+    V = [v_0,\, \dots,\, v_{s}] \in \mathds{R}^{s+1} \quad &\text{with} \quad s = m + q + 1
+\end{align}
+
+The $u$-direction basis functions are given by the recursive relation:
+\begin{align}
+    N_{i,0}(u) =  \begin{cases}
+    1& \mathrm{if} \quad u_{i}\leq u<u_{i+1}\\
+    0& \mathrm{otherwise}
+    \end{cases}
+\end{align}
+\begin{align}
+\label{eq:def_bspline_recursive_2}
+ N_{i,p}(u)={\frac {u-u_{i}}{u_{i+p}-u_{i}}}N_{i,p-1}(u)+{\frac {u_{i+p+1}-u}{u_{i+p+1}-u_{i+1}}}N_{i+1,p-1}(u)
+\end{align}
+
+whereas the $v$-direction basis functions are defined in an analogous way replacing the variable $u$ by $v$ and the indices $i$ and $p$ by $j$ and $q$, respectively.
+
+
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Mathematical properties of tensor product B-spline basis functions}
+Here is a list of some important properties of the tensor product B-Spline basis functions:
+
+\begin{enumerate}
+
+    \item The relation $r = n + p + 1$ holds, where $n+1$ is the number of basis functions in the $u$-direction and $r+1$ is the number of elements of the knot vector $U$.
+
+    The relation $s = m + q + 1$ holds, where $m+1$ is the number of basis functions in the $v$-direction and $s+1$ is the number of elements of the knot vector $V$.
+    
+    \item $N_{i,p}(u)$ is, at most, a polynomial of degree $p$.
+    
+    $N_{j,q}(v)$ is, at most, a polynomial of degree $q$.
+    
+    \item Local support:
+    \begin{enumerate}
+        \item $N_{i,p}(u)N_{j,q}(v)=0$ if $(u,v)$ is outside the rectangle $[u_{i}, u_{i+p+1}) \times [v_{j}, v_{j+q+1})$.
+        \item In any given knot rectangle $[u_{i_{0}}, u_{i_{0}+1}) \times [v_{j_{0}}, v_{j_{0}+1})$, at most $(p+1)(q+1)$ basis functions are nonzero, namely the $N_{i,p}(u)N_{j,q}(v)$ with $i_{0}-p \leq i \leq i_{0}$ and $j_{0}-q \leq j \leq j_{0}$.
+    \end{enumerate}
+    
+    \item Non-negativity:
+        \begin{equation*}
+            N_{i,p}(u)N_{j,q}(v) \geq 0 \quad \text{for all $i$, $j$, $p$, $q$, and $(u,v) \in [0, 1] \times [0, 1]$}
+        \end{equation*}
+
+    \item Partition of unity:
+        \begin{equation*}
+            \sum_{i=0}^n  \sum_{j=0}^{m} N_{i,p}(u) N_{j,q}(v) = 1 \text{ for all } (u,v) \in [0, 1] \times [0, 1]
+        \end{equation*}
+        
+        In addition, for an arbitrary knot rectangle, $[u_{i_{0}}, u_{i_{0}+1}) \times [v_{j_{0}}, v_{j_{0}+1})$ we have that:
+            \begin{equation*}
+                \sum_{i=i_{0}-p}^{i_{0}}\sum_{j=j_{0}-q}^{j_{0}} N_{i,p}(u) N_{j,q}(v) = 1 \text{ for all } (u,v) \in [u_{i_{0}}, u_{i_{0}+1}) \times [v_{j_{0}}, v_{j_{0}+1})
+            \end{equation*}
+        This means that the sum of the non-zero basis-functions of any knot rectangle is unity.
+        
+    \item Continuity and differentiability:
+    \begin{enumerate}
+        \item The basis functions are infinitely differentiable in the interior of the knot rectangles formed by the $U$ and $V$ vectors.
+        \item The basis functions are $p-k$ ($q-k$) continuously differentiable in the $u$-direction ($v$-direction) at a $u$-knot ($v$-knot) with multiplicity $k$.
+    \end{enumerate}
+
+    \item Extrema:
+    
+    $N_{i,p}(u)N_{j,q}(v)$ attains exactly one maximum value in the region $(u,v) \in [0, 1] \times [0, 1]$.
+    
+    \item The first partial derivatives of the tensor product basis functions are given by:
+        \begin{align*}
+        \frac{\partial}{\partial u} \left( N_{i,p}(u)N_{j,q}(v) \right) = N_{j,q}(v) \, \frac{\partial}{\partial u} \left(N_{i,p}(u)\right) \\
+            \frac{\partial}{\partial v} \left(N_{i,p}(u)N_{j,q}(v) \right) = N_{i,p}(u) \, \frac{\partial}{\partial v} \left(N_{j,q}(v)\right)
+        \end{align*}
+
+    \item The $(k,l)$-th order derivatives of the tensor product basis functions are given by:
+        \begin{equation*}
+            \frac{\partial^{k+l}}{\partial u^{k} \partial v^{l}} \left( N_{i,p}(u)N_{j,q}(v) \right) = \frac{\partial^k}{\partial u^k} \left(N_{i,p}(u)\right) \,
+            \frac{\partial^l}{\partial v^l} \left(N_{j,q}(v)\right)
+        \end{equation*}
+    
+    \item If the knot vectors are clamped and $(p,q)=(n,m)$, then the product of B-Spline basis functions reduces to the product of Bernstein polynomials, that is, $N_{i,p}(u)N_{j,q}(u)=B_{i,p}(u)B_{i,q}(u)$.
+
+    
+\end{enumerate}
+
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Mathematical properties of B-Spline surfaces}
+Here is a list of some important properties of B-Spline surfaces:
+
+\begin{enumerate}
+
+    \item $\mathbf{S}(u, v)$ is a piecewise surface and its components are bivariate polynomials of, at most, degree $p\times q$.
+    
+    \item In the $u$-direction: the degree $p$, the number of control points $n+1$ and the number of knots $r+1$ are related according to $r = n + p + 1$
+    
+    In the $v$-direction: the degree $q$, the number of control points $m+1$ and the number of knots $s+1$ are related according to $s = m + q + 1$
+    
+    \item If $n = p$, $m = q$ and the knot vectors are clamped then $\mathbf{S}(u, v)$ is a \Bezier surface.
+    
+    \item Affine invariance:
+    
+    B-Spline surfaces are invariant under affine transformations such as rotations, displacements and scalings. This means that one can apply an affine transformation to the B-Spline surface by applying it to its set of control points.
+    
+    \item Convex hull property:
+    
+    All the points of a B-Spline surface are contained in the \textit{convex hull} of its control points.
+    The convex hull of a set of points $P = \{\mathbf{P}_{0},\, \dots,\, \mathbf{P}_{N}\}$ is denoted by $\mathcal{CH}(P)$ and it is the set of all the convex combinations of points:
+    \begin{equation*}
+     \mathcal{CH}(P) = \Big\{ \mathbf{C} =  \sum_{k=0}^{N} a_{k} \, \mathbf{P}_{k} \text{ such that } \sum_{k=0}^{N} a_{k} = 1 \text{ and } a_{k}\geq 0 \text{ for } k = 1,\, 2,\, \dots,\, N\Big\}
+    \end{equation*}
+    The convex hull property follows from the non-negativity and the partition-of-unity properties of the basis functions.
+    % The convex hull of a set of points is the minimal convex polytope that contains all the points
+    
+    \item Strong convex hull property:
+    
+    If $(u,v) \in [u_{i_{0}},\, u_{i_{0}+1}) \times [v_{j_{0}},\, v_{j_{0}+1})$, then $\mathbf{S}(u, v)$ is contained in the convex hull of the control points $\boldsymbol{P}_{i,j}$ with $i_{0}-p \leq i \leq i_{0}$ and $j_{0}-q \leq j \leq j_{0}$.
+
+    \item Local modification scheme:
+    
+    Modifying the control point $\mathbf{P}_{i,j}$ affects $\mathbf{S}(u, v)$ only in the rectangle $[u_{i}, u_{i+p+1}) \times [v_{j}, v_{j+q+1})$. This property follows from the fact that $N_{i,p}(u)N_{j,q}(u)=0$ if $(u,v)$ is outside the interval $[u_{i}, u_{i+p+1}) \times [v_{j}, v_{j+q+1})$ and it implies that the shape of a B-Spline can be modified locally without changing its shape globally.
+    
+    \item If triangulated, the net of control points represents a piecewise planar approximation to the B-Spline surface.
+
+    \item No known variation diminishing property.
+    
+    \item Continuity and differentiability:
+    \begin{enumerate}
+        \item B-Spline surfaces are infinitely differentiable in the interior of the knot rectangles formed by the $U$ and $V$ vectors.
+        \item B-Spline surfaces are $p-k$ ($q-k$) continuously differentiable in the $u$-direction ($v$-direction) at a $u$-knot ($v$-knot) with multiplicity $k$.
+    \end{enumerate}
+    
+    \item The first and higher order derivatives of a B-Spline surface are given by:
+        \begin{align*}
+            \frac{\partial\mathbf{S}}{\partial u} &= \sum_{i=0}^{n} \sum_{j=0}^{m} N'_{i,p}(u) N_{j,q}(v)\, \mathbf{P}_{i,j} \\
+            \frac{\partial\mathbf{S}}{\partial v} &= \sum_{i=0}^{n} \sum_{j=0}^{m} N_{i,p}(u) N'_{j,q}(v)\, \mathbf{P}_{i,j} \\
+            \frac{\partial^{k+l}\mathbf{S}}{\partial u^{k} \partial v^{l}} &= \sum_{i=0}^{n} \sum_{j=0}^{m} N^{(k)}_{i,p}(u) N^{(l)}_{j,q}(v)\, \mathbf{P}_{i,j}
+        \end{align*}
+        
+    \item Corner point interpolation:
+    
+    The corners of a clamped B-Spline surface coincide with the corner points of its control net:
+    \begin{align*}
+        \mathbf{S}(u=0,\, v=0) &= \mathbf{P}_{0, 0} \\
+        \mathbf{S}(u=1,\, v=0) &= \mathbf{P}_{n, 0} \\
+        \mathbf{S}(u=0,\, v=1) &= \mathbf{P}_{0, m} \\
+        \mathbf{S}(u=1,\, v=1) &= \mathbf{P}_{n, m} \\
+    \end{align*}
+    
+
+    
+\end{enumerate}
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+

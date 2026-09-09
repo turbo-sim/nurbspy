@@ -1,0 +1,244 @@
+\section{NURBS surfaces}
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Definition}
+
+A Non-Uniform Rational Basis Spline (NURBS) surface is a parametric surface defined by:
+\begin{align}
+\label{eq:def_nurbs_surface}
+\mathbf{S}(u,v)=\sum_{i=0}^{n} \sum_{j=0}^{m} R_{i,j}^{p, q}(u, v) \, \mathbf{P}_{i,j} \quad \quad 0 \leq (u, \, v) \leq 1
+\end{align}
+
+where $p$ and $q$ are the orders of the surface in the $u$- and $v$-directions, the coefficients $\mathbf{P}_{i, j}$ are a bidirectional net of control points and $R_{i,j}^{p, q}(u, v)$ are the rational basis functions given by:
+\begin{align}
+    R_{i,j}^{p, q}(u, v) = \frac{N_{i,p}(u)N_{j,q}(v) \, w_{i,j}}{\sum\limits_{k=0}^{n} \sum\limits_{l=0}^{m} N_{k,p}(u) N_{l,p}(v) \, w_{k, l}}
+\end{align}
+
+in which $w_{i, j}$ are the weights of the control points and $N_{i,p}(u)N_{j,q}(v)$ are the product of univariate B-Spline basis functions defined on the non-decreasing knot vectors $U$ and $V$:
+\begin{align}
+    U = [u_0,\, \dots,\, u_{r}] \in \mathds{R}^{r+1} \quad &\text{with} \quad r = n + p + 1 \\
+    V = [v_0,\, \dots,\, v_{s}] \in \mathds{R}^{s+1} \quad &\text{with} \quad s = m + q + 1
+\end{align}
+
+The $u$-direction basis functions are given by the recursive relation:
+\begin{align}
+    N_{i,0}(u) =  \begin{cases}
+    1& \mathrm{if} \quad u_{i}\leq u<u_{i+1}\\
+    0& \mathrm{otherwise}
+    \end{cases}
+\end{align}
+\begin{align}
+\label{eq:def_bspline_recursive_2}
+ N_{i,p}(u)=\frac {u-u_{i}}{u_{i+p}-u_{i}} N_{i,p-1}(u) + \frac {u_{i+p+1}-u}{u_{i+p+1}-u_{i+1}} N_{i+1,p-1}(u)
+\end{align}
+
+whereas the $v$-direction basis functions are defined in an analogous way replacing the variable $u$ by $v$ and the indices $i$ and $p$ by $j$ and $q$, respectively.
+
+
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Mathematical properties of bivariate rational basis functions}
+Here is a list of some important properties of the bivariate rational basis functions:
+
+\begin{enumerate}
+    
+    \item The relation $r = n + p + 1$ holds, where $n+1$ is the number of basis functions in the $u$-direction and $r+1$ is the number of elements of the knot vector $U$.
+
+    The relation $s = m + q + 1$ holds, where $m+1$ is the number of basis functions in the $v$-direction and $s+1$ is the number of elements of the knot vector $V$.
+    
+    \item The numerator and denominator of $R_{i,j}^{p, q}(u, v)$ are, at most, polynomials of degree $p \times q$.
+    
+    \item Local support:
+    \begin{enumerate}
+        \item $R_{i,j}^{p, q}(u, v)=0$ if $(u,v)$ is outside the rectangle $[u_{i}, u_{i+p+1}) \times [v_{j}, v_{j+q+1})$.
+        \item In any given knot rectangle $[u_{i_{0}}, u_{i_{0}+1}) \times [v_{j_{0}}, v_{j_{0}+1})$, at most $(p+1)(q+1)$ basis functions are nonzero, namely the $R_{i,j}^{p, q}(u, v)$ with $i_{0}-p \leq i \leq i_{0}$ and $j_{0}-q \leq j \leq j_{0}$.
+    \end{enumerate}
+    
+    \item Non-negativity:
+        \begin{equation*}
+            R_{i,j}^{p, q}(u, v) \geq 0 \quad \text{for all $i$, $j$, $p$, $q$, and $(u,v) \in [0, 1] \times [0, 1]$}
+        \end{equation*}
+
+    \item Partition of unity:
+        \begin{equation*}
+            \sum_{i=0}^n  \sum_{j=0}^{m} R_{i,j}^{p, q}(u, v) = 1 \text{ for all } (u,v) \in [0, 1] \times [0, 1]
+        \end{equation*}
+        
+        In addition, for an arbitrary knot rectangle, $[u_{i_{0}}, u_{i_{0}+1}) \times [v_{j_{0}}, v_{j_{0}+1})$ we have that:
+            \begin{equation*}
+                \sum_{i=i_{0}-p}^{i_{0}}\sum_{j=j_{0}-q}^{j_{0}} R_{i,j}^{p, q}(u, v) = 1 \text{ for all } (u,v) \in [u_{i_{0}}, u_{i_{0}+1}) \times [v_{j_{0}}, v_{j_{0}+1})
+            \end{equation*}
+        This means that the sum of the non-zero basis-functions of any knot rectangle is unity.
+        
+    \item Continuity and differentiability:
+    \begin{enumerate}
+        \item The basis functions are infinitely differentiable in the interior of the knot rectangles formed by the $U$ and $V$ vectors.
+        \item The basis functions are $p-k$ ($q-k$) continuously differentiable in the $u$-direction ($v$-direction) at a $u$-knot ($v$-knot) with multiplicity $k$.
+    \end{enumerate}
+
+    \item Extrema:
+    
+    $R_{i,j}^{p, q}(u, v)$ attains exactly one maximum value in the region $(u,v) \in [0, 1] \times [0, 1]$.
+    
+    \item There is no compact and useful expression for the first partial derivatives of the basis functions.
+    
+    \item There is no compact and useful expression for the $(k,l)$-th order partial derivatives of the basis functions.
+    
+    \item If all the control point weights are equal, then rational basis functions reduce to B-Spline basis functions, that is, $R_{i,j}^{p, q}(u, v)=N_{i,p}(u)N_{j,q}(v)$.
+    
+    \item If all the control point weights are equal, the knot vectors are clamped, and $(p,q)=(n,m)$, then rational basis function reduce to Bernstein polynomials, that is, $R_{i,j}^{p, q}(u, v)=B_{i,n}(u)B_{j,m}(v)$.
+    
+\end{enumerate}
+
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Mathematical properties of NURBS surface}
+Here is a list of some important properties of NURBS surfaces:
+
+\begin{enumerate}
+
+    \item $\mathbf{S}(u, v)$ is a piecewise surface and its components are ratios of bivariate polynomials of, at most, degree $p\times q$.
+    
+    \item In the $u$-direction: the degree $p$, the number of control points $n+1$ and the number of knots $r+1$ are related according to $r = n + p + 1$
+    
+    In the $v$-direction: the degree $q$, the number of control points $m+1$ and the number of knots $s+1$ are related according to $s = m + q + 1$
+    
+    \item NURBS surfaces contain B-Spline and rational/non-rational \Bezier surfaces as special cases:
+    \begin{enumerate}
+        \item If all the control point weights are equal then the NURBS surface is reduced to a B-Spline surface.
+        \item If $(p,q) = (n,m)$ and the knot vectors are clamped then the NURBS surface is reduced to a rational \Bezier surface.
+        \item If all the control point weights are equal, $(p,q) = (n,m)$, and the knot vectors are clamped then the NURBS surface is reduced to a polynomial \Bezier surface.
+    \end{enumerate}
+    
+    \item Affine invariance:
+    
+    NURBS surfaces are invariant under affine transformations such as rotations, displacements and scalings. This means that one can apply an affine transformation to the NURBS surface by applying it to its set of control points.
+    
+    Given an affine transformation $\phi(\mathbf{v}) = \mathrm{A} \mathbf{v} + \mathbf{b}$ we have that:
+    \begin{align*}
+        \phi \big(\mathbf{S}(u,v)\big) &= \phi \big(\sum_{i=0}^{n}\sum_{j=0}^{m} R_{i,j}^{p, q}(u, v)\, \mathbf{P}_{i,j}\big) = \\
+        &= \mathrm{A} \sum_{i=0}^{n}\sum_{j=0}^{m} R_{i,j}^{p, q}(u, v)\, \mathbf{P}_{i,j} + \mathbf{b} = \\
+        &= \mathrm{A} \sum_{i=0}^{n}\sum_{j=0}^{m} R_{i,j}^{p, q}(u, v)\, \mathbf{P}_{i,j} + \mathbf{b} \, \sum_{i=0}^{n}\sum_{j=0}^{m} R_{i,j}^{p, q}(u, v) \qquad \text{(by partition of unity)}\\
+        &= \sum_{i=0}^{n}\sum_{j=0}^{m} R_{i,j}^{p, q}(u, v)\,(\mathrm{A} \mathbf{P}_{i,j} + \mathbf{b}) \\
+        &= \sum_{i=0}^{n}\sum_{j=0}^{m} R_{i,j}^{p, q}(u, v)\,\phi \big(\mathbf{P}_{i,j} \big)
+    \end{align*}
+    
+    \item Convex hull property:
+    
+    All the points of a NURBS surface are contained in the \textit{convex hull} of its control points.
+    The convex hull of a set of points $P = \{\mathbf{P}_{0},\, \dots,\, \mathbf{P}_{N}\}$ is denoted by $\mathcal{CH}(P)$ and it is the set of all the convex combinations of points:
+    \begin{equation*}
+     \mathcal{CH}(P) = \Big\{ \mathbf{C} =  \sum_{k=0}^{N} a_{k} \, \mathbf{P}_{k} \text{ such that } \sum_{k=0}^{N} a_{k} = 1 \text{ and } a_{k}\geq 0 \text{ for } k = 0,\, 1,\, \dots,\, N\Big\}
+    \end{equation*}
+    The convex hull property follows from the non-negativity and the partition-of-unity properties of the basis functions.
+    % The convex hull of a set of points is the minimal convex polytope that contains all the points
+    
+    \item Strong convex hull property:
+    
+    If $(u,v) \in [u_{i_{0}},\, u_{i_{0}+1}) \times [v_{j_{0}},\, v_{j_{0}+1})$, then $\mathbf{S}(u, v)$ is contained in the convex hull of the control points $\boldsymbol{P}_{i,j}$ with $i_{0}-p \leq i \leq i_{0}$ and $j_{0}-q \leq j \leq j_{0}$.
+
+    \item Local modification scheme:
+    
+    Modifying the control point $\mathbf{P}_{i,j}$ or weight $w_{i,j}$ affects $\mathbf{S}(u, v)$ only in the rectangle $[u_{i}, u_{i+p+1}) \times [v_{j}, v_{j+q+1})$. This property follows from the fact that $ R_{i,j}^{p, q}(u, v)=0$ if $(u,v)$ is outside the rectangle $[u_{i}, u_{i+p+1}) \times [v_{j}, v_{j+q+1})$ and it implies that the shape of a NURBS can be modified locally without changing its shape globally.
+    
+    \item If triangulated, the net of control points represents a piecewise planar approximation to the NURBS surface.
+
+    \item No known variation diminishing property.
+    
+    \item Continuity and differentiability:
+    \begin{enumerate}
+        \item NURBS surfaces are infinitely differentiable in the interior of the knot rectangles formed by the $U$ and $V$ vectors.
+        \item NURBS surfaces are $p-k$ ($q-k$) continuously differentiable in the $u$-direction ($v$-direction) at a $u$-knot ($v$-knot) with multiplicity $k$.
+    \end{enumerate}
+    
+    
+    \item Homogeneous coordinates:
+    
+    $N$-dimensional rational functions with a common denominator can be represented as polynomial functions in $(N+1)$-dimensional space using \textit{homogeneous coordinates}.
+    
+    Consider a three-dimensional point $\mathbf{P}=(x,\, y,\, z)$. $\mathbf{P}$ can be written in four-dimensional space as $\mathbf{P}^w=(wx,\, wy,\, wz,\, w) = (X,\, Y,\, Z,\, W)$, where $w \neq 0$.
+    The point $\mathbf{P}$ can be obtained from $\mathbf{P}^w$ using the mapping $\mathcal{H}$ given by:
+    \begin{align*}
+        \mathbf{P} = \mathcal{H}\{\mathbf{P}^w\} =  \mathcal{H}\{(X,\, Y,\, Z,\, W)\} = \left( \frac{X}{W},\, \frac{Y}{W},\, \frac{Z}{W}\right)
+    \end{align*}
+    
+    This theory can be used to represent a $N$-dimensional NURBS surface as a $(N+1)$-dimensional B-Spline surface and then retrieve the coordinates of the NURBS surface using the $\mathcal{H}$ mapping.
+    
+    Indeed, consider a NURBS surface $\mathbf{S}(u, v)$ with control points $\mathbf{P}_{i, j}$ and weights $w_{i, j}$. It is possible to construct a set of weighted control points $\mathbf{P}^{w}_{i,j} = (w_{i,j}x_{i,j},\, w_{i,j}y_{i,j},\, w_{i,j}z_{i,j},\, w_{i,j})$ and define the corresponding non-rational B-Spline surface in four-dimensional space as:
+    \begin{align*}
+        \mathbf{S}^{w}(u,v)=\sum_{i=0}^{n} \sum_{j=0}^{m} R_{i,j}^{p,q}(u,v)\, \mathbf{P}^{w}_{i,j} \quad \quad 0 \leq (u,v) \leq 1
+    \end{align*}
+    
+    In order to compute the coordinates of the original NURBS surface it is possible to use standard B-Spline algorithms to evaluate the coordinates of $\mathbf{S}^{w}(u,v)$ in homogeneous space and then apply the $\mathcal{H}$ mapping:
+    \begin{align*}
+        \mathbf{S}(u,v) &= \mathcal{H}\{\mathbf{S}^w\} \\
+        &=  \mathcal{H} \bigg\{\sum_{i=0}^{n} \sum_{j=0}^{m} N_{i,p}(u)N_{j,q}(u,v)\, \mathbf{P}^{w}_{i,j} \bigg\}  \\
+        &= \frac{\sum\limits_{i=0}^{n} \sum\limits_{j=0}^{m} N_{i,p}(u)N_{j,q}(u)\, w_{i,j} \,\mathbf{P}_{i,j}}{\sum\limits_{i=0}^{n} \sum\limits_{j=0}^{m} N_{i,p}(u)N_{j,q}(v)\, w_{i,j}} \\
+        &= \sum_{i=0}^{n}\sum_{j=0}^{m} R_{i,j}^{p,q}(u,v) \, \mathbf{P}_{i,j}
+    \end{align*}
+    
+    This property is important to evaluate the derivatives of NURBS surfaces.
+    
+    \item First and higher order derivatives:
+    
+    The derivatives of a NURBS surface $\mathbf{S}(u,v)$ can be expressed in terms of the derivatives of the corresponding B-Spline in homogeneous space $\mathbf{S}^{w}(u,v)$. Indeed, let:
+    \begin{align*}
+        \mathbf{S}(u,v) = \frac{\sum\limits_{i=0}^{n}\sum\limits_{j=0}^{m} N_{i,p}(u)N_{j,q}(v)\, w_{i,j} \,\mathbf{P}_{i,j}}{\sum\limits_{i=0}^{n} \sum\limits_{j=0}^{m} N_{i,p}(u)N_{j,q}(u)\, w_{i,j}} = \frac{\mathbf{A}(u,v)}{w(u,v)}
+    \end{align*}
+    
+    where $\mathbf{A}(u,v)$ is the vector function whose coordinates are the three first elements of $\mathbf{S}^{w}(u,v)$ and $w(u,v)$ is the scalar function with the fourth element of $\mathbf{S}^{w}(u,v)$.
+    
+    To compute the first partial derivatives, first rearrange the previous expression to avoid the denominator, then differentiate both sides of the equation and, finally, solve for $\frac{\partial\mathbf{S}}{\partial \alpha}$, where $\alpha$ is either $u$ or $v$:
+    \begin{align*}
+        & w \, \mathbf{S} = \mathbf{A} \\
+        & \big[ w \, \mathbf{S} \big]_{\alpha}  = \mathbf{A}_{\alpha} \\
+        & w_{\alpha} \, \mathbf{S} + w \, \mathbf{S}_{\alpha} = \mathbf{A}_{\alpha} \\
+        & \frac{\partial \mathbf{S}}{\partial \alpha} = \mathbf{S}_{\alpha} = \frac{1}{w} \left( \mathbf{A}_{\alpha} - w_{\alpha} \, \mathbf{S} \right)
+    \end{align*}
+    
+    To compute the $(k,l)$-th order partial derivatives, differentiate $(k,l)$-times using Leibniz' rule for product differentiation and then solve for $\mathbf{S}^{(k)}(u,v)$: 
+    
+    \resizebox{\linewidth}{!}{
+    \begin{minipage}{0.99\linewidth}
+    \begin{align*}
+        & w \, \mathbf{S} = \mathbf{A} \\
+        & \big[ w \, \mathbf{S} \big]^{(k,l)} = \mathbf{A}^{(k,l)} \\
+        & \sum_{i=0}^{k}\sum_{j=0}^{l} \binom{k}{i}\binom{l}{j} w^{(i,j)} \, \mathbf{S}^{(k-i, l-j)} = \mathbf{A}^{(k, l)} \\
+        & \mathbf{S}^{(k,l)} = \frac{1}{w} \left[ \mathbf{A}^{(k,l)} - \sum\limits_{i=1}^{k} \binom{k}{i} w^{(i,0)} \, \mathbf{S}^{(k-i,l)} - \sum\limits_{j=1}^{l} \binom{l}{j} w^{(0,j)} \, \mathbf{S}^{(k,l-j)} - \sum\limits_{i=1}^{k}\sum\limits_{j=1}^{l} \binom{k}{i}\binom{l}{j} w^{(i,j)} \, \mathbf{S}^{(k-i, l-j)} \right]
+    \end{align*}
+    \vspace{3pt}
+    \end{minipage}
+    }
+    
+    The derivatives of $\mathbf{A}(u,v)$ and $w(u,v)$ can be easily computed by differentiating $\mathbf{S}^{w}(u,v)$:
+        \begin{align*}
+             \left[\mathbf{S}^{w}\right]^{(k,l)}(u,v)  = \sum_{i=0}^{n}\sum_{j=0}^{m} N^{(k)}_{i,p}(u)N^{(l)}_{j,q}(u)\, \mathbf{P}^{w}_{i,j}
+        \end{align*}
+        
+    \item Corner point interpolation:
+    
+    The corners of a clamped NURBS surface coincide with the corner points of its control net:
+    \begin{align*}
+        \mathbf{S}(u=0,\, v=0) &= \mathbf{P}_{0, 0} \\
+        \mathbf{S}(u=1,\, v=0) &= \mathbf{P}_{n, 0} \\
+        \mathbf{S}(u=0,\, v=1) &= \mathbf{P}_{0, m} \\
+        \mathbf{S}(u=1,\, v=1) &= \mathbf{P}_{n, m} \\
+    \end{align*}
+    
+
+    
+\end{enumerate}
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+

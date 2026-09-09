@@ -1,0 +1,279 @@
+\section{NURBS curves}
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Definition}
+
+A Non-Uniform Rational Basis Spline (NURBS) curve is a parametric curve defined by:
+\begin{align}
+    \label{eq:def_nurbs_curve}
+    \mathbf{C}(u)=\sum_{i=0}^{n} R_{i,p}(u) \, \mathbf{P}_{i} \quad \quad 0 \leq u \leq 1
+\end{align}
+
+where $p$ is the order of the curve, the coefficients $\mathbf{P}_{i}$ are called control points, and $R_{i,p}$ are the rational basis functions given by:
+\begin{align}
+    R_{i,p}(u) = \frac{N_{i,p}(u) \, w_{i}}{\sum\limits_{k=0}^{n} N_{k,p}(u) \, w_{k}}
+\end{align}
+
+in which $w_{i}$ are the weights of the control points and $N_{i,p}$ are B-Spline basis functions defined on the non-decreasing knot vector $U$:
+\begin{align}
+    U = [u_0,\, \dots,\, u_{r}] \in \mathds{R}^{r+1} \quad \text{with} \quad r = n + p + 1
+\end{align}
+
+The B-Spline basis functions are given by the recursive relation:
+\begin{align}
+    N_{i,0}(u) =  \begin{cases}
+    1& \mathrm{if} \quad u_{i}\leq u<u_{i+1}\\
+    0& \mathrm{otherwise}
+    \end{cases}
+\end{align}
+\begin{align}
+ N_{i,p}(u) = \frac {u-u_{i}}{u_{i+p}-u_{i}} N_{i,p-1}(u) + \frac {u_{i+p+1}-u}{u_{i+p+1}-u_{i+1}} N_{i+1,p-1}(u)
+\end{align}
+
+This recursive relation can yield the $0/0$ quotient which is defined to be zero by convention.
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Mathematical properties of rational basis functions}
+Here is a list of some important properties of the rational basis functions:
+
+\begin{enumerate}
+
+    \item The relation $r = n + p + 1$ holds, where $n+1$ is the number of basis functions and $r+1$ is the number of elements of the knot vector $U$.
+
+    \item The numerator and denominator of $R_{i,p}(u)$ are, at most, polynomials of degree $p$.
+
+    \item Local support:
+    \begin{enumerate}
+        \item $R_{i,p}(u)=0$ if $u$ is outside the interval $[u_{i}, u_{i+p+1})$. 
+        \item In any given knot interval, $[u_{i_{0}}, u_{i_{0}+1})$, at most $(p+1)$ basis functions are nonzero, namely the $R_{i,p}(u)$ with $i_{0}-p \leq i \leq i_{0}$.
+    \end{enumerate}
+
+    \item Non-negativity:
+        \begin{equation*}
+            R_{i,p}(u) \geq 0 \quad \text{for all $i$, $p$, and $u \in [0, 1]$}
+        \end{equation*}
+        
+    \item Partition of unity:
+        \begin{equation*}
+            \sum_{i=0}^n R_{i,n}(u) = 1 \text{ for all } u \in [0, 1]
+        \end{equation*}
+    
+    In addition, for an arbitrary knot span, $[u_{i_{0}}, u_{i_{0}+1})$ we have that:
+        \begin{equation*}
+            \sum_{i=i_{0}-p}^{i_{0}} R_{i,n}(u) = 1 \text{ for all } u \in [u_{i_{0}}, u_{i_{0}+1})
+        \end{equation*}
+    This means that the sum of the non-zero basis-functions of any knot span is unity.
+
+    \item Continuity and differentiability:
+        \begin{enumerate}
+            \item The basis functions are infinitely differentiable in the interior of the knot intervals.
+            \item The basis functions are $p-k$ continuously differentiable at a knot with multiplicity $k$.
+        \end{enumerate}
+        
+    \item Extrema:
+    
+    $R_{i,p}(u)$ attains exactly one maximum value in the interval $u \in [0, 1]$.
+    
+    \item There is no compact and useful expression for the first derivative of the basis functions.
+    
+    \item There is no compact and useful expression for the $k$-th order derivative of the basis functions.
+        
+    \item When the first and last knots have multiplicity $p+1$ the knot vector is given by:
+        \begin{align*}
+            & U = [\underbrace{u_0,\, u_1,\, \dots,\, u_{p}}_{p+1},\, \underbrace{u_{p+1},\, \dots,\, u_{n}}_{n-p},\, \underbrace{u_{n+1},\, \dots,\, u_{n+p},\, u_{n+p+1}}_{p+1}]
+        \end{align*}
+        where:
+        \begin{align*}
+            & u_0 = \dots = u_p = 0 \\
+            & u_{n+1} = \dots = u_{n+p+1} = 1
+        \end{align*}
+    and is called a \textit{clamped knot vector}. Basis functions of clamped knot vectors satisfy two additional properties:
+    \begin{enumerate}
+            \item $R_{0,p}(u=0) =1$ and $R_{i,p}(u=0)=0$ for $i\neq0$
+            \item $R_{n,p}(u=1) =1$ and $R_{i,p}(u=1)=0$ for $i\neq n$
+    \end{enumerate}
+    
+    \item If all the control point weights are equal, then rational basis functions reduce to B-Spline basis functions, that is, $R_{i,p}(u)=N_{i,p}(u)$
+    
+    \item If all the control point weights are equal, the knot vector is clamped and $p=n$, then rational basis function reduce to Bernstein polynomials, that is, $R_{i,p}(u)=B_{i,n}(u)$
+    
+\end{enumerate}
+
+
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Mathematical properties of NURBS curves}
+Here is a list of some important properties of NURBS curves:
+
+\begin{enumerate}
+
+    \item $\mathbf{C}(u)$ is a piecewise curve and its components are ratios of polynomials of, at most, degree $p$.
+    
+    \item The order $p$, number of control points $n+1$ and number of knots $r+1$ are related according to $r = n + p + 1$.
+    
+    \item NURBS curves contain B-Spline and rational/non-rational \Bezier curves as special cases:
+    \begin{enumerate}
+        \item If all the control point weights are equal then the NURBS curve is reduced to a B-Spline curve.
+        \item If $n = p$ and the knot vector is clamped then the NURBS curve is reduced to a rational \Bezier curve.
+        \item If all the control point weights are equal, $p = n$, and the knot vector is clamped then the NURBS curve is reduced to a polynomial \Bezier curve.
+    \end{enumerate}
+
+    \item Affine invariance:
+    
+    NURBS curves are invariant under affine transformations such as rotations, displacements and scalings. This means that one can apply an affine transformation to the NURBS curve by applying it to its set of control points.
+    
+    Given an affine transformation $\phi(\mathbf{v}) = \mathrm{A} \mathbf{v} + \mathbf{b}$ we have that:
+    \begin{align*}
+        \phi \big(\mathbf{C}(u)\big) &= \phi \big(\sum_{i=0}^{n} R_{i,p}(u)\, \mathbf{P}_{i}\big) = \\
+        &= \mathrm{A} \sum_{i=0}^{n} R_{i,p}(u)\, \mathbf{P}_{i} + \mathbf{b} = \\
+        &= \mathrm{A} \sum_{i=0}^{n} R_{i,p}(u)\, \mathbf{P}_{i} + \mathbf{b} \, \sum_{i=0}^{n} R_{i,p}(u) \qquad \text{(by partition of unity)}\\
+        &= \sum_{i=0}^{n} R_{i,p}(u)\,( \mathrm{A} \mathbf{P}_{i} + \mathbf{b}) \\
+        &= \sum_{i=0}^{n} R_{i,p}(u)\,\phi \big(\mathbf{P}_{i} \big)
+    \end{align*}
+    
+    \item Convex hull property:
+    
+    All the points of a NURBS curve are contained in the \textit{convex hull} of its control points.
+    The convex hull of a set of points $P = \{\mathbf{P}_{0},\, \dots,\, \mathbf{P}_{N}\}$ is denoted by $\mathcal{CH}(P)$ and it is the set of all the convex combinations of points:
+    \begin{equation*}
+     \mathcal{CH}(P) = \Big\{ \mathbf{C} =  \sum_{k=0}^{N} a_{k} \, \mathbf{P}_{k} \text{ such that } \sum_{k=0}^{N} a_{k} = 1 \text{ and } a_{k}\geq 0 \text{ for } k = 0,\, 1,\, \dots,\, N\Big\}
+    \end{equation*}
+    The convex hull property follows from the non-negativity and the partition-of-unity properties of the basis functions.
+    % The convex hull of a set of points is the minimal convex polytope that contains all the points
+    
+    \item Strong convex hull property:
+    
+    If $u \in [u_{i_{0}},\, u_{i_{0}+1})$, then $\mathbf{C}(u)$ is contained in the convex hull of the control points $\boldsymbol{P}_{i}$ with $i_{0}-p \leq i \leq i_{0}$.
+
+    \item Local modification scheme:
+    
+    Modifying the control point $\mathbf{P}_{i}$ or weight $w_{i}$ affects $\mathbf{C}(u)$ only in the interval $[u_{i}, u_{i+p+1})$. This property follows from the fact that $R_{i,p}(u)=0$ if $u$ is outside the interval $[u_{i}, u_{i+p+1})$ and it implies that the shape of a NURBS can be modified locally without changing its shape globally.
+    
+    \item The polygon formed by the set of control points is known as \textit{control polygon}. The control polygon represents a piecewise linear approximation to the NURBS curve.
+
+    \item Variation diminishing property:
+    
+    No straight line (or plane in three dimensions) intersects the B-Spline curve more times than it intersects its control polygon. An intuitive explanation of this property is that the B-Spline curve does not wiggle more than its control polygon.
+    
+    \item Continuity and differentiability:
+    \begin{enumerate}
+        \item NURBS curves are infinitely differentiable in the interior of the knot intervals.
+        \item NURBS curves are \textit{at least} $p-k$ continuously differentiable at a knot with multiplicity $k$.
+    \end{enumerate}
+    
+    
+    \item Homogeneous coordinates:
+    
+    $N$-dimensional rational functions with a common denominator can be represented as polynomial functions in $(N+1)$-dimensional space using \textit{homogeneous coordinates}.
+    
+    Consider a three-dimensional point $\mathbf{P}=(x,\, y,\, z)$. $\mathbf{P}$ can be written in four-dimensional space as $\mathbf{P}^w=(wx,\, wy,\, wz,\, w) = (X,\, Y,\, Z,\, W)$, where $w \neq 0$.
+    The point $\mathbf{P}$ can be obtained from $\mathbf{P}^w$ using the mapping $\mathcal{H}$ given by:
+    \begin{align*}
+        \mathbf{P} = \mathcal{H}\{\mathbf{P}^w\} =  \mathcal{H}\{(X,\, Y,\, Z,\, W)\} = \left( \frac{X}{W},\, \frac{Y}{W},\, \frac{Z}{W}\right)
+    \end{align*}
+    
+    This theory can be used to represent a $N$-dimensional NURBS curve as a $(N+1)$-dimensional B-Spline curve and then retrieve the coordinates of the NURBS curve using the $\mathcal{H}$ mapping.
+    
+    Indeed, consider a NURBS curve $\mathbf{C}(u)$ with control points $\mathbf{P}_{i}$ and weights $w_{i}$. It is possible to construct a set of weighted control points $\mathbf{P}^{w}_{i} = (w_{i}x_{i},\, w_{i}y_{i},\, w_{i}z_{i},\, w_{i})$ and define the corresponding non-rational B-Spline curve in four-dimensional space as:
+    \begin{align*}
+        \mathbf{C}^{w}(u)=\sum_{i=0}^{n} N_{i,p}(u)\, \mathbf{P}^{w}_{i} \quad \quad 0 \leq u \leq 1
+    \end{align*}
+    
+    In order to compute the coordinates of the original NURBS curve it is possible to use standard B-Spline algorithms to evaluate the coordinates of $\mathbf{C}^{w}(u)$ in homogeneous space and then apply the $\mathcal{H}$ mapping:
+    \begin{align*}
+        \mathbf{C}(u) &= \mathcal{H}\{\mathbf{C}^w\} \\
+        &=  \mathcal{H} \bigg\{ \sum_{i=0}^{n} N_{i,p}(u)\, \mathbf{P}^{w}_{i} \bigg\} \\
+        &= \frac{\sum\limits_{i=0}^{n} N_{i,p}(u)\, w_{i} \,\mathbf{P}_{i}}{\sum\limits_{i=0}^{n} N_{i,p}(u)\, w_{i}} \\
+        &= \sum_{i=0}^{n} R_{i,p}(u) \, \mathbf{P}_{i}
+    \end{align*}
+    
+    This property is important to evaluate the derivatives of NURBS curves.
+    
+    \item First and higher order derivatives:
+    
+    The derivatives of a NURBS curve $\mathbf{C}(u)$ can be expressed in terms of the derivatives of the corresponding B-Spline in homogeneous space $\mathbf{C}^{w}(u)$. Indeed, let:
+    \begin{align*}
+        \mathbf{C}(u) = \frac{\sum\limits_{i=0}^{n} N_{i,p}(u)\, w_{i} \,\mathbf{P}_{i}}{\sum\limits_{i=0}^{n} N_{i,p}(u)\, w_{i}} = \frac{\mathbf{A}(u)}{w(u)}
+    \end{align*}
+    
+    where $\mathbf{A}(u)$ is the vector function whose coordinates are the three first elements of $\mathbf{C}^{w}(u)$ and $w(u)$ is the scalar function with the fourth element of $\mathbf{C}^{w}(u)$.
+    
+    To compute the first derivatives, first rearrange the previous expression to avoid the denominator, then differentiate both sides of the equation and, finally, solve for $\mathbf{C}'(u)$:
+    \begin{align*}
+        & w \, \mathbf{C} = \mathbf{A} \\
+        & \big[ w \, \mathbf{C} \big] ' = \mathbf{A}' \\
+        & w' \, \mathbf{C} + w \, \mathbf{C}' = \mathbf{A}' \\
+        & \mathbf{C}' = \frac{1}{w} \left(\mathbf{A}' - w' \, \mathbf{C} \right)
+    \end{align*}
+    
+    To compute the $k$-th order derivatives, differentiate $k$-times using Leibniz' rule for product differentiation and then solve for $\mathbf{C}^{(k)}(u)$:
+    \begin{align*}
+        & w \, \mathbf{C} = \mathbf{A} \\
+        & \big[ w \, \mathbf{C} \big]^{(k)} = \mathbf{A}^{(k)} \\
+        & \sum_{i=0}^{k} \binom{k}{i} w^{(i)} \, \mathbf{C}^{(k-i)} = \mathbf{A}^{(k)} \\
+        & \mathbf{C}^{(k)} =  \frac{1}{w} \left(\mathbf{A}^{(k)} - \sum\limits_{i=1}^{k} \binom{k}{i} w^{(i)} \, \mathbf{C}^{(k-i)} \right)
+    \end{align*}
+    
+    The derivatives of $\mathbf{A}(u)$ and $w(u)$ can be easily computed by differentiating $\mathbf{C}^{w}(u)$:
+        \begin{align*}
+             \left[\mathbf{C}^{w}\right]^{(k)}(u)  = \sum_{i=0}^{n}N^{(k)}_{i,p}(u)\, \mathbf{P}^{w}_{i}
+        \end{align*}
+    
+
+    \item End point interpolation:
+    
+    The start and end points of a clamped NURBS curve coincide with the first and last control points, respectively.
+    \begin{align*}
+        \mathbf{C}(u=0) &= \mathbf{P}_{0} \\
+        \mathbf{C}(u=1) &= \mathbf{P}_{n}
+    \end{align*}
+    
+    
+    \item End point tangency:
+    
+    A clamped NURBS curve is tangent to the control polygon at the endpoints.
+    \begin{align*}
+        \frac{\mathrm{d}\mathbf{C}}{\mathrm{d}u}\Bigr|_{u=0} &= \left(\frac{p}{u_{p+1}}\right) \left(\frac{w_{1}}{w_{0}}\right) (\mathbf{P}_{1} - \mathbf{P}_{0}) \\
+        \frac{\mathrm{d}\mathbf{C}}{\mathrm{d}u}\Bigr|_{u=1} &= \left(\frac{p}{1-u_{n}}\right) \left(\frac{w_{n-1}}{w_{n}}\right) (\mathbf{P}_{n} - \mathbf{P}_{n-1})
+    \end{align*}
+    
+    \item End point curvature:
+    
+    The second derivative of NURBS curve at its endpoints in given by: \\
+    \resizebox{\linewidth}{!}{
+    \begin{minipage}{0.99\linewidth}
+    \begin{align*}
+        \frac{\mathrm{d}^2\mathbf{C}}{\mathrm{d}u^2}\Bigr|_{u=0} =& \frac{p (p-1)}{u_{p+1}}  \left[ \left(\frac{1}{u_{p+2}} \right) \left(\frac{w_{2}}{w_{0}} \right) \left(\mathbf{P}_{2} - \mathbf{P}_{0} \right) - \left( \frac{1}{u_{p+1}}  + \frac{1}{u_{p+2}} \right) \left(\frac{w_{1}}{w_{0}} \right) \left( \mathbf{P}_{1} - \mathbf{P}_{0} \right) \right] + \frac{2p^{2}}{u^{2}_{p+1}} \left(\frac{w_{1}}{w_{0}} \right) \left(1 - \frac{w_{1}}{w_{0}} \right) \left( \mathbf{P}_{1} - \mathbf{P}_{0} \right) \\
+        \frac{\mathrm{d}^2\mathbf{C}}{\mathrm{d}u^2}\Bigr|_{u=1} =& \frac{p (p-1)}{1-u_{n}}  \left[ \left(\frac{1}{1- u_{n-1}} \right) \left(\frac{w_{n-2}}{w_{n}} \right) \left(\mathbf{P}_{n-2} - \mathbf{P}_{n} \right) - \left( \frac{1}{1-u_{n}}  + \frac{1}{1-u_{n-1}} \right) \left(\frac{w_{n-1}}{w_{n}} \right) \left( \mathbf{P}_{n-1} - \mathbf{P}_{n} \right) \right] + \frac{2p^{2}}{(1-u_{n})^2} \left(\frac{w_{n-1}}{w_{n}} \right) \left(1 - \frac{w_{n-1}}{w_{n}} \right) \left( \mathbf{P}_{n-1} - \mathbf{P}_{n} \right)
+    \end{align*}
+    \vspace{3pt}
+    \end{minipage}
+    }
+
+    The curvature of a clamped NURBS curve at its endpoints is given by:
+    \begin{align*}
+        \kappa(u=0) &=  \left( \frac{p-1}{p}  \right)  \left( \frac{u_{p+1}}{u_{p+2}}  \right) \left(\frac{w_{0}\,w_{2}}{w_{1}^2} \right)  \,
+        \frac{\norm{ \left(\mathbf{P}_{2}-\mathbf{P}_{0}\right) \times \left(\mathbf{P}_{1}-\mathbf{P}_{0}\right)} }{\norm{\mathbf{P}_{1}-\mathbf{P}_{0}}^3} \\
+        \kappa(u=1) &=  \left( \frac{p-1}{p}  \right)  \left( \frac{1-u_{n}}{1-u_{n-1}}  \right) \left(\frac{w_{n}\,w_{n-2}}{w_{n-1}^2} \right)  \,
+        \frac{\norm{ \left(\mathbf{P}_{n-2}-\mathbf{P}_{n}\right) \times \left(\mathbf{P}_{n-1}-\mathbf{P}_{n}\right)} }{\norm{\mathbf{P}_{n-1}-\mathbf{P}_{n}}^3}
+    \end{align*}
+
+
+    
+\end{enumerate}
+
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+
+

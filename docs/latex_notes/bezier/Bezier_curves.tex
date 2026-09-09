@@ -1,0 +1,182 @@
+\section{\Bezier curves}
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Definition}
+
+A \Bezier curve is a parametric curve defined by:
+\begin{align}
+\label{eq:def_bezier_curve}
+\mathbf{C}(u)=\sum_{i=0}^{n} B_{i,n}(u)\, \mathbf{P}_{i} \quad \quad 0 \leq u \leq 1
+\end{align}
+
+where $n$ is the order of the curve, the coefficients $\mathbf{P}_{i}$ are called control points, and $B_{i,n}$ are the basis functions, which are $n$-th degree Bernstein polynomials given by the explicit formula:
+\begin{align}
+    \label{eq:def_bernstein_explicit}
+    B_{i,n}(u) = \binom{n}{i}  \, (1-u)^{n-i} \, u^{i} = \frac{n!}{i! \, (n-i)!} \, (1-u)^{n-i} \, u^{i}  
+\end{align}
+
+Equivalently, the Bernstein polynomials of degree $n$ can be defined in a recursive way blending together two Bernstein polynomials of degree $n-1$:
+\begin{align}
+    \label{eq:def_bernstein_recursive}
+    B_{i,n}(u) = (1-u) \, B_{i,n-1}(u) + u \, B_{i-1,n-1}(u)
+\end{align}
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Mathematical properties of Bernstein polynomials}
+Here is a list of some important properties of Bernstein polynomials:
+\begin{enumerate}
+
+    \item $B_{i,n}(u)$ is a polynomial of degree $n$.
+
+    \item Symmetry of the basis functions:
+    \begin{equation*}
+        B_{i,n}(u) = B_{n-i,n}(1-u)
+    \end{equation*}
+    
+    \item Global support:
+    \begin{equation*}
+        B_{i,n}(u)>0 \text{ for } u \in (0,1)
+    \end{equation*}
+    
+    \item Non-negativity:
+        \begin{equation*}
+            B_{i,n}(u) \geq 0 \quad \text{for all $i$, $p$, and $u \in [0, 1]$}
+        \end{equation*}
+        In addition, $B_{i,n}(u) = 0$ for $i<0$ or $i>n$ by convention (this is used in some proofs).
+        
+    \item Partition of unity:
+        \begin{equation*}
+            \sum_{i=0}^{n} B_{i,n}(u)  = (1-t+t)^{n} = 1 \text{ for all } u \in [0, 1]
+        \end{equation*}
+    
+    \item Continuity and differentiability:
+    
+    Bernstein polynomials are continuous and infinitely differentiable.
+    
+    \item Extrema:
+    
+    $B_{i,n}(u)$ attains exactly one maximum value in the interval $u \in [0, 1]$.
+    
+    \item The first derivative of the Bernstein polynomials is given by:
+    \begin{equation*}
+        B'_{i,n}(u) = \frac{\mathrm{d}B_{i,n}}{\mathrm{d}u} = n\, \big(B_{i-1,n-1}(u) - B_{i,n-1}(u)\big)
+    \end{equation*}
+
+    \item $B_{0,n}(u=0) =1$ and $B_{i,n}(u=0)=0$ for $i\neq0$.
+    
+    \item $B_{n,n}(u=1) =1$ and $B_{i,n}(u=1)=0$ for $i\neq n$.
+    
+\end{enumerate}
+
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+\subsection{Mathematical properties of \Bezier  curves}
+Here is a list of some important properties of \Bezier curves:
+
+\begin{enumerate}
+
+    \item A \Bezier curve of degree $n$ is defined by $n+1$ control points and the components of $\mathbf{C}(u)$ are polynomials of degree $n$.
+    
+    \item Affine invariance:
+    
+    \Bezier curves are invariant under affine transformations such as rotations, displacements and scalings. This means that one can apply an affine transformation to the \Bezier curve by applying it to its set of control points.
+    
+    \item Convex hull property:
+    
+    All the points of a \Bezier curve are contained in the \textit{convex hull} of its control points.
+    The convex hull of a set of points $P = \{\mathbf{P}_{0},\, \dots,\, \mathbf{P}_{N}\}$ is denoted by $\mathcal{CH}(P)$ and it is the set of all the convex combinations of points:
+    \begin{equation*}
+     \mathcal{CH}(P) = \Big\{ \mathbf{C} =  \sum_{k=0}^{N} a_{k} \, \mathbf{P}_{k} \text{ such that } \sum_{k=0}^{N} a_{k} = 1 \text{ and } a_{k}\geq 0 \text{ for } k = 0,\, 1,\, \dots,\, N\Big\}
+    \end{equation*}
+    The convex hull property follows from the non-negativity and the partition-of-unity properties of the basis functions.
+    % The convex hull of a set of points is the minimal convex polytope that contains all the points
+    
+    \item Global modification scheme:
+    
+    Modifying any of the interior control points will affect the location of all the points of the \Bezier curve except at $u=0$ and $u=1$.
+    
+    
+    \item The polygon formed by the set of control points is known as \textit{control polygon}. The control polygon represents a piecewise linear approximation to the \Bezier curve.
+
+    \item Variation diminishing property:
+    
+    No straight line (or plane in three dimensions) intersects the \Bezier curve more times than it intersects its control polygon. An intuitive explanation of this property is that the \Bezier curve does not wiggle more than its control polygon.
+    
+    \item Continuity and differentiability:
+    
+    \Bezier curves are continuous and infinitely differentiable.
+    
+    \item First and higher order derivatives:
+    
+    The first derivative of a \Bezier curve is given by:
+    \begin{align*}
+        \frac{\mathrm{d}\mathbf{C}}{\mathrm{d}u} &= \sum_{i=0}^{n}B'_{i,n}(u)\, \mathbf{P}_{i} \\
+        \frac{\mathrm{d}\mathbf{C}}{\mathrm{d}u} &= \sum_{i=0}^{n} n\, \big( B_{i-1,n-1}(u) - B_{i,n-1}(u)\big) \, \mathbf{P}_{i} \\
+        \frac{\mathrm{d}\mathbf{C}}{\mathrm{d}u} &= n \, \sum_{i=0}^{n-1}B_{i,n-1}(u)\, (\mathbf{P}_{i+1} - \mathbf{P}_{i})
+    \end{align*}
+    
+    Note that the first derivative of a \Bezier curve of degree $n$ is another \Bezier curve of degree $n-1$ and it is called the \textit{hodograph} of the original \Bezier curve:
+    \begin{align*}
+        \frac{\mathrm{d}\mathbf{C}}{\mathrm{d}u} = \sum_{i=0}^{n-1} B_{i,n-1}(u)\, \mathbf{P}^{(1)}_{i} \quad \text{with} \quad \mathbf{P}^{(1)}_{i} = n\, (\mathbf{P}_{i+1} - \mathbf{P}_{i})
+    \end{align*}
+    
+    Since the derivative of a \Bezier curve is another \Bezier curve, we can differentiate the original curve recursively to compute its $k$-th derivative:
+    \begin{align*}
+        \frac{\mathrm{d}^k\mathbf{C}}{\mathrm{d}u^k} = \sum_{i=0}^{n-k} B_{i,n-k}(u) \, \mathbf{P}_{i}^{(k)}
+    \end{align*}
+    where:
+    \begin{equation*}
+        \mathbf{P}_{i}^{(k)} =  \begin{cases}
+            \mathbf{P}_{i} & \text{if $k=0$}\\
+            (n-k+1) \, (\mathbf{P}_{i+1}^{(k-1)} - \mathbf{P}_{i}^{(k)}) &\text{if $k>0$}
+            \end{cases}
+    \end{equation*}
+
+
+    \item Endpoint interpolation:
+    
+    The start and end points of a \Bezier curve coincide with the first and last control points, respectively:
+    \begin{align*}
+        \mathbf{C}(u=0) &= \mathbf{P}_{0} \\
+        \mathbf{C}(u=1) &= \mathbf{P}_{n}
+    \end{align*}
+    
+    \item End point tangency:
+    
+    The \Bezier curve is tangent to the control polygon at the endpoints:
+    \begin{align*}
+        \frac{\mathrm{d}\mathbf{C}}{\mathrm{d}u}\Bigr|_{u=0} &= n\,(\mathbf{P}_{1} - \mathbf{P}_{0}) \\
+        \frac{\mathrm{d}\mathbf{C}}{\mathrm{d}u}\Bigr|_{u=1} &= n\,(\mathbf{P}_{n} - \mathbf{P}_{n-1})
+    \end{align*}
+    
+    \item End point curvature:
+    
+    The second derivative of \Bezier curve at its endpoints in given by:
+    \begin{align*}
+        \frac{\mathrm{d}^2\mathbf{C}}{\mathrm{d}u^2}\Bigr|_{u=0} &= n\,(n-1) \, \left[ (\mathbf{P}_{2}-\mathbf{P}_{0})  - 2 \, ( \mathbf{P}_{1} - \mathbf{P}_{0}) \right] \\
+        \frac{\mathrm{d}^2\mathbf{C}}{\mathrm{d}u^2}\Bigr|_{u=1} &= n\,(n-1) \, \left[ (\mathbf{P}_{n-2}-\mathbf{P}_{n})  - 2 \, ( \mathbf{P}_{n-1} - \mathbf{P}_{n}) \right]
+    \end{align*}
+    
+    The curvature of a \Bezier curve at its endpoints is given by:
+    \begin{align*}
+        \kappa(u=0) &=  \left( \frac{n-1}{n}  \right)
+        \frac{\norm{ \left(\mathbf{P}_{2}-\mathbf{P}_{0}\right) \times \left(\mathbf{P}_{1}-\mathbf{P}_{0}\right)} }{\norm{\mathbf{P}_{1}-\mathbf{P}_{0}}^3} \\
+        \kappa(u=1) &=  \left( \frac{n-1}{n}  \right) 
+        \frac{\norm{ \left(\mathbf{P}_{n-2}-\mathbf{P}_{n}\right) \times \left(\mathbf{P}_{n-1}-\mathbf{P}_{n}\right)} }{\norm{\mathbf{P}_{n-1}-\mathbf{P}_{n}}^3}
+    \end{align*}
+    
+\end{enumerate}
+
+
+
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%
+%% --------------------------------------------------------------------------------------------- %%

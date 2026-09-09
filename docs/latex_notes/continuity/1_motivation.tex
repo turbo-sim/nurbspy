@@ -1,0 +1,24 @@
+\section{Motivation}
+In many science and engineering applications it is necessary to develop a smooth geometric parametrization. The level of smoothness of a curve or surface can be measured in terms of its degree of geometric continuity:
+
+\begin{itemize}
+    \item G$^0$ or position continuity
+    \item G$^1$ or tangency continuity
+    \item G$^2$ or curvature continuity
+    \item ...
+\end{itemize}
+
+In most cases it is sufficient to attain G$^2$ continuity, which means that the radius of curvature is continuous at every point. For the case of a space curve $\mathbf{C}(u)$ parametrized by $u$, the curvature $\kappa$ is given by\footnote{The curvature $\kappa$ is the inverse of the radius of curvature $\rho=1/\kappa$}:
+\begin{align}
+    \kappa(u) = \frac{\norm{\mathbf{\ddot{C}}(u) \times \mathbf{\dot{C}}(u)}}{\norm{\mathbf{\dot{C}}(u)}^3}
+\end{align}
+
+When the geometry is parametrized by a single \Bezier, B-Spline, or NURBS curve it is straightforward to ensure the desired level of continuity at the interior points. However, when the geometry is described with more than one curve segment, it is necessary to pay special attention to the continuity at the connection points, see \RefFig{fig:curve_smoothness}.
+
+The usual approach to ensure smoothness at the points connecting two curves is by adding extra control points at suitable locations.
+This is done, for instance, when one wants to ensure G$^2$ continuity at the points connecting the pressure and suction surface of an airfoil as illustrated in \RefFig{fig:G2_continutity_blade}.
+
+The objective of this note is to derive expressions for the endpoint curvature of \Bezier and B-Spline curves. These expressions can in turn be used to compute the location of the additional control points required to ensure G$^2$ continuity between two spline segments. To illustrate the use of these relations, they were applied to the particular case of an airfoil parametrization that meets G$^2$ continuity at the leading and trailing edges. Finally, the relations for endpoint curvature derived in this note were compared with the expression used for the 2D blade parametrization in \textcite{Mykhaskiv2018} and we suggested a correction for the case of B-Spline curves.
+
+
+ 

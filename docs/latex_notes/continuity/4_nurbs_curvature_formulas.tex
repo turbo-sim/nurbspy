@@ -1,0 +1,62 @@
+\section{NURBS curve endpoint curvature formulas}
+\label{sec:bspline}
+
+\subsection{Definition}
+Consider the NURBS curve given by:
+\begin{align}
+    \label{eq:def_nurbs_curve}
+    \mathbf{C}(u)=\sum_{i=0}^{n} R_{i,p}(u) \, \mathbf{P}_{i} \quad \quad 0 \leq u \leq 1
+\end{align}
+
+where $p$ is the order of the curve, the coefficients $\mathbf{P}_{i}$ are called control points, and $R_{i,p}$ are the rational basis functions given by:
+\begin{align}
+    R_{i,p}(u) = \frac{N_{i,p}(u) \, w_{i}}{\sum\limits_{i=0}^{n} N_{i,p}(u) \, w_{i}}
+\end{align}
+
+in which $w_{i}$ are the weights of the control points and $N_{i,p}$ are B-Spline basis functions defined on the non-decreasing knot vector $U$:
+\begin{align}
+    U = [u_0,\, \dots,\, u_{r}] \in \mathds{R}^{r+1} \quad \text{with} \quad r = n + p + 1
+\end{align}
+
+
+\subsection{Endpoint derivative formulas}
+
+The endpoint values and derivatives of a B-Spline curve are given by:
+
+\textit{- Endpoint value:}
+    \begin{align*}
+        \mathbf{C}(u=0) &= \mathbf{P}_{0} \\
+        \mathbf{C}(u=1) &= \mathbf{P}_{n}
+    \end{align*}
+    
+\textit{- Endpoint first derivative:}
+    \begin{align*}
+        \mathbf{\dot{C}}(u=0) &= \left(\frac{p}{u_{p+1}}\right) \left(\frac{w_{1}}{w_{0}}\right) (\mathbf{P}_{1} - \mathbf{P}_{0}) \\
+        \mathbf{\dot{C}}(u=1) &= \left(\frac{p}{1-u_{n}}\right) \left(\frac{w_{n-1}}{w_{n}}\right) (\mathbf{P}_{n} - \mathbf{P}_{n-1})
+    \end{align*}
+
+\textit{- Endpoint second derivative:} \\
+    \resizebox{0.95\linewidth}{!}{
+    \begin{minipage}{1.25\linewidth}
+    \begin{align*}
+        \mathbf{\ddot{C}}(u=0) &= \frac{p (p-1)}{u_{p+1}}  \left[ \left(\frac{1}{u_{p+2}} \right) \left(\frac{w_{2}}{w_{0}} \right) \left(\mathbf{P}_{2} - \mathbf{P}_{0} \right) - \left( \frac{1}{u_{p+1}}  + \frac{1}{u_{p+2}} \right) \left(\frac{w_{1}}{w_{0}} \right) \left( \mathbf{P}_{1} - \mathbf{P}_{0} \right) \right] + \frac{2p^{2}}{u^{2}_{p+1}} \left(\frac{w_{1}}{w_{0}} \right) \left(1 - \frac{w_{1}}{w_{0}} \right) \left( \mathbf{P}_{1} - \mathbf{P}_{0} \right) \\
+        \mathbf{\ddot{C}}(u=1) &= \frac{p (p-1)}{1-u_{n}}  \left[ \left(\frac{1}{1- u_{n-1}} \right) \left(\frac{w_{n-2}}{w_{n}} \right) \left(\mathbf{P}_{n-2} - \mathbf{P}_{n} \right) - \left( \frac{1}{1-u_{n}}  + \frac{1}{1-u_{n-1}} \right) \left(\frac{w_{n-1}}{w_{n}} \right) \left( \mathbf{P}_{n-1} - \mathbf{P}_{n} \right) \right] + \frac{2p^{2}}{(1-u_{n})^2} \left(\frac{w_{n-1}}{w_{n}} \right) \left(1 - \frac{w_{n-1}}{w_{n}} \right) \left( \mathbf{P}_{n-1} - \mathbf{P}_{n} \right)
+    \end{align*}
+    \vspace{3pt}
+    \end{minipage}
+    }
+
+See \textcite[pp.~117--127]{NURBS_book} for a proof of the endpoint formulas.  
+
+
+\subsection{Endpoint curvature formulas}
+The endpoint curvature formulas can be easily derived inserting the first and second derivatives into the radius of curvature definition and noting that the vector cross product of two parallel vectors is zero:
+\begin{align}
+    \label{eq:nurbs_curvature_u0}
+    \kappa(u=0) &=  \left( \frac{p-1}{p}  \right)  \left( \frac{u_{p+1}}{u_{p+2}}  \right) \left(\frac{w_{0}\,w_{2}}{w_{1}^2} \right)  \,
+    \frac{\norm{ \left(\mathbf{P}_{2}-\mathbf{P}_{0}\right) \times \left(\mathbf{P}_{1}-\mathbf{P}_{0}\right)} }{\norm{\mathbf{P}_{1}-\mathbf{P}_{0}}^3} \\
+    \label{eq:nurbs_curvature_u1}
+    \kappa(u=1) &=  \left( \frac{p-1}{p}  \right)  \left( \frac{1-u_{n}}{1-u_{n-1}}  \right) \left(\frac{w_{n}\,w_{n-2}}{w_{n-1}^2} \right)  \,
+    \frac{\norm{ \left(\mathbf{P}_{n-2}-\mathbf{P}_{n}\right) \times \left(\mathbf{P}_{n-1}-\mathbf{P}_{n}\right)} }{\norm{\mathbf{P}_{n-1}-\mathbf{P}_{n}}^3}
+\end{align}
+

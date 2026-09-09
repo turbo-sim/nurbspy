@@ -1,0 +1,58 @@
+\documentclass[11pt]{article}
+\input{01docsetup}
+
+\usepackage[a4paper,width=150mm,top=15mm,bottom=20mm,bindingoffset=0mm]{geometry}
+
+\renewcommand*\rmdefault{cmr}  % Computer Modern Roman
+% \renewcommand*\rmdefault{lmr}  % Latin Modern Roman
+%\renewcommand*\rmdefault{bch}  % Charter
+% \renewcommand*\rmdefault{ppl}  % Palatino
+%\renewcommand*\rmdefault{ptm}  % Times
+
+% Ref sections
+\newcommand{\RefSection}[1]{\hyperref[#1]{Section~\ref{#1}}}
+\newcommand{\RefSections}[2]{\hyperref[#1]{Sections~\ref{#1}~\textcolor{black}{and}~\ref{#2}}}
+\newcommand{\RefAppendix}[1]{\hyperref[#1]{Appendix~\ref{#1}}}
+% Ref figures
+\newcommand{\RefFig}[1]{\hyperref[#1]{Figure~\ref{#1}}}
+\newcommand{\RefFigs}[2]{\hyperref[#1]{Figures~\ref{#1}~\textcolor{black}{and}~\ref{#2}}}
+\newcommand{\RefFigss}[2]{\hyperref[#1]{Figures~\ref{#1}~\textcolor{black}{to}~\ref{#2}}}
+% Ref tables
+\newcommand{\RefTable}[1]{\hyperref[#1]{Table~\ref{#1}}}
+\newcommand{\RefTables}[2]{\hyperref[#1]{Tables~\ref{#1}~\textcolor{black}{and}~\ref{#2}}}
+\newcommand{\RefTabless}[2]{\hyperref[#1]{Tables~\ref{#1}~\textcolor{black}{to}~\ref{#2}}}
+% Ref equations
+\newcommand{\RefEq}[1]{\hyperref[#1]{Eq.~(\ref{#1})}}
+\newcommand{\RefEqs}[2]{\hyperref[#1]{Eqs.~(\ref{#1})~\textcolor{black}{and}~(\ref{#2})}}
+\newcommand{\RefEqss}[2]{\hyperref[#1]{Eqs.~(\ref{#1})~\textcolor{black}{to}~(\ref{#2})}}
+
+
+\newcommand{\Bezier}[0]{B\'{e}zier }
+
+% Load bibliographic file
+\addbibresource{references.bib}
+
+
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+{\LARGE \bf G2 continuity of NURBS curves}\\
+\vspace{2ex}
+{\large Roberto Agromayor, \today }\\
+\end{center}
+
+
+\input{1_motivation.tex}                    \clearpage
+\input{2_bezier_curvature_formulas.tex}     \clearpage
+\input{3_bspline_curvature_formulas.tex}    \clearpage
+\input{4_nurbs_curvature_formulas}          \clearpage
+\input{5_airfoil_parametrization.tex}       \clearpage
+\input{6_final_remarks.tex}
+\printbibliography                          \clearpage
+\input{7_figures.tex}
+
+
+
+
+\end{document}

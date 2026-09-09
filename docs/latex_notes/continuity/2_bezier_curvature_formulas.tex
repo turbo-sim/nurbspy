@@ -1,0 +1,61 @@
+\section{\Bezier curve endpoint curvature formulas}
+\subsection{Definition}
+\label{sec:bezier}
+
+Consider the \Bezier curve given by:
+\begin{equation}
+\label{eq:def_bezier_curve}
+\mathbf{C}(u)=\sum_{i=0}^{n} B_{i,n}(u)\, \mathbf{P}_{i} \quad \quad 0 \leq u \leq 1
+\end{equation}
+
+where $n$ is the order of the curve, the coefficients $\mathbf{P}_{i}$ are called control points, and $B_{i,n}$ are the basis functions, which are $n$-th degree Bernstein polynomials given by the explicit formula:
+\begin{equation}
+    \label{eq:def_bernstein_explicit}
+    B_{i,n}(u) = \binom{n}{i}  \, (1-u)^{n-i} \, u^{i} = \frac{n!}{i! \, (n-i)!} \, (1-u)^{n-i} \, u^{i}  
+\end{equation}
+
+Equivalently, the Bernstein polynomials of degree $n$ can be defined in a recursive way blending together two Bernstein polynomials of degree $n-1$:
+\begin{equation}
+    \label{eq:def_bernstein_recursive}
+    B_{i,n}(u) = (1-u) \, B_{i,n-1}(u) + u \, B_{i-1,n-1}(u)
+\end{equation}
+
+
+
+\subsection{Endpoint derivative formulas}
+
+The endpoint values and derivatives of a \Bezier curve are given by:
+
+\textit{- Endpoint value:}
+    \begin{align*}
+        \mathbf{C}(u=0) &= \mathbf{P}_{0} \\
+        \mathbf{C}(u=1) &= \mathbf{P}_{n}
+    \end{align*}
+    
+\textit{- Endpoint first derivative:}
+    \begin{align*}
+        \mathbf{\dot{C}}(u=0) &= n \,(\mathbf{P}_{1} - \mathbf{P}_{0}) \\
+        \mathbf{\dot{C}}(u=1) &= n \,(\mathbf{P}_{n} - \mathbf{P}_{n-1})
+    \end{align*}
+
+\textit{- Endpoint second derivative:}
+    \begin{align*}
+        \mathbf{\ddot{C}}(u=0) &= n\,(n-1) \, \left[ (\mathbf{P}_{2}-\mathbf{P}_{0})  - 2 \, ( \mathbf{P}_{1} - \mathbf{P}_{0}) \right] \\
+        \mathbf{\ddot{C}}(u=1) &= n\,(n-1) \, \left[ (\mathbf{P}_{n-2}-\mathbf{P}_{n})  - 2 \, ( \mathbf{P}_{n-1} - \mathbf{P}_{n}) \right]
+    \end{align*}
+
+See \textcite[pp.~9--25]{NURBS_book} for proofs of the endpoint formulas.
+
+
+\subsection{Endpoint curvature formulas}
+
+The endpoint curvature formulas can be easily derived inserting the first and second derivatives into the radius of curvature definition and noting that the vector cross product of two parallel vectors is zero:
+\begin{align}
+    \label{eq:bezier_curvature_u0}
+    \kappa(u=0) &=  \left( \frac{n-1}{n}  \right)
+    \frac{\norm{ \left(\mathbf{P}_{2}-\mathbf{P}_{0}\right) \times \left(\mathbf{P}_{1}-\mathbf{P}_{0}\right)} }{\norm{\mathbf{P}_{1}-\mathbf{P}_{0}}^3} \\
+    \kappa(u=1) &=  \left( \frac{n-1}{n}  \right) 
+    \frac{\norm{ \left(\mathbf{P}_{n-2}-\mathbf{P}_{n}\right) \times \left(\mathbf{P}_{n-1}-\mathbf{P}_{n}\right)} }{\norm{\mathbf{P}_{n-1}-\mathbf{P}_{n}}^3}
+    \label{eq:bezier_curvature_u1}
+\end{align}
+    
