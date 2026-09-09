@@ -901,6 +901,28 @@ ensuring that <cite>u_star</cite> remains within [0, 1].</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>Do not differentiate directly through this method (e.g. with
+<cite>jax.grad</cite> on a function that depends on <cite>P</cite> or <cite>W</cite> through the
+returned <cite>u_all</cite>): the current implementation is not robust
+under implicit differentiation and can raise a runtime error
+from the backward pass (“A linear solver received non-finite
+(NaN or inf) input”) even for ordinary, well-conditioned
+interior projections.</p>
+<p>This is also unnecessary: <cite>u_all</cite> solves exactly the first-order
+stationarity condition of <cite>||C(u) - Q||²</cite>, so by the envelope
+theorem (Danskin’s theorem), the correct gradient of any
+downstream objective built from <cite>C(u_all)</cite> with respect to <cite>P</cite>
+or <cite>W</cite> is obtained by freezing <cite>u_all</cite> with <cite>jax.lax.stop_gradient</cite>
+before differentiating, e.g.:</p>
+<blockquote>
+<div><p>u_star = jax.lax.stop_gradient(curve.project_points(Q))
+loss = jnp.sum((curve.get_value(u_star) - Q) ** 2)
+grad = jax.grad(loss_fn)(params)</p>
+</div></blockquote>
+<p>See <cite>demos/demos_jax/demo_curve_fitting_gradient_optimization.py</cite>
+for a complete gradient-based curve-fitting example using this
+pattern, verified against finite differences.</p>
 </dd></dl>
 
 <dl class="py method">

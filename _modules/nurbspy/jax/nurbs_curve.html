@@ -1358,6 +1358,31 @@
 <span class="sd">        -------</span>
 <span class="sd">        u_all : ndarray, shape (n_points,)</span>
 <span class="sd">            Parameter values of the orthogonal projections.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Do not differentiate directly through this method (e.g. with</span>
+<span class="sd">        `jax.grad` on a function that depends on `P` or `W` through the</span>
+<span class="sd">        returned `u_all`): the current implementation is not robust</span>
+<span class="sd">        under implicit differentiation and can raise a runtime error</span>
+<span class="sd">        from the backward pass (&quot;A linear solver received non-finite</span>
+<span class="sd">        (NaN or inf) input&quot;) even for ordinary, well-conditioned</span>
+<span class="sd">        interior projections.</span>
+
+<span class="sd">        This is also unnecessary: `u_all` solves exactly the first-order</span>
+<span class="sd">        stationarity condition of `||C(u) - Q||²`, so by the envelope</span>
+<span class="sd">        theorem (Danskin&#39;s theorem), the correct gradient of any</span>
+<span class="sd">        downstream objective built from `C(u_all)` with respect to `P`</span>
+<span class="sd">        or `W` is obtained by freezing `u_all` with `jax.lax.stop_gradient`</span>
+<span class="sd">        before differentiating, e.g.:</span>
+
+<span class="sd">            u_star = jax.lax.stop_gradient(curve.project_points(Q))</span>
+<span class="sd">            loss = jnp.sum((curve.get_value(u_star) - Q) ** 2)</span>
+<span class="sd">            grad = jax.grad(loss_fn)(params)</span>
+
+<span class="sd">        See `demos/demos_jax/demo_curve_fitting_gradient_optimization.py`</span>
+<span class="sd">        for a complete gradient-based curve-fitting example using this</span>
+<span class="sd">        pattern, verified against finite differences.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_project_point_scalar</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="mi">1</span><span class="p">)(</span><span class="n">Q_all</span><span class="p">)</span></div>
 
