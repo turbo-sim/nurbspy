@@ -33,8 +33,8 @@ jax = ["jax", "jaxlib", "equinox", "diffrax", "optimistix", "quadax"]
 
 [tool.poetry.group.dev.dependencies]
 ipython = ">=8.13,<8.17"
-black = "^25.1.0"
-pytest = "^8.3.5"
+black = "^26.3.1"
+pytest = "^9.0.3"
 pyzotero = "^1.5.19"
 numpydoc = "^1.7.0"
 sphinx = "^7.3.7"
