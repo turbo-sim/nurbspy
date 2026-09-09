@@ -27,7 +27,7 @@ jobs:
         echo "$HOME/.local/bin" >> $GITHUB_PATH
 
     - name: Install dependencies (including dev)
-      run: poetry install
+      run: poetry install --with dev --extras jax
 
     - name: Build Sphinx documentation
       run: |
@@ -38,6 +38,5 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: docs/_build/
+        publish_dir: docs/_build/html/
         keep_files: true
-        
