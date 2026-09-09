@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Nurbspy: A lighweight Python NURBS library &#8212; nurbspy v1.2.4 documentation</title>
+    <title>Welcome to nurbspy! &#8212; nurbspy</title>
   
   
   
@@ -32,7 +32,6 @@
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
@@ -41,21 +40,18 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=2c73ec7d"></script>
+    <script src="_static/documentation_options.js?v=27de968b"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script>let toggleHintShow = 'Click to show';</script>
-    <script>let toggleHintHide = 'Click to hide';</script>
-    <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/index.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="nurbspy package" href="source/api/nurbspy.html" />
+    <link rel="next" title="Getting started" href="getting_started/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -135,7 +131,7 @@
   
   
   
-    <p class="title logo__title">nurbspy v1.2.4 documentation</p>
+    <p class="title logo__title">nurbspy</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -148,23 +144,50 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="source/api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="source/api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="source/api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory/bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references/bibliography.html">References</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/point_projection_surface.html">Point projection onto a surface</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
 </ul>
 </details></li>
 </ul>
@@ -218,6 +241,70 @@
 
 
 
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/edit/main/docs/source/index.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2Findex.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
 <div class="dropdown dropdown-download-buttons">
   <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
     <i class="fas fa-download"></i>
@@ -226,7 +313,7 @@
       
       
       
-      <li><a href="_sources/index.rst" target="_blank"
+      <li><a href="_sources/index.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -236,7 +323,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.rst</span>
+<span class="btn__text-container">.md</span>
 </a>
 </li>
       
@@ -302,7 +389,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Nurbspy: A lighweight Python NURBS library</h1>
+    <h1>Welcome to nurbspy!</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -312,9 +399,7 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contents">Contents:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a></li>
 </ul>
             </nav>
         </div>
@@ -326,22 +411,56 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="nurbspy-a-lighweight-python-nurbs-library">
-<h1>Nurbspy: A lighweight Python NURBS library<a class="headerlink" href="#nurbspy-a-lighweight-python-nurbs-library" title="Link to this heading">#</a></h1>
-<section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
-<p>To be completed.</p>
-</section>
-<section id="features">
-<h2>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h2>
-<p>To be completed.</p>
-</section>
-<section id="contents">
-<h2>Contents:<a class="headerlink" href="#contents" title="Link to this heading">#</a></h2>
+  <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-nurbspy">
+<h1>Welcome to nurbspy!<a class="headerlink" href="#welcome-to-nurbspy" title="Link to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">nurbspy</span></code> is a Python package for working with Non-Uniform Rational B-Splines (NURBS), a mathematical representation of parametric curves and surfaces widely used in computer-aided design and engineering.</p>
+<p>The package provides a compact interface for constructing and manipulating <strong>Bézier, B-Spline, and NURBS curves and surfaces</strong> directly from control points, weights, and knot vectors. The resulting geometries are represented using NumPy arrays and can be readily integrated into scientific computing workflows.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">nurbspy</span></code>, you can evaluate curves and surfaces at arbitrary parameter values, compute analytical derivatives and geometric quantities such as tangents, normals, and curvature, project points onto parametric geometries, and visualize the results with Matplotlib. The emphasis is on exposing the underlying NURBS mathematics through a small and transparent Python API.</p>
+<p><code class="docutils literal notranslate"><span class="pre">nurbspy</span></code> is <strong>not a CAD kernel</strong>. It does not provide trimming, Boolean operations, boundary-representation solid modeling, topology management, or STEP/IGES import and export. Applications requiring those capabilities are better served by a complete geometry kernel such as OpenCascade. The scope of <code class="docutils literal notranslate"><span class="pre">nurbspy</span></code> is intentionally narrower: <strong>representing, evaluating, and differentiating parametric curves and surfaces in Python</strong> while keeping the geometry directly accessible to numerical code.</p>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h2>
+<p>The sections below cover installation and basic usage, the mathematical theory behind the implementation, documented examples, and the complete API reference.</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-3 sd-g-xs-3 sd-g-sm-3 sd-g-md-3 sd-g-lg-3 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Getting started</div>
+<p class="sd-card-text">Install <code class="docutils literal notranslate"><span class="pre">nurbspy</span></code>, as a user or as a developer.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="getting_started/index.html"><span class="doc">Getting started</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Theory</div>
+<p class="sd-card-text">Definitions, derivatives, and geometric continuity, from Bézier to NURBS.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="theory/index.html"><span class="doc">Theory</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Examples</div>
+<p class="sd-card-text">Run complete scripts and compare their numerical and graphical outputs.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="examples/index.html"><span class="doc">Examples</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+API reference</div>
+<p class="sd-card-text">Browse the classes, constructors, and functions available in the package.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="api_reference.html"><span class="doc">API reference</span></a></div>
+</div>
+</div>
+</div>
 <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="source/api/nurbspy.html">nurbspy package</a></li>
-</ul>
 </div>
 </section>
 </section>
@@ -358,11 +477,11 @@
                   
 <div class="prev-next-area">
     <a class="right-next"
-       href="source/api/nurbspy.html"
+       href="getting_started/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">nurbspy package</p>
+        <p class="prev-next-title">Getting started</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -384,9 +503,7 @@
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contents">Contents:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a></li>
 </ul>
   </nav></div>
 
@@ -408,6 +525,13 @@ By Roberto Agromayor
   
   <div class="footer-item">
     
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
 
   </div>
   

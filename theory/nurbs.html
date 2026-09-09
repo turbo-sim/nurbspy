@@ -1,0 +1,1116 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>NURBS curves and surfaces &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=27de968b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'theory/nurbs';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/theory/nurbs.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="G² continuity of NURBS curves" href="g2_continuity.html" />
+    <link rel="prev" title="B-spline curves and surfaces" href="bspline.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Theory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/edit/main/docs/source/theory/nurbs.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2Ftheory/nurbs.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/theory/nurbs.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>NURBS curves and surfaces</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbs-curves">NURBS curves</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#definition">Definition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-properties-of-rational-basis-functions">Mathematical properties of rational basis functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-properties-of-nurbs-curves">Mathematical properties of NURBS curves</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbs-surfaces">NURBS surfaces</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Definition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-properties-of-bivariate-rational-basis-functions">Mathematical properties of bivariate rational basis functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-properties-of-nurbs-surfaces">Mathematical properties of NURBS surfaces</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="nurbs-curves-and-surfaces">
+<h1>NURBS curves and surfaces<a class="headerlink" href="#nurbs-curves-and-surfaces" title="Link to this heading">#</a></h1>
+<p>NURBS curves and surfaces extend B-splines with per-control-point
+weights, making the basis functions rational rather than polynomial and
+allowing exact representation of conics such as circular arcs. This page
+defines the rational basis functions and the curve or surface built from
+them, then states their main properties — including local support,
+partition of unity, and the convex-hull property — first for curves and
+then for surfaces. Most of the material follows <span id="id1">Piegl and Tiller [<a class="reference internal" href="../references/bibliography.html#id42" title="Les Piegl and Wayne Tiller. The NURBS Book. Springer, 2 edition, 1997. doi:10.1007/978-3-642-59223-2.">1997</a>]</span>,
+Chapter 4.</p>
+<section id="nurbs-curves">
+<h2>NURBS curves<a class="headerlink" href="#nurbs-curves" title="Link to this heading">#</a></h2>
+<section id="definition">
+<h3>Definition<a class="headerlink" href="#definition" title="Link to this heading">#</a></h3>
+<p>A Non-Uniform Rational Basis Spline (NURBS) curve is a parametric curve
+defined by</p>
+<div class="math notranslate nohighlight" id="equation-def-nurbs-curve">
+<span class="eqno">(1)<a class="headerlink" href="#equation-def-nurbs-curve" title="Link to this equation">#</a></span>\[\mathbf C(u) = \sum_{i=0}^{n} R_{i,p}(u)\, \mathbf P_i,
+\qquad 0\leq u\leq1,\]</div>
+<p>where <span class="math notranslate nohighlight">\(p\)</span> is the <strong>degree</strong> of the curve, the coefficients
+<span class="math notranslate nohighlight">\(\mathbf P_i\)</span> are called control points, and <span class="math notranslate nohighlight">\(R_{i,p}\)</span> are the
+rational basis functions given by</p>
+<div class="math notranslate nohighlight" id="equation-def-rational-basis">
+<span class="eqno">(2)<a class="headerlink" href="#equation-def-rational-basis" title="Link to this equation">#</a></span>\[R_{i,p}(u) = \frac{N_{i,p}(u)\, w_i}
+{\sum\limits_{k=0}^{n} N_{k,p}(u)\, w_k},\]</div>
+<p>in which <span class="math notranslate nohighlight">\(w_i\)</span> are the weights of the control points and <span class="math notranslate nohighlight">\(N_{i,p}\)</span>
+are B-spline basis functions defined on the nondecreasing knot vector
+<span class="math notranslate nohighlight">\(U\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[U = [u_0,\ldots,u_r]\in\mathbb R^{r+1}
+\qquad \text{with} \qquad r=n+p+1.\]</div>
+<p>The B-spline basis functions are given by the recursive relation</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}N_{i,0}(u) = \begin{cases}
+1 &amp; \text{if } u_i\leq u&lt;u_{i+1},\\
+0 &amp; \text{otherwise},
+\end{cases}
+\qquad
+N_{i,p}(u) = \frac{u-u_i}{u_{i+p}-u_i}\,N_{i,p-1}(u)
++ \frac{u_{i+p+1}-u}{u_{i+p+1}-u_{i+1}}\,N_{i+1,p-1}(u).\end{split}\]</div>
+<p>This recursive relation can produce a <span class="math notranslate nohighlight">\(0/0\)</span> quotient, which is defined
+to be zero by convention.</p>
+</section>
+<section id="mathematical-properties-of-rational-basis-functions">
+<h3>Mathematical properties of rational basis functions<a class="headerlink" href="#mathematical-properties-of-rational-basis-functions" title="Link to this heading">#</a></h3>
+<p>Here is a list of some important properties of the rational basis
+functions:</p>
+<ol class="arabic">
+<li><p>The relation <span class="math notranslate nohighlight">\(r=n+p+1\)</span> holds, where <span class="math notranslate nohighlight">\(n+1\)</span> is the number of basis
+functions and <span class="math notranslate nohighlight">\(r+1\)</span> is the number of elements of the knot vector
+<span class="math notranslate nohighlight">\(U\)</span>.</p></li>
+<li><p>The numerator and denominator of <span class="math notranslate nohighlight">\(R_{i,p}(u)\)</span> are, at most,
+polynomials of degree <span class="math notranslate nohighlight">\(p\)</span>.</p></li>
+<li><p>Local support:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(R_{i,p}(u)=0\)</span> if <span class="math notranslate nohighlight">\(u\)</span> is outside the interval
+<span class="math notranslate nohighlight">\([u_i,u_{i+p+1})\)</span>.</p></li>
+<li><p>In any given knot interval <span class="math notranslate nohighlight">\([u_{i_0},u_{i_0+1})\)</span>, at most <span class="math notranslate nohighlight">\(p+1\)</span>
+basis functions are nonzero, namely <span class="math notranslate nohighlight">\(R_{i,p}(u)\)</span> with
+<span class="math notranslate nohighlight">\(i_0-p\leq i\leq i_0\)</span>.</p></li>
+</ol>
+</li>
+<li><p>Non-negativity: if all weights are positive, <span class="math notranslate nohighlight">\(R_{i,p}(u)\geq0\)</span> for
+all <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(p\)</span>, and <span class="math notranslate nohighlight">\(u\in[0,1]\)</span>. A mixed-sign choice of weights can
+make the denominator vanish or change sign, and is excluded here.</p></li>
+<li><p>Partition of unity:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=0}^{n} R_{i,p}(u) = 1 \qquad \text{for all } u\in[0,1].\]</div>
+<p>In addition, for an arbitrary knot span <span class="math notranslate nohighlight">\([u_{i_0},u_{i_0+1})\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=i_0-p}^{i_0} R_{i,p}(u) = 1
+\qquad \text{for all } u\in[u_{i_0},u_{i_0+1}).\]</div>
+<p>This means that the sum of the nonzero basis functions of any knot
+span is unity.</p>
+</li>
+<li><p>Continuity and differentiability:</p>
+<ol class="arabic simple">
+<li><p>The basis functions are infinitely differentiable in the
+interior of the knot intervals.</p></li>
+<li><p>The basis functions are <span class="math notranslate nohighlight">\(p-k\)</span> continuously differentiable at a
+knot with multiplicity <span class="math notranslate nohighlight">\(k\)</span>, for <span class="math notranslate nohighlight">\(1\leq k\leq p\)</span>, provided the
+weighted denominator does not vanish there.</p></li>
+</ol>
+</li>
+<li><p>Extrema: for <span class="math notranslate nohighlight">\(p\geq1\)</span> and positive weights, <span class="math notranslate nohighlight">\(R_{i,p}(u)\)</span> attains
+exactly one maximum in <span class="math notranslate nohighlight">\(u\in[0,1]\)</span>.</p></li>
+<li><p>Unlike the polynomial basis, there is no compact closed-form
+expression for the derivative of <span class="math notranslate nohighlight">\(R_{i,p}(u)\)</span> purely in terms of
+other rational basis functions and knots; it also involves the
+weighted denominator <span class="math notranslate nohighlight">\(w(u)=\sum_kN_{k,p}(u)w_k\)</span> and its derivatives.
+A usable recursive formula can still be obtained by differentiating
+<span class="math notranslate nohighlight">\(w(u)R_{i,p}(u)=w_iN_{i,p}(u)\)</span> with the product rule <span class="math notranslate nohighlight">\(k\)</span> times and
+solving for the highest-order term:</p>
+<div class="math notranslate nohighlight" id="equation-rational-basis-derivative">
+<span class="eqno">(3)<a class="headerlink" href="#equation-rational-basis-derivative" title="Link to this equation">#</a></span>\[R_{i,p}^{(k)}(u) = \frac{1}{w(u)}\left[
+w_i N_{i,p}^{(k)}(u) - \sum_{j=1}^{k}\binom{k}{j} w^{(j)}(u)\, R_{i,p}^{(k-j)}(u)
+\right],\]</div>
+<p>where <span class="math notranslate nohighlight">\(w^{(j)}=\sum_kN_{k,p}^{(j)}(u)w_k\)</span>. This is the same
+Leibniz-rule technique used below for the coordinates of a NURBS
+curve, applied here to a single basis function instead of to
+<span class="math notranslate nohighlight">\(\mathbf C(u)\)</span>.</p>
+</li>
+<li><p>When the first and last knots have multiplicity <span class="math notranslate nohighlight">\(p+1\)</span>, the knot
+vector is a <em>clamped knot vector</em> as in the B-spline case, and
+basis functions of clamped knot vectors satisfy two additional
+properties:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(R_{0,p}(u=0)=1\)</span> and <span class="math notranslate nohighlight">\(R_{i,p}(u=0)=0\)</span> for <span class="math notranslate nohighlight">\(i\neq0\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(R_{n,p}(u=1)=1\)</span> and <span class="math notranslate nohighlight">\(R_{i,p}(u=1)=0\)</span> for <span class="math notranslate nohighlight">\(i\neq n\)</span>.</p></li>
+</ol>
+</li>
+<li><p>If all the control-point weights are equal and nonzero, the
+rational basis functions reduce to B-spline basis functions, that
+is, <span class="math notranslate nohighlight">\(R_{i,p}(u)=N_{i,p}(u)\)</span>.</p></li>
+<li><p>If all the control-point weights are equal and nonzero, the knot
+vector is clamped, and <span class="math notranslate nohighlight">\(p=n\)</span>, then the rational basis functions
+reduce to Bernstein polynomials, that is, <span class="math notranslate nohighlight">\(R_{i,p}(u)=B_{i,n}(u)\)</span>.</p></li>
+</ol>
+</section>
+<section id="mathematical-properties-of-nurbs-curves">
+<h3>Mathematical properties of NURBS curves<a class="headerlink" href="#mathematical-properties-of-nurbs-curves" title="Link to this heading">#</a></h3>
+<p>Here is a list of some important properties of NURBS curves:</p>
+<ol class="arabic">
+<li><p><span class="math notranslate nohighlight">\(\mathbf C(u)\)</span> is a piecewise curve, and its components are ratios
+of polynomials of, at most, degree <span class="math notranslate nohighlight">\(p\)</span>.</p></li>
+<li><p>The degree <span class="math notranslate nohighlight">\(p\)</span>, number of control points <span class="math notranslate nohighlight">\(n+1\)</span>, and number of knots
+<span class="math notranslate nohighlight">\(r+1\)</span> are related by <span class="math notranslate nohighlight">\(r=n+p+1\)</span>.</p></li>
+<li><p>NURBS curves contain B-spline and rational/non-rational Bézier
+curves as special cases:</p>
+<ol class="arabic simple">
+<li><p>If all the control-point weights are equal, the NURBS curve
+reduces to a B-spline curve.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(n=p\)</span> and the knot vector is clamped, the NURBS curve reduces
+to a rational Bézier curve.</p></li>
+<li><p>If all the control-point weights are equal, <span class="math notranslate nohighlight">\(p=n\)</span>, and the knot
+vector is clamped, the NURBS curve reduces to a polynomial
+Bézier curve.</p></li>
+</ol>
+</li>
+<li><p>Affine invariance: NURBS curves are invariant under affine
+transformations such as rotations, displacements, and scalings. One
+can apply an affine transformation to the curve by applying it to
+its control points. Given an affine transformation
+<span class="math notranslate nohighlight">\(\phi(\mathbf v)=A\mathbf v+\mathbf b\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\phi\big(\mathbf C(u)\big)
+= \phi\Big(\sum_{i=0}^{n} R_{i,p}(u)\,\mathbf P_i\Big)
+= A\sum_{i=0}^{n} R_{i,p}(u)\,\mathbf P_i + \mathbf b
+= A\sum_{i=0}^{n} R_{i,p}(u)\,\mathbf P_i
++ \mathbf b\sum_{i=0}^{n} R_{i,p}(u)\]</div>
+<div class="math notranslate nohighlight">
+\[= \sum_{i=0}^{n} R_{i,p}(u)\,(A\mathbf P_i+\mathbf b)
+= \sum_{i=0}^{n} R_{i,p}(u)\,\phi(\mathbf P_i),\]</div>
+<p>using the partition of unity in the middle step.</p>
+</li>
+<li><p>Convex hull property: with positive weights, all the points of a
+NURBS curve are contained in the convex hull of its control points,</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{CH}(P) = \Big\{\, \mathbf C = \sum_{k=0}^{N} a_k\, \mathbf P_k
+\ \text{such that}\ \sum_{k=0}^{N} a_k = 1 \text{ and } a_k\geq0
+\text{ for } k=0,1,\ldots,N \,\Big\}.\]</div>
+<p>With mixed-sign weights this can fail: a two-point rational curve
+can evaluate outside the segment joining its control points.</p>
+</li>
+<li><p>Strong convex hull property: if <span class="math notranslate nohighlight">\(u\in[u_{i_0},u_{i_0+1})\)</span>, then
+<span class="math notranslate nohighlight">\(\mathbf C(u)\)</span> is contained in the convex hull of the control
+points <span class="math notranslate nohighlight">\(\mathbf P_i\)</span> with <span class="math notranslate nohighlight">\(i_0-p\leq i\leq i_0\)</span>.</p></li>
+<li><p>Local modification scheme: modifying the control point
+<span class="math notranslate nohighlight">\(\mathbf P_i\)</span> or weight <span class="math notranslate nohighlight">\(w_i\)</span> affects <span class="math notranslate nohighlight">\(\mathbf C(u)\)</span> only on the
+interval <span class="math notranslate nohighlight">\([u_i,u_{i+p+1})\)</span>. This follows from <span class="math notranslate nohighlight">\(R_{i,p}(u)=0\)</span>
+outside that interval, and it implies that the shape of a NURBS
+curve can be modified locally without changing its shape globally.</p></li>
+<li><p>The polygon formed by the set of control points is known as the
+<em>control polygon</em>. The control polygon represents a piecewise
+linear approximation to the NURBS curve.</p></li>
+<li><p>Variation diminishing property: with positive weights, no straight
+line (or plane in three dimensions) intersects the NURBS curve more
+times than it intersects its control polygon. Intuitively, the
+curve does not wiggle more than its control polygon.</p></li>
+<li><p>Continuity and differentiability:</p>
+<ol class="arabic simple">
+<li><p>NURBS curves are infinitely differentiable in the interior of
+the knot intervals, wherever the weighted denominator does not
+vanish.</p></li>
+<li><p>NURBS curves are <em>at least</em> <span class="math notranslate nohighlight">\(p-k\)</span> continuously differentiable
+at a knot with multiplicity <span class="math notranslate nohighlight">\(k\)</span>.</p></li>
+</ol>
+</li>
+<li><p>Homogeneous coordinates: <span class="math notranslate nohighlight">\(N\)</span>-dimensional rational functions with a
+common denominator can be represented as polynomial functions in
+<span class="math notranslate nohighlight">\((N+1)\)</span>-dimensional space using <em>homogeneous coordinates</em>.</p>
+<p>Consider a three-dimensional point <span class="math notranslate nohighlight">\(\mathbf P=(x,y,z)\)</span>. It can be
+written in four-dimensional space as
+<span class="math notranslate nohighlight">\(\mathbf P^w=(wx,wy,wz,w)=(X,Y,Z,W)\)</span>, where <span class="math notranslate nohighlight">\(w\neq0\)</span>. The point
+<span class="math notranslate nohighlight">\(\mathbf P\)</span> is recovered from <span class="math notranslate nohighlight">\(\mathbf P^w\)</span> by the mapping
+<span class="math notranslate nohighlight">\(\mathcal H\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\mathbf P = \mathcal H\{\mathbf P^w\}
+= \mathcal H\{(X,Y,Z,W)\}
+= \left(\frac{X}{W}, \frac{Y}{W}, \frac{Z}{W}\right).\]</div>
+<p>This lets an <span class="math notranslate nohighlight">\(N\)</span>-dimensional NURBS curve be represented as an
+<span class="math notranslate nohighlight">\((N+1)\)</span>-dimensional B-spline curve, whose coordinates are then
+mapped back with <span class="math notranslate nohighlight">\(\mathcal H\)</span>. Given a NURBS curve <span class="math notranslate nohighlight">\(\mathbf C(u)\)</span>
+with control points <span class="math notranslate nohighlight">\(\mathbf P_i\)</span> and weights <span class="math notranslate nohighlight">\(w_i\)</span>, construct the
+weighted control points</p>
+<div class="math notranslate nohighlight" id="equation-nurbs-curve-weighted-points">
+<span class="eqno">(4)<a class="headerlink" href="#equation-nurbs-curve-weighted-points" title="Link to this equation">#</a></span>\[\mathbf P_i^w = (w_ix_i,\, w_iy_i,\, w_iz_i,\, w_i)\]</div>
+<p>and define the corresponding non-rational B-spline curve in
+four-dimensional space,</p>
+<div class="math notranslate nohighlight">
+\[\mathbf C^w(u) = \sum_{i=0}^{n} N_{i,p}(u)\, \mathbf P_i^w,
+\qquad 0\leq u\leq1.\]</div>
+<p>The coordinates of the original NURBS curve are recovered using
+standard B-spline algorithms to evaluate <span class="math notranslate nohighlight">\(\mathbf C^w(u)\)</span> and then
+applying <span class="math notranslate nohighlight">\(\mathcal H\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf C(u) = \mathcal H\{\mathbf C^w(u)\}
+= \mathcal H\Big\{\sum_{i=0}^{n} N_{i,p}(u)\,\mathbf P_i^w\Big\}
+= \frac{\sum\limits_{i=0}^{n} N_{i,p}(u)\,w_i\,\mathbf P_i}
+{\sum\limits_{i=0}^{n} N_{i,p}(u)\,w_i}
+= \sum_{i=0}^{n} R_{i,p}(u)\,\mathbf P_i.\]</div>
+<p>This property is the key to evaluating the derivatives of NURBS
+curves.</p>
+</li>
+<li><p>First and higher order derivatives:</p>
+<p>The derivatives of a NURBS curve <span class="math notranslate nohighlight">\(\mathbf C(u)\)</span> can be expressed in
+terms of the derivatives of the corresponding B-spline curve in
+homogeneous space, <span class="math notranslate nohighlight">\(\mathbf C^w(u)\)</span>. Write</p>
+<div class="math notranslate nohighlight">
+\[\mathbf C(u) = \frac{\sum\limits_{i=0}^{n} N_{i,p}(u)\,w_i\,\mathbf P_i}
+{\sum\limits_{i=0}^{n} N_{i,p}(u)\,w_i}
+= \frac{\mathbf A(u)}{w(u)},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf A(u)\)</span> collects the first three coordinates of
+<span class="math notranslate nohighlight">\(\mathbf C^w(u)\)</span> and <span class="math notranslate nohighlight">\(w(u)\)</span> is its fourth coordinate. To compute
+the first derivative, clear the denominator, differentiate, and
+solve for <span class="math notranslate nohighlight">\(\mathbf C'(u)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[w\,\mathbf C = \mathbf A
+\ \Longrightarrow\
+w'\,\mathbf C + w\,\mathbf C' = \mathbf A'
+\ \Longrightarrow\
+\mathbf C' = \frac{1}{w}\big(\mathbf A' - w'\,\mathbf C\big).\]</div>
+<p>To compute the <span class="math notranslate nohighlight">\(k\)</span>-th order derivative, differentiate <span class="math notranslate nohighlight">\(k\)</span> times
+using Leibniz’ rule for products, then solve for
+<span class="math notranslate nohighlight">\(\mathbf C^{(k)}(u)\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-nurbs-curve-kth-derivative">
+<span class="eqno">(5)<a class="headerlink" href="#equation-nurbs-curve-kth-derivative" title="Link to this equation">#</a></span>\[\big[w\,\mathbf C\big]^{(k)} = \mathbf A^{(k)}
+\ \Longrightarrow\
+\sum_{i=0}^{k}\binom{k}{i} w^{(i)}\,\mathbf C^{(k-i)} = \mathbf A^{(k)}
+\ \Longrightarrow\
+\mathbf C^{(k)} = \frac{1}{w}\left(
+\mathbf A^{(k)} - \sum_{i=1}^{k}\binom{k}{i} w^{(i)}\,\mathbf C^{(k-i)}
+\right).\]</div>
+<p>The derivatives of <span class="math notranslate nohighlight">\(\mathbf A(u)\)</span> and <span class="math notranslate nohighlight">\(w(u)\)</span> are obtained directly
+by differentiating <span class="math notranslate nohighlight">\(\mathbf C^w(u)\)</span>, which is a polynomial
+B-spline curve:</p>
+<div class="math notranslate nohighlight">
+\[\big[\mathbf C^w\big]^{(k)}(u) = \sum_{i=0}^{n} N_{i,p}^{(k)}(u)\, \mathbf P_i^w.\]</div>
+<p>A related, useful fact is how the curve responds to a change in a
+single weight: differentiating <a class="reference internal" href="#equation-def-nurbs-curve">(1)</a> with respect
+to <span class="math notranslate nohighlight">\(w_i\)</span> using <a class="reference internal" href="#equation-def-rational-basis">(2)</a> gives</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial \mathbf C}{\partial w_i}
+= \frac{N_{i,p}(u)}{w(u)}\big(\mathbf P_i - \mathbf C(u)\big),\]</div>
+<p>so increasing <span class="math notranslate nohighlight">\(w_i\)</span> pulls the curve toward <span class="math notranslate nohighlight">\(\mathbf P_i\)</span> on the
+support of <span class="math notranslate nohighlight">\(N_{i,p}\)</span>, and rescaling every weight by the same
+nonzero constant leaves the curve unchanged.</p>
+</li>
+<li><p>Endpoint interpolation: the start and end points of a clamped
+NURBS curve coincide with the first and last control points,
+respectively:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf C(u=0) = \mathbf P_0, \qquad \mathbf C(u=1) = \mathbf P_n.\]</div>
+</li>
+<li><p>Endpoint tangency: for <span class="math notranslate nohighlight">\(p\geq1\)</span>, a clamped NURBS curve is tangent
+to the control polygon at the endpoints,</p>
+<div class="math notranslate nohighlight">
+\[\frac{\mathrm d\mathbf C}{\mathrm du}\Big|_{u=0}
+= \left(\frac{p}{u_{p+1}}\right)\left(\frac{w_1}{w_0}\right)
+(\mathbf P_1-\mathbf P_0),
+\qquad
+\frac{\mathrm d\mathbf C}{\mathrm du}\Big|_{u=1}
+= \left(\frac{p}{1-u_n}\right)\left(\frac{w_{n-1}}{w_n}\right)
+(\mathbf P_n-\mathbf P_{n-1}).\]</div>
+</li>
+<li><p>Endpoint curvature: for <span class="math notranslate nohighlight">\(p\geq2\)</span>, the second derivative of a
+clamped NURBS curve at its endpoints is given by</p>
+<div class="math notranslate nohighlight">
+\[\frac{\mathrm d^2\mathbf C}{\mathrm du^2}\Big|_{u=0} =
+\frac{p(p-1)}{u_{p+1}}\left[
+\left(\frac{1}{u_{p+2}}\right)\left(\frac{w_2}{w_0}\right)(\mathbf P_2-\mathbf P_0)
+- \left(\frac{1}{u_{p+1}}+\frac{1}{u_{p+2}}\right)\left(\frac{w_1}{w_0}\right)(\mathbf P_1-\mathbf P_0)
+\right]\]</div>
+<div class="math notranslate nohighlight">
+\[{}+ \frac{2p^2}{u_{p+1}^2}\left(\frac{w_1}{w_0}\right)\left(1-\frac{w_1}{w_0}\right)(\mathbf P_1-\mathbf P_0),\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{\mathrm d^2\mathbf C}{\mathrm du^2}\Big|_{u=1} =
+\frac{p(p-1)}{1-u_n}\left[
+\left(\frac{1}{1-u_{n-1}}\right)\left(\frac{w_{n-2}}{w_n}\right)(\mathbf P_{n-2}-\mathbf P_n)
+- \left(\frac{1}{1-u_n}+\frac{1}{1-u_{n-1}}\right)\left(\frac{w_{n-1}}{w_n}\right)(\mathbf P_{n-1}-\mathbf P_n)
+\right]\]</div>
+<div class="math notranslate nohighlight">
+\[{}+ \frac{2p^2}{(1-u_n)^2}\left(\frac{w_{n-1}}{w_n}\right)\left(1-\frac{w_{n-1}}{w_n}\right)(\mathbf P_{n-1}-\mathbf P_n).\]</div>
+<p>Provided the endpoint control-polygon edge is nonzero, the
+curvature of a clamped NURBS curve at its endpoints is given by</p>
+<div class="math notranslate nohighlight" id="equation-orig-nurbs-endpoint-curvature">
+<span class="eqno">(6)<a class="headerlink" href="#equation-orig-nurbs-endpoint-curvature" title="Link to this equation">#</a></span>\[\kappa(u=0) = \left(\frac{p-1}{p}\right)\left(\frac{u_{p+1}}{u_{p+2}}\right)
+\left(\frac{w_0w_2}{w_1^2}\right)
+\frac{\big\|(\mathbf P_2-\mathbf P_0)\times(\mathbf P_1-\mathbf P_0)\big\|}
+{\|\mathbf P_1-\mathbf P_0\|^3},\]</div>
+<div class="math notranslate nohighlight">
+\[\kappa(u=1) = \left(\frac{p-1}{p}\right)\left(\frac{1-u_n}{1-u_{n-1}}\right)
+\left(\frac{w_nw_{n-2}}{w_{n-1}^2}\right)
+\frac{\big\|(\mathbf P_{n-2}-\mathbf P_n)\times(\mathbf P_{n-1}-\mathbf P_n)\big\|}
+{\|\mathbf P_{n-1}-\mathbf P_n\|^3}.\]</div>
+<p>These formulas require <span class="math notranslate nohighlight">\(p\geq2\)</span> and a nonzero endpoint tangent.
+They reduce to the B-spline endpoint curvature formulas
+<a class="reference internal" href="bspline.html#equation-orig-bspline-endpoint-curvature">(7)</a> when the endpoint weight ratios
+are one, and further to the Bézier formulas
+<a class="reference internal" href="bezier.html#equation-orig-bezier-endpoint-curvature">(7)</a> under the additional B-spline
+special cases above. See <a class="reference internal" href="g2_continuity.html"><span class="std std-doc">G² continuity</span></a> for how
+these formulas are used to join curve segments smoothly.</p>
+</li>
+</ol>
+</section>
+</section>
+<section id="nurbs-surfaces">
+<h2>NURBS surfaces<a class="headerlink" href="#nurbs-surfaces" title="Link to this heading">#</a></h2>
+<section id="id2">
+<h3>Definition<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>A Non-Uniform Rational Basis Spline (NURBS) surface is a parametric
+surface defined by</p>
+<div class="math notranslate nohighlight" id="equation-def-nurbs-surface">
+<span class="eqno">(7)<a class="headerlink" href="#equation-def-nurbs-surface" title="Link to this equation">#</a></span>\[\mathbf S(u,v) = \sum_{i=0}^{n}\sum_{j=0}^{m}
+R_{i,j}^{p,q}(u,v)\, \mathbf P_{i,j},
+\qquad 0\leq(u,v)\leq1,\]</div>
+<p>where <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span> are the degrees of the surface in the <span class="math notranslate nohighlight">\(u\)</span>- and
+<span class="math notranslate nohighlight">\(v\)</span>-directions, the coefficients <span class="math notranslate nohighlight">\(\mathbf P_{i,j}\)</span> are a bidirectional
+net of control points, and <span class="math notranslate nohighlight">\(R_{i,j}^{p,q}(u,v)\)</span> are the rational basis
+functions given by</p>
+<div class="math notranslate nohighlight" id="equation-def-rational-surface-basis">
+<span class="eqno">(8)<a class="headerlink" href="#equation-def-rational-surface-basis" title="Link to this equation">#</a></span>\[R_{i,j}^{p,q}(u,v) = \frac{N_{i,p}(u)\,N_{j,q}(v)\, w_{i,j}}
+{\sum\limits_{a=0}^{n}\sum\limits_{b=0}^{m}
+N_{a,p}(u)\,N_{b,q}(v)\, w_{a,b}},\]</div>
+<p>in which <span class="math notranslate nohighlight">\(w_{i,j}\)</span> are the weights of the control points and
+<span class="math notranslate nohighlight">\(N_{i,p}(u)N_{j,q}(v)\)</span> is the product of univariate B-spline basis
+functions defined on the nondecreasing knot vectors <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[U = [u_0,\ldots,u_r]\in\mathbb R^{r+1} \ \text{with}\ r=n+p+1,
+\qquad
+V = [v_0,\ldots,v_s]\in\mathbb R^{s+1} \ \text{with}\ s=m+q+1.\]</div>
+<p>The denominator sums over <strong>both</strong> the <span class="math notranslate nohighlight">\(u\)</span>-degree basis <span class="math notranslate nohighlight">\(N_{a,p}(u)\)</span>
+and the <span class="math notranslate nohighlight">\(v\)</span>-degree basis <span class="math notranslate nohighlight">\(N_{b,q}(v)\)</span>; the <span class="math notranslate nohighlight">\(v\)</span>-direction factor must
+use the degree <span class="math notranslate nohighlight">\(q\)</span>, not <span class="math notranslate nohighlight">\(p\)</span>, since <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span> can differ. The
+<span class="math notranslate nohighlight">\(u\)</span>-direction basis functions are given by the recursive relation of
+the B-spline case, while the <span class="math notranslate nohighlight">\(v\)</span>-direction basis functions are defined
+analogously, replacing the variable <span class="math notranslate nohighlight">\(u\)</span> by <span class="math notranslate nohighlight">\(v\)</span> and the indices <span class="math notranslate nohighlight">\(i\)</span> and
+<span class="math notranslate nohighlight">\(p\)</span> by <span class="math notranslate nohighlight">\(j\)</span> and <span class="math notranslate nohighlight">\(q\)</span>, respectively.</p>
+</section>
+<section id="mathematical-properties-of-bivariate-rational-basis-functions">
+<h3>Mathematical properties of bivariate rational basis functions<a class="headerlink" href="#mathematical-properties-of-bivariate-rational-basis-functions" title="Link to this heading">#</a></h3>
+<p>Here is a list of some important properties of the bivariate rational
+basis functions:</p>
+<ol class="arabic">
+<li><p>The relation <span class="math notranslate nohighlight">\(r=n+p+1\)</span> holds, where <span class="math notranslate nohighlight">\(n+1\)</span> is the number of basis
+functions in the <span class="math notranslate nohighlight">\(u\)</span>-direction and <span class="math notranslate nohighlight">\(r+1\)</span> is the number of elements
+of the knot vector <span class="math notranslate nohighlight">\(U\)</span>. Likewise, <span class="math notranslate nohighlight">\(s=m+q+1\)</span> relates <span class="math notranslate nohighlight">\(m+1\)</span> and the
+<span class="math notranslate nohighlight">\(s+1\)</span> elements of <span class="math notranslate nohighlight">\(V\)</span>.</p></li>
+<li><p>The numerator and denominator of <span class="math notranslate nohighlight">\(R_{i,j}^{p,q}(u,v)\)</span> are, at most,
+polynomials of bidegree <span class="math notranslate nohighlight">\((p,q)\)</span>.</p></li>
+<li><p>Local support:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(R_{i,j}^{p,q}(u,v)=0\)</span> if <span class="math notranslate nohighlight">\((u,v)\)</span> is outside the rectangle
+<span class="math notranslate nohighlight">\([u_i,u_{i+p+1})\times[v_j,v_{j+q+1})\)</span>.</p></li>
+<li><p>In any given knot rectangle
+<span class="math notranslate nohighlight">\([u_{i_0},u_{i_0+1})\times[v_{j_0},v_{j_0+1})\)</span>, at most
+<span class="math notranslate nohighlight">\((p+1)(q+1)\)</span> basis functions are nonzero, namely
+<span class="math notranslate nohighlight">\(R_{i,j}^{p,q}(u,v)\)</span> with <span class="math notranslate nohighlight">\(i_0-p\leq i\leq i_0\)</span> and
+<span class="math notranslate nohighlight">\(j_0-q\leq j\leq j_0\)</span>.</p></li>
+</ol>
+</li>
+<li><p>Non-negativity: with positive weights, <span class="math notranslate nohighlight">\(R_{i,j}^{p,q}(u,v)\geq0\)</span> for
+all <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(j\)</span>, <span class="math notranslate nohighlight">\(p\)</span>, <span class="math notranslate nohighlight">\(q\)</span>, and <span class="math notranslate nohighlight">\((u,v)\in[0,1]\times[0,1]\)</span>.</p></li>
+<li><p>Partition of unity:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=0}^{n}\sum_{j=0}^{m} R_{i,j}^{p,q}(u,v) = 1
+\qquad \text{for all } (u,v)\in[0,1]\times[0,1].\]</div>
+<p>In addition, for an arbitrary knot rectangle
+<span class="math notranslate nohighlight">\([u_{i_0},u_{i_0+1})\times[v_{j_0},v_{j_0+1})\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=i_0-p}^{i_0}\sum_{j=j_0-q}^{j_0} R_{i,j}^{p,q}(u,v) = 1
+\qquad \text{for all } (u,v)\in[u_{i_0},u_{i_0+1})\times[v_{j_0},v_{j_0+1}).\]</div>
+<p>This means that the sum of the nonzero basis functions of any knot
+rectangle is unity.</p>
+</li>
+<li><p>Continuity and differentiability:</p>
+<ol class="arabic simple">
+<li><p>The basis functions are infinitely differentiable in the
+interior of the knot rectangles formed by <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span>.</p></li>
+<li><p>The basis functions are <span class="math notranslate nohighlight">\(p-k\)</span> (respectively <span class="math notranslate nohighlight">\(q-k\)</span>) continuously
+differentiable in the <span class="math notranslate nohighlight">\(u\)</span>-direction (respectively <span class="math notranslate nohighlight">\(v\)</span>-direction)
+at a <span class="math notranslate nohighlight">\(u\)</span>-knot (respectively <span class="math notranslate nohighlight">\(v\)</span>-knot) with multiplicity <span class="math notranslate nohighlight">\(k\)</span>.</p></li>
+</ol>
+</li>
+<li><p>Extrema: for <span class="math notranslate nohighlight">\(p,q\geq1\)</span> and positive weights, <span class="math notranslate nohighlight">\(R_{i,j}^{p,q}(u,v)\)</span>
+attains exactly one maximum in <span class="math notranslate nohighlight">\((u,v)\in[0,1]\times[0,1]\)</span>.</p></li>
+<li><p>As in the curve case, there is no compact closed-form expression for
+the partial derivatives of <span class="math notranslate nohighlight">\(R_{i,j}^{p,q}(u,v)\)</span> purely in terms of
+other rational basis functions and knots. They can, however, be
+obtained with the same Leibniz-rule technique used below for the
+coordinates of a NURBS surface, applied to a single basis function
+instead of to <span class="math notranslate nohighlight">\(\mathbf S(u,v)\)</span>.</p></li>
+<li><p>If all the control-point weights are equal, the rational basis
+functions reduce to B-spline basis functions, that is,
+<span class="math notranslate nohighlight">\(R_{i,j}^{p,q}(u,v)=N_{i,p}(u)\,N_{j,q}(v)\)</span>.</p></li>
+<li><p>If all the control-point weights are equal, the knot vectors are
+clamped, and <span class="math notranslate nohighlight">\((p,q)=(n,m)\)</span>, then the rational basis functions
+reduce to Bernstein polynomials, that is,
+<span class="math notranslate nohighlight">\(R_{i,j}^{p,q}(u,v)=B_{i,n}(u)\,B_{j,m}(v)\)</span>.</p></li>
+</ol>
+</section>
+<section id="mathematical-properties-of-nurbs-surfaces">
+<h3>Mathematical properties of NURBS surfaces<a class="headerlink" href="#mathematical-properties-of-nurbs-surfaces" title="Link to this heading">#</a></h3>
+<p>Here is a list of some important properties of NURBS surfaces:</p>
+<ol class="arabic">
+<li><p><span class="math notranslate nohighlight">\(\mathbf S(u,v)\)</span> is a piecewise surface, and its components are
+ratios of bivariate polynomials of, at most, bidegree <span class="math notranslate nohighlight">\((p,q)\)</span>.</p></li>
+<li><p>In the <span class="math notranslate nohighlight">\(u\)</span>-direction, the degree <span class="math notranslate nohighlight">\(p\)</span>, number of control points
+<span class="math notranslate nohighlight">\(n+1\)</span>, and number of knots <span class="math notranslate nohighlight">\(r+1\)</span> are related by <span class="math notranslate nohighlight">\(r=n+p+1\)</span>. In the
+<span class="math notranslate nohighlight">\(v\)</span>-direction, the degree <span class="math notranslate nohighlight">\(q\)</span>, number of control points <span class="math notranslate nohighlight">\(m+1\)</span>, and
+number of knots <span class="math notranslate nohighlight">\(s+1\)</span> are related by <span class="math notranslate nohighlight">\(s=m+q+1\)</span>.</p></li>
+<li><p>NURBS surfaces contain B-spline and rational/non-rational Bézier
+surfaces as special cases:</p>
+<ol class="arabic simple">
+<li><p>If all the control-point weights are equal, the NURBS surface
+reduces to a B-spline surface.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\((p,q)=(n,m)\)</span> and the knot vectors are clamped, the NURBS
+surface reduces to a rational Bézier surface.</p></li>
+<li><p>If all the control-point weights are equal, <span class="math notranslate nohighlight">\((p,q)=(n,m)\)</span>, and
+the knot vectors are clamped, the NURBS surface reduces to a
+polynomial Bézier surface.</p></li>
+</ol>
+</li>
+<li><p>Affine invariance: NURBS surfaces are invariant under affine
+transformations such as rotations, displacements, and scalings.
+Given an affine transformation <span class="math notranslate nohighlight">\(\phi(\mathbf v)=A\mathbf v+\mathbf b\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\phi\big(\mathbf S(u,v)\big)
+= \phi\Big(\sum_{i,j} R_{i,j}^{p,q}(u,v)\,\mathbf P_{i,j}\Big)
+= A\sum_{i,j} R_{i,j}^{p,q}(u,v)\,\mathbf P_{i,j}
++ \mathbf b\sum_{i,j} R_{i,j}^{p,q}(u,v)\]</div>
+<div class="math notranslate nohighlight">
+\[= \sum_{i,j} R_{i,j}^{p,q}(u,v)\,(A\mathbf P_{i,j}+\mathbf b)
+= \sum_{i,j} R_{i,j}^{p,q}(u,v)\,\phi(\mathbf P_{i,j}),\]</div>
+<p>using the partition of unity in the middle step.</p>
+</li>
+<li><p>Convex hull property: with positive weights, all the points of a
+NURBS surface are contained in the convex hull of its control
+points, defined as in the curve case.</p></li>
+<li><p>Strong convex hull property: if
+<span class="math notranslate nohighlight">\((u,v)\in[u_{i_0},u_{i_0+1})\times[v_{j_0},v_{j_0+1})\)</span>, then
+<span class="math notranslate nohighlight">\(\mathbf S(u,v)\)</span> is contained in the convex hull of the control
+points <span class="math notranslate nohighlight">\(\mathbf P_{i,j}\)</span> with <span class="math notranslate nohighlight">\(i_0-p\leq i\leq i_0\)</span> and
+<span class="math notranslate nohighlight">\(j_0-q\leq j\leq j_0\)</span>.</p></li>
+<li><p>Local modification scheme: modifying the control point
+<span class="math notranslate nohighlight">\(\mathbf P_{i,j}\)</span> or weight <span class="math notranslate nohighlight">\(w_{i,j}\)</span> affects <span class="math notranslate nohighlight">\(\mathbf S(u,v)\)</span> only
+on the rectangle <span class="math notranslate nohighlight">\([u_i,u_{i+p+1})\times[v_j,v_{j+q+1})\)</span>. This
+follows from <span class="math notranslate nohighlight">\(R_{i,j}^{p,q}(u,v)=0\)</span> outside that rectangle, and it
+implies that the shape of a NURBS surface can be modified locally
+without changing its shape globally.</p></li>
+<li><p>If triangulated, the net of control points represents a piecewise
+planar approximation to the NURBS surface.</p></li>
+<li><p>No known variation-diminishing property.</p></li>
+<li><p>Continuity and differentiability:</p>
+<ol class="arabic simple">
+<li><p>NURBS surfaces are infinitely differentiable in the interior of
+the knot rectangles formed by <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span>, wherever the
+weighted denominator does not vanish.</p></li>
+<li><p>NURBS surfaces are <span class="math notranslate nohighlight">\(p-k\)</span> (respectively <span class="math notranslate nohighlight">\(q-k\)</span>) continuously
+differentiable in the <span class="math notranslate nohighlight">\(u\)</span>-direction (respectively
+<span class="math notranslate nohighlight">\(v\)</span>-direction) at a <span class="math notranslate nohighlight">\(u\)</span>-knot (respectively <span class="math notranslate nohighlight">\(v\)</span>-knot) with
+multiplicity <span class="math notranslate nohighlight">\(k\)</span>.</p></li>
+</ol>
+</li>
+<li><p>Homogeneous coordinates: as for curves, an <span class="math notranslate nohighlight">\(N\)</span>-dimensional
+rational surface can be represented as an <span class="math notranslate nohighlight">\((N+1)\)</span>-dimensional
+polynomial B-spline surface using homogeneous coordinates, and the
+result mapped back with <span class="math notranslate nohighlight">\(\mathcal H\)</span>.</p>
+<p>Given a NURBS surface <span class="math notranslate nohighlight">\(\mathbf S(u,v)\)</span> with control points
+<span class="math notranslate nohighlight">\(\mathbf P_{i,j}\)</span> and weights <span class="math notranslate nohighlight">\(w_{i,j}\)</span>, construct the weighted
+control points <span class="math notranslate nohighlight">\(\mathbf P_{i,j}^w=(w_{i,j}\mathbf P_{i,j},\,w_{i,j})\)</span>,
+that is, in three spatial dimensions,</p>
+<div class="math notranslate nohighlight" id="equation-nurbs-surface-weighted-points">
+<span class="eqno">(9)<a class="headerlink" href="#equation-nurbs-surface-weighted-points" title="Link to this equation">#</a></span>\[\mathbf P_{i,j}^w
+= (w_{i,j}x_{i,j},\, w_{i,j}y_{i,j},\, w_{i,j}z_{i,j},\, w_{i,j}),\]</div>
+<p>and define the corresponding non-rational B-spline surface in
+four-dimensional space, using the <strong>polynomial</strong> tensor-product
+basis, not the rational one:</p>
+<div class="math notranslate nohighlight" id="equation-nurbs-surface-homogeneous">
+<span class="eqno">(10)<a class="headerlink" href="#equation-nurbs-surface-homogeneous" title="Link to this equation">#</a></span>\[\mathbf S^w(u,v)
+= \sum_{i=0}^{n}\sum_{j=0}^{m} N_{i,p}(u)\,N_{j,q}(v)\, \mathbf P_{i,j}^w,
+\qquad 0\leq(u,v)\leq1.\]</div>
+<p>The coordinates of the original NURBS surface are recovered using
+standard B-spline algorithms to evaluate <span class="math notranslate nohighlight">\(\mathbf S^w(u,v)\)</span> and
+then applying <span class="math notranslate nohighlight">\(\mathcal H\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf S(u,v) = \mathcal H\{\mathbf S^w(u,v)\}
+= \frac{\sum\limits_{i=0}^{n}\sum\limits_{j=0}^{m}
+N_{i,p}(u)\,N_{j,q}(v)\,w_{i,j}\,\mathbf P_{i,j}}
+{\sum\limits_{i=0}^{n}\sum\limits_{j=0}^{m}
+N_{i,p}(u)\,N_{j,q}(v)\,w_{i,j}}
+= \sum_{i=0}^{n}\sum_{j=0}^{m} R_{i,j}^{p,q}(u,v)\,\mathbf P_{i,j}.\]</div>
+<p>This property is the key to evaluating the derivatives of NURBS
+surfaces.</p>
+</li>
+<li><p>First and higher order derivatives:</p>
+<p>The derivatives of a NURBS surface <span class="math notranslate nohighlight">\(\mathbf S(u,v)\)</span> can be
+expressed in terms of the derivatives of the corresponding
+B-spline surface in homogeneous space, <span class="math notranslate nohighlight">\(\mathbf S^w(u,v)\)</span>. Write</p>
+<div class="math notranslate nohighlight">
+\[\mathbf S(u,v) = \frac{\sum\limits_{i,j}
+N_{i,p}(u)\,N_{j,q}(v)\,w_{i,j}\,\mathbf P_{i,j}}
+{\sum\limits_{i,j} N_{i,p}(u)\,N_{j,q}(v)\,w_{i,j}}
+= \frac{\mathbf A(u,v)}{w(u,v)},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf A(u,v)\)</span> collects the first three coordinates of
+<span class="math notranslate nohighlight">\(\mathbf S^w(u,v)\)</span> and <span class="math notranslate nohighlight">\(w(u,v)\)</span> is its fourth coordinate. To
+compute a first partial derivative with respect to
+<span class="math notranslate nohighlight">\(\alpha\in\{u,v\}\)</span>, clear the denominator, differentiate, and
+solve for <span class="math notranslate nohighlight">\(\mathbf S_\alpha\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[w\,\mathbf S = \mathbf A
+\ \Longrightarrow\
+w_\alpha\,\mathbf S + w\,\mathbf S_\alpha = \mathbf A_\alpha
+\ \Longrightarrow\
+\frac{\partial\mathbf S}{\partial\alpha}
+= \mathbf S_\alpha = \frac{1}{w}\big(\mathbf A_\alpha - w_\alpha\,\mathbf S\big).\]</div>
+<p>To compute the <span class="math notranslate nohighlight">\((k,l)\)</span>-th order partial derivative, differentiate
+<span class="math notranslate nohighlight">\(k\)</span> times in <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(l\)</span> times in <span class="math notranslate nohighlight">\(v\)</span> using Leibniz’ rule for
+products, then solve for <span class="math notranslate nohighlight">\(\mathbf S^{(k,l)}(u,v)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\big[w\,\mathbf S\big]^{(k,l)} = \mathbf A^{(k,l)}
+\ \Longrightarrow\
+\sum_{a=0}^{k}\sum_{b=0}^{l}
+\binom{k}{a}\binom{l}{b}\, w^{(a,b)}\,\mathbf S^{(k-a,l-b)} = \mathbf A^{(k,l)}.\]</div>
+<p>Separating the <span class="math notranslate nohighlight">\((a,b)=(0,0)\)</span> term from the rest and solving for
+<span class="math notranslate nohighlight">\(\mathbf S^{(k,l)}\)</span> gives</p>
+<div class="math notranslate nohighlight" id="equation-nurbs-surface-klderivative">
+<span class="eqno">(11)<a class="headerlink" href="#equation-nurbs-surface-klderivative" title="Link to this equation">#</a></span>\[\begin{split}\mathbf S^{(k,l)} = \frac{1}{w}\left[
+\mathbf A^{(k,l)} -
+\sum_{\substack{0\leq a\leq k,\ 0\leq b\leq l\\ (a,b)\neq(0,0)}}
+\binom{k}{a}\binom{l}{b}\, w^{(a,b)}\,\mathbf S^{(k-a,l-b)}
+\right].\end{split}\]</div>
+<p>Splitting the excluded index set into <span class="math notranslate nohighlight">\(a&gt;0,\,b=0\)</span>; <span class="math notranslate nohighlight">\(a=0,\,b&gt;0\)</span>;
+and <span class="math notranslate nohighlight">\(a&gt;0,\,b&gt;0\)</span> recovers the three separate correction sums used
+for pure-<span class="math notranslate nohighlight">\(u\)</span>, pure-<span class="math notranslate nohighlight">\(v\)</span>, and mixed terms, respectively; the single
+sum above is only a more compact way to write the same
+correction. The derivatives of <span class="math notranslate nohighlight">\(\mathbf A(u,v)\)</span> and <span class="math notranslate nohighlight">\(w(u,v)\)</span> are
+obtained directly by differentiating <span class="math notranslate nohighlight">\(\mathbf S^w(u,v)\)</span>, which is
+a polynomial B-spline surface:</p>
+<div class="math notranslate nohighlight">
+\[\big[\mathbf S^w\big]^{(k,l)}(u,v)
+= \sum_{i=0}^{n}\sum_{j=0}^{m} N_{i,p}^{(k)}(u)\,N_{j,q}^{(l)}(v)\, \mathbf P_{i,j}^w.\]</div>
+</li>
+<li><p>Corner point interpolation: the corners of a clamped NURBS surface
+coincide with the corner points of its control net,</p>
+<div class="math notranslate nohighlight">
+\[\mathbf S(u=0,v=0) = \mathbf P_{0,0}, \qquad
+\mathbf S(u=1,v=0) = \mathbf P_{n,0}, \qquad
+\mathbf S(u=0,v=1) = \mathbf P_{0,m}, \qquad
+\mathbf S(u=1,v=1) = \mathbf P_{n,m}.\]</div>
+<p>More generally, each boundary row or column of the control net,
+together with its weights, defines a rational boundary curve of
+the surface.</p>
+</li>
+</ol>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="bspline.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">B-spline curves and surfaces</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="g2_continuity.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">G² continuity of NURBS curves</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbs-curves">NURBS curves</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#definition">Definition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-properties-of-rational-basis-functions">Mathematical properties of rational basis functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-properties-of-nurbs-curves">Mathematical properties of NURBS curves</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbs-surfaces">NURBS surfaces</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Definition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-properties-of-bivariate-rational-basis-functions">Mathematical properties of bivariate rational basis functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-properties-of-nurbs-surfaces">Mathematical properties of NURBS surfaces</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

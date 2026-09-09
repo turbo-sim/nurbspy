@@ -1,0 +1,805 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>G² continuity of NURBS curves &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=27de968b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'theory/g2_continuity';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/theory/g2_continuity.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="References" href="../references/bibliography.html" />
+    <link rel="prev" title="NURBS curves and surfaces" href="nurbs.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Theory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/edit/main/docs/source/theory/g2_continuity.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2Ftheory/g2_continuity.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/theory/g2_continuity.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>G² continuity of NURBS curves</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation">Motivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bezier-curve-endpoint-curvature-formulas">Bézier curve endpoint curvature formulas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-spline-curve-endpoint-curvature-formulas">B-spline curve endpoint curvature formulas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbs-curve-endpoint-curvature-formulas">NURBS curve endpoint curvature formulas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#application-to-airfoil-parametrization">Application to airfoil parametrization</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#leading-edge">Leading edge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trailing-edge">Trailing edge</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="g2-continuity-of-nurbs-curves">
+<h1>G² continuity of NURBS curves<a class="headerlink" href="#g2-continuity-of-nurbs-curves" title="Link to this heading">#</a></h1>
+<p>This page defines geometric continuity between curve segments and
+derives the endpoint curvature formulas needed to join Bézier,
+B-spline, and NURBS curves smoothly, then applies them to airfoil
+parametrization at the leading and trailing edges, closing with a
+comparison to <span id="id1">Mykhaskiv <em>et al.</em> [<a class="reference internal" href="../references/bibliography.html#id43" title="Orest Mykhaskiv, Mladen Banović, Salvatore Auriemma, Pavanakumar Mohanamuraly, Andrea Walther, Herve Legrand, and Jens-Dominik Müller. NURBS-based and parametric-based shape optimization with differentiated CAD kernel. Computer-Aided Design and Applications, 15(6):916–926, 2018.">2018</a>]</span>. The basis-function and
+endpoint-derivative definitions are covered on the
+<a class="reference internal" href="bezier.html"><span class="std std-doc">Bézier</span></a>, <a class="reference internal" href="bspline.html"><span class="std std-doc">B-spline</span></a>, and <a class="reference internal" href="nurbs.html"><span class="std std-doc">NURBS</span></a>
+pages; each curvature section below recalls only what it needs.</p>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading">#</a></h2>
+<p>In many science and engineering applications it is necessary to
+develop a smooth geometric parametrization. The level of smoothness of
+a curve or surface can be measured by its degree of <em>geometric
+continuity</em>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(G^0\)</span>, or position continuity,</p></li>
+<li><p><span class="math notranslate nohighlight">\(G^1\)</span>, or tangency continuity,</p></li>
+<li><p><span class="math notranslate nohighlight">\(G^2\)</span>, or curvature continuity,</p></li>
+<li><p>and so on.</p></li>
+</ul>
+<p>When the geometry is parametrized by a single Bézier, B-spline, or
+NURBS curve, it is straightforward to ensure the desired level of
+continuity at the interior points: the curve is polynomial or rational
+there, hence smooth, subject to the knot-multiplicity guarantees
+already stated on the family pages. However, when the geometry is
+described with more than one curve segment, it is necessary to pay
+special attention to the continuity at the connection points — for
+instance, where the pressure and suction sides of an airfoil meet at
+the leading and trailing edges.</p>
+<p>For a regular space curve <span class="math notranslate nohighlight">\(\mathbf C(u)\)</span>, parametrized by <span class="math notranslate nohighlight">\(u\)</span>, define
+the unit tangent and curvature vector</p>
+<div class="math notranslate nohighlight" id="equation-orig-curvature-vector">
+<span class="eqno">(1)<a class="headerlink" href="#equation-orig-curvature-vector" title="Link to this equation">#</a></span>\[\mathbf T = \frac{\mathbf C'}{\|\mathbf C'\|},
+\qquad
+\mathbf K = \frac{\mathbf C'' - \mathbf T(\mathbf T\cdot\mathbf C'')}{\|\mathbf C'\|^2}.\]</div>
+<p>The curvature magnitude and radius of curvature are</p>
+<div class="math notranslate nohighlight" id="equation-orig-curvature-definition">
+<span class="eqno">(2)<a class="headerlink" href="#equation-orig-curvature-definition" title="Link to this equation">#</a></span>\[\kappa = \|\mathbf K\| = \frac{\|\mathbf C''\times\mathbf C'\|}{\|\mathbf C'\|^3},
+\qquad \rho = \frac{1}{\kappa}.\]</div>
+<p>Attaining <span class="math notranslate nohighlight">\(G^2\)</span> continuity at a join means matching <strong>both</strong> the
+oriented unit tangent and the curvature vector there, not merely the
+scalar curvature or radius of curvature. Suppose <span class="math notranslate nohighlight">\(\mathbf C_A(1)\)</span>
+joins <span class="math notranslate nohighlight">\(\mathbf C_B(0)\)</span>, with both segments following the intended
+direction of traversal:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Continuity</p></th>
+<th class="head"><p>Requirement at the join</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(G^0\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbf C_A(1)=\mathbf C_B(0)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(G^1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(G^0\)</span> and <span class="math notranslate nohighlight">\(\mathbf T_A(1)=\mathbf T_B(0)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(G^2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(G^1\)</span> and <span class="math notranslate nohighlight">\(\mathbf K_A(1)=\mathbf K_B(0)\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Equal curvature <em>magnitudes</em> <span class="math notranslate nohighlight">\(\|\mathbf K_A\|=\|\mathbf K_B\|\)</span> are not
+enough: the two curvature vectors can point in opposite directions.
+For example, an endpoint velocity <span class="math notranslate nohighlight">\((1,0)\)</span> paired with accelerations
+<span class="math notranslate nohighlight">\((0,2)\)</span> and <span class="math notranslate nohighlight">\((0,-2)\)</span> gives the same tangent and the same unsigned
+curvature on both sides, but opposite curvature vectors. Matching a
+common radius of curvature <span class="math notranslate nohighlight">\(\rho=1/\kappa\)</span> is therefore sufficient for
+<span class="math notranslate nohighlight">\(G^2\)</span> only once matching position and oriented tangent, and matching
+curvature <em>direction</em>, are also imposed.</p>
+<p>For regular segments with one-sided second derivatives, an equivalent
+statement of <span class="math notranslate nohighlight">\(G^2\)</span> is that there exist <span class="math notranslate nohighlight">\(\lambda&gt;0\)</span> and <span class="math notranslate nohighlight">\(\mu\in\mathbb R\)</span>
+with</p>
+<div class="math notranslate nohighlight" id="equation-orig-g2-join">
+<span class="eqno">(3)<a class="headerlink" href="#equation-orig-g2-join" title="Link to this equation">#</a></span>\[\mathbf C'_B(0) = \lambda\, \mathbf C'_A(1),
+\qquad
+\mathbf C''_B(0) = \lambda^2\, \mathbf C''_A(1) + \mu\, \mathbf C'_A(1),\]</div>
+<p>in addition to coincident endpoints. These follow from the chain rule
+for an orientation-preserving reparametrization <span class="math notranslate nohighlight">\(u\mapsto\tilde u(u)\)</span>
+with <span class="math notranslate nohighlight">\(\tilde u'(0)=\lambda\)</span> and <span class="math notranslate nohighlight">\(\tilde u''(0)=\mu\)</span>: unlike parametric
+<span class="math notranslate nohighlight">\(C^2\)</span> continuity, which forces <span class="math notranslate nohighlight">\(\lambda=1\)</span> and <span class="math notranslate nohighlight">\(\mu=0\)</span>, geometric
+continuity allows the two segments to run at different parameter
+speeds. This is the sense in which the phrase “continuity of the
+radius of curvature” is used below and in the original note: it always
+means matching the vector quantities above, not merely their norms.</p>
+<p>The usual approach to ensure smoothness at the point connecting two
+curves is to add extra control points at suitable locations. This is
+done, for instance, to ensure <span class="math notranslate nohighlight">\(G^2\)</span> continuity at the points connecting
+the pressure and suction surfaces of an airfoil. The objective of the
+rest of this page is to derive expressions for the endpoint curvature
+of Bézier and B-spline curves, use them to place the additional control
+points required for <span class="math notranslate nohighlight">\(G^2\)</span> continuity between two spline segments, apply
+the result to an airfoil parametrization that meets <span class="math notranslate nohighlight">\(G^2\)</span> continuity at
+the leading and trailing edges, and finally compare these relations
+with the expression used for the 2D blade parametrization in
+<span id="id2">Mykhaskiv <em>et al.</em> [<a class="reference internal" href="../references/bibliography.html#id43" title="Orest Mykhaskiv, Mladen Banović, Salvatore Auriemma, Pavanakumar Mohanamuraly, Andrea Walther, Herve Legrand, and Jens-Dominik Müller. NURBS-based and parametric-based shape optimization with differentiated CAD kernel. Computer-Aided Design and Applications, 15(6):916–926, 2018.">2018</a>]</span>, suggesting a correction for the case of
+B-spline curves.</p>
+</section>
+<section id="bezier-curve-endpoint-curvature-formulas">
+<h2>Bézier curve endpoint curvature formulas<a class="headerlink" href="#bezier-curve-endpoint-curvature-formulas" title="Link to this heading">#</a></h2>
+<p>Recall the Bézier curve <a class="reference internal" href="bezier.html#equation-def-bezier-curve">(1)</a> and its Bernstein basis
+from the <a class="reference internal" href="bezier.html"><span class="std std-doc">Bézier page</span></a>. Its endpoint value, first
+derivative, and second derivative are</p>
+<div class="math notranslate nohighlight">
+\[\mathbf C(u=0)=\mathbf P_0, \qquad \mathbf C(u=1)=\mathbf P_n,\]</div>
+<div class="math notranslate nohighlight">
+\[\dot{\mathbf C}(u=0) = n(\mathbf P_1-\mathbf P_0),
+\qquad
+\dot{\mathbf C}(u=1) = n(\mathbf P_n-\mathbf P_{n-1}),\]</div>
+<div class="math notranslate nohighlight">
+\[\ddot{\mathbf C}(u=0) = n(n-1)\big[(\mathbf P_2-\mathbf P_0)-2(\mathbf P_1-\mathbf P_0)\big],\]</div>
+<div class="math notranslate nohighlight">
+\[\ddot{\mathbf C}(u=1) = n(n-1)\big[(\mathbf P_{n-2}-\mathbf P_n)-2(\mathbf P_{n-1}-\mathbf P_n)\big].\]</div>
+<p>See <span id="id3">Piegl and Tiller [<a class="reference internal" href="../references/bibliography.html#id42" title="Les Piegl and Wayne Tiller. The NURBS Book. Springer, 2 edition, 1997. doi:10.1007/978-3-642-59223-2.">1997</a>]</span>, pp. 9–25, for proofs of these endpoint
+formulas. Inserting the first and second derivatives into the radius
+of curvature definition <a class="reference internal" href="#equation-orig-curvature-definition">(2)</a>, and noting that the
+cross product of two parallel vectors is zero, gives the endpoint
+curvature formulas already stated as <a class="reference internal" href="bezier.html#equation-orig-bezier-endpoint-curvature">(7)</a>:</p>
+<div class="math notranslate nohighlight" id="equation-g2-bezier-curvature-u0">
+<span class="eqno">(4)<a class="headerlink" href="#equation-g2-bezier-curvature-u0" title="Link to this equation">#</a></span>\[\kappa(u=0) = \left(\frac{n-1}{n}\right)
+\frac{\big\|(\mathbf P_2-\mathbf P_0)\times(\mathbf P_1-\mathbf P_0)\big\|}
+{\|\mathbf P_1-\mathbf P_0\|^3},\]</div>
+<div class="math notranslate nohighlight" id="equation-g2-bezier-curvature-u1">
+<span class="eqno">(5)<a class="headerlink" href="#equation-g2-bezier-curvature-u1" title="Link to this equation">#</a></span>\[\kappa(u=1) = \left(\frac{n-1}{n}\right)
+\frac{\big\|(\mathbf P_{n-2}-\mathbf P_n)\times(\mathbf P_{n-1}-\mathbf P_n)\big\|}
+{\|\mathbf P_{n-1}-\mathbf P_n\|^3}.\]</div>
+</section>
+<section id="b-spline-curve-endpoint-curvature-formulas">
+<h2>B-spline curve endpoint curvature formulas<a class="headerlink" href="#b-spline-curve-endpoint-curvature-formulas" title="Link to this heading">#</a></h2>
+<p>Recall the B-spline curve <a class="reference internal" href="bspline.html#equation-def-bspline-curve">(1)</a> and its Cox–de Boor
+basis from the <a class="reference internal" href="bspline.html"><span class="std std-doc">B-spline page</span></a>. Its endpoint value, first
+derivative, and second derivative are</p>
+<div class="math notranslate nohighlight">
+\[\mathbf C(u=0)=\mathbf P_0, \qquad \mathbf C(u=1)=\mathbf P_n,\]</div>
+<div class="math notranslate nohighlight">
+\[\dot{\mathbf C}(u=0) = \frac{p}{u_{p+1}}(\mathbf P_1-\mathbf P_0),
+\qquad
+\dot{\mathbf C}(u=1) = \frac{p}{1-u_n}(\mathbf P_n-\mathbf P_{n-1}),\]</div>
+<div class="math notranslate nohighlight">
+\[\ddot{\mathbf C}(u=0) = \frac{p(p-1)}{u_{p+1}}\left[
+\frac{1}{u_{p+2}}(\mathbf P_2-\mathbf P_0)
+-\left(\frac{1}{u_{p+1}}+\frac{1}{u_{p+2}}\right)(\mathbf P_1-\mathbf P_0)
+\right],\]</div>
+<div class="math notranslate nohighlight">
+\[\ddot{\mathbf C}(u=1) = \frac{p(p-1)}{1-u_n}\left[
+\frac{1}{1-u_{n-1}}(\mathbf P_{n-2}-\mathbf P_n)
+-\left(\frac{1}{1-u_n}+\frac{1}{1-u_{n-1}}\right)(\mathbf P_{n-1}-\mathbf P_n)
+\right].\]</div>
+<p>See <span id="id4">Piegl and Tiller [<a class="reference internal" href="../references/bibliography.html#id42" title="Les Piegl and Wayne Tiller. The NURBS Book. Springer, 2 edition, 1997. doi:10.1007/978-3-642-59223-2.">1997</a>]</span>, pp. 81–100, for a proof of these endpoint
+formulas. As before, inserting the first and second derivatives into
+<a class="reference internal" href="#equation-orig-curvature-definition">(2)</a> and cancelling the cross product of the
+parallel tangential term gives the endpoint curvature formulas already
+stated as <a class="reference internal" href="bspline.html#equation-orig-bspline-endpoint-curvature">(7)</a>:</p>
+<div class="math notranslate nohighlight" id="equation-g2-bspline-curvature-u0">
+<span class="eqno">(6)<a class="headerlink" href="#equation-g2-bspline-curvature-u0" title="Link to this equation">#</a></span>\[\kappa(u=0) = \left(\frac{p-1}{p}\right)\left(\frac{u_{p+1}}{u_{p+2}}\right)
+\frac{\big\|(\mathbf P_2-\mathbf P_0)\times(\mathbf P_1-\mathbf P_0)\big\|}
+{\|\mathbf P_1-\mathbf P_0\|^3},\]</div>
+<div class="math notranslate nohighlight" id="equation-g2-bspline-curvature-u1">
+<span class="eqno">(7)<a class="headerlink" href="#equation-g2-bspline-curvature-u1" title="Link to this equation">#</a></span>\[\kappa(u=1) = \left(\frac{p-1}{p}\right)\left(\frac{1-u_n}{1-u_{n-1}}\right)
+\frac{\big\|(\mathbf P_{n-2}-\mathbf P_n)\times(\mathbf P_{n-1}-\mathbf P_n)\big\|}
+{\|\mathbf P_{n-1}-\mathbf P_n\|^3}.\]</div>
+</section>
+<section id="nurbs-curve-endpoint-curvature-formulas">
+<h2>NURBS curve endpoint curvature formulas<a class="headerlink" href="#nurbs-curve-endpoint-curvature-formulas" title="Link to this heading">#</a></h2>
+<p>Recall the NURBS curve <a class="reference internal" href="nurbs.html#equation-def-nurbs-curve">(1)</a> and its rational basis
+from the <a class="reference internal" href="nurbs.html"><span class="std std-doc">NURBS page</span></a>. Its endpoint value, first derivative,
+and second derivative are</p>
+<div class="math notranslate nohighlight">
+\[\mathbf C(u=0)=\mathbf P_0, \qquad \mathbf C(u=1)=\mathbf P_n,\]</div>
+<div class="math notranslate nohighlight">
+\[\dot{\mathbf C}(u=0) = \left(\frac{p}{u_{p+1}}\right)\left(\frac{w_1}{w_0}\right)(\mathbf P_1-\mathbf P_0),
+\qquad
+\dot{\mathbf C}(u=1) = \left(\frac{p}{1-u_n}\right)\left(\frac{w_{n-1}}{w_n}\right)(\mathbf P_n-\mathbf P_{n-1}),\]</div>
+<div class="math notranslate nohighlight">
+\[\ddot{\mathbf C}(u=0) = \frac{p(p-1)}{u_{p+1}}\left[
+\frac{1}{u_{p+2}}\frac{w_2}{w_0}(\mathbf P_2-\mathbf P_0)
+-\left(\frac{1}{u_{p+1}}+\frac{1}{u_{p+2}}\right)\frac{w_1}{w_0}(\mathbf P_1-\mathbf P_0)
+\right]\]</div>
+<div class="math notranslate nohighlight">
+\[{}+\frac{2p^2}{u_{p+1}^2}\frac{w_1}{w_0}\left(1-\frac{w_1}{w_0}\right)(\mathbf P_1-\mathbf P_0),\]</div>
+<div class="math notranslate nohighlight">
+\[\ddot{\mathbf C}(u=1) = \frac{p(p-1)}{1-u_n}\left[
+\frac{1}{1-u_{n-1}}\frac{w_{n-2}}{w_n}(\mathbf P_{n-2}-\mathbf P_n)
+-\left(\frac{1}{1-u_n}+\frac{1}{1-u_{n-1}}\right)\frac{w_{n-1}}{w_n}(\mathbf P_{n-1}-\mathbf P_n)
+\right]\]</div>
+<div class="math notranslate nohighlight">
+\[{}+\frac{2p^2}{(1-u_n)^2}\frac{w_{n-1}}{w_n}\left(1-\frac{w_{n-1}}{w_n}\right)(\mathbf P_{n-1}-\mathbf P_n).\]</div>
+<p>See <span id="id5">Piegl and Tiller [<a class="reference internal" href="../references/bibliography.html#id42" title="Les Piegl and Wayne Tiller. The NURBS Book. Springer, 2 edition, 1997. doi:10.1007/978-3-642-59223-2.">1997</a>]</span>, pp. 117–127, for a proof of these endpoint
+formulas. Inserting the first and second derivatives into
+<a class="reference internal" href="#equation-orig-curvature-definition">(2)</a>, and again cancelling the cross product of
+the parallel tangential term, gives the endpoint curvature formulas
+already stated as <a class="reference internal" href="nurbs.html#equation-orig-nurbs-endpoint-curvature">(6)</a>:</p>
+<div class="math notranslate nohighlight" id="equation-g2-nurbs-curvature-u0">
+<span class="eqno">(8)<a class="headerlink" href="#equation-g2-nurbs-curvature-u0" title="Link to this equation">#</a></span>\[\kappa(u=0) = \left(\frac{p-1}{p}\right)\left(\frac{u_{p+1}}{u_{p+2}}\right)
+\left(\frac{w_0w_2}{w_1^2}\right)
+\frac{\big\|(\mathbf P_2-\mathbf P_0)\times(\mathbf P_1-\mathbf P_0)\big\|}
+{\|\mathbf P_1-\mathbf P_0\|^3},\]</div>
+<div class="math notranslate nohighlight" id="equation-g2-nurbs-curvature-u1">
+<span class="eqno">(9)<a class="headerlink" href="#equation-g2-nurbs-curvature-u1" title="Link to this equation">#</a></span>\[\kappa(u=1) = \left(\frac{p-1}{p}\right)\left(\frac{1-u_n}{1-u_{n-1}}\right)
+\left(\frac{w_nw_{n-2}}{w_{n-1}^2}\right)
+\frac{\big\|(\mathbf P_{n-2}-\mathbf P_n)\times(\mathbf P_{n-1}-\mathbf P_n)\big\|}
+{\|\mathbf P_{n-1}-\mathbf P_n\|^3}.\]</div>
+<p>This equation applies to NURBS curves and includes Bézier and B-spline
+curves as the special cases above.</p>
+</section>
+<section id="application-to-airfoil-parametrization">
+<h2>Application to airfoil parametrization<a class="headerlink" href="#application-to-airfoil-parametrization" title="Link to this heading">#</a></h2>
+<p>The endpoint curvature formulas for NURBS curves can be used to
+specify the radius of curvature at the leading and trailing edges of
+an airfoil and ensure <span class="math notranslate nohighlight">\(G^2\)</span> continuity between the upper and lower
+surfaces.</p>
+<section id="leading-edge">
+<h3>Leading edge<a class="headerlink" href="#leading-edge" title="Link to this heading">#</a></h3>
+<p>Consider the construction of the suction side at the leading edge. The
+suction side is defined by the set of control points
+<span class="math notranslate nohighlight">\(\{\mathbf P_0,\mathbf P_2,\ldots,\mathbf P_{n-2},\mathbf P_n\}\)</span>, where
+<span class="math notranslate nohighlight">\(\mathbf P_0\)</span> is the start point of the camber line and <span class="math notranslate nohighlight">\(\mathbf P_2\)</span>
+is computed from the thickness distribution. To impose a radius of
+curvature <span class="math notranslate nohighlight">\(\rho=1/\kappa\)</span> at the leading edge, insert an additional
+control point <span class="math notranslate nohighlight">\(\mathbf P_1\)</span> at distance <span class="math notranslate nohighlight">\(\ell_0=\|\mathbf P_1-\mathbf P_0\|\)</span>
+from <span class="math notranslate nohighlight">\(\mathbf P_0\)</span> along a chosen unit direction <span class="math notranslate nohighlight">\(\mathbf t\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\mathbf P_1 = \mathbf P_0 + \ell_0\,\mathbf t,
+\qquad \ell_0&gt;0.\]</div>
+<p>In the original airfoil construction, <span class="math notranslate nohighlight">\(\mathbf t\)</span> is the curve’s unit
+tangent direction at <span class="math notranslate nohighlight">\(u=0\)</span>, which for this construction happens to be
+normal to the camber line. The distance <span class="math notranslate nohighlight">\(\ell_0\)</span> is found by solving
+<a class="reference internal" href="#equation-g2-nurbs-curvature-u0">(8)</a>, with <span class="math notranslate nohighlight">\(\mathbf P_1-\mathbf P_0=\ell_0\mathbf t\)</span>
+and <span class="math notranslate nohighlight">\(\mathbf t\times\mathbf t=\mathbf 0\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-orig-leading-edge-distance">
+<span class="eqno">(10)<a class="headerlink" href="#equation-orig-leading-edge-distance" title="Link to this equation">#</a></span>\[\ell_0^2 = \rho\left(\frac{p-1}{p}\right)\left(\frac{u_{p+1}}{u_{p+2}}\right)
+\left(\frac{w_0w_2}{w_1^2}\right)\,
+\big\|(\mathbf P_2-\mathbf P_0)\times\mathbf t\big\|.\]</div>
+<p>This equation applies to NURBS curves and includes Bézier and
+B-spline curves as special cases. If the component of
+<span class="math notranslate nohighlight">\(\mathbf P_2-\mathbf P_0\)</span> perpendicular to <span class="math notranslate nohighlight">\(\mathbf t\)</span> vanishes, no
+finite positive <span class="math notranslate nohighlight">\(\ell_0\)</span> produces this curvature. Repeating the process
+for the pressure side using the same radius of curvature, oriented
+tangent, and curvature direction ensures <span class="math notranslate nohighlight">\(G^2\)</span> continuity at the
+leading edge.</p>
+</section>
+<section id="trailing-edge">
+<h3>Trailing edge<a class="headerlink" href="#trailing-edge" title="Link to this heading">#</a></h3>
+<p>The procedure for the trailing edge is analogous. Here, <span class="math notranslate nohighlight">\(\mathbf P_n\)</span>
+is the endpoint of the camber line and <span class="math notranslate nohighlight">\(\mathbf P_{n-2}\)</span> is computed
+from the thickness distribution. Choose a unit direction
+<span class="math notranslate nohighlight">\(\mathbf t_{\rm back}\)</span> pointing from <span class="math notranslate nohighlight">\(\mathbf P_n\)</span> toward the preceding
+control point, and insert an additional control point</p>
+<div class="math notranslate nohighlight">
+\[\mathbf P_{n-1} = \mathbf P_n + \ell_1\,\mathbf t_{\rm back}, \qquad \ell_1&gt;0.\]</div>
+<p>The curve’s forward tangent at <span class="math notranslate nohighlight">\(u=1\)</span> then points along
+<span class="math notranslate nohighlight">\(-\mathbf t_{\rm back}\)</span>. The distance <span class="math notranslate nohighlight">\(\ell_1\)</span> is found by solving
+<a class="reference internal" href="#equation-g2-nurbs-curvature-u1">(9)</a>:</p>
+<div class="math notranslate nohighlight" id="equation-orig-trailing-edge-distance">
+<span class="eqno">(11)<a class="headerlink" href="#equation-orig-trailing-edge-distance" title="Link to this equation">#</a></span>\[\ell_1^2 = \rho\left(\frac{p-1}{p}\right)\left(\frac{1-u_n}{1-u_{n-1}}\right)
+\left(\frac{w_nw_{n-2}}{w_{n-1}^2}\right)\,
+\big\|(\mathbf P_{n-2}-\mathbf P_n)\times\mathbf t_{\rm back}\big\|.\]</div>
+<p>This equation applies to NURBS curves and includes Bézier and
+B-spline curves as special cases. Repeating the process for the
+pressure side using the same radius of curvature ensures <span class="math notranslate nohighlight">\(G^2\)</span>
+continuity at the trailing edge.</p>
+<p>Both constructions only fix a control polygon that reproduces a chosen
+radius of curvature; verifying full <span class="math notranslate nohighlight">\(G^2\)</span> continuity between the two
+sides still requires checking that positions coincide and that the
+oriented tangents and curvature vectors agree, as in the
+<a class="reference internal" href="#motivation">Motivation</a> section above, including a consistent
+traversal direction for the closed profile.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="nurbs.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">NURBS curves and surfaces</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../references/bibliography.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">References</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation">Motivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bezier-curve-endpoint-curvature-formulas">Bézier curve endpoint curvature formulas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#b-spline-curve-endpoint-curvature-formulas">B-spline curve endpoint curvature formulas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbs-curve-endpoint-curvature-formulas">NURBS curve endpoint curvature formulas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#application-to-airfoil-parametrization">Application to airfoil parametrization</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#leading-edge">Leading edge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trailing-edge">Trailing edge</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
