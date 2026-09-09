@@ -971,6 +971,31 @@ class NurbsCurve(eqx.Module):
         -------
         u_all : ndarray, shape (n_points,)
             Parameter values of the orthogonal projections.
+
+        Notes
+        -----
+        Do not differentiate directly through this method (e.g. with
+        `jax.grad` on a function that depends on `P` or `W` through the
+        returned `u_all`): the current implementation is not robust
+        under implicit differentiation and can raise a runtime error
+        from the backward pass ("A linear solver received non-finite
+        (NaN or inf) input") even for ordinary, well-conditioned
+        interior projections.
+
+        This is also unnecessary: `u_all` solves exactly the first-order
+        stationarity condition of `||C(u) - Q||²`, so by the envelope
+        theorem (Danskin's theorem), the correct gradient of any
+        downstream objective built from `C(u_all)` with respect to `P`
+        or `W` is obtained by freezing `u_all` with `jax.lax.stop_gradient`
+        before differentiating, e.g.:
+
+            u_star = jax.lax.stop_gradient(curve.project_points(Q))
+            loss = jnp.sum((curve.get_value(u_star) - Q) ** 2)
+            grad = jax.grad(loss_fn)(params)
+
+        See `demos/demos_jax/demo_curve_fitting_gradient_optimization.py`
+        for a complete gradient-based curve-fitting example using this
+        pattern, verified against finite differences.
         """
         return jax.vmap(self._project_point_scalar, in_axes=1)(Q_all)
 
