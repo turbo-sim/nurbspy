@@ -7,6 +7,11 @@ README-only edits are omitted.
 
 ## Unreleased
 
+Fixed the JAX extrusion docstring's formula formatting, which Sphinx treated
+as an undefined substitution and rejected during documentation deployment.
+Regenerated the API pages to include all JAX surface modules and verified
+the complete documentation build from freshly generated pages.
+
 ## [1.4.0] - 2026-10-26
 
 Separated the implementations into sibling `nurbspy.numpy` and `nurbspy.jax`

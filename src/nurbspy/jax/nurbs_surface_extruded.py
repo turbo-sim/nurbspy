@@ -8,7 +8,7 @@ __all__ = ["NurbsSurfaceExtruded"]
 
 
 class NurbsSurfaceExtruded:
-    """Construct S(u,v)=C(u)+v*d*D/|D| with differentiable geometry inputs."""
+    """Construct ``S(u,v) = C(u) + v*d*D/|D|`` with differentiable geometry inputs."""
 
     def __init__(self, C, D, d):
         """Store a 3D curve, nonzero extrusion direction and signed distance."""
