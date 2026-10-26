@@ -8,3 +8,4 @@ from .nurbs_basis_functions import *
 from .nurbs_curve import *
 from .nurbs_curve_circular_arc import *
 
+from .nurbs_surface import *
