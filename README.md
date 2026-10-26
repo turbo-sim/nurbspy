@@ -2,7 +2,7 @@
 
 ## Description
 `nurbspy` is a Python package for Non-Uniform Rational Basis Spline (NURBS) curves and surfaces.
-The classes and methods were inspired by the algorithms presented in [The NURBS Book](https://doi.org/10.1007/978-3-642-59223-2) and the code was implemented using vectorized [Numpy](https://numpy.org/) functions and [Numba's](http://numba.pydata.org/) just-in-time compilation decorators to achieve C-like speed.
+The classes and methods were inspired by the algorithms presented in [The NURBS Book](https://doi.org/10.1007/978-3-642-59223-2) and the code uses vectorized [NumPy](https://numpy.org/) operations, with optional [Numba](http://numba.pydata.org/) just-in-time compilation for faster basis-function evaluation.
 
 `nurbspy` aims to be a simple NURBS library, not a fully fledged CAD kernel. If you need a powerful, open source CAD kernel we recommend you to check out the C++ [OpenCascade](https://www.opencascade.com/doc/occt-7.4.0/overview/html/index.html) library. If you feel that OpenCascade is too complex or you are not sure how to start using it, [this repository](https://github.com/RoberAgro/primer_open_cascade) might be useful for you!
 
@@ -34,6 +34,20 @@ See the documentation for the [theory](https://turbo-sim.github.io/nurbspy/theor
 pip install nurbspy
 ```
 
+The default installation uses NumPy and does not require Numba. To add
+optional acceleration:
+
+```bash
+pip install "nurbspy[numba]"
+```
+
+Numba is used automatically when it is available. Without it, the same
+functions run with NumPy; the API and numerical algorithms are unchanged,
+but evaluation can be slower. If Numba raises an import error (for example,
+because it does not support the installed NumPy version), `nurbspy` warns
+and uses NumPy. Installing the extra still requires versions compatible
+with Numba's own NumPy constraints.
+
 To also install the optional JAX backend and its supporting libraries:
 
 ```bash
@@ -42,7 +56,9 @@ pip install "nurbspy[jax]"
 
 Use `import nurbspy as nrb` for the NumPy interface, or
 `import nurbspy.jax as nrb` for the JAX interface. The default installation
-does not install JAX. The JAX backend currently uses the CPU.
+does not install Numba or JAX. The JAX extra does not require Numba; both
+extras can be installed with `pip install "nurbspy[numba,jax]"`.
+The JAX backend currently uses the CPU.
 
 Verify the installation:
 

@@ -2,13 +2,32 @@
 # Import packages
 # -------------------------------------------------------------------------------------------------------------------- #
 import numpy as np
-import numba as nb
+
+try:
+    from numba import jit as _jit
+except ImportError as exc:
+    # Numba is optional, including when an installed version cannot import
+    # because it does not support the active NumPy version.
+    if exc.name != "numba":
+        import warnings as _warnings
+
+        _warnings.warn(
+            f"Numba could not be imported; using the NumPy implementation. {exc}",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+
+    def _jit(**kwargs):
+        def decorator(function):
+            return function
+
+        return decorator
 
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # Compute the basis polynomials
 # -------------------------------------------------------------------------------------------------------------------- #
-@nb.jit(nopython=True, cache=True)
+@_jit(nopython=True, cache=True)
 def compute_basis_polynomials(n, p, U, u, return_degree=None):
 
     """ Evaluate the n-th B-Spline basis polynomials of degree ´p´ for the input u-parametrization
@@ -105,7 +124,7 @@ def compute_basis_polynomials(n, p, U, u, return_degree=None):
 # -------------------------------------------------------------------------------------------------------------------- #
 # Compute the derivatives of the basis polynomials
 # -------------------------------------------------------------------------------------------------------------------- #
-@nb.jit(nopython=True, cache=True)
+@_jit(nopython=True, cache=True)
 def compute_basis_polynomials_derivatives(n, p, U, u, derivative_order):
 
     """ Evaluate the derivative of the n-th B-Spline basis polynomials of degree ´p´ for the input u-parametrization
