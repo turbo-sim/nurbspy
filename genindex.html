@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=8b5694f0"></script>
+    <script src="_static/documentation_options.js?v=07b797d1"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -170,18 +170,27 @@
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -345,21 +354,31 @@
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
  
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.attach_nurbs_udir">attach_nurbs_udir() (nurbspy.nurbs_surface.NurbsSurface method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.attach_nurbs_udir">attach_nurbs_udir() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.attach_nurbs_udir">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.attach_nurbs_vdir">attach_nurbs_vdir() (nurbspy.nurbs_surface.NurbsSurface method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.attach_nurbs_vdir">attach_nurbs_vdir() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.attach_nurbs_vdir">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -377,7 +396,7 @@
       <li><a href="api/nurbspy.jax.nurbs_curve_circular_arc.html#nurbspy.jax.nurbs_curve_circular_arc.CircularArc">CircularArc (class in nurbspy.jax.nurbs_curve_circular_arc)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve_circular_arc.html#nurbspy.nurbs_curve_circular_arc.CircularArc">(class in nurbspy.nurbs_curve_circular_arc)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve_circular_arc.html#nurbspy.numpy.nurbs_curve_circular_arc.CircularArc">(class in nurbspy.numpy.nurbs_curve_circular_arc)</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.close_3d_box">close_3d_box() (in module nurbspy.graphics)</a>
@@ -391,13 +410,13 @@
       <li><a href="api/nurbspy.jax.nurbs_basis_functions.html#nurbspy.jax.nurbs_basis_functions.compute_basis_polynomials">compute_basis_polynomials() (in module nurbspy.jax.nurbs_basis_functions)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_basis_functions.html#nurbspy.nurbs_basis_functions.compute_basis_polynomials">(in module nurbspy.nurbs_basis_functions)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_basis_functions.html#nurbspy.numpy.nurbs_basis_functions.compute_basis_polynomials">(in module nurbspy.numpy.nurbs_basis_functions)</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_basis_functions.html#nurbspy.jax.nurbs_basis_functions.compute_basis_polynomials_derivatives">compute_basis_polynomials_derivatives() (in module nurbspy.jax.nurbs_basis_functions)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_basis_functions.html#nurbspy.nurbs_basis_functions.compute_basis_polynomials_derivatives">(in module nurbspy.nurbs_basis_functions)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_basis_functions.html#nurbspy.numpy.nurbs_basis_functions.compute_basis_polynomials_derivatives">(in module nurbspy.numpy.nurbs_basis_functions)</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_basis_functions.html#nurbspy.jax.nurbs_basis_functions.compute_basis_polynomials_derivatives_jax">compute_basis_polynomials_derivatives_jax() (in module nurbspy.jax.nurbs_basis_functions)</a>
@@ -405,31 +424,39 @@
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.compute_bspline_coordinates">compute_bspline_coordinates() (in module nurbspy.jax.nurbs_curve)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.compute_bspline_coordinates">(nurbspy.nurbs_curve.NurbsCurve static method)</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.compute_bspline_coordinates">(nurbspy.jax.nurbs_surface.NurbsSurface static method)</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.compute_bspline_coordinates">(nurbspy.nurbs_surface.NurbsSurface static method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.compute_bspline_coordinates">(nurbspy.numpy.nurbs_curve.NurbsCurve static method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_bspline_coordinates">(nurbspy.numpy.nurbs_surface.NurbsSurface static method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.compute_bspline_derivatives">compute_bspline_derivatives() (nurbspy.nurbs_curve.NurbsCurve static method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.compute_bspline_derivatives">compute_bspline_derivatives() (nurbspy.jax.nurbs_surface.NurbsSurface static method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.compute_bspline_derivatives">(nurbspy.nurbs_surface.NurbsSurface static method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.compute_bspline_derivatives">(nurbspy.numpy.nurbs_curve.NurbsCurve static method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_bspline_derivatives">(nurbspy.numpy.nurbs_surface.NurbsSurface static method)</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.compute_nurbs_coordinates">compute_nurbs_coordinates() (in module nurbspy.jax.nurbs_curve)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.compute_nurbs_coordinates">(nurbspy.nurbs_curve.NurbsCurve static method)</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.compute_nurbs_coordinates">(nurbspy.jax.nurbs_surface.NurbsSurface static method)</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.compute_nurbs_coordinates">(nurbspy.nurbs_surface.NurbsSurface static method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.compute_nurbs_coordinates">(nurbspy.numpy.nurbs_curve.NurbsCurve static method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_nurbs_coordinates">(nurbspy.numpy.nurbs_surface.NurbsSurface static method)</a>
 </li>
       </ul></li>
-      <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.compute_nurbs_derivatives">compute_nurbs_derivatives() (nurbspy.nurbs_curve.NurbsCurve method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.compute_nurbs_derivatives">compute_nurbs_derivatives() (nurbspy.jax.nurbs_surface.NurbsSurface static method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.compute_nurbs_derivatives">(nurbspy.nurbs_surface.NurbsSurface method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.compute_nurbs_derivatives">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_nurbs_derivatives">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.create_gif">create_gif() (in module nurbspy.graphics)</a>
@@ -444,10 +471,12 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem.fitness">fitness() (nurbspy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.fitness">fitness() (nurbspy.jax.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.fitness">(nurbspy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem.fitness">(nurbspy.numpy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.fitness">(nurbspy.numpy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -459,7 +488,7 @@
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength">get_arclength() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_arclength">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.get_arclength">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_quad">get_arclength_quad() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
@@ -467,71 +496,93 @@
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal">get_binormal() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_binormal">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.get_binormal">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
 </li>
       </ul></li>
-      <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem.get_bounds">get_bounds() (nurbspy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem static method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.get_bounds">get_bounds() (nurbspy.jax.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem static method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.get_bounds">(nurbspy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem static method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem.get_bounds">(nurbspy.numpy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem static method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.get_bounds">(nurbspy.numpy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem static method)</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_curvature">get_curvature() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_curvature">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.get_curvature">(nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.get_curvature">(nurbspy.nurbs_surface.NurbsSurface method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.get_curvature">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.get_curvature">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_derivative">get_derivative() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_derivative">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.get_derivative">(nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.get_derivative">(nurbspy.nurbs_surface.NurbsSurface method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.get_derivative">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.get_derivative">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
-      <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.get_isocurve_u">get_isocurve_u() (nurbspy.nurbs_surface.NurbsSurface method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.get_isocurve_u">get_isocurve_u() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.get_isocurve_u">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.get_isocurve_v">get_isocurve_v() (nurbspy.nurbs_surface.NurbsSurface method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.get_isocurve_v">get_isocurve_v() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.get_isocurve_v">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
+      </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_normal">get_normal() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_normal">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.get_normal">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
 </li>
       </ul></li>
-      <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_normal_2D">get_normal_2D() (nurbspy.nurbs_curve.NurbsCurve method)</a>
+      <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.get_normal_2D">get_normal_2D() (nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
 </li>
-      <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.get_normals">get_normals() (nurbspy.nurbs_surface.NurbsSurface method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.get_normals">get_normals() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.get_normals">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
+      </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_tangent">get_tangent() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_tangent">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.get_tangent">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_torsion">get_torsion() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_torsion">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.get_torsion">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_value">get_value() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.get_value">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.get_value">(nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.get_value">(nurbspy.nurbs_surface.NurbsSurface method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.get_value">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.get_value">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
-      <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem.gradient">gradient() (nurbspy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.gradient">gradient() (nurbspy.jax.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.gradient">(nurbspy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem.gradient">(nurbspy.numpy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.gradient">(nurbspy.numpy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -543,9 +594,11 @@
       <li><a href="api/nurbspy.jax.nurbs_curve_circular_arc.html#nurbspy.jax.nurbs_curve_circular_arc.CircularArc.intersect_lines">intersect_lines() (nurbspy.jax.nurbs_curve_circular_arc.CircularArc static method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve_circular_arc.html#nurbspy.nurbs_curve_circular_arc.CircularArc.intersect_lines">(nurbspy.nurbs_curve_circular_arc.CircularArc method)</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface_revolution.html#nurbspy.jax.nurbs_surface_revolution.NurbsSurfaceRevolution.intersect_lines">(nurbspy.jax.nurbs_surface_revolution.NurbsSurfaceRevolution static method)</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface_revolution.html#nurbspy.nurbs_surface_revolution.NurbsSurfaceRevolution.intersect_lines">(nurbspy.nurbs_surface_revolution.NurbsSurfaceRevolution method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve_circular_arc.html#nurbspy.numpy.nurbs_curve_circular_arc.CircularArc.intersect_lines">(nurbspy.numpy.nurbs_curve_circular_arc.CircularArc method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_revolution.html#nurbspy.numpy.nurbs_surface_revolution.NurbsSurfaceRevolution.intersect_lines">(nurbspy.numpy.nurbs_surface_revolution.NurbsSurfaceRevolution method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -557,29 +610,45 @@
       <li><a href="api/nurbspy.jax.nurbs_curve_circular_arc.html#nurbspy.jax.nurbs_curve_circular_arc.CircularArc.make_nurbs_circular_arc">make_nurbs_circular_arc() (nurbspy.jax.nurbs_curve_circular_arc.CircularArc method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve_circular_arc.html#nurbspy.nurbs_curve_circular_arc.CircularArc.make_nurbs_circular_arc">(nurbspy.nurbs_curve_circular_arc.CircularArc method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve_circular_arc.html#nurbspy.numpy.nurbs_curve_circular_arc.CircularArc.make_nurbs_circular_arc">(nurbspy.numpy.nurbs_curve_circular_arc.CircularArc method)</a>
 </li>
       </ul></li>
-      <li><a href="api/nurbspy.nurbs_surface_bilinear.html#nurbspy.nurbs_surface_bilinear.NurbsSurfaceBilinear.make_nurbs_surface">make_nurbs_surface() (nurbspy.nurbs_surface_bilinear.NurbsSurfaceBilinear method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface_bilinear.html#nurbspy.jax.nurbs_surface_bilinear.NurbsSurfaceBilinear.make_nurbs_surface">make_nurbs_surface() (nurbspy.jax.nurbs_surface_bilinear.NurbsSurfaceBilinear method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_surface_coons.html#nurbspy.nurbs_surface_coons.NurbsSurfaceCoons.make_nurbs_surface">(nurbspy.nurbs_surface_coons.NurbsSurfaceCoons method)</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface_coons.html#nurbspy.jax.nurbs_surface_coons.NurbsSurfaceCoons.make_nurbs_surface">(nurbspy.jax.nurbs_surface_coons.NurbsSurfaceCoons method)</a>
 </li>
       </ul></li>
-      <li><a href="api/nurbspy.nurbs_surface_extruded.html#nurbspy.nurbs_surface_extruded.NurbsSurfaceExtruded.make_Nurbs_surface">make_Nurbs_surface() (nurbspy.nurbs_surface_extruded.NurbsSurfaceExtruded method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface_extruded.html#nurbspy.jax.nurbs_surface_extruded.NurbsSurfaceExtruded.make_Nurbs_surface">make_Nurbs_surface() (nurbspy.jax.nurbs_surface_extruded.NurbsSurfaceExtruded method)</a>
 </li>
-      <li><a href="api/nurbspy.nurbs_surface_revolution.html#nurbspy.nurbs_surface_revolution.NurbsSurfaceRevolution.make_nurbs_surface">make_nurbs_surface() (nurbspy.nurbs_surface_revolution.NurbsSurfaceRevolution method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface_revolution.html#nurbspy.jax.nurbs_surface_revolution.NurbsSurfaceRevolution.make_nurbs_surface">make_nurbs_surface() (nurbspy.jax.nurbs_surface_revolution.NurbsSurfaceRevolution method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_surface_ruled.html#nurbspy.nurbs_surface_ruled.NurbsSurfaceRuled.make_nurbs_surface">(nurbspy.nurbs_surface_ruled.NurbsSurfaceRuled method)</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface_ruled.html#nurbspy.jax.nurbs_surface_ruled.NurbsSurfaceRuled.make_nurbs_surface">(nurbspy.jax.nurbs_surface_ruled.NurbsSurfaceRuled method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_bilinear.html#nurbspy.numpy.nurbs_surface_bilinear.NurbsSurfaceBilinear.make_nurbs_surface">(nurbspy.numpy.nurbs_surface_bilinear.NurbsSurfaceBilinear method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_coons.html#nurbspy.numpy.nurbs_surface_coons.NurbsSurfaceCoons.make_nurbs_surface">(nurbspy.numpy.nurbs_surface_coons.NurbsSurfaceCoons method)</a>
 </li>
       </ul></li>
-      <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.make_offset_surface">make_offset_surface() (in module nurbspy.nurbs_surface)</a>
+      <li><a href="api/nurbspy.numpy.nurbs_surface_extruded.html#nurbspy.numpy.nurbs_surface_extruded.NurbsSurfaceExtruded.make_Nurbs_surface">make_Nurbs_surface() (nurbspy.numpy.nurbs_surface_extruded.NurbsSurfaceExtruded method)</a>
 </li>
+      <li><a href="api/nurbspy.numpy.nurbs_surface_revolution.html#nurbspy.numpy.nurbs_surface_revolution.NurbsSurfaceRevolution.make_nurbs_surface">make_nurbs_surface() (nurbspy.numpy.nurbs_surface_revolution.NurbsSurfaceRevolution method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_ruled.html#nurbspy.numpy.nurbs_surface_ruled.NurbsSurfaceRuled.make_nurbs_surface">(nurbspy.numpy.nurbs_surface_ruled.NurbsSurfaceRuled method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.make_offset_surface">make_offset_surface() (in module nurbspy.jax.nurbs_surface)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.make_offset_surface">(in module nurbspy.numpy.nurbs_surface)</a>
+</li>
+      </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.merge_nurbs_curves">merge_nurbs_curves() (in module nurbspy.jax.nurbs_curve)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.merge_nurbs_curves">(in module nurbspy.nurbs_curve)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.merge_nurbs_curves">(in module nurbspy.numpy.nurbs_curve)</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.html#nurbspy.minimal_example">minimal_example() (in module nurbspy)</a>
@@ -600,23 +669,37 @@
 </li>
         <li><a href="api/nurbspy.jax.nurbs_curve_circular_arc.html#module-nurbspy.jax.nurbs_curve_circular_arc">nurbspy.jax.nurbs_curve_circular_arc</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_basis_functions.html#module-nurbspy.nurbs_basis_functions">nurbspy.nurbs_basis_functions</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#module-nurbspy.jax.nurbs_surface">nurbspy.jax.nurbs_surface</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_curve.html#module-nurbspy.nurbs_curve">nurbspy.nurbs_curve</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface_bilinear.html#module-nurbspy.jax.nurbs_surface_bilinear">nurbspy.jax.nurbs_surface_bilinear</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_curve_circular_arc.html#module-nurbspy.nurbs_curve_circular_arc">nurbspy.nurbs_curve_circular_arc</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface_coons.html#module-nurbspy.jax.nurbs_surface_coons">nurbspy.jax.nurbs_surface_coons</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface.html#module-nurbspy.nurbs_surface">nurbspy.nurbs_surface</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface_extruded.html#module-nurbspy.jax.nurbs_surface_extruded">nurbspy.jax.nurbs_surface_extruded</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface_bilinear.html#module-nurbspy.nurbs_surface_bilinear">nurbspy.nurbs_surface_bilinear</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface_revolution.html#module-nurbspy.jax.nurbs_surface_revolution">nurbspy.jax.nurbs_surface_revolution</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface_coons.html#module-nurbspy.nurbs_surface_coons">nurbspy.nurbs_surface_coons</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface_ruled.html#module-nurbspy.jax.nurbs_surface_ruled">nurbspy.jax.nurbs_surface_ruled</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface_extruded.html#module-nurbspy.nurbs_surface_extruded">nurbspy.nurbs_surface_extruded</a>
+        <li><a href="api/nurbspy.numpy.html#module-nurbspy.numpy">nurbspy.numpy</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface_revolution.html#module-nurbspy.nurbs_surface_revolution">nurbspy.nurbs_surface_revolution</a>
+        <li><a href="api/nurbspy.numpy.nurbs_basis_functions.html#module-nurbspy.numpy.nurbs_basis_functions">nurbspy.numpy.nurbs_basis_functions</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface_ruled.html#module-nurbspy.nurbs_surface_ruled">nurbspy.nurbs_surface_ruled</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#module-nurbspy.numpy.nurbs_curve">nurbspy.numpy.nurbs_curve</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_curve_circular_arc.html#module-nurbspy.numpy.nurbs_curve_circular_arc">nurbspy.numpy.nurbs_curve_circular_arc</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#module-nurbspy.numpy.nurbs_surface">nurbspy.numpy.nurbs_surface</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_bilinear.html#module-nurbspy.numpy.nurbs_surface_bilinear">nurbspy.numpy.nurbs_surface_bilinear</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_coons.html#module-nurbspy.numpy.nurbs_surface_coons">nurbspy.numpy.nurbs_surface_coons</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_extruded.html#module-nurbspy.numpy.nurbs_surface_extruded">nurbspy.numpy.nurbs_surface_extruded</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_revolution.html#module-nurbspy.numpy.nurbs_surface_revolution">nurbspy.numpy.nurbs_surface_revolution</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_ruled.html#module-nurbspy.numpy.nurbs_surface_ruled">nurbspy.numpy.nurbs_surface_ruled</a>
 </li>
       </ul></li>
   </ul></td>
@@ -626,14 +709,18 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.ndim">ndim (nurbspy.jax.nurbs_curve.NurbsCurve attribute)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.ndim">(nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
 </li>
+      </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve">NurbsCurve (class in nurbspy.jax.nurbs_curve)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve">(class in nurbspy.nurbs_curve)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve">(class in nurbspy.numpy.nurbs_curve)</a>
 </li>
       </ul></li>
-      <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem">NurbsCurve.PointToCurveProjectionProblem (class in nurbspy.nurbs_curve)</a>
+      <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem">NurbsCurve.PointToCurveProjectionProblem (class in nurbspy.numpy.nurbs_curve)</a>
 </li>
       <li>
     nurbspy
@@ -678,84 +765,161 @@
 </li>
       </ul></li>
       <li>
-    nurbspy.nurbs_basis_functions
+    nurbspy.jax.nurbs_surface
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_basis_functions.html#module-nurbspy.nurbs_basis_functions">module</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#module-nurbspy.jax.nurbs_surface">module</a>
 </li>
       </ul></li>
       <li>
-    nurbspy.nurbs_curve
+    nurbspy.jax.nurbs_surface_bilinear
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#module-nurbspy.nurbs_curve">module</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface_bilinear.html#module-nurbspy.jax.nurbs_surface_bilinear">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.jax.nurbs_surface_coons
+
+      <ul>
+        <li><a href="api/nurbspy.jax.nurbs_surface_coons.html#module-nurbspy.jax.nurbs_surface_coons">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.jax.nurbs_surface_extruded
+
+      <ul>
+        <li><a href="api/nurbspy.jax.nurbs_surface_extruded.html#module-nurbspy.jax.nurbs_surface_extruded">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.jax.nurbs_surface_revolution
+
+      <ul>
+        <li><a href="api/nurbspy.jax.nurbs_surface_revolution.html#module-nurbspy.jax.nurbs_surface_revolution">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.jax.nurbs_surface_ruled
+
+      <ul>
+        <li><a href="api/nurbspy.jax.nurbs_surface_ruled.html#module-nurbspy.jax.nurbs_surface_ruled">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.numpy
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.html#module-nurbspy.numpy">module</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
-    nurbspy.nurbs_curve_circular_arc
+    nurbspy.numpy.nurbs_basis_functions
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve_circular_arc.html#module-nurbspy.nurbs_curve_circular_arc">module</a>
+        <li><a href="api/nurbspy.numpy.nurbs_basis_functions.html#module-nurbspy.numpy.nurbs_basis_functions">module</a>
 </li>
       </ul></li>
       <li>
-    nurbspy.nurbs_surface
+    nurbspy.numpy.nurbs_curve
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_surface.html#module-nurbspy.nurbs_surface">module</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#module-nurbspy.numpy.nurbs_curve">module</a>
 </li>
       </ul></li>
       <li>
-    nurbspy.nurbs_surface_bilinear
+    nurbspy.numpy.nurbs_curve_circular_arc
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_surface_bilinear.html#module-nurbspy.nurbs_surface_bilinear">module</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve_circular_arc.html#module-nurbspy.numpy.nurbs_curve_circular_arc">module</a>
 </li>
       </ul></li>
       <li>
-    nurbspy.nurbs_surface_coons
+    nurbspy.numpy.nurbs_surface
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_surface_coons.html#module-nurbspy.nurbs_surface_coons">module</a>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#module-nurbspy.numpy.nurbs_surface">module</a>
 </li>
       </ul></li>
       <li>
-    nurbspy.nurbs_surface_extruded
+    nurbspy.numpy.nurbs_surface_bilinear
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_surface_extruded.html#module-nurbspy.nurbs_surface_extruded">module</a>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_bilinear.html#module-nurbspy.numpy.nurbs_surface_bilinear">module</a>
 </li>
       </ul></li>
       <li>
-    nurbspy.nurbs_surface_revolution
+    nurbspy.numpy.nurbs_surface_coons
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_surface_revolution.html#module-nurbspy.nurbs_surface_revolution">module</a>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_coons.html#module-nurbspy.numpy.nurbs_surface_coons">module</a>
 </li>
       </ul></li>
       <li>
-    nurbspy.nurbs_surface_ruled
+    nurbspy.numpy.nurbs_surface_extruded
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_surface_ruled.html#module-nurbspy.nurbs_surface_ruled">module</a>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_extruded.html#module-nurbspy.numpy.nurbs_surface_extruded">module</a>
 </li>
       </ul></li>
-      <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface">NurbsSurface (class in nurbspy.nurbs_surface)</a>
+      <li>
+    nurbspy.numpy.nurbs_surface_revolution
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_revolution.html#module-nurbspy.numpy.nurbs_surface_revolution">module</a>
 </li>
-      <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem">NurbsSurface.PointToSurfaceProjectionProblem (class in nurbspy.nurbs_surface)</a>
+      </ul></li>
+      <li>
+    nurbspy.numpy.nurbs_surface_ruled
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_ruled.html#module-nurbspy.numpy.nurbs_surface_ruled">module</a>
 </li>
-      <li><a href="api/nurbspy.nurbs_surface_bilinear.html#nurbspy.nurbs_surface_bilinear.NurbsSurfaceBilinear">NurbsSurfaceBilinear (class in nurbspy.nurbs_surface_bilinear)</a>
+      </ul></li>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface">NurbsSurface (class in nurbspy.jax.nurbs_surface)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface">(class in nurbspy.numpy.nurbs_surface)</a>
 </li>
-      <li><a href="api/nurbspy.nurbs_surface_coons.html#nurbspy.nurbs_surface_coons.NurbsSurfaceCoons">NurbsSurfaceCoons (class in nurbspy.nurbs_surface_coons)</a>
+      </ul></li>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem">NurbsSurface.PointToSurfaceProjectionProblem (class in nurbspy.jax.nurbs_surface)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem">(class in nurbspy.numpy.nurbs_surface)</a>
 </li>
-      <li><a href="api/nurbspy.nurbs_surface_extruded.html#nurbspy.nurbs_surface_extruded.NurbsSurfaceExtruded">NurbsSurfaceExtruded (class in nurbspy.nurbs_surface_extruded)</a>
+      </ul></li>
+      <li><a href="api/nurbspy.jax.nurbs_surface_bilinear.html#nurbspy.jax.nurbs_surface_bilinear.NurbsSurfaceBilinear">NurbsSurfaceBilinear (class in nurbspy.jax.nurbs_surface_bilinear)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_bilinear.html#nurbspy.numpy.nurbs_surface_bilinear.NurbsSurfaceBilinear">(class in nurbspy.numpy.nurbs_surface_bilinear)</a>
 </li>
-      <li><a href="api/nurbspy.nurbs_surface_revolution.html#nurbspy.nurbs_surface_revolution.NurbsSurfaceRevolution">NurbsSurfaceRevolution (class in nurbspy.nurbs_surface_revolution)</a>
+      </ul></li>
+      <li><a href="api/nurbspy.jax.nurbs_surface_coons.html#nurbspy.jax.nurbs_surface_coons.NurbsSurfaceCoons">NurbsSurfaceCoons (class in nurbspy.jax.nurbs_surface_coons)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_coons.html#nurbspy.numpy.nurbs_surface_coons.NurbsSurfaceCoons">(class in nurbspy.numpy.nurbs_surface_coons)</a>
 </li>
-      <li><a href="api/nurbspy.nurbs_surface_ruled.html#nurbspy.nurbs_surface_ruled.NurbsSurfaceRuled">NurbsSurfaceRuled (class in nurbspy.nurbs_surface_ruled)</a>
+      </ul></li>
+      <li><a href="api/nurbspy.jax.nurbs_surface_extruded.html#nurbspy.jax.nurbs_surface_extruded.NurbsSurfaceExtruded">NurbsSurfaceExtruded (class in nurbspy.jax.nurbs_surface_extruded)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_extruded.html#nurbspy.numpy.nurbs_surface_extruded.NurbsSurfaceExtruded">(class in nurbspy.numpy.nurbs_surface_extruded)</a>
 </li>
+      </ul></li>
+      <li><a href="api/nurbspy.jax.nurbs_surface_revolution.html#nurbspy.jax.nurbs_surface_revolution.NurbsSurfaceRevolution">NurbsSurfaceRevolution (class in nurbspy.jax.nurbs_surface_revolution)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_revolution.html#nurbspy.numpy.nurbs_surface_revolution.NurbsSurfaceRevolution">(class in nurbspy.numpy.nurbs_surface_revolution)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.jax.nurbs_surface_ruled.html#nurbspy.jax.nurbs_surface_ruled.NurbsSurfaceRuled">NurbsSurfaceRuled (class in nurbspy.jax.nurbs_surface_ruled)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_ruled.html#nurbspy.numpy.nurbs_surface_ruled.NurbsSurfaceRuled">(class in nurbspy.numpy.nurbs_surface_ruled)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -766,40 +930,54 @@
 </li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.p">p (nurbspy.jax.nurbs_curve.NurbsCurve attribute)</a>
 </li>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.P">P (nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
+</li>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.p">p (nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
+</li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot">plot() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
         <li><a href="api/nurbspy.jax.nurbs_curve_circular_arc.html#nurbspy.jax.nurbs_curve_circular_arc.CircularArc.plot">(nurbspy.jax.nurbs_curve_circular_arc.CircularArc method)</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.plot">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot">(nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_curve_circular_arc.html#nurbspy.nurbs_curve_circular_arc.CircularArc.plot">(nurbspy.nurbs_curve_circular_arc.CircularArc method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.plot">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot">(nurbspy.nurbs_surface.NurbsSurface method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve_circular_arc.html#nurbspy.numpy.nurbs_curve_circular_arc.CircularArc.plot">(nurbspy.numpy.nurbs_curve_circular_arc.CircularArc method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.plot">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
-      <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot_boundary">plot_boundary() (nurbspy.nurbs_surface.NurbsSurface method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot_boundary">plot_boundary() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_boundary">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
+      </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot_control_points">plot_control_points() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.plot_control_points">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot_control_points">(nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot_control_points">(nurbspy.nurbs_surface.NurbsSurface method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.plot_control_points">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_control_points">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curvature">plot_curvature() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.plot_curvature">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot_curvature">(nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot_curvature">(nurbspy.nurbs_surface.NurbsSurface method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.plot_curvature">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_curvature">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve">plot_curve() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.plot_curve">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.plot_curve">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -807,21 +985,37 @@
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret">plot_frenet_serret() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.plot_frenet_serret">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.plot_frenet_serret">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
 </li>
       </ul></li>
-      <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot_isocurve_u">plot_isocurve_u() (nurbspy.nurbs_surface.NurbsSurface method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot_isocurve_u">plot_isocurve_u() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_isocurve_u">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
-      <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot_isocurve_v">plot_isocurve_v() (nurbspy.nurbs_surface.NurbsSurface method)</a>
+      </ul></li>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot_isocurve_v">plot_isocurve_v() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_isocurve_v">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
-      <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot_normals">plot_normals() (nurbspy.nurbs_surface.NurbsSurface method)</a>
+      </ul></li>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot_normals">plot_normals() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_normals">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
-      <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.plot_surface">plot_surface() (nurbspy.nurbs_surface.NurbsSurface method)</a>
+      </ul></li>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot_surface">plot_surface() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_surface">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
+      </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot_torsion">plot_torsion() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.plot_torsion">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.plot_torsion">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.html#nurbspy.print_banner">print_banner() (in module nurbspy)</a>
@@ -832,13 +1026,33 @@
 </li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.print_rc_parameters">print_rc_parameters() (in module nurbspy.graphics)</a>
 </li>
-      <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.project_point_to_curve">project_point_to_curve() (nurbspy.nurbs_curve.NurbsCurve method)</a>
+      <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.project_point_to_curve">project_point_to_curve() (nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
 </li>
-      <li><a href="api/nurbspy.nurbs_surface_revolution.html#nurbspy.nurbs_surface_revolution.NurbsSurfaceRevolution.project_point_to_line">project_point_to_line() (nurbspy.nurbs_surface_revolution.NurbsSurfaceRevolution method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_surface_revolution.html#nurbspy.jax.nurbs_surface_revolution.NurbsSurfaceRevolution.project_point_to_line">project_point_to_line() (nurbspy.jax.nurbs_surface_revolution.NurbsSurfaceRevolution static method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface_revolution.html#nurbspy.numpy.nurbs_surface_revolution.NurbsSurfaceRevolution.project_point_to_line">(nurbspy.numpy.nurbs_surface_revolution.NurbsSurfaceRevolution method)</a>
 </li>
-      <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.project_point_to_surface">project_point_to_surface() (nurbspy.nurbs_surface.NurbsSurface method)</a>
+      </ul></li>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.project_point_to_surface">project_point_to_surface() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.project_point_to_surface">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
+      </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.project_points">project_points() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.project_points">(nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.q">q (nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -850,14 +1064,14 @@
 </li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_coordinate">reparametrize_by_coordinate() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.rescale_plot">rescale_plot() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
-        <li><a href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve.rescale_plot">(nurbspy.nurbs_curve.NurbsCurve method)</a>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.rescale_plot">(nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 </li>
-        <li><a href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface.rescale_plot">(nurbspy.nurbs_surface.NurbsSurface method)</a>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.rescale_plot">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.rescale_plot">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -870,13 +1084,15 @@
 </li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.scale_graphics_x">scale_graphics_x() (in module nurbspy.graphics)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.scale_graphics_y">scale_graphics_y() (in module nurbspy.graphics)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.set_plot_options">set_plot_options() (in module nurbspy.graphics)</a>
 </li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.style_3d_axes">style_3d_axes() (in module nurbspy.graphics)</a>
+</li>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.surface_type">surface_type (nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -885,6 +1101,30 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.U">U (nurbspy.jax.nurbs_curve.NurbsCurve attribute)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.U">(nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.U_mults">U_mults (nurbspy.jax.nurbs_surface.NurbsSurface property)</a>
+</li>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.U_values">U_values (nurbspy.jax.nurbs_surface.NurbsSurface property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.V">V (nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.V_mults">V_mults (nurbspy.jax.nurbs_surface.NurbsSurface property)</a>
+</li>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.V_values">V_values (nurbspy.jax.nurbs_surface.NurbsSurface property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -893,7 +1133,11 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.W">W (nurbspy.jax.nurbs_curve.NurbsCurve attribute)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.W">(nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 

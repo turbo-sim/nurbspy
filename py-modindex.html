@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=8b5694f0"></script>
+    <script src="_static/documentation_options.js?v=07b797d1"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -173,18 +173,27 @@
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -380,47 +389,82 @@
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="api/nurbspy.nurbs_basis_functions.html#module-nurbspy.nurbs_basis_functions"><code class="xref">nurbspy.nurbs_basis_functions</code></a></td><td>
+       <a href="api/nurbspy.jax.nurbs_surface.html#module-nurbspy.jax.nurbs_surface"><code class="xref">nurbspy.jax.nurbs_surface</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="api/nurbspy.nurbs_curve.html#module-nurbspy.nurbs_curve"><code class="xref">nurbspy.nurbs_curve</code></a></td><td>
+       <a href="api/nurbspy.jax.nurbs_surface_bilinear.html#module-nurbspy.jax.nurbs_surface_bilinear"><code class="xref">nurbspy.jax.nurbs_surface_bilinear</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="api/nurbspy.nurbs_curve_circular_arc.html#module-nurbspy.nurbs_curve_circular_arc"><code class="xref">nurbspy.nurbs_curve_circular_arc</code></a></td><td>
+       <a href="api/nurbspy.jax.nurbs_surface_coons.html#module-nurbspy.jax.nurbs_surface_coons"><code class="xref">nurbspy.jax.nurbs_surface_coons</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="api/nurbspy.nurbs_surface.html#module-nurbspy.nurbs_surface"><code class="xref">nurbspy.nurbs_surface</code></a></td><td>
+       <a href="api/nurbspy.jax.nurbs_surface_extruded.html#module-nurbspy.jax.nurbs_surface_extruded"><code class="xref">nurbspy.jax.nurbs_surface_extruded</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="api/nurbspy.nurbs_surface_bilinear.html#module-nurbspy.nurbs_surface_bilinear"><code class="xref">nurbspy.nurbs_surface_bilinear</code></a></td><td>
+       <a href="api/nurbspy.jax.nurbs_surface_revolution.html#module-nurbspy.jax.nurbs_surface_revolution"><code class="xref">nurbspy.jax.nurbs_surface_revolution</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="api/nurbspy.nurbs_surface_coons.html#module-nurbspy.nurbs_surface_coons"><code class="xref">nurbspy.nurbs_surface_coons</code></a></td><td>
+       <a href="api/nurbspy.jax.nurbs_surface_ruled.html#module-nurbspy.jax.nurbs_surface_ruled"><code class="xref">nurbspy.jax.nurbs_surface_ruled</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="api/nurbspy.nurbs_surface_extruded.html#module-nurbspy.nurbs_surface_extruded"><code class="xref">nurbspy.nurbs_surface_extruded</code></a></td><td>
+       <a href="api/nurbspy.numpy.html#module-nurbspy.numpy"><code class="xref">nurbspy.numpy</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="api/nurbspy.nurbs_surface_revolution.html#module-nurbspy.nurbs_surface_revolution"><code class="xref">nurbspy.nurbs_surface_revolution</code></a></td><td>
+       <a href="api/nurbspy.numpy.nurbs_basis_functions.html#module-nurbspy.numpy.nurbs_basis_functions"><code class="xref">nurbspy.numpy.nurbs_basis_functions</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="api/nurbspy.nurbs_surface_ruled.html#module-nurbspy.nurbs_surface_ruled"><code class="xref">nurbspy.nurbs_surface_ruled</code></a></td><td>
+       <a href="api/nurbspy.numpy.nurbs_curve.html#module-nurbspy.numpy.nurbs_curve"><code class="xref">nurbspy.numpy.nurbs_curve</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="api/nurbspy.numpy.nurbs_curve_circular_arc.html#module-nurbspy.numpy.nurbs_curve_circular_arc"><code class="xref">nurbspy.numpy.nurbs_curve_circular_arc</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="api/nurbspy.numpy.nurbs_surface.html#module-nurbspy.numpy.nurbs_surface"><code class="xref">nurbspy.numpy.nurbs_surface</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="api/nurbspy.numpy.nurbs_surface_bilinear.html#module-nurbspy.numpy.nurbs_surface_bilinear"><code class="xref">nurbspy.numpy.nurbs_surface_bilinear</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="api/nurbspy.numpy.nurbs_surface_coons.html#module-nurbspy.numpy.nurbs_surface_coons"><code class="xref">nurbspy.numpy.nurbs_surface_coons</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="api/nurbspy.numpy.nurbs_surface_extruded.html#module-nurbspy.numpy.nurbs_surface_extruded"><code class="xref">nurbspy.numpy.nurbs_surface_extruded</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="api/nurbspy.numpy.nurbs_surface_revolution.html#module-nurbspy.numpy.nurbs_surface_revolution"><code class="xref">nurbspy.numpy.nurbs_surface_revolution</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="api/nurbspy.numpy.nurbs_surface_ruled.html#module-nurbspy.numpy.nurbs_surface_ruled"><code class="xref">nurbspy.numpy.nurbs_surface_ruled</code></a></td><td>
        <em></em></td></tr>
    </table>
 

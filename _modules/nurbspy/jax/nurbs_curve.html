@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=8b5694f0"></script>
+    <script src="../../../_static/documentation_options.js?v=07b797d1"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -170,18 +170,27 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -504,7 +513,7 @@
 <span class="sd">    u : ndarray (Nu,)</span>
 <span class="sd">        Parametric evaluation points.</span>
 <span class="sd">    up_to_order : int</span>
-<span class="sd">        Maximum derivative order to compute (0 ≤ order ≤ p).</span>
+<span class="sd">        Maximum nonnegative derivative order. Orders above the degree are zero.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -528,7 +537,7 @@
     <span class="n">bspline_derivatives</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">up_to_order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ndim</span><span class="p">,</span> <span class="n">Nu</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">P</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 
     <span class="c1"># Compute derivatives by matrix multiplication for all relevant orders</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">bspline_derivatives</span> <span class="o">=</span> <span class="n">bspline_derivatives</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">P</span> <span class="o">@</span> <span class="n">all_Nders</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="n">bspline_derivatives</span></div>
@@ -563,7 +572,7 @@
 <span class="sd">        Parametric evaluation points.</span>
 
 <span class="sd">    up_to_order : int</span>
-<span class="sd">        Maximum derivative order to compute (0 ≤ order ≤ p).</span>
+<span class="sd">        Maximum nonnegative derivative order, which may exceed the degree.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -579,8 +588,6 @@
 
     <span class="c1"># Define sizes</span>
     <span class="n">ndim</span><span class="p">,</span> <span class="n">Nu</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">u</span><span class="o">.</span><span class="n">size</span>
-    <span class="n">max_order</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">up_to_order</span><span class="p">)</span>
-    <span class="c1"># max_order = p</span>
 
     <span class="c1"># Map control points to homogeneous coordinates: P_w = (x*w, y*w, z*w, w)</span>
     <span class="n">P_w</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">P</span> <span class="o">*</span> <span class="n">W</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">W</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -598,9 +605,11 @@
     <span class="c1"># Zeroth derivative: C(u) = A0 / w0</span>
     <span class="n">nurbs_derivatives</span> <span class="o">=</span> <span class="n">nurbs_derivatives</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">A_ders</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">w_ders</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-   <span class="c1"># Recursive computation for higher-order derivatives (Algorithm A4.2)</span>
+    <span class="c1"># Recursive computation for higher-order derivatives (Algorithm A4.2)</span>
     <span class="c1"># Using simple Python loops - unrolled at JIT compilation with no runtime overhead</span>
-    <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="c1"># Rational derivatives can remain nonzero above the polynomial degree.</span>
+    <span class="c1"># Only the homogeneous B-spline derivatives vanish beyond that degree.</span>
+    <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">up_to_order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="c1"># Start with the corresponding derivative of A (homogeneous numerator)</span>
         <span class="n">temp_num</span> <span class="o">=</span> <span class="n">A_ders</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
         
@@ -1157,7 +1166,10 @@
             <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dC</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># ||C&#39;(u)||</span>
 
         <span class="c1"># Perform fixed quadrature over [u1, u2]</span>
-        <span class="n">rule</span> <span class="o">=</span> <span class="n">qdx</span><span class="o">.</span><span class="n">ClenshawCurtisRule</span><span class="p">(</span><span class="n">n_points</span><span class="p">)</span>
+        <span class="c1"># Only the integral is used. Quadax&#39;s error estimate can have undefined</span>
+        <span class="c1"># gradients for constant speed, so keep that diagnostic out of autodiff.</span>
+        <span class="n">error_norm</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">error</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">stop_gradient</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">error</span><span class="p">)))</span>
+        <span class="n">rule</span> <span class="o">=</span> <span class="n">qdx</span><span class="o">.</span><span class="n">ClenshawCurtisRule</span><span class="p">(</span><span class="n">n_points</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">error_norm</span><span class="p">)</span>
         <span class="n">arclength</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">integrand</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">arclength</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span></div>
 

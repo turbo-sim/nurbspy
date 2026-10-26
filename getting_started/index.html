@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=8b5694f0"></script>
+    <script src="../_static/documentation_options.js?v=07b797d1"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -171,18 +171,27 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -435,17 +444,28 @@ provide a complete solid-modeling CAD system.</p>
 </section>
 <section id="installation-for-users">
 <h2>Installation for users<a class="headerlink" href="#installation-for-users" title="Link to this heading">#</a></h2>
-<p>Use the following command to install the default NumPy/Numba backend:</p>
+<p>Use the following command to install the default NumPy backend:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>nurbspy
 </pre></div>
 </div>
+<p>Numba is optional. To accelerate basis-function evaluation, install:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;nurbspy[numba]&quot;</span>
+</pre></div>
+</div>
+<p>Numba is used automatically when available. Without it, the same functions
+run with NumPy, with unchanged APIs and numerical algorithms but potentially
+slower evaluation. If an installed Numba raises an import error, <code class="docutils literal notranslate"><span class="pre">nurbspy</span></code>
+warns and falls back to NumPy. The <code class="docutils literal notranslate"><span class="pre">numba</span></code> extra still requires NumPy and
+Python versions supported by Numba; omit it to avoid those dependency constraints.</p>
 <p>To also install the optional JAX backend and its supporting libraries:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;nurbspy[jax]&quot;</span>
 </pre></div>
 </div>
 <p>Use <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">nurbspy</span> <span class="pre">as</span> <span class="pre">nrb</span></code> for the NumPy interface, or
 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">nurbspy.jax</span> <span class="pre">as</span> <span class="pre">nrb</span></code> for the JAX interface. The default installation
-does not install JAX. The JAX backend currently uses the CPU.</p>
+does not install Numba or JAX. The JAX extra does not require Numba; use
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;nurbspy[numba,jax]&quot;</span></code> to install both extras.
+The JAX backend currently uses the CPU.</p>
 <p>Verify the installation:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import nurbspy; print(nurbspy.__version__)&quot;</span>
 </pre></div>
@@ -473,10 +493,11 @@ and documentation tools. To enable JAX as well:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>install<span class="w"> </span>--with<span class="w"> </span>dev<span class="w"> </span>--extras<span class="w"> </span>jax
 </pre></div>
 </div>
-<p>JAX is a package <strong>extra</strong> so it can be selected by both pip and Poetry;
-<code class="docutils literal notranslate"><span class="pre">dev</span></code> is a dependency <strong>group</strong> for working on the repository. The full test
-suite and the API documentation build both require the JAX extra because they
-import <code class="docutils literal notranslate"><span class="pre">nurbspy.jax</span></code>.</p>
+<p>Numba and JAX are package <strong>extras</strong> so they can be selected by both pip and
+Poetry; <code class="docutils literal notranslate"><span class="pre">dev</span></code> is a dependency <strong>group</strong> for working on the repository. Use
+<code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">install</span> <span class="pre">--with</span> <span class="pre">dev</span> <span class="pre">--extras</span> <span class="pre">&quot;numba</span> <span class="pre">jax&quot;</span></code> to install both extras.
+The API documentation build requires the JAX extra because it imports
+<code class="docutils literal notranslate"><span class="pre">nurbspy.jax</span></code>.</p>
 <section id="building-the-documentation">
 <h3>Building the documentation<a class="headerlink" href="#building-the-documentation" title="Link to this heading">#</a></h3>
 <p>With Poetry installed, run these commands from the repository root:</p>
@@ -500,17 +521,58 @@ regenerated on every build, so edit the Python docstrings to change the API.</p>
 <section id="running-the-tests">
 <h3>Running the tests<a class="headerlink" href="#running-the-tests" title="Link to this heading">#</a></h3>
 <p>Run the full suite with Poetry from the repository root:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>pytest
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests
 </pre></div>
 </div>
-<p>The full suite requires the JAX extra because some tests import <code class="docutils literal notranslate"><span class="pre">nurbspy.jax</span></code>. To run a single file, or filter by test name with <code class="docutils literal notranslate"><span class="pre">-k</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_nurbs_curve.py
-poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_nurbs_curve.py<span class="w"> </span>-k<span class="w"> </span>derivatives
+<p>Tests are grouped by what they verify:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Directory</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tests/geometry/</span></code></p></td>
+<td><p>Basis, curve, and surface values, derivatives, constructors, and geometric operations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tests/backends/</span></code></p></td>
+<td><p>NumPy/Numba complex-step support, Numba compilation, and JAX differentiation, JIT, and batching.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tests/installation/</span></code></p></td>
+<td><p>Optional-dependency behavior and installed-package smoke checks.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tests/documentation/</span></code></p></td>
+<td><p>Mathematical derivations and executable documentation examples.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">basis_backend</span></code> and <code class="docutils literal notranslate"><span class="pre">curve_backend</span></code> fixtures run common numerical checks
+against NumPy and JAX. The <code class="docutils literal notranslate"><span class="pre">surface_backend</span></code> fixture uses the existing NumPy
+implementation, which Numba accelerates when installed. There is no JAX
+surface implementation. Small reusable geometry inputs live in <code class="docutils literal notranslate"><span class="pre">tests/cases.py</span></code>.</p>
+<p>NumPy/Numba tests verify complex-step sensitivities with respect to curve and
+surface parameters, control points, and weights. JAX tests verify automatic
+differentiation instead of requiring complex-step support.</p>
+<p>Run a feature group or filter individual tests with <code class="docutils literal notranslate"><span class="pre">-k</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/geometry
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/geometry/test_curve_derivatives.py
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/backends<span class="w"> </span>-k<span class="w"> </span>complex_step
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">tests/run_tests.py</span></code> runs the three package test files directly through
-<code class="docutils literal notranslate"><span class="pre">pytest.main([&quot;-vv&quot;]</span> <span class="pre">+</span> <span class="pre">tests_list)</span></code> and can be launched without the <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">run</span></code> prefix once the environment is active:</p>
+<p>To exercise both optional backends explicitly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>install<span class="w"> </span>--with<span class="w"> </span>dev<span class="w"> </span>--extras<span class="w"> </span><span class="s2">&quot;numba jax&quot;</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests<span class="w"> </span>--require-backend<span class="o">=</span>numba<span class="w"> </span>--require-backend<span class="o">=</span>jax
+</pre></div>
+</div>
+<p>Ordinary runs skip JAX tests if JAX is absent. An installed but broken JAX
+backend raises an import error instead of being silently skipped. The
+repeatable <code class="docutils literal notranslate"><span class="pre">--require-backend</span></code> option makes a missing or unusable requested
+backend fail early, and CI uses it for its optional-extra jobs.</p>
+<p><code class="docutils literal notranslate"><span class="pre">tests/run_tests.py</span></code> discovers the full suite from any working directory and
+forwards extra pytest arguments. Once the environment is active, run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tests/run_tests.py
+python<span class="w"> </span>tests/run_tests.py<span class="w"> </span>-k<span class="w"> </span>projection
 </pre></div>
 </div>
 </section>

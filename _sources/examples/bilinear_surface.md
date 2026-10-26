@@ -7,7 +7,7 @@ surface.
 
 ## Inputs and corner convention
 
-{class}`nurbspy.nurbs_surface_bilinear.NurbsSurfaceBilinear` takes four
+{class}`nurbspy.numpy.nurbs_surface_bilinear.NurbsSurfaceBilinear` takes four
 three-dimensional corner arrays. Its argument names follow this mapping:
 
 | Argument | Surface parameter | Control-net entry |

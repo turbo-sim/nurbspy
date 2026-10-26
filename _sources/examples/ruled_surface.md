@@ -12,7 +12,7 @@ along a straight ruling between them.
 
 ## Inputs
 
-{class}`nurbspy.nurbs_surface_ruled.NurbsSurfaceRuled` takes two curves
+{class}`nurbspy.numpy.nurbs_surface_ruled.NurbsSurfaceRuled` takes two curves
 with matching control-point array shapes, degrees, and knot vectors.
 The example uses two quadratic Bézier curves with unit weights, so those
 requirements hold automatically. Its surface has degrees $(2,1)$.

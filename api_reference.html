@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=8b5694f0"></script>
+    <script src="_static/documentation_options.js?v=07b797d1"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -171,18 +171,27 @@
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_basis_functions.html">nurbspy.nurbs_basis_functions module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_curve.html">nurbspy.nurbs_curve module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_curve_circular_arc.html">nurbspy.nurbs_curve_circular_arc module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface.html">nurbspy.nurbs_surface module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_bilinear.html">nurbspy.nurbs_surface_bilinear module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_coons.html">nurbspy.nurbs_surface_coons module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_extruded.html">nurbspy.nurbs_surface_extruded module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_revolution.html">nurbspy.nurbs_surface_revolution module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.nurbs_surface_ruled.html">nurbspy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -409,29 +418,30 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Basis functions</p></td>
-<td><p><a class="reference internal" href="api/nurbspy.nurbs_basis_functions.html#nurbspy.nurbs_basis_functions.compute_basis_polynomials" title="nurbspy.nurbs_basis_functions.compute_basis_polynomials"><code class="xref py py-func docutils literal notranslate"><span class="pre">nurbspy.nurbs_basis_functions.compute_basis_polynomials()</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/nurbspy.numpy.nurbs_basis_functions.html#nurbspy.numpy.nurbs_basis_functions.compute_basis_polynomials" title="nurbspy.numpy.nurbs_basis_functions.compute_basis_polynomials"><code class="xref py py-func docutils literal notranslate"><span class="pre">nurbspy.numpy.nurbs_basis_functions.compute_basis_polynomials()</span></code></a></p></td>
 </tr>
 <tr class="row-odd"><td><p>Basis derivatives</p></td>
-<td><p><a class="reference internal" href="api/nurbspy.nurbs_basis_functions.html#nurbspy.nurbs_basis_functions.compute_basis_polynomials_derivatives" title="nurbspy.nurbs_basis_functions.compute_basis_polynomials_derivatives"><code class="xref py py-func docutils literal notranslate"><span class="pre">nurbspy.nurbs_basis_functions.compute_basis_polynomials_derivatives()</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/nurbspy.numpy.nurbs_basis_functions.html#nurbspy.numpy.nurbs_basis_functions.compute_basis_polynomials_derivatives" title="nurbspy.numpy.nurbs_basis_functions.compute_basis_polynomials_derivatives"><code class="xref py py-func docutils literal notranslate"><span class="pre">nurbspy.numpy.nurbs_basis_functions.compute_basis_polynomials_derivatives()</span></code></a></p></td>
 </tr>
 <tr class="row-even"><td><p>Curves and their differential geometry</p></td>
-<td><p><a class="reference internal" href="api/nurbspy.nurbs_curve.html#nurbspy.nurbs_curve.NurbsCurve" title="nurbspy.nurbs_curve.NurbsCurve"><code class="xref py py-class docutils literal notranslate"><span class="pre">nurbspy.nurbs_curve.NurbsCurve</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve" title="nurbspy.numpy.nurbs_curve.NurbsCurve"><code class="xref py py-class docutils literal notranslate"><span class="pre">nurbspy.numpy.nurbs_curve.NurbsCurve</span></code></a></p></td>
 </tr>
 <tr class="row-odd"><td><p>Exact circular arcs</p></td>
-<td><p><a class="reference internal" href="api/nurbspy.nurbs_curve_circular_arc.html#nurbspy.nurbs_curve_circular_arc.CircularArc" title="nurbspy.nurbs_curve_circular_arc.CircularArc"><code class="xref py py-class docutils literal notranslate"><span class="pre">nurbspy.nurbs_curve_circular_arc.CircularArc</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/nurbspy.numpy.nurbs_curve_circular_arc.html#nurbspy.numpy.nurbs_curve_circular_arc.CircularArc" title="nurbspy.numpy.nurbs_curve_circular_arc.CircularArc"><code class="xref py py-class docutils literal notranslate"><span class="pre">nurbspy.numpy.nurbs_curve_circular_arc.CircularArc</span></code></a></p></td>
 </tr>
 <tr class="row-even"><td><p>Tensor-product surfaces</p></td>
-<td><p><a class="reference internal" href="api/nurbspy.nurbs_surface.html#nurbspy.nurbs_surface.NurbsSurface" title="nurbspy.nurbs_surface.NurbsSurface"><code class="xref py py-class docutils literal notranslate"><span class="pre">nurbspy.nurbs_surface.NurbsSurface</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface" title="nurbspy.numpy.nurbs_surface.NurbsSurface"><code class="xref py py-class docutils literal notranslate"><span class="pre">nurbspy.numpy.nurbs_surface.NurbsSurface</span></code></a></p></td>
 </tr>
 <tr class="row-odd"><td><p>Extrusions</p></td>
-<td><p><a class="reference internal" href="api/nurbspy.nurbs_surface_extruded.html#nurbspy.nurbs_surface_extruded.NurbsSurfaceExtruded" title="nurbspy.nurbs_surface_extruded.NurbsSurfaceExtruded"><code class="xref py py-class docutils literal notranslate"><span class="pre">nurbspy.nurbs_surface_extruded.NurbsSurfaceExtruded</span></code></a></p></td>
+<td><p><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_extruded.html#nurbspy.numpy.nurbs_surface_extruded.NurbsSurfaceExtruded" title="nurbspy.numpy.nurbs_surface_extruded.NurbsSurfaceExtruded"><code class="xref py py-class docutils literal notranslate"><span class="pre">nurbspy.numpy.nurbs_surface_extruded.NurbsSurfaceExtruded</span></code></a></p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>The package overview below also lists the bilinear, ruled, revolution, Coons,
-and graphics modules, and the <code class="docutils literal notranslate"><span class="pre">nurbspy.jax</span></code> subpackage. The JAX API is separate
-from the NumPy API: check its signatures before switching imports.</p>
+<p>The package overview below lists the <code class="docutils literal notranslate"><span class="pre">nurbspy.numpy</span></code> and <code class="docutils literal notranslate"><span class="pre">nurbspy.jax</span></code>
+backends, their surface generators, and the shared graphics module.
+The root <code class="docutils literal notranslate"><span class="pre">nurbspy</span></code> interface continues to expose the NumPy implementation.
+Check backend signatures and differentiation guarantees before switching imports.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api/nurbspy.html">nurbspy package</a><ul>

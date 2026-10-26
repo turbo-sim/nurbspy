@@ -33,7 +33,7 @@ Weights make the rational quadratic follow the circle exactly.
 ```
 
 For other radii, planes, or angle spans, use
-{class}`nurbspy.nurbs_curve_circular_arc.CircularArc`. The constructor
+{class}`nurbspy.numpy.nurbs_curve_circular_arc.CircularArc`. The constructor
 returns a helper object; its `.NurbsCurve` attribute holds the curve.
 Angles are in radians, while the resulting curve is evaluated with a
 normalized parameter $u\in[0,1]$.

@@ -15,7 +15,7 @@ Its two circular ends remain open.
 
 `CircularArc` represents the full $2\pi$ circle exactly with four
 rational quadratic spans. Use its `.NurbsCurve` attribute as the input
-to {class}`nurbspy.nurbs_surface_extruded.NurbsSurfaceExtruded`.
+to {class}`nurbspy.numpy.nurbs_surface_extruded.NurbsSurfaceExtruded`.
 The circle has three coordinate rows because the extrusion is spatial,
 even though the initial profile lies in the $xy$ plane.
 

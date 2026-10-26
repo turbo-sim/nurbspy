@@ -9,7 +9,7 @@ a ring torus, since $R>r$.
 
 First create the exact circular profile with `CircularArc`. Then pass its
 `.NurbsCurve` to
-{class}`nurbspy.nurbs_surface_revolution.NurbsSurfaceRevolution`, together
+{class}`nurbspy.numpy.nurbs_surface_revolution.NurbsSurfaceRevolution`, together
 with the axis point, axis direction, and angular limits.
 The constructor keywords are `angle_start` and `angle_end`, in radians.
 

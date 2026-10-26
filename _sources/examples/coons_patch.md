@@ -28,7 +28,7 @@ Their endpoints must agree:
 | Northwest | `north(0) = west(1)` |
 | Northeast | `north(1) = east(1)` |
 
-{class}`nurbspy.nurbs_surface_coons.NurbsSurfaceCoons` requires matching
+{class}`nurbspy.numpy.nurbs_surface_coons.NurbsSurfaceCoons` requires matching
 degrees, knot vectors, and control-point counts for opposite boundaries,
 as well as matching corner positions and weights. All four curves here
 are polynomial cubic Bézier curves with unit weights. This makes the
