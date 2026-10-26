@@ -7,6 +7,8 @@ README-only edits are omitted.
 
 ## Unreleased
 
+## [1.4.0] - 2026-10-26
+
 Separated the implementations into sibling `nurbspy.numpy` and `nurbspy.jax`
 subpackages, with shared graphics and package information at the root.
 Existing `import nurbspy` usage still selects NumPy; legacy module imports
