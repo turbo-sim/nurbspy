@@ -1,7 +1,7 @@
 """Select supported backends while keeping geometry tests implementation-neutral.
 
 Numba accelerates the NumPy backend when installed; it is not a separate
-geometry API. JAX currently implements basis functions and curves only.
+geometry API. Shared geometry checks exercise NumPy and optional JAX.
 """
 
 import importlib
@@ -52,10 +52,10 @@ def curve_backend(request):
     return _load_geometry_backend(request.param)
 
 
-@pytest.fixture(scope="module")
-def surface_backend():
-    """Provide the existing NumPy/Numba surface API, without requiring JAX."""
-    return importlib.import_module("nurbspy")
+@pytest.fixture(scope="module", params=["nurbspy", "nurbspy.jax"], ids=["numpy", "jax"])
+def surface_backend(request):
+    """Run common surface checks against NumPy and available JAX."""
+    return _load_geometry_backend(request.param)
 
 
 @pytest.fixture(scope="module")
