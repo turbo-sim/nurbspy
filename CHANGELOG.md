@@ -7,6 +7,8 @@ README-only edits are omitted.
 
 ## Unreleased
 
+## [1.4.1] - 2026-10-26
+
 Fixed the JAX extrusion docstring's formula formatting, which Sphinx treated
 as an undefined substitution and rejected during documentation deployment.
 Regenerated the API pages to include all JAX surface modules and verified
