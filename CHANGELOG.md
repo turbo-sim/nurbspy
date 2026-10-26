@@ -7,6 +7,22 @@ README-only edits are omitted.
 
 ## Unreleased
 
+Added JAX NURBS surfaces with values, arbitrary mixed partial derivatives,
+normals, mean/Gaussian curvature, isocurves, attachment, approximate offsets,
+and bounded point projection. Added bilinear, ruled, extruded, revolution,
+and Coons generators, plus host-side plotting and knot metadata. Revolution
+accepts an explicit static `n_arcs` when differentiating traced angles.
+Projection supports forward/reverse implicit derivatives at locally unique,
+regular minima with stable active bounds; ambiguous or singular minima and
+active-set transitions are outside that differentiability guarantee.
+
+Extended shared geometry tests to both surface backends and added JAX
+surface differentiation, generator, operation, and projection checks against
+independent references. Fixed NumPy v-direction attachment using the wrong
+knot vector, revolution misclassifying radial vectors with zero component
+sum, incomplete Coons corner validation, scalar inputs to a surface derivative
+helper, obsolete Matplotlib tick access, and zero-range curvature colors.
+
 Reorganized tests by mathematical feature, backend execution, installation,
 and documentation. Strengthened numerical assertions and added public
 projection, surface-operation, torsion, and complex-step sensitivity checks.

@@ -78,6 +78,19 @@ def check_installed_backends(backend):
         assert_allclose(value, [0.5, 0.375])
         assert_allclose(derivative, [2.0, 1.0])
 
+        # Exercise the exported surface generators and mixed-partial API from
+        # the installed wheel, including a gradient through construction.
+        def surface_value(distance):
+            """Construct an extrusion and expose its signed-distance sensitivity."""
+            curve = jax_nrb.NurbsCurve(np.array([[0.0, 1.0], [0.0, 0.0], [0.0, 0.0]]))
+            surface = jax_nrb.NurbsSurfaceExtruded(
+                curve, np.array([0.0, 1.0, 0.0]), distance
+            ).NurbsSurface
+            return surface.get_value(0.25, 0.75)[:, 0]
+
+        assert_allclose(surface_value(2.0), [0.25, 1.5, 0.0])
+        assert_allclose(jax.jacfwd(surface_value)(2.0), [0.0, 0.75, 0.0])
+
 
 def main():
     """Run the isolated smoke checks for the requested dependency selection."""
