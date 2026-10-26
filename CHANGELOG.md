@@ -15,6 +15,10 @@ remain supported through explicit module aliases. New pickles use the
 `nurbspy.numpy` paths and are not guaranteed to load in older releases.
 Added import-identity, legacy-serialization, and installed-wheel checks.
 
+Updated generated NumPy API page paths and cross-references to the canonical
+modules so Sphinx continues to include their classes and functions after the
+move. Existing Python import paths remain supported.
+
 Moved the importable package into `src/nurbspy` and updated packaging,
 release versioning, documentation paths, and installation checks. Local
 development now uses an editable installation; tests exercise the installed

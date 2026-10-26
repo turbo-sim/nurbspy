@@ -1,7 +1,7 @@
-nurbspy.nurbs\_curve\_circular\_arc module
+nurbspy.numpy.nurbs\_surface\_coons module
 ==========================================
 
-.. automodule:: nurbspy.nurbs_curve_circular_arc
+.. automodule:: nurbspy.numpy.nurbs_surface_coons
    :members:
    :undoc-members:
    :show-inheritance:
