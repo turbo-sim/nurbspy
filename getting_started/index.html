@@ -40,16 +40,18 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=07b797d1"></script>
+    <script src="../_static/documentation_options.js?v=40912020"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'getting_started/index';</script>
     <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/getting_started/index.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Theory" href="../theory/index.html" />
+    <link rel="next" title="JAX performance and prepared evaluations" href="jax_performance.html" />
     <link rel="prev" title="Welcome to nurbspy!" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -141,7 +143,10 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Getting started</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Getting started</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="jax_performance.html">JAX performance and prepared evaluations</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../theory/bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/bspline.html">B-spline curves and surfaces</a></li>
@@ -177,6 +182,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -436,7 +443,7 @@ rational geometry such as exact circular arcs.</p>
 derivatives, tangents and normals, curvature, curve arc length, point
 projection, and Matplotlib plots. Surface constructors include bilinear,
 ruled, extruded, revolution, and Coons surfaces. The separate <code class="docutils literal notranslate"><span class="pre">nurbspy.jax</span></code>
-subpackage provides differentiable curve and basis-function implementations.
+subpackage provides differentiable curves, surfaces, and basis functions.
 The examples here use <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">nurbspy</span> <span class="pre">as</span> <span class="pre">nrb</span></code> unless stated otherwise.</p>
 <p>The algorithms follow <em>The NURBS Book</em> <span id="id1">[<a class="reference internal" href="../references/bibliography.html#id42" title="Les Piegl and Wayne Tiller. The NURBS Book. Springer, 2 edition, 1997. doi:10.1007/978-3-642-59223-2.">Piegl and Tiller, 1997</a>]</span>.
 This is a geometry library for analysis and parametrization; it does not
@@ -466,6 +473,8 @@ Python versions supported by Numba; omit it to avoid those dependency constraint
 does not install Numba or JAX. The JAX extra does not require Numba; use
 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;nurbspy[numba,jax]&quot;</span></code> to install both extras.
 The JAX backend currently uses the CPU.</p>
+<p>For repeated JAX evaluations and optimization at fixed parameter locations,
+see <a class="reference internal" href="jax_performance.html"><span class="std std-doc">JAX performance and prepared evaluations</span></a>.</p>
 <p>Verify the installation:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import nurbspy; print(nurbspy.__version__)&quot;</span>
 </pre></div>
@@ -547,10 +556,10 @@ regenerated on every build, so edit the Python docstrings to change the API.</p>
 </tbody>
 </table>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">basis_backend</span></code> and <code class="docutils literal notranslate"><span class="pre">curve_backend</span></code> fixtures run common numerical checks
-against NumPy and JAX. The <code class="docutils literal notranslate"><span class="pre">surface_backend</span></code> fixture uses the existing NumPy
-implementation, which Numba accelerates when installed. There is no JAX
-surface implementation. Small reusable geometry inputs live in <code class="docutils literal notranslate"><span class="pre">tests/cases.py</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">basis_backend</span></code>, <code class="docutils literal notranslate"><span class="pre">curve_backend</span></code> and <code class="docutils literal notranslate"><span class="pre">surface_backend</span></code> fixtures run common
+numerical checks against NumPy and JAX. Numba accelerates the NumPy basis
+implementation when installed. Small reusable geometry inputs live in
+<code class="docutils literal notranslate"><span class="pre">tests/cases.py</span></code>.</p>
 <p>NumPy/Numba tests verify complex-step sensitivities with respect to curve and
 surface parameters, control points, and weights. JAX tests verify automatic
 differentiation instead of requiring complex-step support.</p>
@@ -592,6 +601,8 @@ files. Push the resulting commit and tag with:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main<span class="w"> </span>--tags
 </pre></div>
 </div>
+<div class="toctree-wrapper compound">
+</div>
 </section>
 </section>
 </section>
@@ -617,11 +628,11 @@ files. Push the resulting commit and tag with:</p>
       </div>
     </a>
     <a class="right-next"
-       href="../theory/index.html"
+       href="jax_performance.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Theory</p>
+        <p class="prev-next-title">JAX performance and prepared evaluations</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

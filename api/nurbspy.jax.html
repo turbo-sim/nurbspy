@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=07b797d1"></script>
+    <script src="../_static/documentation_options.js?v=40912020"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -141,7 +141,10 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/jax_performance.html">JAX performance and prepared evaluations</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../theory/bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/bspline.html">B-spline curves and surfaces</a></li>
@@ -177,6 +180,8 @@
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -559,6 +564,52 @@
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.nurbs_surface_ruled.html#nurbspy.jax.nurbs_surface_ruled.NurbsSurfaceRuled.make_nurbs_surface"><code class="docutils literal notranslate"><span class="pre">NurbsSurfaceRuled.make_nurbs_surface()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis"><code class="docutils literal notranslate"><span class="pre">PreparedCurveBasis</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.basis"><code class="docutils literal notranslate"><span class="pre">PreparedCurveBasis.basis</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.degree"><code class="docutils literal notranslate"><span class="pre">PreparedCurveBasis.degree</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.get_curvature"><code class="docutils literal notranslate"><span class="pre">PreparedCurveBasis.get_curvature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.get_derivative"><code class="docutils literal notranslate"><span class="pre">PreparedCurveBasis.get_derivative()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.get_derivatives"><code class="docutils literal notranslate"><span class="pre">PreparedCurveBasis.get_derivatives()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.get_tangent"><code class="docutils literal notranslate"><span class="pre">PreparedCurveBasis.get_tangent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.get_value"><code class="docutils literal notranslate"><span class="pre">PreparedCurveBasis.get_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.max_order"><code class="docutils literal notranslate"><span class="pre">PreparedCurveBasis.max_order</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.n_control"><code class="docutils literal notranslate"><span class="pre">PreparedCurveBasis.n_control</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.basis_u"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis.basis_u</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.basis_v"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis.basis_v</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.degree_u"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis.degree_u</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.degree_v"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis.degree_v</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.get_curvature"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis.get_curvature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.get_derivative"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis.get_derivative()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.get_derivatives"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis.get_derivatives()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.get_normals"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis.get_normals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.get_value"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis.get_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.grid"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis.grid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.max_order_u"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis.max_order_u</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.max_order_v"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis.max_order_v</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.n_control_u"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis.n_control_u</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.n_control_v"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceBasis.n_control_v</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.prepare_curve"><code class="docutils literal notranslate"><span class="pre">prepare_curve()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.jax.prepared.html#nurbspy.jax.prepared.prepare_surface"><code class="docutils literal notranslate"><span class="pre">prepare_surface()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_point"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.project_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_points"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.project_points()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.sample_parameters"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.sample_parameters</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.sampled_points"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.sampled_points</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.surface"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.surface</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.prepare_surface_projection"><code class="docutils literal notranslate"><span class="pre">prepare_surface_projection()</span></code></a></li>
 </ul>
 </li>
 </ul>

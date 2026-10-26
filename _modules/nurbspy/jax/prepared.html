@@ -1,0 +1,800 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nurbspy.jax.prepared &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=40912020"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/nurbspy/jax/prepared';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/_modules/nurbspy/jax/prepared.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started/jax_performance.html">JAX performance and prepared evaluations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2F_modules/nurbspy/jax/prepared.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for nurbspy.jax.prepared</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Explicit reusable basis tables for fixed knots and evaluation parameters.</span>
+
+<span class="sd">Preparation stores polynomial basis functions, not rational geometry. Control</span>
+<span class="sd">points and weights are supplied on every evaluation and remain differentiable.</span>
+<span class="sd">There is no hidden cache: rebuild a prepared object when knots, degree, sample</span>
+<span class="sd">locations or the required derivative orders change. If knots or parameters are</span>
+<span class="sd">optimization variables, keep preparation inside the differentiated function.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">comb</span> <span class="k">as</span> <span class="n">_comb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Integral</span> <span class="k">as</span> <span class="n">_Integral</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">equinox</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_basis_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">_compute_basis_derivatives</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;PreparedCurveBasis&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PreparedSurfaceBasis&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;prepare_curve&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;prepare_surface&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_order</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate shape-determining metadata without converting traced arrays.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">_Integral</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be a static nonnegative integer&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be nonnegative&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_samples</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">values</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be a scalar or a nonempty one-dimensional array&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">values</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_knots</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">degree</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="n">degree</span> <span class="o">=</span> <span class="n">_order</span><span class="p">(</span><span class="n">degree</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> degree&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">degree</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Degree must be smaller than the positive control-point count&quot;</span><span class="p">)</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="n">count</span> <span class="o">+</span> <span class="n">degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> length must equal control-point count plus degree plus one&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">values</span><span class="p">,</span> <span class="n">degree</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_curve_inputs</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">points</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">count</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P must have shape (ndim, </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">) with positive ndim&quot;</span><span class="p">)</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">points</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">weights</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="n">count</span><span class="p">,):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;W must have shape (</span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">,)&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">points</span><span class="p">,</span> <span class="n">weights</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_surface_inputs</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">count_u</span><span class="p">,</span> <span class="n">count_v</span><span class="p">):</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">points</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">!=</span> <span class="p">(</span><span class="n">count_u</span><span class="p">,</span> <span class="n">count_v</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P must have shape (ndim, </span><span class="si">{</span><span class="n">count_u</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">count_v</span><span class="si">}</span><span class="s2">) with positive ndim&quot;</span><span class="p">)</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">count_u</span><span class="p">,</span> <span class="n">count_v</span><span class="p">))</span> <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">weights</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="n">count_u</span><span class="p">,</span> <span class="n">count_v</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;W must have shape (</span><span class="si">{</span><span class="n">count_u</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">count_v</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="c1"># Match NurbsSurface construction, including integer input promotion.</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">result_type</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">points</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">),</span> <span class="n">weights</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_curve_partials</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Contract a polynomial table, then apply the rational quotient recurrence.&quot;&quot;&quot;</span>
+    <span class="n">homogeneous_points</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">points</span> <span class="o">*</span> <span class="n">weights</span><span class="p">,</span> <span class="n">weights</span><span class="p">[</span><span class="kc">None</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">available</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">basis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">homogeneous</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+        <span class="s2">&quot;di,riu-&gt;rdu&quot;</span><span class="p">,</span> <span class="n">homogeneous_points</span><span class="p">,</span> <span class="n">basis</span><span class="p">[:</span><span class="n">available</span><span class="p">]</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">homogeneous_points</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">homogeneous</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">homogeneous</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">order</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">available</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+    <span class="n">numerator</span><span class="p">,</span> <span class="n">weight_partials</span> <span class="o">=</span> <span class="n">homogeneous</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">homogeneous</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">derivative</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">numerator</span><span class="p">[</span><span class="n">derivative</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">derivative</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">-</span> <span class="p">(</span>
+                <span class="n">_comb</span><span class="p">(</span><span class="n">derivative</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+                <span class="o">*</span> <span class="n">weight_partials</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+                <span class="o">*</span> <span class="n">result</span><span class="p">[</span><span class="n">derivative</span> <span class="o">-</span> <span class="n">index</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="c1"># Preserve the existing curve derivative API&#39;s control-point dtype.</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">value</span> <span class="o">/</span> <span class="n">weight_partials</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">dtype</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_surface_contraction</span><span class="p">(</span><span class="n">homogeneous_points</span><span class="p">,</span> <span class="n">basis_u</span><span class="p">,</span> <span class="n">basis_v</span><span class="p">,</span> <span class="n">grid</span><span class="p">):</span>
+    <span class="c1"># Contract the independent 1D tables directly. In particular, grid mode</span>
+    <span class="c1"># never stores a (control_u, control_v, samples_u, samples_v) product table.</span>
+    <span class="k">if</span> <span class="n">grid</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;dij,aik,bjl-&gt;abdkl&quot;</span><span class="p">,</span> <span class="n">homogeneous_points</span><span class="p">,</span> <span class="n">basis_u</span><span class="p">,</span> <span class="n">basis_v</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;dij,aik,bjk-&gt;abdk&quot;</span><span class="p">,</span> <span class="n">homogeneous_points</span><span class="p">,</span> <span class="n">basis_u</span><span class="p">,</span> <span class="n">basis_v</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_surface_partials</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">basis_u</span><span class="p">,</span> <span class="n">basis_v</span><span class="p">,</span> <span class="n">order_u</span><span class="p">,</span> <span class="n">order_v</span><span class="p">,</span> <span class="n">grid</span><span class="p">):</span>
+    <span class="n">homogeneous_points</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">points</span> <span class="o">*</span> <span class="n">weights</span><span class="p">,</span> <span class="n">weights</span><span class="p">[</span><span class="kc">None</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">available_u</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">order_u</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">basis_u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">available_v</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">order_v</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">basis_v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">homogeneous</span> <span class="o">=</span> <span class="n">_surface_contraction</span><span class="p">(</span>
+        <span class="n">homogeneous_points</span><span class="p">,</span> <span class="n">basis_u</span><span class="p">[:</span><span class="n">available_u</span><span class="p">],</span> <span class="n">basis_v</span><span class="p">[:</span><span class="n">available_v</span><span class="p">],</span> <span class="n">grid</span>
+    <span class="p">)</span>
+    <span class="n">padding</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">order_u</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">available_u</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">order_v</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">available_v</span><span class="p">)]</span>
+    <span class="n">homogeneous</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">homogeneous</span><span class="p">,</span> <span class="n">padding</span> <span class="o">+</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">*</span> <span class="p">(</span><span class="n">homogeneous</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">numerator</span><span class="p">,</span> <span class="n">weight_partials</span> <span class="o">=</span> <span class="n">homogeneous</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">homogeneous</span><span class="p">[:,</span> <span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">numerator</span><span class="p">)</span>
+    <span class="c1"># w*S=A, differentiated in both parameter directions. Polynomial orders</span>
+    <span class="c1"># above either degree are zero; rational derivatives generally are not.</span>
+    <span class="k">for</span> <span class="n">order_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order_u</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">order_j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order_v</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">numerator</span><span class="p">[</span><span class="n">order_i</span><span class="p">,</span> <span class="n">order_j</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">index_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order_i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">index_j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order_j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">index_i</span> <span class="ow">or</span> <span class="n">index_j</span><span class="p">:</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">-</span> <span class="p">(</span>
+                            <span class="n">_comb</span><span class="p">(</span><span class="n">order_i</span><span class="p">,</span> <span class="n">index_i</span><span class="p">)</span>
+                            <span class="o">*</span> <span class="n">_comb</span><span class="p">(</span><span class="n">order_j</span><span class="p">,</span> <span class="n">index_j</span><span class="p">)</span>
+                            <span class="o">*</span> <span class="n">weight_partials</span><span class="p">[</span><span class="n">index_i</span><span class="p">,</span> <span class="n">index_j</span><span class="p">]</span>
+                            <span class="o">*</span> <span class="n">result</span><span class="p">[</span><span class="n">order_i</span> <span class="o">-</span> <span class="n">index_i</span><span class="p">,</span> <span class="n">order_j</span> <span class="o">-</span> <span class="n">index_j</span><span class="p">]</span>
+                        <span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">order_i</span><span class="p">,</span> <span class="n">order_j</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">value</span> <span class="o">/</span> <span class="n">weight_partials</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<div class="viewcode-block" id="PreparedCurveBasis">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PreparedCurveBasis</span><span class="p">(</span><span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reusable polynomial curve basis tables, constructed by ``prepare_curve``.</span>
+
+<span class="sd">    ``basis`` has shape ``(min(degree,max_order)+1, n_control, n_samples)``.</span>
+<span class="sd">    No control points or weights are retained. Omitting W means unit weights,</span>
+<span class="sd">    including when the curve used for preparation originally had other weights.</span>
+<span class="sd">    Evaluation can use any positive spatial dimension at the same control count.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">basis</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">Array</span>
+    <span class="n">degree</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">n_control</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">max_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_require_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">_order</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="s2">&quot;order&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">order</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_order</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Requested derivative order exceeds the prepared maximum; prepare again&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">order</span>
+
+<div class="viewcode-block" id="PreparedCurveBasis.get_value">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.get_value">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate supplied geometry, returning ``(ndim,n_samples)``.&quot;&quot;&quot;</span>
+        <span class="n">P</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">_curve_inputs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_control</span><span class="p">)</span>
+        <span class="n">homogeneous</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">P</span> <span class="o">*</span> <span class="n">W</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="kc">None</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">homogeneous</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">homogeneous</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span></div>
+
+
+<div class="viewcode-block" id="PreparedCurveBasis.get_derivatives">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.get_derivatives">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_derivatives</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all partials through max_order, shape ``(max_order+1,ndim,N)``.&quot;&quot;&quot;</span>
+        <span class="n">P</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">_curve_inputs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_control</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_curve_partials</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_order</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PreparedCurveBasis.get_derivative">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.get_derivative">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_derivative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate one static derivative order within the prepared maximum.&quot;&quot;&quot;</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_require_order</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+        <span class="n">P</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">_curve_inputs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_control</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_curve_partials</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="n">order</span><span class="p">)[</span><span class="n">order</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PreparedCurveBasis.get_tangent">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.get_tangent">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return unit tangents; undefined at zero speed.&quot;&quot;&quot;</span>
+        <span class="n">tangent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tangent</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">tangent</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PreparedCurveBasis.get_curvature">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.get_curvature">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_curvature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return unsigned curvature of a regular planar or spatial curve.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_require_order</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">P</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">_curve_inputs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_control</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Curve curvature requires two- or three-dimensional points&quot;</span><span class="p">)</span>
+        <span class="n">derivatives</span> <span class="o">=</span> <span class="n">_curve_partials</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">derivatives</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="o">-</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+        <span class="n">second</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">derivatives</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="o">-</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+        <span class="n">numerator</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">denominator</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span>
+        <span class="c1"># Retain the existing curve API&#39;s zero-speed value convention. This</span>
+        <span class="c1"># does not make curvature or its derivative defined at singular points.</span>
+        <span class="n">denominator</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denominator</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="PreparedSurfaceBasis">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PreparedSurfaceBasis</span><span class="p">(</span><span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reusable factorized surface tables, constructed by ``prepare_surface``.</span>
+
+<span class="sd">    Paired output has shape ``(ndim,N)``. Grid output has shape</span>
+<span class="sd">    ``(ndim,Nu_samples,Nv_samples)`` in ``ij`` ordering. Derivative tables prepend</span>
+<span class="sd">    ``(max_order_u+1,max_order_v+1)``. P/W remain dynamic; no geometry is stored.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">basis_u</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">Array</span>
+    <span class="n">basis_v</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">Array</span>
+    <span class="n">degree_u</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">degree_v</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">n_control_u</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">n_control_v</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">max_order_u</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">max_order_v</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">grid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_require_orders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_u</span><span class="p">,</span> <span class="n">order_v</span><span class="p">):</span>
+        <span class="n">order_u</span><span class="p">,</span> <span class="n">order_v</span> <span class="o">=</span> <span class="n">_order</span><span class="p">(</span><span class="n">order_u</span><span class="p">,</span> <span class="s2">&quot;order_u&quot;</span><span class="p">),</span> <span class="n">_order</span><span class="p">(</span><span class="n">order_v</span><span class="p">,</span> <span class="s2">&quot;order_v&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">order_u</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_order_u</span> <span class="ow">or</span> <span class="n">order_v</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_order_v</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Requested derivative order exceeds a prepared maximum; prepare again&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">order_u</span><span class="p">,</span> <span class="n">order_v</span>
+
+<div class="viewcode-block" id="PreparedSurfaceBasis.get_value">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.get_value">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate supplied geometry at fixed paired points or a tensor grid.&quot;&quot;&quot;</span>
+        <span class="n">P</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">_surface_inputs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_control_u</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_control_v</span><span class="p">)</span>
+        <span class="n">homogeneous</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">P</span> <span class="o">*</span> <span class="n">W</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="kc">None</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">_surface_contraction</span><span class="p">(</span>
+            <span class="n">homogeneous</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_u</span><span class="p">[:</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_v</span><span class="p">[:</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span>
+        <span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">values</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span></div>
+
+
+<div class="viewcode-block" id="PreparedSurfaceBasis.get_derivatives">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.get_derivatives">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_derivatives</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the complete rectangle of prepared rational mixed partials.&quot;&quot;&quot;</span>
+        <span class="n">P</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">_surface_inputs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_control_u</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_control_v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_surface_partials</span><span class="p">(</span>
+            <span class="n">P</span><span class="p">,</span>
+            <span class="n">W</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">basis_u</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">basis_v</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max_order_u</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max_order_v</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PreparedSurfaceBasis.get_derivative">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.get_derivative">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_derivative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order_u</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">order_v</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate one mixed partial with static orders within prepared limits.&quot;&quot;&quot;</span>
+        <span class="n">order_u</span><span class="p">,</span> <span class="n">order_v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_require_orders</span><span class="p">(</span><span class="n">order_u</span><span class="p">,</span> <span class="n">order_v</span><span class="p">)</span>
+        <span class="n">P</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">_surface_inputs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_control_u</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_control_v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_surface_partials</span><span class="p">(</span>
+            <span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_u</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_v</span><span class="p">,</span> <span class="n">order_u</span><span class="p">,</span> <span class="n">order_v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span>
+        <span class="p">)[</span><span class="n">order_u</span><span class="p">,</span> <span class="n">order_v</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PreparedSurfaceBasis.get_normals">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.get_normals">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_normals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return unit oriented normals; requires a regular 3D surface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_require_orders</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">P</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">_surface_inputs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_control_u</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_control_v</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Surface normals require three-dimensional points&quot;</span><span class="p">)</span>
+        <span class="n">derivatives</span> <span class="o">=</span> <span class="n">_surface_partials</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_u</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_v</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+        <span class="n">normal</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">derivatives</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">derivatives</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">normal</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PreparedSurfaceBasis.get_curvature">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.get_curvature">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_curvature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return (signed mean, Gaussian) curvature of a regular 3D surface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_require_orders</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">P</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">_surface_inputs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_control_u</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_control_v</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Surface curvature requires three-dimensional points&quot;</span><span class="p">)</span>
+        <span class="n">derivatives</span> <span class="o">=</span> <span class="n">_surface_partials</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_u</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis_v</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+        <span class="n">su</span><span class="p">,</span> <span class="n">sv</span> <span class="o">=</span> <span class="n">derivatives</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">derivatives</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">normal</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">su</span><span class="p">,</span> <span class="n">sv</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">normal</span> <span class="o">=</span> <span class="n">normal</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">E</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">su</span> <span class="o">*</span> <span class="n">su</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">su</span> <span class="o">*</span> <span class="n">sv</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sv</span> <span class="o">*</span> <span class="n">sv</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">derivatives</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">normal</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">derivatives</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">normal</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">derivatives</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">normal</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">determinant</span> <span class="o">=</span> <span class="n">E</span> <span class="o">*</span> <span class="n">G</span> <span class="o">-</span> <span class="n">F</span> <span class="o">*</span> <span class="n">F</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">E</span> <span class="o">*</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">F</span> <span class="o">*</span> <span class="n">M</span> <span class="o">+</span> <span class="n">G</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">determinant</span><span class="p">),</span> <span class="p">(</span><span class="n">L</span> <span class="o">*</span> <span class="n">N</span> <span class="o">-</span> <span class="n">M</span> <span class="o">*</span> <span class="n">M</span><span class="p">)</span> <span class="o">/</span> <span class="n">determinant</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="prepare_curve">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.prepare_curve">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">prepare_curve</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">max_order</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare polynomial basis rows for a curve&#39;s fixed knots and samples.</span>
+
+<span class="sd">    Only degree, knots and control count are read from ``curve``. Its points and</span>
+<span class="sd">    weights are not retained. Supply both explicitly at evaluation for rational</span>
+<span class="sd">    geometry. ``max_order`` is a static nonnegative integer and may exceed degree.</span>
+<span class="sd">    Include this call inside AD when differentiating knots or sample parameters;</span>
+<span class="sd">    preparing once outside that function intentionally fixes those inputs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_order</span> <span class="o">=</span> <span class="n">_order</span><span class="p">(</span><span class="n">max_order</span><span class="p">,</span> <span class="s2">&quot;max_order&quot;</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">knots</span><span class="p">,</span> <span class="n">degree</span> <span class="o">=</span> <span class="n">_knots</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">curve</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="s2">&quot;U&quot;</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">_samples</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s2">&quot;u&quot;</span><span class="p">)</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="n">_compute_basis_derivatives</span><span class="p">(</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="p">,</span> <span class="n">knots</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">max_order</span><span class="o">=</span><span class="n">max_order</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">PreparedCurveBasis</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">degree</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">max_order</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="prepare_surface">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.prepare_surface">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">prepare_surface</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">max_order_u</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_order_v</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare factorized polynomial basis rows for fixed surface parameters.</span>
+
+<span class="sd">    ``grid=False`` uses scalar or equal-length paired arrays, like NurbsSurface.</span>
+<span class="sd">    ``grid=True`` uses independent 1D u/v axes and returns an ``ij`` tensor grid.</span>
+<span class="sd">    Only 1D basis tables are stored in either mode. Control points and rational</span>
+<span class="sd">    weights are always explicit evaluation inputs. Rebuild for new knots/samples;</span>
+<span class="sd">    include preparation inside AD if their sensitivities are required.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_order_u</span> <span class="o">=</span> <span class="n">_order</span><span class="p">(</span><span class="n">max_order_u</span><span class="p">,</span> <span class="s2">&quot;max_order_u&quot;</span><span class="p">)</span>
+    <span class="n">max_order_v</span> <span class="o">=</span> <span class="n">_order</span><span class="p">(</span><span class="n">max_order_v</span><span class="p">,</span> <span class="s2">&quot;max_order_v&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;grid must be a static Python bool&quot;</span><span class="p">)</span>
+    <span class="n">count_u</span><span class="p">,</span> <span class="n">count_v</span> <span class="o">=</span> <span class="n">surface</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">knots_u</span><span class="p">,</span> <span class="n">degree_u</span> <span class="o">=</span> <span class="n">_knots</span><span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">count_u</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="s2">&quot;U&quot;</span><span class="p">)</span>
+    <span class="n">knots_v</span><span class="p">,</span> <span class="n">degree_v</span> <span class="o">=</span> <span class="n">_knots</span><span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">count_v</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">q</span><span class="p">,</span> <span class="s2">&quot;V&quot;</span><span class="p">)</span>
+    <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">_samples</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s2">&quot;u&quot;</span><span class="p">),</span> <span class="n">_samples</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">grid</span> <span class="ow">and</span> <span class="n">u</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Paired u and v must have equal shapes; use grid=True for independent axes&quot;</span>
+        <span class="p">)</span>
+    <span class="n">basis_u</span> <span class="o">=</span> <span class="n">_compute_basis_derivatives</span><span class="p">(</span><span class="n">count_u</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree_u</span><span class="p">,</span> <span class="n">knots_u</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">max_order</span><span class="o">=</span><span class="n">max_order_u</span><span class="p">)</span>
+    <span class="n">basis_v</span> <span class="o">=</span> <span class="n">_compute_basis_derivatives</span><span class="p">(</span><span class="n">count_v</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree_v</span><span class="p">,</span> <span class="n">knots_v</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">max_order</span><span class="o">=</span><span class="n">max_order_v</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">PreparedSurfaceBasis</span><span class="p">(</span>
+        <span class="n">basis_u</span><span class="p">,</span>
+        <span class="n">basis_v</span><span class="p">,</span>
+        <span class="n">degree_u</span><span class="p">,</span>
+        <span class="n">degree_v</span><span class="p">,</span>
+        <span class="n">count_u</span><span class="p">,</span>
+        <span class="n">count_v</span><span class="p">,</span>
+        <span class="n">max_order_u</span><span class="p">,</span>
+        <span class="n">max_order_v</span><span class="p">,</span>
+        <span class="n">grid</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

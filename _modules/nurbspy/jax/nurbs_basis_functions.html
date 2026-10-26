@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=07b797d1"></script>
+    <script src="../../../_static/documentation_options.js?v=40912020"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -140,7 +140,10 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started/jax_performance.html">JAX performance and prepared evaluations</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../theory/bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../theory/bspline.html">B-spline curves and surfaces</a></li>
@@ -176,6 +179,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -342,10 +347,55 @@
                 <article class="bd-article">
                   
   <h1>Source code for nurbspy.jax.nurbs_basis_functions</h1><div class="highlight"><pre>
-<span></span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span> <span class="k">as</span> <span class="n">_partial</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">jax.lax</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">lax</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+
+
+<span class="nd">@_partial</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">,</span> <span class="n">static_argnames</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;max_order&#39;</span><span class="p">))</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_compute_basis_derivatives</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">max_order</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build values and requested derivative rows in one degree recurrence.</span>
+
+<span class="sd">    Basis indices and parameter samples are array axes; only the small degree</span>
+<span class="sd">    and derivative-order loops are unrolled. Keep every lower-degree span</span>
+<span class="sd">    until the final degree, including entries beyond the final basis count.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">interior</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&gt;=</span> <span class="n">U</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&lt;</span> <span class="n">U</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="kc">None</span><span class="p">])</span>
+    <span class="n">last</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="n">U</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="n">U</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># Match the original default-float storage even when U and u are float32.</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(())</span><span class="o">.</span><span class="n">dtype</span>
+    <span class="n">previous</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">interior</span> <span class="o">|</span> <span class="n">last</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+    <span class="n">max_order</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">max_order</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">degree</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">degree</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">U</span><span class="p">[:</span><span class="n">count</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="n">degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">degree</span> <span class="o">+</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">denom1</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="n">degree</span><span class="p">:</span><span class="n">degree</span> <span class="o">+</span> <span class="n">count</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">left</span>
+        <span class="n">denom2</span> <span class="o">=</span> <span class="n">right</span> <span class="o">-</span> <span class="n">U</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="c1"># Mask the denominator before division as well as the coefficient:</span>
+        <span class="c1"># an inactive division by zero can otherwise poison reverse-mode AD.</span>
+        <span class="n">safe1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom1</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">denom1</span><span class="p">)</span>
+        <span class="n">safe2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom2</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">denom2</span><span class="p">)</span>
+        <span class="n">factor1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom1</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">safe1</span><span class="p">)</span>
+        <span class="n">factor2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom2</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">safe2</span><span class="p">)</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">*</span> <span class="n">factor1</span> <span class="o">*</span> <span class="n">previous</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span> <span class="o">*</span> <span class="n">factor2</span> <span class="o">*</span> <span class="n">previous</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">degree</span><span class="p">,</span> <span class="n">max_order</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">degree</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="n">factor1</span> <span class="o">*</span> <span class="n">previous</span><span class="p">[</span><span class="n">order</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="o">-</span> <span class="n">factor2</span> <span class="o">*</span> <span class="n">previous</span><span class="p">[</span><span class="n">order</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>
+            <span class="p">))</span>
+        <span class="n">previous</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">previous</span><span class="p">[:,</span> <span class="p">:</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+
 
 <span class="c1"># -------------------------------------------------------------------------------------------------------------------- #</span>
 <span class="c1"># Standalone function to compute basis function values</span>
@@ -356,8 +406,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Evaluate B-spline basis functions of degree `p` for a set of parameter values `u`.</span>
 
-<span class="sd">    The function implements the Cox-de Boor recursion formula using JAX and vectorizes</span>
-<span class="sd">    the scalar evaluation over multiple u-values using `jax.vmap`.</span>
+<span class="sd">    The function implements the Cox-de Boor recursion formula using JAX array</span>
+<span class="sd">    operations across both basis indices and parameter samples.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -378,18 +428,7 @@
 <span class="sd">        The first axis spans the basis index i, the second spans the parameter samples.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># Convert to JAX arrays</span>
-    <span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
-    <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-
-    <span class="c1"># Define scalar evaluation function</span>
-    <span class="n">basis_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">uu</span><span class="p">:</span> <span class="n">_basis_single_u</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">uu</span><span class="p">)</span>
-
-    <span class="c1"># Vectorize over all u-values</span>
-    <span class="n">N_all</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">basis_fn</span><span class="p">)(</span><span class="n">u</span><span class="p">)</span>
-
-    <span class="c1"># Transpose so that shape = (n+1, Nu)</span>
-    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">N_all</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_compute_basis_derivatives</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">max_order</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
 
 <span class="c1"># Apply JIT compilation</span>
@@ -400,67 +439,7 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_basis_single_u</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate all (n+1) B-spline basis functions of degree p at a single scalar u.&quot;&quot;&quot;</span>
-
-    <span class="c1"># Number of knot spans</span>
-    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">U</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-
-    <span class="c1"># Initialize zeroth-degree basis functions</span>
-    <span class="c1"># All intervals are [U[i], U[i+1]) except the last one, which is closed</span>
-    <span class="n">is_interior</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span> <span class="o">&gt;=</span> <span class="n">U</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">u</span> <span class="o">&lt;</span> <span class="n">U</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-    <span class="n">is_last</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span> <span class="o">==</span> <span class="n">U</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">==</span> <span class="n">U</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">N0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">is_interior</span> <span class="o">|</span> <span class="n">is_last</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-
-    <span class="c1"># Initialize storage</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="n">N</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">N0</span><span class="p">)</span>
-
-    <span class="c1"># Recursive Cox–de Boor construction</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>              <span class="c1"># degree loop (small and static)</span>
-        <span class="n">m_k</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="n">k</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m_k</span><span class="p">):</span>                    <span class="c1"># active span loop</span>
-            <span class="n">denom1</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="c1"># Keep even the inactive branch finite: reverse-mode AD can</span>
-            <span class="c1"># otherwise propagate NaNs from a division by zero through where.</span>
-            <span class="n">safe_denom1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom1</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">denom1</span><span class="p">)</span>
-            <span class="n">term1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom1</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span>
-                               <span class="p">(</span><span class="n">u</span> <span class="o">-</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="n">safe_denom1</span> <span class="o">*</span> <span class="n">N</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
-
-            <span class="n">denom2</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-            <span class="n">safe_denom2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom2</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">denom2</span><span class="p">)</span>
-            <span class="n">term2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom2</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span>
-                               <span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span> <span class="o">/</span> <span class="n">safe_denom2</span> <span class="o">*</span> <span class="n">N</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
-
-            <span class="n">N</span> <span class="o">=</span> <span class="n">N</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">term1</span> <span class="o">+</span> <span class="n">term2</span><span class="p">)</span>
-
-    <span class="c1"># Return only the active basis functions of final degree</span>
-    <span class="k">return</span> <span class="n">N</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="p">:</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-
-    <span class="c1"># # The recursive computation is implemented via JAX-controlled loops</span>
-    <span class="c1"># # using lax.fori_loop for XLA fusion (faster than Python loops).</span>
-    <span class="c1"># def outer_body(k, N):</span>
-    <span class="c1">#     &quot;&quot;&quot;Compute all basis functions of degree k from degree k-1.&quot;&quot;&quot;</span>
-    <span class="c1">#     m_k = m - k  # number of active basis entries shrinks with degree</span>
-
-    <span class="c1">#     def inner_body(i, N):</span>
-    <span class="c1">#         &quot;&quot;&quot;Compute N[k,i] from N[k-1,i] and N[k-1,i+1] (Cox-de Boor recursion).&quot;&quot;&quot;</span>
-    <span class="c1">#         denom1 = U[i + k] - U[i]</span>
-    <span class="c1">#         term1 = jnp.where(denom1 == 0.0, 0.0, (u - U[i]) / denom1 * N[k - 1, i])</span>
-
-    <span class="c1">#         denom2 = U[i + k + 1] - U[i + 1]</span>
-    <span class="c1">#         term2 = jnp.where(denom2 == 0.0, 0.0, (U[i + k + 1] - u) / denom2 * N[k - 1, i + 1])</span>
-
-    <span class="c1">#         # Update entry N[k, i] (immutably, handled efficiently by JAX)</span>
-    <span class="c1">#         return N.at[k, i].set(term1 + term2)</span>
-
-    <span class="c1">#     # Apply inner loop over all i indices for degree k</span>
-    <span class="c1">#     N = lax.fori_loop(0, m_k, inner_body, N)</span>
-    <span class="c1">#     return N</span>
-
-    <span class="c1"># # Outer loop over polynomial degree (1 → p)</span>
-    <span class="c1"># N = lax.fori_loop(1, p + 1, outer_body, N)</span>
-
-    <span class="c1"># # Return only the (n+1) basis functions of degree p</span>
-    <span class="c1"># return N[p, :n + 1]</span>
+    <span class="k">return</span> <span class="n">_compute_basis_derivatives</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">max_order</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
 
 
 <span class="c1"># -------------------------------------------------------------------------------------------------------------------- #</span>
@@ -472,9 +451,9 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Evaluate the analytic derivatives of B-spline basis functions of degree `p`.</span>
 
-<span class="sd">    The function implements the recursive derivative relations for B-spline basis functions</span>
-<span class="sd">    (following the same recursion pattern as the basis definition). Computations are</span>
-<span class="sd">    vectorized across multiple u-values using `jax.vmap`.</span>
+<span class="sd">    The function implements the recursive derivative relations for B-spline basis</span>
+<span class="sd">    functions, reusing each lower-degree table across derivative orders. Array</span>
+<span class="sd">    operations cover all basis indices and parameter samples together.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -493,16 +472,7 @@
 <span class="sd">        Array containing derivatives of orders zero through p at all u-values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
-    <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-
-    <span class="c1"># Vectorize across u-values</span>
-    <span class="n">all_derivatives</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">uu</span><span class="p">:</span> <span class="n">_basis_all_derivatives_single_u</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">uu</span><span class="p">))(</span><span class="n">u</span><span class="p">)</span>
-
-    <span class="c1"># Transpose shape (Nu, p+1, n+1) to (p+1, n+1, Nu)</span>
-    <span class="n">all_derivatives</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">all_derivatives</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">all_derivatives</span></div>
+    <span class="k">return</span> <span class="n">_compute_basis_derivatives</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">max_order</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
 
 
 <span class="c1"># Apply JIT compilation</span>
@@ -521,44 +491,7 @@
 <span class="sd">        N_ders[r, i] = r-th derivative of basis function i of degree p at u.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># Degree-0 basis and its derivatives (only the function itself)</span>
-    <span class="n">N0</span> <span class="o">=</span> <span class="n">_basis_single_u</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
-    <span class="n">N_ders</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">N_ders</span> <span class="o">=</span> <span class="n">N_ders</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">N0</span><span class="p">)</span>
-
-    <span class="c1"># Helper: Build all derivatives for a given degree d</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_degree_block</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">N_prev</span><span class="p">):</span>
-        <span class="c1"># Allocate derivatives for this degree</span>
-        <span class="n">N_block</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-
-        <span class="c1"># Zeroth derivative → degree-d basis</span>
-        <span class="n">N_d</span> <span class="o">=</span> <span class="n">_basis_single_u</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
-        <span class="n">N_block</span> <span class="o">=</span> <span class="n">N_block</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">N_d</span><span class="p">)</span>
-
-        <span class="c1"># Higher derivatives follow recursive formula</span>
-        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">N_prev_r</span> <span class="o">=</span> <span class="n">N_prev</span><span class="p">[</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
-            <span class="n">N_r</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,))</span>
-
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-                <span class="n">denom1</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">d</span><span class="p">]</span> <span class="o">-</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                <span class="n">denom2</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-                <span class="n">safe_denom1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom1</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">denom1</span><span class="p">)</span>
-                <span class="n">safe_denom2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom2</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">denom2</span><span class="p">)</span>
-                <span class="n">term1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom1</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">d</span> <span class="o">*</span> <span class="n">N_prev_r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">safe_denom1</span><span class="p">)</span>
-                <span class="n">term2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">denom2</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">d</span> <span class="o">*</span> <span class="n">N_prev_r</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">safe_denom2</span><span class="p">)</span>
-                <span class="n">N_r</span> <span class="o">=</span> <span class="n">N_r</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">term1</span> <span class="o">-</span> <span class="n">term2</span><span class="p">)</span>
-
-            <span class="n">N_block</span> <span class="o">=</span> <span class="n">N_block</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">N_r</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">N_block</span>
-
-    <span class="c1"># Build successively from degree 1 to p</span>
-    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">N_ders</span> <span class="o">=</span> <span class="n">build_degree_block</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">N_ders</span><span class="p">)</span>
-
-    <span class="c1"># Final N_ders contains all derivatives for degree p</span>
-    <span class="k">return</span> <span class="n">N_ders</span>  <span class="c1"># Shape (p+1, n+1)</span>
+    <span class="k">return</span> <span class="n">_compute_basis_derivatives</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">max_order</span><span class="o">=</span><span class="n">p</span><span class="p">)[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="compute_basis_polynomials_derivatives">

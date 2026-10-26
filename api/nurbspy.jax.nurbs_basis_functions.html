@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=07b797d1"></script>
+    <script src="../_static/documentation_options.js?v=40912020"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -141,7 +141,10 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/jax_performance.html">JAX performance and prepared evaluations</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../theory/bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/bspline.html">B-spline curves and surfaces</a></li>
@@ -177,6 +180,8 @@
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -426,9 +431,9 @@
 <dt class="sig sig-object py" id="nurbspy.jax.nurbs_basis_functions.compute_all_basis_polynomials_derivatives">
 <span class="sig-prename descclassname"><span class="pre">nurbspy.jax.nurbs_basis_functions.</span></span><span class="sig-name descname"><span class="pre">compute_all_basis_polynomials_derivatives</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/jax/nurbs_basis_functions.html#compute_all_basis_polynomials_derivatives"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_basis_functions.compute_all_basis_polynomials_derivatives" title="Link to this definition">#</a></dt>
 <dd><p>Evaluate the analytic derivatives of B-spline basis functions of degree <cite>p</cite>.</p>
-<p>The function implements the recursive derivative relations for B-spline basis functions
-(following the same recursion pattern as the basis definition). Computations are
-vectorized across multiple u-values using <cite>jax.vmap</cite>.</p>
+<p>The function implements the recursive derivative relations for B-spline basis
+functions, reusing each lower-degree table across derivative orders. Array
+operations cover all basis indices and parameter samples together.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -455,8 +460,8 @@ vectorized across multiple u-values using <cite>jax.vmap</cite>.</p>
 <dt class="sig sig-object py" id="nurbspy.jax.nurbs_basis_functions.compute_basis_polynomials">
 <span class="sig-prename descclassname"><span class="pre">nurbspy.jax.nurbs_basis_functions.</span></span><span class="sig-name descname"><span class="pre">compute_basis_polynomials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/jax/nurbs_basis_functions.html#compute_basis_polynomials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_basis_functions.compute_basis_polynomials" title="Link to this definition">#</a></dt>
 <dd><p>Evaluate B-spline basis functions of degree <cite>p</cite> for a set of parameter values <cite>u</cite>.</p>
-<p>The function implements the Cox-de Boor recursion formula using JAX and vectorizes
-the scalar evaluation over multiple u-values using <cite>jax.vmap</cite>.</p>
+<p>The function implements the Cox-de Boor recursion formula using JAX array
+operations across both basis indices and parameter samples.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">

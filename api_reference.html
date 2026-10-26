@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=07b797d1"></script>
+    <script src="_static/documentation_options.js?v=40912020"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -141,7 +141,10 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/jax_performance.html">JAX performance and prepared evaluations</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="theory/bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory/bspline.html">B-spline curves and surfaces</a></li>
@@ -177,6 +180,8 @@
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -435,13 +440,24 @@
 <tr class="row-odd"><td><p>Extrusions</p></td>
 <td><p><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_extruded.html#nurbspy.numpy.nurbs_surface_extruded.NurbsSurfaceExtruded" title="nurbspy.numpy.nurbs_surface_extruded.NurbsSurfaceExtruded"><code class="xref py py-class docutils literal notranslate"><span class="pre">nurbspy.numpy.nurbs_surface_extruded.NurbsSurfaceExtruded</span></code></a></p></td>
 </tr>
+<tr class="row-even"><td><p>Repeated JAX curve evaluation</p></td>
+<td><p><a class="reference internal" href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.prepare_curve" title="nurbspy.jax.prepared.prepare_curve"><code class="xref py py-func docutils literal notranslate"><span class="pre">nurbspy.jax.prepared.prepare_curve()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Repeated JAX surface evaluation</p></td>
+<td><p><a class="reference internal" href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.prepare_surface" title="nurbspy.jax.prepared.prepare_surface"><code class="xref py py-func docutils literal notranslate"><span class="pre">nurbspy.jax.prepared.prepare_surface()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Repeated projection onto a fixed JAX surface</p></td>
+<td><p><a class="reference internal" href="api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.prepare_surface_projection" title="nurbspy.jax.prepared_projection.prepare_surface_projection"><code class="xref py py-func docutils literal notranslate"><span class="pre">nurbspy.jax.prepared_projection.prepare_surface_projection()</span></code></a></p></td>
+</tr>
 </tbody>
 </table>
 </div>
 <p>The package overview below lists the <code class="docutils literal notranslate"><span class="pre">nurbspy.numpy</span></code> and <code class="docutils literal notranslate"><span class="pre">nurbspy.jax</span></code>
 backends, their surface generators, and the shared graphics module.
 The root <code class="docutils literal notranslate"><span class="pre">nurbspy</span></code> interface continues to expose the NumPy implementation.
-Check backend signatures and differentiation guarantees before switching imports.</p>
+Check backend signatures and differentiation guarantees before switching imports.
+The <a class="reference internal" href="getting_started/jax_performance.html"><span class="std std-doc">JAX performance guide</span></a> explains prepared
+table lifetimes, output shapes and differentiation contracts.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api/nurbspy.html">nurbspy package</a><ul>
