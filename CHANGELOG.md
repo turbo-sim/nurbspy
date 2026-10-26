@@ -23,6 +23,27 @@ NumPy backend and the JAX extra no longer require Numba or inherit its NumPy
 version restrictions. Basis functions use NumPy when Numba is unavailable,
 and warn before falling back if an installed Numba raises an import error.
 
+CI now checks default, Numba, and JAX installations separately on Ubuntu
+and Windows, plus a built wheel with both optional extras. Installed-package
+checks run outside the source checkout, and PyPI publishing is restricted
+to version-tag pushes after the checks pass.
+
+Added optimization examples for curve fitting with point inversion and
+minimum bending energy, with guidance on differentiating projected-distance
+objectives. Added a JOSS paper draft. These additions followed the v1.3.2 tag.
+
+## [1.3.2] - 2026-09-09
+
+Refreshed locked dependencies and corrected package-version metadata before
+tagging the release.
+
+## [1.3.1] - 2026-09-09
+
+Updated the Black and pytest development dependencies and refreshed the
+dependency lockfile.
+
+## [1.3.0] - 2026-09-09
+
 Documentation overhaul: a full Sphinx site (getting started, theory pages
 migrated from the original LaTeX notes, a worked-examples gallery, API
 reference), plus `docs/generate_example_images.py` to keep example images
@@ -32,6 +53,12 @@ faces by default). Point projection (`project_point_to_curve` /
 `project_point_to_surface`) gained optional `maxiter`/`ftol`/`gtol`
 arguments and dedicated documented examples. CI now installs JAX as an
 optional extra rather than a hard dependency.
+
+Removed a deprecated SciPy solver option from surface projection to avoid
+deprecation warnings.
+
+Migrated release versioning from bump2version to bump-my-version, with
+configuration to update the package and project versions together.
 
 ## [1.2.4] - 2025-11-06
 
