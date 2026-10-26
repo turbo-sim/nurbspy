@@ -23,6 +23,13 @@ Curves additionally offer the tangent, normal, and binormal unit vectors (Frenet
 
 An optional [JAX](https://github.com/google/jax) backend (`nurbspy.jax`) additionally provides automatic differentiation and JIT compilation, see [Installation](#installation).
 
+For repeated JAX calculations at fixed knots and parameter locations,
+`prepare_curve` and `prepare_surface` reuse polynomial basis tables while
+control points and weights vary. `prepare_surface_projection` reuses the
+initialization grid for repeated queries onto one fixed surface. See the
+[JAX performance guide](https://turbo-sim.github.io/nurbspy/getting_started/jax_performance.html)
+for usage, lifetimes, and tradeoffs.
+
 See the documentation for the [theory](https://turbo-sim.github.io/nurbspy/theory/index.html) behind these capabilities (Bézier, B-Spline, NURBS, and G² continuity) and the [examples](https://turbo-sim.github.io/nurbspy/examples/index.html) gallery, with complete scripts and their numerical and graphical output.
 
 

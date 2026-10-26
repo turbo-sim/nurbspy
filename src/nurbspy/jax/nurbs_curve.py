@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from .nurbs_basis_functions import (
     compute_basis_polynomials,
     compute_all_basis_polynomials_derivatives,
+    _compute_basis_derivatives,
 )
 from ..graphics import style_3d_axes, close_3d_box
 
@@ -172,20 +173,14 @@ def compute_all_bspline_derivatives(P, p, U, u, up_to_order):
     u = jnp.atleast_1d(u)
 
     n = P.shape[1] - 1
-    ndim, Nu = P.shape[0], u.size
     max_order = min(p, up_to_order)
 
-    # Get all basis derivatives up to order p → (p+1, n+1, Nu)
-    all_Nders = compute_all_basis_polynomials_derivatives(n, p, U, u)
-
-    # Allocate curve derivatives (up_to_order+1, ndim, Nu)
-    bspline_derivatives = jnp.zeros((up_to_order + 1, ndim, Nu), dtype=P.dtype)
-
-    # Compute derivatives by matrix multiplication for all relevant orders
-    for k in range(max_order + 1):
-        bspline_derivatives = bspline_derivatives.at[k].set(P @ all_Nders[k])
-
-    return bspline_derivatives
+    # Share the degree recurrence and form only the requested derivative rows.
+    all_Nders = _compute_basis_derivatives(n, p, U, u, max_order=max_order)
+    bspline_derivatives = jnp.einsum('di,kiu->kdu', P, all_Nders).astype(P.dtype)
+    # Preserve the control-point output dtype and zero homogeneous derivatives
+    # above p; the rational quotient recurrence below still uses every order.
+    return jnp.pad(bspline_derivatives, ((0, up_to_order - max_order), (0, 0), (0, 0)))
 
 
 def compute_all_nurbs_derivatives(P, W, p, U, u, up_to_order):

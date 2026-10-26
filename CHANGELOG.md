@@ -7,6 +7,37 @@ README-only edits are omitted.
 
 ## Unreleased
 
+## [1.5.0] - 2026-10-26
+
+Reduced JAX tracing and compilation overhead by vectorizing the B-spline basis
+recurrence across basis indices and samples, sharing lower-degree tables across
+derivative orders, and contracting curve derivative rows together. Curve and
+surface callers request only the polynomial derivative rows they need. Existing
+JAX curve/surface APIs, dynamic knots and parameters, dtype conventions and
+safe inactive zero-denominator branches are retained. Keeping complete
+lower-degree support also fixes incorrect nonclamped basis derivatives.
+
+Added explicit `nurbspy.jax.prepare_curve` and `prepare_surface` APIs for repeated
+evaluation at fixed knots and sample locations, with changing control points
+and rational weights. Surface grids use factorized one-dimensional tables.
+Prepared objects support JIT, batching, forward/reverse AD and rational
+derivatives above the polynomial degree. Preparation remains opt-in because it
+has setup/storage costs and tables must be rebuilt when their defining inputs
+change.
+
+Added `prepare_surface_projection` for repeated query batches on a fixed
+surface. It reuses the coarse initialization grid while retaining the existing
+dynamic Newton refinement, bounds, tolerances and implicit derivatives. General
+and prepared projections share the solver implementation. Documented the
+different geometry/basis lifetimes, valid differentiation paths and numerical
+limitations in the usage guide and API reference.
+
+Carried over the numerical and differentiation regression tests from the
+compilation investigation, including independent SciPy/exact references,
+repeated knots/endpoints, nonclamped support, dtype compatibility, paired/grid
+evaluation and prepared projection. No benchmark scripts/results or new runtime
+dependencies were added. The default NumPy/Numba backend is unchanged.
+
 ## [1.4.1] - 2026-10-26
 
 Fixed the JAX extrusion docstring's formula formatting, which Sphinx treated

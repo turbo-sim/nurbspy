@@ -21,3 +21,5 @@ Submodules
    nurbspy.jax.nurbs_surface_extruded
    nurbspy.jax.nurbs_surface_revolution
    nurbspy.jax.nurbs_surface_ruled
+   nurbspy.jax.prepared
+   nurbspy.jax.prepared_projection

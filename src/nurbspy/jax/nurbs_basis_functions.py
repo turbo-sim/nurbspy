@@ -1,7 +1,52 @@
+from functools import partial as _partial
 
 import jax
 import jax.lax as lax
 import jax.numpy as jnp
+
+
+@_partial(jax.jit, static_argnames=('n', 'p', 'max_order'))
+def _compute_basis_derivatives(n, p, U, u, max_order):
+    """Build values and requested derivative rows in one degree recurrence.
+
+    Basis indices and parameter samples are array axes; only the small degree
+    and derivative-order loops are unrolled. Keep every lower-degree span
+    until the final degree, including entries beyond the final basis count.
+    """
+    U = jnp.asarray(U)
+    u = jnp.atleast_1d(u)
+    interior = (u[None, :] >= U[:-1, None]) & (u[None, :] < U[1:, None])
+    last = (u[None, :] == U[-1]) & (U[1:, None] == U[-1])
+    # Match the original default-float storage even when U and u are float32.
+    dtype = jnp.zeros(()).dtype
+    previous = jnp.where(interior | last, 1.0, 0.0).astype(dtype)[None, :, :]
+    max_order = min(p, max_order)
+
+    for degree in range(1, p + 1):
+        count = U.shape[0] - degree - 1
+        left = U[:count, None]
+        right = U[degree + 1:degree + count + 1, None]
+        denom1 = U[degree:degree + count, None] - left
+        denom2 = right - U[1:count + 1, None]
+        # Mask the denominator before division as well as the coefficient:
+        # an inactive division by zero can otherwise poison reverse-mode AD.
+        safe1 = jnp.where(denom1 == 0.0, 1.0, denom1)
+        safe2 = jnp.where(denom2 == 0.0, 1.0, denom2)
+        factor1 = jnp.where(denom1 == 0.0, 0.0, 1.0 / safe1)
+        factor2 = jnp.where(denom2 == 0.0, 0.0, 1.0 / safe2)
+        rows = [
+            (u[None, :] - left) * factor1 * previous[0, :-1]
+            + (right - u[None, :]) * factor2 * previous[0, 1:]
+        ]
+        for order in range(1, min(degree, max_order) + 1):
+            rows.append(degree * (
+                factor1 * previous[order - 1, :-1]
+                - factor2 * previous[order - 1, 1:]
+            ))
+        previous = jnp.stack(rows)
+
+    return previous[:, :n + 1, :]
+
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # Standalone function to compute basis function values
@@ -10,8 +55,8 @@ def compute_basis_polynomials(n, p, U, u):
     """
     Evaluate B-spline basis functions of degree `p` for a set of parameter values `u`.
 
-    The function implements the Cox-de Boor recursion formula using JAX and vectorizes
-    the scalar evaluation over multiple u-values using `jax.vmap`.
+    The function implements the Cox-de Boor recursion formula using JAX array
+    operations across both basis indices and parameter samples.
 
     Parameters
     ----------
@@ -32,18 +77,7 @@ def compute_basis_polynomials(n, p, U, u):
         The first axis spans the basis index i, the second spans the parameter samples.
     """
 
-    # Convert to JAX arrays
-    U = jnp.asarray(U)
-    u = jnp.atleast_1d(u)
-
-    # Define scalar evaluation function
-    basis_fn = lambda uu: _basis_single_u(n, p, U, uu)
-
-    # Vectorize over all u-values
-    N_all = jax.vmap(basis_fn)(u)
-
-    # Transpose so that shape = (n+1, Nu)
-    return jnp.transpose(N_all)
+    return _compute_basis_derivatives(n, p, U, u, max_order=0)[0]
 
 # Apply JIT compilation
 compute_basis_polynomials = jax.jit(
@@ -53,67 +87,7 @@ compute_basis_polynomials = jax.jit(
 
 def _basis_single_u(n, p, U, u):
     """Evaluate all (n+1) B-spline basis functions of degree p at a single scalar u."""
-
-    # Number of knot spans
-    m = len(U) - 1
-
-    # Initialize zeroth-degree basis functions
-    # All intervals are [U[i], U[i+1]) except the last one, which is closed
-    is_interior = (u >= U[:-1]) & (u < U[1:])
-    is_last = (u == U[-1]) & (U[1:] == U[-1])
-    N0 = jnp.where(is_interior | is_last, 1.0, 0.0)
-
-    # Initialize storage
-    N = jnp.zeros((p + 1, m))
-    N = N.at[0, :].set(N0)
-
-    # Recursive Cox–de Boor construction
-    for k in range(1, int(p) + 1):              # degree loop (small and static)
-        m_k = m - k
-        for i in range(m_k):                    # active span loop
-            denom1 = U[i + k] - U[i]
-            # Keep even the inactive branch finite: reverse-mode AD can
-            # otherwise propagate NaNs from a division by zero through where.
-            safe_denom1 = jnp.where(denom1 == 0.0, 1.0, denom1)
-            term1 = jnp.where(denom1 == 0.0, 0.0,
-                               (u - U[i]) / safe_denom1 * N[k - 1, i])
-
-            denom2 = U[i + k + 1] - U[i + 1]
-            safe_denom2 = jnp.where(denom2 == 0.0, 1.0, denom2)
-            term2 = jnp.where(denom2 == 0.0, 0.0,
-                               (U[i + k + 1] - u) / safe_denom2 * N[k - 1, i + 1])
-
-            N = N.at[k, i].set(term1 + term2)
-
-    # Return only the active basis functions of final degree
-    return N[p, :n + 1]
-
-    # # The recursive computation is implemented via JAX-controlled loops
-    # # using lax.fori_loop for XLA fusion (faster than Python loops).
-    # def outer_body(k, N):
-    #     """Compute all basis functions of degree k from degree k-1."""
-    #     m_k = m - k  # number of active basis entries shrinks with degree
-
-    #     def inner_body(i, N):
-    #         """Compute N[k,i] from N[k-1,i] and N[k-1,i+1] (Cox-de Boor recursion)."""
-    #         denom1 = U[i + k] - U[i]
-    #         term1 = jnp.where(denom1 == 0.0, 0.0, (u - U[i]) / denom1 * N[k - 1, i])
-
-    #         denom2 = U[i + k + 1] - U[i + 1]
-    #         term2 = jnp.where(denom2 == 0.0, 0.0, (U[i + k + 1] - u) / denom2 * N[k - 1, i + 1])
-
-    #         # Update entry N[k, i] (immutably, handled efficiently by JAX)
-    #         return N.at[k, i].set(term1 + term2)
-
-    #     # Apply inner loop over all i indices for degree k
-    #     N = lax.fori_loop(0, m_k, inner_body, N)
-    #     return N
-
-    # # Outer loop over polynomial degree (1 → p)
-    # N = lax.fori_loop(1, p + 1, outer_body, N)
-
-    # # Return only the (n+1) basis functions of degree p
-    # return N[p, :n + 1]
+    return _compute_basis_derivatives(n, p, U, u, max_order=0)[0, :, 0]
 
 
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -123,9 +97,9 @@ def compute_all_basis_polynomials_derivatives(n, p, U, u):
     """
     Evaluate the analytic derivatives of B-spline basis functions of degree `p`.
 
-    The function implements the recursive derivative relations for B-spline basis functions
-    (following the same recursion pattern as the basis definition). Computations are
-    vectorized across multiple u-values using `jax.vmap`.
+    The function implements the recursive derivative relations for B-spline basis
+    functions, reusing each lower-degree table across derivative orders. Array
+    operations cover all basis indices and parameter samples together.
 
     Parameters
     ----------
@@ -144,16 +118,7 @@ def compute_all_basis_polynomials_derivatives(n, p, U, u):
         Array containing derivatives of orders zero through p at all u-values.
     """
 
-    U = jnp.asarray(U)
-    u = jnp.atleast_1d(u)
-
-    # Vectorize across u-values
-    all_derivatives = jax.vmap(lambda uu: _basis_all_derivatives_single_u(n, p, U, uu))(u)
-
-    # Transpose shape (Nu, p+1, n+1) to (p+1, n+1, Nu)
-    all_derivatives = jnp.transpose(all_derivatives, (1, 2, 0))
-
-    return all_derivatives
+    return _compute_basis_derivatives(n, p, U, u, max_order=p)
 
 # Apply JIT compilation
 compute_all_basis_polynomials_derivatives = jax.jit(
@@ -171,44 +136,7 @@ def _basis_all_derivatives_single_u(n, p, U, u):
         N_ders[r, i] = r-th derivative of basis function i of degree p at u.
     """
 
-    # Degree-0 basis and its derivatives (only the function itself)
-    N0 = _basis_single_u(n, 0, U, u)
-    N_ders = jnp.zeros((1, n + 1))
-    N_ders = N_ders.at[0, :].set(N0)
-
-    # Helper: Build all derivatives for a given degree d
-    def build_degree_block(d, N_prev):
-        # Allocate derivatives for this degree
-        N_block = jnp.zeros((d + 1, n + 1))
-
-        # Zeroth derivative → degree-d basis
-        N_d = _basis_single_u(n, d, U, u)
-        N_block = N_block.at[0, :].set(N_d)
-
-        # Higher derivatives follow recursive formula
-        for r in range(1, d + 1):
-            N_prev_r = N_prev[r - 1, :]
-            N_r = jnp.zeros((n + 1,))
-
-            for i in range(n + 1):
-                denom1 = U[i + d] - U[i]
-                denom2 = U[i + d + 1] - U[i + 1]
-                safe_denom1 = jnp.where(denom1 == 0.0, 1.0, denom1)
-                safe_denom2 = jnp.where(denom2 == 0.0, 1.0, denom2)
-                term1 = jnp.where(denom1 == 0.0, 0.0, d * N_prev_r[i] / safe_denom1)
-                term2 = jnp.where(denom2 == 0.0, 0.0, d * N_prev_r[i + 1] / safe_denom2)
-                N_r = N_r.at[i].set(term1 - term2)
-
-            N_block = N_block.at[r, :].set(N_r)
-
-        return N_block
-
-    # Build successively from degree 1 to p
-    for d in range(1, p + 1):
-        N_ders = build_degree_block(d, N_ders)
-
-    # Final N_ders contains all derivatives for degree p
-    return N_ders  # Shape (p+1, n+1)
+    return _compute_basis_derivatives(n, p, U, u, max_order=p)[:, :, 0]
 
 
 def compute_basis_polynomials_derivatives(n, p, U, u, derivative_order):

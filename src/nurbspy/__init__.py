@@ -14,7 +14,7 @@ _register_numpy_module_aliases()
 del _register_numpy_module_aliases
 
 # Package info
-__version__ = "1.4.1"
+__version__ = "1.5.0"
 PACKAGE_NAME = "nurbspy"
 URL_GITHUB = "https://github.com/turbo-sim/nurbspy"
 URL_DOCS = "https://turbo-sim.github.io/nurbspy/"

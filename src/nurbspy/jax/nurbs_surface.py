@@ -10,6 +10,7 @@ import numpy as np
 from .nurbs_basis_functions import (
     compute_basis_polynomials,
     compute_all_basis_polynomials_derivatives,
+    _compute_basis_derivatives,
 )
 from .nurbs_curve import NurbsCurve
 
@@ -53,9 +54,10 @@ def compute_bspline_derivatives(P, p, q, U, V, u, v, up_to_order_u, up_to_order_
     if up_to_order_u < 0 or up_to_order_v < 0:
         raise ValueError("Derivative orders must be nonnegative")
     P = jnp.asarray(P)
-    basis_u = compute_all_basis_polynomials_derivatives(P.shape[1] - 1, p, U, u)
-    basis_v = compute_all_basis_polynomials_derivatives(P.shape[2] - 1, q, V, v)
     ku, kv = min(p, up_to_order_u), min(q, up_to_order_v)
+    # Reuse the shared recurrence, forming only rows needed by this call.
+    basis_u = _compute_basis_derivatives(P.shape[1] - 1, p, U, u, max_order=ku)
+    basis_v = _compute_basis_derivatives(P.shape[2] - 1, q, V, v, max_order=kv)
     values = jnp.einsum("dij,aik,bjk->abdk", P, basis_u[: ku + 1], basis_v[: kv + 1])
     # Polynomial zero partials are needed by the rational recurrence as well.
     return jnp.pad(

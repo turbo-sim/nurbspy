@@ -95,6 +95,29 @@ def check_installed_backends(backend):
         assert_allclose(value, [0.5, 0.375])
         assert_allclose(derivative, [2.0, 1.0])
 
+        # Verify prepared APIs are exported and included in the built wheel.
+        basis = jax_nrb.prepare_curve(jax_curve, [0.25], max_order=1)
+        assert_allclose(basis.get_value(points)[:, 0], [0.5, 0.375])
+        assert_allclose(basis.get_derivative(points)[:, 0], [2.0, 1.0])
+
+        plane_points = np.array([
+            [[0.0, 0.0], [1.0, 1.0]],
+            [[0.0, 1.0], [0.0, 1.0]],
+            [[0.0, 0.0], [0.0, 0.0]],
+        ])
+        plane = jax_nrb.NurbsSurface(plane_points)
+        grid = jax_nrb.prepare_surface(
+            plane, [0.25], [0.75], max_order_u=0, max_order_v=0, grid=True
+        )
+        grid_values = grid.get_value(plane_points)
+        assert grid_values.shape == (3, 1, 1)
+        assert_allclose(grid_values[:, 0, 0], [0.25, 0.75, 0.0])
+        projection = jax_nrb.prepare_surface_projection(plane)
+        assert_allclose(
+            projection.project_point(np.array([0.25, 0.75, 1.0])),
+            [0.25, 0.75], atol=1e-10,
+        )
+
         # Exercise the exported surface generators and mixed-partial API from
         # the installed wheel, including a gradient through construction.
         def surface_value(distance):

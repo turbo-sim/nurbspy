@@ -11,7 +11,7 @@ The NumPy interface provides curve and surface coordinates, analytical
 derivatives, tangents and normals, curvature, curve arc length, point
 projection, and Matplotlib plots. Surface constructors include bilinear,
 ruled, extruded, revolution, and Coons surfaces. The separate `nurbspy.jax`
-subpackage provides differentiable curve and basis-function implementations.
+subpackage provides differentiable curves, surfaces, and basis functions.
 The examples here use `import nurbspy as nrb` unless stated otherwise.
 
 The algorithms follow *The NURBS Book* {cite:p}`NURBS_book`.
@@ -49,6 +49,9 @@ Use `import nurbspy as nrb` for the NumPy interface, or
 does not install Numba or JAX. The JAX extra does not require Numba; use
 `pip install "nurbspy[numba,jax]"` to install both extras.
 The JAX backend currently uses the CPU.
+
+For repeated JAX evaluations and optimization at fixed parameter locations,
+see [JAX performance and prepared evaluations](jax_performance.md).
 
 Verify the installation:
 
@@ -135,10 +138,10 @@ Tests are grouped by what they verify:
 | `tests/installation/` | Optional-dependency behavior and installed-package smoke checks. |
 | `tests/documentation/` | Mathematical derivations and executable documentation examples. |
 
-The `basis_backend` and `curve_backend` fixtures run common numerical checks
-against NumPy and JAX. The `surface_backend` fixture uses the existing NumPy
-implementation, which Numba accelerates when installed. There is no JAX
-surface implementation. Small reusable geometry inputs live in `tests/cases.py`.
+The `basis_backend`, `curve_backend` and `surface_backend` fixtures run common
+numerical checks against NumPy and JAX. Numba accelerates the NumPy basis
+implementation when installed. Small reusable geometry inputs live in
+`tests/cases.py`.
 
 NumPy/Numba tests verify complex-step sensitivities with respect to curve and
 surface parameters, control points, and weights. JAX tests verify automatic
@@ -190,4 +193,11 @@ files. Push the resulting commit and tag with:
 
 ```bash
 git push origin main --tags
+```
+
+```{toctree}
+:hidden:
+:maxdepth: 1
+
+jax_performance
 ```
