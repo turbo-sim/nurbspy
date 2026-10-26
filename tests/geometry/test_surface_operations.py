@@ -1,4 +1,4 @@
-"""Public surface operations supported by the NumPy/Numba backend."""
+"""Public surface operations shared by the NumPy and JAX backends."""
 
 import numpy as np
 import pytest
@@ -53,8 +53,8 @@ def test_attachment_preserves_both_patches_and_seam(
 ):
     """Attaching compatible patches maps each to half the domain without a seam gap."""
     first = rational_surface
-    second_points = first.P.copy()
-    second_weights = first.W.copy()
+    second_points = np.array(first.P)
+    second_weights = np.array(first.W)
 
     # Make a distinct second patch and copy its joining edge in homogeneous form.
     # Matching both coordinates and weights preserves the entire rational seam.
@@ -205,3 +205,47 @@ def test_point_projection_recovers_rational_surface_parameters(rational_surface)
 
     # Check the recovered parameters independently, rather than averaging the errors.
     assert_allclose([u_opt, v_opt], [u0, v0], rtol=0, atol=1e-6)
+
+
+def test_v_attachment_uses_v_knots(surface_backend):
+    """Distinct knot vectors expose accidental use of u knots during v attachment."""
+    x, y = np.meshgrid(np.linspace(0, 1, 4), np.linspace(0, 2, 4), indexing="ij")
+    points = np.stack((x, y, 0.2 * x * y))
+    weights = np.array([[1.0, 0.8, 1.2, 1.0]] * 4)
+    u_knots = np.array([0.0, 0.0, 0.0, 0.4, 1.0, 1.0, 1.0])
+    v_knots = np.array([0.0, 0.0, 0.2, 0.7, 1.0, 1.0])
+    first = surface_backend.NurbsSurface(points, weights, 2, 1, u_knots, v_knots)
+    other_points = points + np.array([0.0, 2.0, 0.4])[:, None, None]
+    other_points[:, :, 0] = points[:, :, -1]
+    second = surface_backend.NurbsSurface(other_points, weights, 2, 1, u_knots, v_knots)
+    attached = first.attach_nurbs_vdir(second)
+    u, v = np.meshgrid(
+        [0.0, 0.17, 0.63, 1.0], [0.0, 0.13, 0.39, 0.85, 1.0], indexing="ij"
+    )
+    u, v = u.ravel(), v.ravel()
+    assert_allclose(
+        attached.get_value(u, v / 2), first.get_value(u, v), rtol=1e-12, atol=1e-12
+    )
+    assert_allclose(
+        attached.get_value(u, 0.5 + v / 2),
+        second.get_value(u, v),
+        rtol=1e-12,
+        atol=1e-12,
+    )
+
+
+def test_projection_problem_helper(surface_backend):
+    """Retain the distance objective, analytical gradient and bounds helper API."""
+    points = np.array(
+        [[[0.0, 0.0], [1.0, 1.0]], [[0.0, 1.0], [0.0, 1.0]], [[0.0, 0.0], [0.0, 0.0]]]
+    )
+    surface = surface_backend.NurbsSurface(points)
+    problem = surface.PointToSurfaceProjectionProblem(
+        surface.get_value, surface.get_derivative, np.array([0.4, 0.6, 1.0])
+    )
+    distance = np.sqrt(1 + 0.2**2 + 0.3**2)
+    assert_allclose(problem.fitness(np.array([0.2, 0.3])), [distance])
+    assert_allclose(
+        problem.gradient(np.array([0.2, 0.3])), np.array([-0.2, -0.3]) / distance
+    )
+    assert problem.get_bounds() == ([0.0, 0.0], [1.0, 1.0])

@@ -87,22 +87,22 @@ class NurbsSurfaceCoons:
 
 
         # Check corner control point compatibility
-        if any(np.abs(self.C_south.P[:, 0] - self.C_west.P[:, 0]) < tol):
+        if np.all(np.abs(self.C_south.P[:, 0] - self.C_west.P[:, 0]) < tol):
             self.P_sw = C_south.P[:, 0]
         else:
             raise Exception("The sourth-west corner is not compatible")
 
-        if any(np.abs(self.C_south.P[:, -1] - self.C_east.P[:, 0]) < tol):
+        if np.all(np.abs(self.C_south.P[:, -1] - self.C_east.P[:, 0]) < tol):
             self.P_se = C_south.P[:, -1]
         else:
             raise Exception("The sourth-east corner is not compatible")
 
-        if any(np.abs(self.C_north.P[:, -1] - self.C_east.P[:, -1]) < tol):
+        if np.all(np.abs(self.C_north.P[:, -1] - self.C_east.P[:, -1]) < tol):
             self.P_ne = C_north.P[:, -1]
         else:
             raise Exception("The north-east corner is not compatible")
 
-        if any(np.abs(self.C_north.P[:, 0] - self.C_west.P[:, -1]) < tol):
+        if np.all(np.abs(self.C_north.P[:, 0] - self.C_west.P[:, -1]) < tol):
             self.P_nw = C_north.P[:, 0]
         else:
             raise Exception("The north-west corner is not compatible")

@@ -115,7 +115,7 @@ class NurbsSurfaceRevolution:
             R = np.sum((P-O)**2)**(1/2)
 
             # Compute the current section principal directions (use dummy directions in case P and O coincide)
-            if np.abs(np.sum(P-O)) < 1e-12:
+            if np.abs(R) < 1e-12:
                 X = np.asarray([1, 0, 0])
                 Y = np.asarray([0, 1, 0])
             else:

@@ -3,6 +3,13 @@
 import numpy as np
 
 
+def paraboloid_control_points():
+    """Return Bernstein coefficients of S(u,v)=(u,v,u**2+v**2)."""
+    u, v = np.meshgrid([0.0, 0.5, 1.0], [0.0, 0.5, 1.0], indexing="ij")
+    square = np.array([0.0, 0.0, 1.0])
+    return np.stack((u, v, square[:, None] + square[None, :]))
+
+
 def rational_curve_data():
     """Return fresh cubic curve data for parameter and shape-sensitivity checks.
 
@@ -20,6 +27,67 @@ def rational_curve_data():
     weights = np.array([1.0, 0.8, 1.4, 0.9, 1.2, 1.0])
     knots = np.array([0.0, 0.0, 0.0, 0.0, 0.3, 0.7, 1.0, 1.0, 1.0, 1.0])
     return dict(control_points=points, weights=weights, degree=3, knots=knots)
+
+
+def surface_generator_case(backend, kind, parameters, xp=np):
+    """Build small generator cases with four continuously variable inputs.
+
+    Accept an array namespace so the same geometric construction supplies a
+    NumPy finite-difference reference and a traced JAX implementation.
+    """
+    scale, weight, displacement, angle = parameters
+    points = scale * xp.asarray([[1.0, 1.3, 1.1], [0.0, 0.2, 0.0], [0.0, 0.4, 1.0]])
+    weights = xp.stack((xp.asarray(1.0), weight, xp.asarray(1.0)))
+    curve = backend.NurbsCurve(points, weights)
+    if kind == "bilinear":
+        return backend.NurbsSurfaceBilinear(
+            xp.asarray([0.0, 0.0, 0.0]),
+            xp.stack((scale, weight * 0.1, xp.asarray(0.0))),
+            xp.stack((xp.asarray(0.0), displacement, xp.asarray(0.0))),
+            xp.stack((scale, displacement, angle)),
+        ).NurbsSurface
+    if kind == "ruled":
+        other = backend.NurbsCurve(
+            points + xp.stack((xp.asarray(0.0), displacement, angle))[:, None],
+            weights * xp.asarray([1.0, 1.2, 1.0]),
+        )
+        return backend.NurbsSurfaceRuled(curve, other).NurbsSurface
+    if kind == "extruded":
+        direction = xp.stack((displacement, xp.asarray(0.2), xp.asarray(1.0)))
+        return backend.NurbsSurfaceExtruded(curve, direction, angle).NurbsSurface
+    if kind == "revolution":
+        origin = xp.stack((displacement * 0.1, xp.asarray(0.0), xp.asarray(0.0)))
+        options = {"n_arcs": 1} if backend.__name__.endswith(".jax") else {}
+        return backend.NurbsSurfaceRevolution(
+            curve, origin, xp.asarray([0.2, 0.1, 1.0]), 0.1, angle, **options
+        ).NurbsSurface
+    if kind == "coons":
+        south_points = scale * xp.asarray(
+            [[0.0, 0.5, 1.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
+        )
+        north_points = south_points + xp.asarray([0.0, 1.0, 0.0])[:, None]
+        west_points = xp.stack(
+            (
+                south_points[:, 0],
+                xp.stack((xp.asarray(0.0), xp.asarray(0.5), displacement)),
+                north_points[:, 0],
+            ),
+            axis=1,
+        )
+        east_points = xp.stack(
+            (
+                south_points[:, -1],
+                xp.stack((scale, xp.asarray(0.5), angle)),
+                north_points[:, -1],
+            ),
+            axis=1,
+        )
+        curves = [
+            backend.NurbsCurve(p, weights)
+            for p in (south_points, north_points, west_points, east_points)
+        ]
+        return backend.NurbsSurfaceCoons(*curves).NurbsSurface
+    raise ValueError(f"Unknown surface generator: {kind}")
 
 
 def rational_surface_data():

@@ -9,6 +9,53 @@ import pytest
 from tests.cases import rational_surface_data
 
 
+def test_surface_numerical_helpers_with_scalar_parameters(surface_backend):
+    """Exercise all public numerical helpers with scalar u and v inputs."""
+    surface = surface_backend.NurbsSurface(np.arange(12, dtype=float).reshape(3, 2, 2))
+    args = (surface.P, surface.p, surface.q, surface.U, surface.V, 0.23, 0.71)
+    values = surface.compute_bspline_coordinates(*args)
+    partials = surface.compute_bspline_derivatives(*args, 2, 1)
+    rational = surface.compute_nurbs_derivatives(
+        surface.P,
+        surface.W,
+        surface.p,
+        surface.q,
+        surface.U,
+        surface.V,
+        0.23,
+        0.71,
+        2,
+        1,
+    )
+    assert partials.shape == (3, 2, 3, 1)
+    assert_allclose(values, surface.get_value(0.23, 0.71))
+    assert_allclose(partials[0, 0], values)
+    assert_allclose(partials, rational, atol=1e-12)
+    assert_allclose(partials[2], 0.0, atol=1e-12)
+
+
+@pytest.mark.parametrize("order_u, order_v", [(0, 0), (3, 0), (0, 3), (3, 2)])
+def test_rational_surface_derivatives_above_degree(surface_backend, order_u, order_v):
+    """Differentiate 1/((1+u)*(1+2v)) beyond its degree-one tensor basis."""
+    weights = np.outer([1.0, 2.0], [1.0, 3.0])
+    surface = surface_backend.NurbsSurface((1 / weights)[None], weights)
+    u, v = np.array([0.0, 0.23, 0.71, 1.0]), np.array([1.0, 0.61, 0.37, 0.0])
+    # The weighted numerator is identically one, so the reference separates.
+    expected = (
+        (-1) ** (order_u + order_v)
+        * factorial(order_u)
+        * factorial(order_v)
+        * 2**order_v
+        / ((1 + u) ** (order_u + 1) * (1 + 2 * v) ** (order_v + 1))
+    )
+    assert_allclose(
+        surface.get_derivative(u, v, order_u, order_v)[0],
+        expected,
+        rtol=2e-12,
+        atol=2e-12,
+    )
+
+
 @pytest.mark.parametrize("order_u,order_v", [(1, 0), (0, 1), (1, 1), (2, 1), (3, 2)])
 def test_bezier_surface_differences(surface_backend, order_u, order_v):
     """Check the forward-difference formula for Bezier surface derivatives.
@@ -104,34 +151,6 @@ def test_nurbs_surface_zeroth_derivative(surface_backend):
 
     # Check the error
     assert_allclose(dS, S, rtol=0, atol=1e-12)
-
-
-def test_nurbs_surface_first_derivatives_cs(surface_backend):
-    """Complex-step perturbations recover both first partial derivatives."""
-
-    # Get the NURBS surface object
-    surface = surface_backend.NurbsSurface(**rational_surface_data())
-
-    # Create (u,v) parametrization
-    h = 1e-12
-    hh = h + h**2
-    Nu, Nv = 51, 51
-    u = np.linspace(0 + hh, 1 - hh, Nu)
-    v = np.linspace(0 + hh, 1 - hh, Nv)
-    u, v = np.meshgrid(u, v, indexing="ij")
-    u, v = u.flatten(), v.flatten()
-
-    # Compute the NURBS analytic derivative
-    dSdu_analytic = surface.get_derivative(u, v, order_u=1, order_v=0)
-    dSdv_analytic = surface.get_derivative(u, v, order_u=0, order_v=1)
-
-    # Compute the NURBS complex step derivative
-    dSdu_complex_step = np.imag(surface.get_value(u + h * 1j, v)) / h
-    dSdv_complex_step = np.imag(surface.get_value(u, v + h * 1j)) / h
-
-    # Check the error
-    assert_allclose(dSdu_analytic, dSdu_complex_step, rtol=1e-12, atol=1e-12)
-    assert_allclose(dSdv_analytic, dSdv_complex_step, rtol=1e-12, atol=1e-12)
 
 
 def test_nurbs_surface_first_derivatives_cfd(surface_backend):

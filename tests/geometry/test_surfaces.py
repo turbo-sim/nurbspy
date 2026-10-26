@@ -1,17 +1,71 @@
-"""Surface constructors and geometry supported by the NumPy/Numba backend."""
+"""Surface constructors and geometry shared by the NumPy and JAX backends."""
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # Importing packages
 # -------------------------------------------------------------------------------------------------------------------- #
 import numpy as np
 from numpy.testing import assert_allclose
+import pytest
+from scipy.interpolate import BSpline
+
+from tests.cases import rational_surface_data
+
+
+@pytest.mark.parametrize("rational", [False, True])
+def test_surface_values_against_scipy_tensor_basis(surface_backend, rational):
+    """Check nonuniform/repeated knots and unequal degrees with independent bases."""
+    data = rational_surface_data()
+    data.update(
+        u_degree=2,
+        v_degree=2,
+        u_knots=np.array([0.0, 0.0, 0.0, 0.4, 0.4, 1.0, 1.0, 1.0]),
+        v_knots=np.array([0.0, 0.0, 0.0, 0.6, 1.0, 1.0, 1.0]),
+    )
+    if not rational:
+        data["weights"] = np.ones_like(data["weights"])
+    surface = surface_backend.NurbsSurface(**data)
+    u = np.array([0.0, 0.17, 0.4, 0.79, 1.0])
+    v = np.array([1.0, 0.83, 0.6, 0.19, 0.0])
+    bu = BSpline(data["u_knots"], np.eye(5), 2)(u).T
+    bv = BSpline(data["v_knots"], np.eye(4), 2)(v).T
+    tensor = np.einsum("ik,jk->ijk", bu, bv)
+    expected = np.einsum(
+        "dij,ijk->dk", data["control_points"] * data["weights"], tensor
+    ) / np.einsum("ij,ijk->k", data["weights"], tensor)
+    assert_allclose(surface.get_value(u, v), expected, rtol=1e-12, atol=1e-12)
+    # Variable-length unique-knot metadata is intentionally a host utility.
+    assert_allclose(surface.U_values, np.unique(data["u_knots"]))
+    assert_allclose(surface.U_mults, np.unique(data["u_knots"], return_counts=True)[1])
+    assert_allclose(surface.V_values, np.unique(data["v_knots"]))
+    assert_allclose(surface.V_mults, np.unique(data["v_knots"], return_counts=True)[1])
+
+
+@pytest.mark.parametrize("kind", ["Bezier", "R-Bezier", "B-Spline", "NURBS"])
+def test_surface_construction_modes(surface_backend, kind):
+    """Infer the same surface type and default knot/weight shapes in each backend."""
+    data = rational_surface_data()
+    options = {}
+    if kind in ("R-Bezier", "NURBS"):
+        options["weights"] = data["weights"]
+    if kind in ("B-Spline", "NURBS"):
+        options.update(u_degree=2, v_degree=1)
+    surface = surface_backend.NurbsSurface(data["control_points"], **options)
+    assert surface.surface_type == kind
+    assert surface.ndim == 3
+    assert surface.W.shape == (5, 4)
+    assert surface.U.shape == (5 + surface.p + 1,)
+    assert surface.V.shape == (4 + surface.q + 1,)
+    assert_allclose(surface.get_value(0.0, 0.0)[:, 0], data["control_points"][:, 0, 0])
+    assert_allclose(
+        surface.get_value(1.0, 1.0)[:, 0], data["control_points"][:, -1, -1]
+    )
 
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # Prepare the NURBS surface test suite
 # -------------------------------------------------------------------------------------------------------------------- #
 def test_nurbs_surface_scalar_input(surface_backend):
-    """Test the NURBS surface computation in scalar mode for real and complex input."""
+    """Test NURBS surface evaluation at a real scalar parameter pair."""
 
     # Define the array of control points
     n_dim, n, m = 3, 2, 2
@@ -31,10 +85,6 @@ def test_nurbs_surface_scalar_input(surface_backend):
     # Check real
     values_real = bezier_surface.get_value(u=0.5, v=0.5).flatten()
     assert_allclose(values_real, [0.5, 0.5, 0.0], rtol=0, atol=1e-12)
-
-    # Check complex
-    values_complex = bezier_surface.get_value(u=0.5 + 0.5j, v=0.5 + 0.5j).flatten()
-    assert_allclose(values_complex, [0.5 + 0.5j, 0.5 + 0.5j, 0.0], rtol=0, atol=1e-12)
 
 
 def test_nurbs_surface_endpoint_property(surface_backend):
@@ -154,7 +204,7 @@ def test_cylindrical_surface_geometry(surface_backend):
 
     # Check the error of the unitary normal vectors
     normals_numeric = cylinder_surface.get_normals(u, v)
-    normals_analytic = cylinder_surface.get_value(u, v) - O[:, np.newaxis]
+    normals_analytic = np.array(cylinder_surface.get_value(u, v)) - O[:, np.newaxis]
     normals_analytic = (
         normals_analytic
         / (np.sum((normals_analytic[[0, 1], :]) ** 2, axis=0) ** (1 / 2))[np.newaxis, :]

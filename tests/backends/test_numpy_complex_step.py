@@ -12,6 +12,17 @@ from scipy.interpolate import BSpline
 from tests.cases import rational_curve_data, rational_surface_data
 
 
+def test_surface_complex_scalar_value(numpy_backend):
+    """Preserve complex scalar surface evaluation in the NumPy/Numba API."""
+    points = np.array(
+        [[[0.0, 0.0], [1.0, 1.0]], [[0.0, 1.0], [0.0, 1.0]], [[0.0, 0.0], [0.0, 0.0]]]
+    )
+    surface = numpy_backend.NurbsSurface(points)
+    # This is a finite complex input, in addition to the tiny-step checks below.
+    value = surface.get_value(0.5 + 0.5j, 0.5 + 0.5j).ravel()
+    assert_allclose(value, [0.5 + 0.5j, 0.5 + 0.5j, 0.0], rtol=0, atol=1e-12)
+
+
 def test_basis_complex_step_matches_analytic_derivative(numpy_backend):
     """Preserve imaginary parameter perturbations through basis evaluation.
 
@@ -150,3 +161,31 @@ def test_surface_shape_complex_step(numpy_backend, argument):
     perturbed = numpy_backend.NurbsSurface(**data).get_value(u, v)
     assert np.iscomplexobj(perturbed)
     assert_allclose(perturbed.imag / step, expected, rtol=1e-11, atol=1e-12)
+
+
+def test_nurbs_surface_first_derivatives_cs(numpy_backend):
+    """Complex-step perturbations recover both first partial derivatives."""
+
+    # Get the NURBS surface object
+    surface = numpy_backend.NurbsSurface(**rational_surface_data())
+
+    # Create (u,v) parametrization
+    h = 1e-12
+    hh = h + h**2
+    Nu, Nv = 51, 51
+    u = np.linspace(0 + hh, 1 - hh, Nu)
+    v = np.linspace(0 + hh, 1 - hh, Nv)
+    u, v = np.meshgrid(u, v, indexing="ij")
+    u, v = u.flatten(), v.flatten()
+
+    # Compute the NURBS analytic derivative
+    dSdu_analytic = surface.get_derivative(u, v, order_u=1, order_v=0)
+    dSdv_analytic = surface.get_derivative(u, v, order_u=0, order_v=1)
+
+    # Compute the NURBS complex step derivative
+    dSdu_complex_step = np.imag(surface.get_value(u + h * 1j, v)) / h
+    dSdv_complex_step = np.imag(surface.get_value(u, v + h * 1j)) / h
+
+    # Check the error
+    assert_allclose(dSdu_analytic, dSdu_complex_step, rtol=1e-12, atol=1e-12)
+    assert_allclose(dSdv_analytic, dSdv_complex_step, rtol=1e-12, atol=1e-12)

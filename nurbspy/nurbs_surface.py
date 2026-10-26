@@ -601,7 +601,7 @@ class NurbsSurface:
         """
 
         # Set the data type used to initialize arrays (set `complex` if an argument is complex and `float` if not)
-        u = np.asarray(u)
+        u, v = np.asarray(u), np.asarray(v)
         if (P.dtype == np.complex128) or (u.dtype == np.complex128) or (v.dtype == np.complex128):
             data_type = np.complex128
         else:
@@ -796,8 +796,8 @@ class NurbsSurface:
         V_mid = np.ones((self.q + 1,)) / 2
         V_mid[0] = V_mid[0] - eps       # Quick and dirty fix for GMSH (avoid multiplicity equal to degree)
         V_mid[-1] = V_mid[-1] + eps     # Quick and dirty fix for GMSH (avoid multiplicity equal to degree)
-        V1 = 0.00 + self.U[self.q + 1:n1 + 1] / 2
-        V2 = 0.50 + new_nurbs.U[self.q + 1:n2 + 1] / 2
+        V1 = 0.00 + self.V[self.q + 1:n1 + 1] / 2
+        V2 = 0.50 + new_nurbs.V[self.q + 1:n2 + 1] / 2
         V = np.concatenate((V_start, V1, V_mid, V2, V_end))
 
         # Create the merged NURBS surface
@@ -938,8 +938,8 @@ class NurbsSurface:
                 ax = fig.add_subplot(111)
                 ax.set_xlabel('$x$ axis', fontsize=12, color='k', labelpad=12)
                 ax.set_ylabel('$y$ axis', fontsize=12, color='k', labelpad=12)
-                for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)
-                for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)
+                for t in ax.xaxis.get_major_ticks(): t.label1.set_fontsize(12)
+                for t in ax.yaxis.get_major_ticks(): t.label1.set_fontsize(12)
                 if ticks_off:
                     ax.set_xticks([])
                     ax.set_yticks([])
@@ -1068,7 +1068,7 @@ class NurbsSurface:
                 # Define a colormap based on the curvature values
                 mean_curvature, _ = np.real(self.get_curvature(u, v))
                 curvature = np.reshape(mean_curvature, (Nu, Nv))
-                curvature_normalized = (curvature - np.amin(curvature)) / (np.amax(curvature) - np.amin(curvature))
+                curvature_normalized = mpl.colors.Normalize(vmin=np.amin(curvature), vmax=np.amax(curvature))(curvature)
                 curvature_colormap = mpl.cm.viridis(curvature_normalized)
 
                 # Plot the surface with a curvature colormap
@@ -1095,7 +1095,7 @@ class NurbsSurface:
                 # Define a colormap based on the curvature values
                 _, gaussian_curvature= np.real(self.get_curvature(u, v))
                 curvature = np.reshape(gaussian_curvature, (Nu, Nv))
-                curvature_normalized = (curvature - np.amin(curvature)) / (np.amax(curvature) - np.amin(curvature))
+                curvature_normalized = mpl.colors.Normalize(vmin=np.amin(curvature), vmax=np.amax(curvature))(curvature)
                 curvature_colormap = mpl.cm.viridis(curvature_normalized)
 
                 # Plot the surface with a curvature colormap
@@ -1280,9 +1280,9 @@ class NurbsSurface:
         # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
         # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
         # ax_xy.zaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-        for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(8)
-        for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(8)
-        for t in ax.zaxis.get_major_ticks(): t.label.set_fontsize(8)
+        for t in ax.xaxis.get_major_ticks(): t.label1.set_fontsize(8)
+        for t in ax.yaxis.get_major_ticks(): t.label1.set_fontsize(8)
+        for t in ax.zaxis.get_major_ticks(): t.label1.set_fontsize(8)
         # ax_xy.set_xticks([])
         # ax_xy.set_yticks([])
         # ax_xy.set_zticks([])
