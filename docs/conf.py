@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 
 DOCS_DIR = Path(__file__).resolve().parent
-sys.path.insert(0, str(DOCS_DIR.parent))
+sys.path.insert(0, str(DOCS_DIR.parent / "src"))
 from nurbspy import __version__
 
 project = "nurbspy"
@@ -16,7 +16,7 @@ docs_build_config = {
     "source_dir": "source",
     "build_dir": "_build/html",
     "api_output_dir": "source/api",
-    "src_dir": "../nurbspy",
+    "src_dir": "../src/nurbspy",
     "exclude_modules": [],
     "sphinx_build_options": ["--fail-on-warning", "--keep-going"],
     "zotero_api_key_env": "ZOTERO_API_KEY",

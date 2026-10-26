@@ -7,6 +7,7 @@ license = "MIT"
 readme = "README.md"
 repository = "https://github.com/turbo-sim/nurbspy"
 documentation = "https://turbo-sim.github.io/nurbspy/"
+packages = [{ include = "nurbspy", from = "src" }]
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.14"

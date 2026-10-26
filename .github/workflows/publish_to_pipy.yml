@@ -58,7 +58,7 @@ jobs:
         working-directory: ${{ runner.temp }}
         run: python -I "${{ github.workspace }}/tests/installation/check_installed_package.py" --backend ${{ matrix.installation.name }}
 
-      - name: Run source tests with the requested backend required
+      - name: Run tests against the installed package with the requested backend required
         run: python -m pytest ${{ matrix.installation.pytest_args }}
 
   combined_extras:

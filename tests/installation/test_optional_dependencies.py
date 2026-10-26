@@ -1,5 +1,6 @@
 """Check that the NumPy API works when optional dependencies are unavailable."""
 
+from importlib.util import find_spec
 from pathlib import Path
 import subprocess
 import sys
@@ -40,7 +41,7 @@ def test_numpy_backend_without_usable_numba(numba_state):
             warnings.simplefilter("always", RuntimeWarning)
             import nurbspy as nrb
 
-        assert Path(nrb.__file__).resolve().parent == Path.cwd() / "nurbspy"
+        assert Path(nrb.__file__).resolve() == Path(sys.argv[2])
 
         runtime_warnings = [w for w in caught if issubclass(w.category, RuntimeWarning)]
         assert len(runtime_warnings) == (sys.argv[1] == "incompatible"), runtime_warnings
@@ -71,7 +72,13 @@ def test_numpy_backend_without_usable_numba(numba_state):
     """
     )
     result = subprocess.run(
-        [sys.executable, "-c", script, numba_state],
+        [
+            sys.executable,
+            "-c",
+            script,
+            numba_state,
+            str(Path(find_spec("nurbspy").origin).resolve()),
+        ],
         cwd=Path(__file__).resolve().parents[2],
         text=True,
         capture_output=True,

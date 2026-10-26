@@ -7,6 +7,11 @@ README-only edits are omitted.
 
 ## Unreleased
 
+Moved the importable package into `src/nurbspy` and updated packaging,
+release versioning, documentation paths, and installation checks. Local
+development now uses an editable installation; tests exercise the installed
+package without adding the repository root to the import path.
+
 Added JAX NURBS surfaces with values, arbitrary mixed partial derivatives,
 normals, mean/Gaussian curvature, isocurves, attachment, approximate offsets,
 and bounded point projection. Added bilinear, ruled, extruded, revolution,

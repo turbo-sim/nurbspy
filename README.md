@@ -157,6 +157,21 @@ If the installation was successful, you should be able to see the Bézier surfac
 
 Check out the [documentation examples](./demos/documentation) directory to see more examples showing the capabilities of the library and how to use them.
 
+## Development
+
+The Python package lives under `src/nurbspy`. Install the checkout in editable
+mode before running local scripts or tests:
+
+```bash
+python -m pip install -e . pytest
+python -m pytest
+```
+
+To test both optional backends, install `-e ".[numba,jax]"` instead and run
+`python -m pytest --require-backend=numba --require-backend=jax`.
+`poetry install --with dev --all-extras` also installs the checkout in editable
+mode; use `poetry run python -m pytest` in that environment.
+
 ## Contact information
 
 `nurbspy` was originally developed by [Roberto Agromayor](https://www.ntnu.edu/employees/roberto.agromayor) under the supervision of Associate Professor [Lars O. Nord](https://www.ntnu.edu/employees/lars.nord) at the [Norwegian University of Science and Technology (NTNU)](https://www.ntnu.no/) as part of his PhD on turbomachinery shape optimization, and has since been maintained and extended. Please, drop us an email to [roberto.agromayor@ntnu.no](mailto:roberto.agromayor@ntnu.no) if you have questions about the code or you have a bug to report!
