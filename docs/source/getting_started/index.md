@@ -20,11 +20,23 @@ provide a complete solid-modeling CAD system.
 
 ## Installation for users
 
-Use the following command to install the default NumPy/Numba backend:
+Use the following command to install the default NumPy backend:
 
 ```bash
 pip install nurbspy
 ```
+
+Numba is optional. To accelerate basis-function evaluation, install:
+
+```bash
+pip install "nurbspy[numba]"
+```
+
+Numba is used automatically when available. Without it, the same functions
+run with NumPy, with unchanged APIs and numerical algorithms but potentially
+slower evaluation. If an installed Numba raises an import error, `nurbspy`
+warns and falls back to NumPy. The `numba` extra still requires NumPy and
+Python versions supported by Numba; omit it to avoid those dependency constraints.
 
 To also install the optional JAX backend and its supporting libraries:
 
@@ -34,7 +46,9 @@ pip install "nurbspy[jax]"
 
 Use `import nurbspy as nrb` for the NumPy interface, or
 `import nurbspy.jax as nrb` for the JAX interface. The default installation
-does not install JAX. The JAX backend currently uses the CPU.
+does not install Numba or JAX. The JAX extra does not require Numba; use
+`pip install "nurbspy[numba,jax]"` to install both extras.
+The JAX backend currently uses the CPU.
 
 Verify the installation:
 
@@ -71,10 +85,11 @@ and documentation tools. To enable JAX as well:
 poetry install --with dev --extras jax
 ```
 
-JAX is a package **extra** so it can be selected by both pip and Poetry;
-`dev` is a dependency **group** for working on the repository. The full test
-suite and the API documentation build both require the JAX extra because they
-import `nurbspy.jax`.
+Numba and JAX are package **extras** so they can be selected by both pip and
+Poetry; `dev` is a dependency **group** for working on the repository. Use
+`poetry install --with dev --extras "numba jax"` to install both extras.
+The API documentation build requires the JAX extra because it imports
+`nurbspy.jax`.
 
 ### Building the documentation
 
@@ -108,22 +123,53 @@ regenerated on every build, so edit the Python docstrings to change the API.
 Run the full suite with Poetry from the repository root:
 
 ```bash
-poetry run pytest
+poetry run pytest tests
 ```
 
-The full suite requires the JAX extra because some tests import `nurbspy.jax`. To run a single file, or filter by test name with `-k`:
+Tests are grouped by what they verify:
+
+| Directory | Purpose |
+| --- | --- |
+| `tests/geometry/` | Basis, curve, and surface values, derivatives, constructors, and geometric operations. |
+| `tests/backends/` | NumPy/Numba complex-step support, Numba compilation, and JAX differentiation, JIT, and batching. |
+| `tests/installation/` | Optional-dependency behavior and installed-package smoke checks. |
+| `tests/documentation/` | Mathematical derivations and executable documentation examples. |
+
+The `basis_backend` and `curve_backend` fixtures run common numerical checks
+against NumPy and JAX. The `surface_backend` fixture uses the existing NumPy
+implementation, which Numba accelerates when installed. There is no JAX
+surface implementation. Small reusable geometry inputs live in `tests/cases.py`.
+
+NumPy/Numba tests verify complex-step sensitivities with respect to curve and
+surface parameters, control points, and weights. JAX tests verify automatic
+differentiation instead of requiring complex-step support.
+
+Run a feature group or filter individual tests with `-k`:
 
 ```bash
-poetry run pytest tests/test_nurbs_curve.py
-poetry run pytest tests/test_nurbs_curve.py -k derivatives
+poetry run pytest tests/geometry
+poetry run pytest tests/geometry/test_curve_derivatives.py
+poetry run pytest tests/backends -k complex_step
 ```
 
-`tests/run_tests.py` runs the three package test files directly through
-`pytest.main(["-vv"] + tests_list)` and can be launched without the `poetry
-run` prefix once the environment is active:
+To exercise both optional backends explicitly:
+
+```bash
+poetry install --with dev --extras "numba jax"
+poetry run pytest tests --require-backend=numba --require-backend=jax
+```
+
+Ordinary runs skip JAX tests if JAX is absent. An installed but broken JAX
+backend raises an import error instead of being silently skipped. The
+repeatable `--require-backend` option makes a missing or unusable requested
+backend fail early, and CI uses it for its optional-extra jobs.
+
+`tests/run_tests.py` discovers the full suite from any working directory and
+forwards extra pytest arguments. Once the environment is active, run:
 
 ```bash
 python tests/run_tests.py
+python tests/run_tests.py -k projection
 ```
 
 ### Bumping the version

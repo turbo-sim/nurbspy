@@ -693,7 +693,7 @@ distance relation, and counterexamples to overbroad statements.
 
 | Check | Result and scope |
 | --- | --- |
-| Existing [documentation mathematics tests](tests/test_documentation_math.py) | **30 passed** on this pass. These cover endpoint formulas for polynomial/rational curves, degrees 2, 3, 5, nonuniform/repeated interior knots, shortened-knot derivative control points against SciPy, Bézier surface differences, a rational mixed partial, radius construction at both ends, and the demonstrated G² join. |
+| Existing [geometry checks](../../tests/geometry) and [documentation mathematics tests](../../tests/documentation) | **30 passed** on this pass. These cover endpoint formulas for polynomial/rational curves, degrees 2, 3, 5, nonuniform/repeated interior knots, shortened-knot derivative control points against SciPy, Bézier surface differences, a rational mixed partial, radius construction at both ends, and the demonstrated G² join. |
 | Independent rational curve derivatives | Orders 0–5 checked against polynomial-numerator differentiation of $A/w$, using $A_{k+1}=wA_k'-(k+1)w'A_k$ and denominator $w^{k+2}$. Passed; maximum absolute difference was approximately $3.21\times10^{-10}$ across the chosen samples, within the relative/absolute tolerances. This includes orders above the cubic numerator degree. |
 | Original three surface sums versus the compact Markdown sum | Matching, nonduplicated index sets for all $0\leq k,l\leq5$, together with the algebraic partition explained in N04. |
 | Same scalar curvature, different curvature vectors | Explicit planar counterexample confirmed; supports G01. |

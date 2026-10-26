@@ -7,6 +7,22 @@ README-only edits are omitted.
 
 ## Unreleased
 
+Reorganized tests by mathematical feature, backend execution, installation,
+and documentation. Strengthened numerical assertions and added public
+projection, surface-operation, torsion, and complex-step sensitivity checks.
+Fixed JAX rational curve derivatives above the polynomial degree.
+
+Added dedicated JAX tests for transformations, automatic differentiation,
+shape gradients, arc length, inverse parametrizations, and batched projection.
+Fixed NaN reverse-mode gradients at repeated knots and in fixed quadrature
+for constant-speed curves, plus scalar inputs to the JAX basis-derivative
+functions. The test runner now discovers the full suite.
+
+Numba is now an optional extra (`pip install "nurbspy[numba]"`). The default
+NumPy backend and the JAX extra no longer require Numba or inherit its NumPy
+version restrictions. Basis functions use NumPy when Numba is unavailable,
+and warn before falling back if an installed Numba raises an import error.
+
 Documentation overhaul: a full Sphinx site (getting started, theory pages
 migrated from the original LaTeX notes, a worked-examples gallery, API
 reference), plus `docs/generate_example_images.py` to keep example images
