@@ -13,7 +13,7 @@ def test_numba_extra_compiles_basis_functions(complex_step):
     if importlib.util.find_spec("numba") is None:
         pytest.skip("Install nurbspy[numba] to check compiled acceleration.")
     import numba
-    import nurbspy as nrb
+    import nurbspy.numpy as nrb
 
     knots = np.array([0.0, 0.0, 0.0, 1.0, 1.0, 1.0])
     u = np.array([0.2, 0.7]) + 1e-30j if complex_step else np.array([0.0, 0.25, 1.0])

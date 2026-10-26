@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits  import mplot3d
 from .nurbs_curve  import NurbsCurve
 from .nurbs_basis_functions  import compute_basis_polynomials, compute_basis_polynomials_derivatives
-from .graphics                import style_3d_axes, close_3d_box
+from ..graphics                import style_3d_axes, close_3d_box
 
 
 # -------------------------------------------------------------------------------------------------------------------- #

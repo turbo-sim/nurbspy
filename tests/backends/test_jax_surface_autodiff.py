@@ -110,7 +110,7 @@ def test_surface_jit_and_batched_geometries():
 )
 def test_generator_input_gradients(kind):
     """Differentiate generator geometry in both modes against NumPy finite differences."""
-    import nurbspy
+    import nurbspy.numpy as numpy_backend
 
     parameters = np.array([1.2, 0.8, 0.4, 1.1])
     u, v = np.array([0.17, 0.61]), np.array([0.23, 0.82])
@@ -123,7 +123,7 @@ def test_generator_input_gradients(kind):
     def reference(values):
         """Use the original NumPy generator for the finite-difference reference."""
         return np.sum(
-            surface_generator_case(nurbspy, kind, values).get_value(u, v) ** 2
+            surface_generator_case(numpy_backend, kind, values).get_value(u, v) ** 2
         )
 
     step = 1e-5

@@ -40,8 +40,12 @@ def test_numpy_backend_without_usable_numba(numba_state):
         with warnings.catch_warnings(record=True) as caught:
             warnings.simplefilter("always", RuntimeWarning)
             import nurbspy as nrb
+            import nurbspy.numpy as numpy_backend
+            from nurbspy.nurbs_curve import NurbsCurve
 
         assert Path(nrb.__file__).resolve() == Path(sys.argv[2])
+        assert nrb.NurbsCurve is numpy_backend.NurbsCurve is NurbsCurve
+        assert nrb.NurbsSurface is numpy_backend.NurbsSurface
 
         runtime_warnings = [w for w in caught if issubclass(w.category, RuntimeWarning)]
         assert len(runtime_warnings) == (sys.argv[1] == "incompatible"), runtime_warnings
@@ -49,6 +53,7 @@ def test_numpy_backend_without_usable_numba(numba_state):
             assert "numba" in str(runtime_warnings[0].message).lower()
         assert "numba" not in sys.modules
         assert "jax" not in sys.modules
+        assert "nurbspy.jax" not in sys.modules
         assert not hasattr(nrb.compute_basis_polynomials, "py_func")
 
         knots = np.array([0., 0., 0., 1., 1., 1.])

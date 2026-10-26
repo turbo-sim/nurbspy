@@ -7,6 +7,14 @@ README-only edits are omitted.
 
 ## Unreleased
 
+Separated the implementations into sibling `nurbspy.numpy` and `nurbspy.jax`
+subpackages, with shared graphics and package information at the root.
+Existing `import nurbspy` usage still selects NumPy; legacy module imports
+such as `nurbspy.nurbs_curve` and previously pickled NumPy curves and surfaces
+remain supported through explicit module aliases. New pickles use the
+`nurbspy.numpy` paths and are not guaranteed to load in older releases.
+Added import-identity, legacy-serialization, and installed-wheel checks.
+
 Moved the importable package into `src/nurbspy` and updated packaging,
 release versioning, documentation paths, and installation checks. Local
 development now uses an editable installation; tests exercise the installed

@@ -54,7 +54,8 @@ To also install the optional JAX backend and its supporting libraries:
 pip install "nurbspy[jax]"
 ```
 
-Use `import nurbspy as nrb` for the NumPy interface, or
+Use `import nurbspy as nrb` (or explicitly `import nurbspy.numpy as nrb`) for
+the NumPy interface, or
 `import nurbspy.jax as nrb` for the JAX interface. The default installation
 does not install Numba or JAX. The JAX extra does not require Numba; both
 extras can be installed with `pip install "nurbspy[numba,jax]"`.

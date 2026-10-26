@@ -18,6 +18,23 @@ from packaging.utils import canonicalize_name
 import nurbspy as nrb
 
 
+def check_import_compatibility():
+    """Verify canonical and legacy paths in the installed wheel, without JAX."""
+    import sys
+    import nurbspy.numpy as numpy_backend
+    import nurbspy.nurbs_curve as legacy_curve
+    import nurbspy.nurbs_surface as legacy_surface
+    from nurbspy.graphics import set_plot_options
+
+    assert nrb.NurbsCurve is numpy_backend.NurbsCurve is legacy_curve.NurbsCurve
+    assert nrb.NurbsSurface is numpy_backend.NurbsSurface is legacy_surface.NurbsSurface
+    assert legacy_curve is numpy_backend.nurbs_curve
+    assert legacy_surface is numpy_backend.nurbs_surface
+    assert nrb.set_plot_options is set_plot_options
+    assert "jax" not in sys.modules
+    assert "nurbspy.jax" not in sys.modules
+
+
 def check_distribution_metadata():
     """Verify the imported package is installed and declares optional extras."""
     distribution = metadata.distribution("nurbspy")
@@ -100,6 +117,7 @@ def main():
     )
     arguments = parser.parse_args()
     check_distribution_metadata()
+    check_import_compatibility()
     check_installed_backends(arguments.backend)
     print(f"Installed nurbspy {nrb.__version__}: {arguments.backend} checks passed.")
 

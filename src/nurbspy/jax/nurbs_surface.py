@@ -405,7 +405,7 @@ class NurbsSurface(eqx.Module):
 
     def _as_numpy_surface(self):
         """Transfer geometry to the host for Matplotlib/CAD-style utilities only."""
-        from ..nurbs_surface import NurbsSurface as NumpySurface
+        from ..numpy.nurbs_surface import NurbsSurface as NumpySurface
 
         return NumpySurface(
             np.asarray(self.P),

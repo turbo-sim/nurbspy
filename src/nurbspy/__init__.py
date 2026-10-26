@@ -1,15 +1,17 @@
-# Import geometry modules
-from .nurbs_basis_functions    import *
-from .nurbs_curve              import *
-from .nurbs_curve_circular_arc import *
-from .nurbs_surface            import *
-from .nurbs_surface_bilinear   import *
-from .nurbs_surface_ruled      import *
-from .nurbs_surface_extruded   import *
-from .nurbs_surface_revolution import *
-from .nurbs_surface_coons      import *
+"""NURBS geometry with NumPy defaults and an optional explicit JAX backend.
 
+Existing root-level imports retain the NumPy implementation. Use
+``nurbspy.numpy`` or ``nurbspy.jax`` to select a backend explicitly.
+"""
+
+# Preserve the historical exports, including shared graphics helpers.
+from .numpy import *
 from .graphics import *
+
+from ._compat import register_numpy_module_aliases as _register_numpy_module_aliases
+
+_register_numpy_module_aliases()
+del _register_numpy_module_aliases
 
 # Package info
 __version__ = "1.3.2"
@@ -54,7 +56,7 @@ def minimal_example():
     # Import packages
     import numpy as np
     import matplotlib.pyplot as plt
-    from .nurbs_curve import NurbsCurve
+    from .numpy.nurbs_curve import NurbsCurve
     print_package_info()
 
     # Define the array of control points

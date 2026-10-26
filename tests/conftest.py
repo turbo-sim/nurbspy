@@ -40,19 +40,25 @@ def _load_geometry_backend(module_name):
     return importlib.import_module(module_name)
 
 
-@pytest.fixture(scope="module", params=["nurbspy", "nurbspy.jax"], ids=["numpy", "jax"])
+@pytest.fixture(
+    scope="module", params=["nurbspy.numpy", "nurbspy.jax"], ids=["numpy", "jax"]
+)
 def basis_backend(request):
     """Run common basis-function checks against NumPy and available JAX."""
     return _load_geometry_backend(request.param)
 
 
-@pytest.fixture(scope="module", params=["nurbspy", "nurbspy.jax"], ids=["numpy", "jax"])
+@pytest.fixture(
+    scope="module", params=["nurbspy.numpy", "nurbspy.jax"], ids=["numpy", "jax"]
+)
 def curve_backend(request):
     """Run common curve checks against NumPy and available JAX."""
     return _load_geometry_backend(request.param)
 
 
-@pytest.fixture(scope="module", params=["nurbspy", "nurbspy.jax"], ids=["numpy", "jax"])
+@pytest.fixture(
+    scope="module", params=["nurbspy.numpy", "nurbspy.jax"], ids=["numpy", "jax"]
+)
 def surface_backend(request):
     """Run common surface checks against NumPy and available JAX."""
     return _load_geometry_backend(request.param)
@@ -61,7 +67,7 @@ def surface_backend(request):
 @pytest.fixture(scope="module")
 def numpy_backend():
     """Provide NumPy/Numba for complex-step and other specific guarantees."""
-    return importlib.import_module("nurbspy")
+    return importlib.import_module("nurbspy.numpy")
 
 
 @pytest.fixture(scope="module")

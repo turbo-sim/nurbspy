@@ -12,11 +12,11 @@ from tests.cases import surface_generator_case
 )
 def test_surface_generator_matches_numpy(surface_backend, kind):
     """Compare complete rational patches at boundaries and interior parameters."""
-    import nurbspy
+    import nurbspy.numpy as numpy_backend
 
     parameters = np.array([1.2, 0.8, 0.4, 1.1])
     surface = surface_generator_case(surface_backend, kind, parameters)
-    reference = surface_generator_case(nurbspy, kind, parameters)
+    reference = surface_generator_case(numpy_backend, kind, parameters)
     u = np.array([0.0, 0.13, 0.47, 0.81, 1.0])
     v = np.array([1.0, 0.72, 0.31, 0.19, 0.0])
     assert_allclose(
