@@ -158,7 +158,7 @@ def compute_all_bspline_derivatives(P, p, U, u, up_to_order):
     u : ndarray (Nu,)
         Parametric evaluation points.
     up_to_order : int
-        Maximum derivative order to compute (0 ≤ order ≤ p).
+        Maximum nonnegative derivative order. Orders above the degree are zero.
 
     Returns
     -------
@@ -182,7 +182,7 @@ def compute_all_bspline_derivatives(P, p, U, u, up_to_order):
     bspline_derivatives = jnp.zeros((up_to_order + 1, ndim, Nu), dtype=P.dtype)
 
     # Compute derivatives by matrix multiplication for all relevant orders
-    for k in range(p + 1):
+    for k in range(max_order + 1):
         bspline_derivatives = bspline_derivatives.at[k].set(P @ all_Nders[k])
 
     return bspline_derivatives
@@ -214,7 +214,7 @@ def compute_all_nurbs_derivatives(P, W, p, U, u, up_to_order):
         Parametric evaluation points.
 
     up_to_order : int
-        Maximum derivative order to compute (0 ≤ order ≤ p).
+        Maximum nonnegative derivative order, which may exceed the degree.
 
     Returns
     -------
@@ -230,8 +230,6 @@ def compute_all_nurbs_derivatives(P, W, p, U, u, up_to_order):
 
     # Define sizes
     ndim, Nu = P.shape[0], u.size
-    max_order = min(p, up_to_order)
-    # max_order = p
 
     # Map control points to homogeneous coordinates: P_w = (x*w, y*w, z*w, w)
     P_w = jnp.concatenate((P * W[None, :], W[None, :]), axis=0)
@@ -249,9 +247,11 @@ def compute_all_nurbs_derivatives(P, W, p, U, u, up_to_order):
     # Zeroth derivative: C(u) = A0 / w0
     nurbs_derivatives = nurbs_derivatives.at[0].set(A_ders[0] / w_ders[0])
 
-   # Recursive computation for higher-order derivatives (Algorithm A4.2)
+    # Recursive computation for higher-order derivatives (Algorithm A4.2)
     # Using simple Python loops - unrolled at JIT compilation with no runtime overhead
-    for order in range(1, max_order + 1):
+    # Rational derivatives can remain nonzero above the polynomial degree.
+    # Only the homogeneous B-spline derivatives vanish beyond that degree.
+    for order in range(1, up_to_order + 1):
         # Start with the corresponding derivative of A (homogeneous numerator)
         temp_num = A_ders[order]
         
@@ -779,7 +779,10 @@ class NurbsCurve(eqx.Module):
             return jnp.linalg.norm(dC, axis=0)  # ||C'(u)||
 
         # Perform fixed quadrature over [u1, u2]
-        rule = qdx.ClenshawCurtisRule(n_points)
+        # Only the integral is used. Quadax's error estimate can have undefined
+        # gradients for constant speed, so keep that diagnostic out of autodiff.
+        error_norm = lambda error: jax.lax.stop_gradient(jnp.max(jnp.abs(error)))
+        rule = qdx.ClenshawCurtisRule(n_points, norm=error_norm)
         arclength, err, *_ = rule.integrate(integrand, u1, u2, args=())
         return jnp.asarray(arclength).squeeze()
 

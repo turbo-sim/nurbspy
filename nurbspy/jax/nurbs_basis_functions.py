@@ -72,12 +72,16 @@ def _basis_single_u(n, p, U, u):
         m_k = m - k
         for i in range(m_k):                    # active span loop
             denom1 = U[i + k] - U[i]
+            # Keep even the inactive branch finite: reverse-mode AD can
+            # otherwise propagate NaNs from a division by zero through where.
+            safe_denom1 = jnp.where(denom1 == 0.0, 1.0, denom1)
             term1 = jnp.where(denom1 == 0.0, 0.0,
-                               (u - U[i]) / denom1 * N[k - 1, i])
+                               (u - U[i]) / safe_denom1 * N[k - 1, i])
 
             denom2 = U[i + k + 1] - U[i + 1]
+            safe_denom2 = jnp.where(denom2 == 0.0, 1.0, denom2)
             term2 = jnp.where(denom2 == 0.0, 0.0,
-                               (U[i + k + 1] - u) / denom2 * N[k - 1, i + 1])
+                               (U[i + k + 1] - u) / safe_denom2 * N[k - 1, i + 1])
 
             N = N.at[k, i].set(term1 + term2)
 
@@ -133,14 +137,15 @@ def compute_all_basis_polynomials_derivatives(n, p, U, u):
         Knot vector of length n+p+2 defining the B-spline basis.
     u : float or array_like
         Scalar or array of parameter values where the derivatives are evaluated.
-    derivative_order : int
-        Order of the derivative to compute (0 ≤ derivative_order ≤ p).
 
     Returns
     -------
-    N_ders : ndarray of shape (n+1, Nu)
-        Array containing the analytic derivative of each basis function at all u-values.
+    N_ders : ndarray of shape (p+1, n+1, Nu)
+        Array containing derivatives of orders zero through p at all u-values.
     """
+
+    U = jnp.asarray(U)
+    u = jnp.atleast_1d(u)
 
     # Vectorize across u-values
     all_derivatives = jax.vmap(lambda uu: _basis_all_derivatives_single_u(n, p, U, uu))(u)
@@ -188,8 +193,10 @@ def _basis_all_derivatives_single_u(n, p, U, u):
             for i in range(n + 1):
                 denom1 = U[i + d] - U[i]
                 denom2 = U[i + d + 1] - U[i + 1]
-                term1 = jnp.where(denom1 == 0.0, 0.0, d * N_prev_r[i] / denom1)
-                term2 = jnp.where(denom2 == 0.0, 0.0, d * N_prev_r[i + 1] / denom2)
+                safe_denom1 = jnp.where(denom1 == 0.0, 1.0, denom1)
+                safe_denom2 = jnp.where(denom2 == 0.0, 1.0, denom2)
+                term1 = jnp.where(denom1 == 0.0, 0.0, d * N_prev_r[i] / safe_denom1)
+                term2 = jnp.where(denom2 == 0.0, 0.0, d * N_prev_r[i + 1] / safe_denom2)
                 N_r = N_r.at[i].set(term1 - term2)
 
             N_block = N_block.at[r, :].set(N_r)
@@ -208,6 +215,8 @@ def compute_basis_polynomials_derivatives(n, p, U, u, derivative_order):
     """
     Return only the specified derivative order of B-spline basis functions.
     """
+
+    u = jnp.atleast_1d(u)
 
     # Compute derivatives up to order "p"
     all_derivatives = compute_all_basis_polynomials_derivatives(n, p, U, u)
@@ -268,7 +277,7 @@ def compute_basis_polynomials_derivatives_jax(n, p, U, u, derivative_order):
 
     # Convert to JAX arrays
     U = jnp.asarray(U)
-    u = jnp.asarray(u)
+    u = jnp.atleast_1d(u)
 
     # Define scalar basis function
     def basis_scalar(uu):
