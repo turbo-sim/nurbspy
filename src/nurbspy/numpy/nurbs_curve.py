@@ -1231,7 +1231,6 @@ class NurbsCurve:
             bounds=bounds,
             method="L-BFGS-B",
             options={
-                "disp": False,
                 "maxiter": maxiter,
                 "ftol": ftol,
                 "gtol": gtol,

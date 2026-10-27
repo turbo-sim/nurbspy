@@ -1,3 +1,5 @@
+import operator as _operator
+
 import jax
 import jax.numpy as jnp
 import equinox as eqx
@@ -759,7 +761,9 @@ class NurbsCurve(eqx.Module):
             Upper bound of the parameter domain (default: 1.0).
 
         n_points : int, optional
-            Number of quadrature points used in the Clenshaw-Curtis rule (default: 41).
+            Requested minimum number of quadrature points (default: 41).
+            Rounded up to a rule with ``4*k+1`` nodes, with at least 5 nodes,
+            as required by Quadax's embedded Clenshaw-Curtis rule.
 
         Returns
         -------
@@ -777,7 +781,14 @@ class NurbsCurve(eqx.Module):
         # Only the integral is used. Quadax's error estimate can have undefined
         # gradients for constant speed, so keep that diagnostic out of autodiff.
         error_norm = lambda error: jax.lax.stop_gradient(jnp.max(jnp.abs(error)))
-        rule = qdx.ClenshawCurtisRule(n_points, norm=error_norm)
+        n_points = _operator.index(n_points)
+        if n_points < 1:
+            raise ValueError("n_points must be a positive integer")
+        # Quadax >=0.3 takes a polynomial order divisible by four, not a
+        # node count. Order 40 preserves the existing default 41-node rule.
+        # Round other requests upwards so they use at least n_points nodes.
+        order = max(4, 4 * ((n_points + 2) // 4))
+        rule = qdx.ClenshawCurtisRule(order, norm=error_norm)
         arclength, err, *_ = rule.integrate(integrand, u1, u2, args=())
         return jnp.asarray(arclength).squeeze()
 

@@ -35,7 +35,7 @@ See the documentation for the [theory](https://turbo-sim.github.io/nurbspy/theor
 
 ## Installation
 
-`nurbspy` requires **Python 3.11 to 3.13**. Install the latest release from [PyPI](https://pypi.org/project/nurbspy/):
+The development version requires **Python 3.12 or 3.13**. Install the latest release from [PyPI](https://pypi.org/project/nurbspy/):
 
 ```bash
 pip install nurbspy

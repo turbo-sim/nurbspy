@@ -60,6 +60,16 @@ def test_jax_straight_line_quadrature(jax_backend):
     assert_allclose(curve.get_arclength_quad(0.2, 0.8), 3.0, rtol=1e-10)
 
 
+@pytest.mark.parametrize("n_points", [17, 32, 41, 42])
+def test_jax_quadrature_node_requests_on_exact_circle(jax_backend, n_points):
+    """Support requested counts on both sides of an embedded-rule boundary."""
+    curve = jax_backend.NurbsCurve(
+        np.array([[1.0, 1.0, 0.0], [0.0, 1.0, 1.0]]),
+        weights=np.array([1.0, np.sqrt(0.5), 1.0]),
+    )
+    assert_allclose(curve.get_arclength_quad(n_points=n_points), np.pi / 2, rtol=0, atol=1e-10)
+
+
 def test_merged_curves_preserve_segment_geometry(curve_backend):
     """Merging two connected curves preserves the geometry of each segment."""
     first = curve_backend.NurbsCurve(np.array([[0.0, 0.5, 1.0], [0.0, 0.0, 0.0]]))

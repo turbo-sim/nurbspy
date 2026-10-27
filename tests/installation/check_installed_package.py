@@ -94,6 +94,12 @@ def check_installed_backends(backend):
         derivative = jax.jacfwd(lambda u: jax_curve.get_value(u)[:, 0])(0.25)
         assert_allclose(value, [0.5, 0.375])
         assert_allclose(derivative, [2.0, 1.0])
+        # Exercise the Quadax order adapter from the installed wheel too.
+        # This parabola's length is sqrt(2) + asinh(1).
+        assert_allclose(
+            jax_curve.get_arclength_quad(), np.sqrt(2.0) + np.arcsinh(1.0),
+            rtol=1e-11,
+        )
 
         # Verify prepared APIs are exported and included in the built wheel.
         basis = jax_nrb.prepare_curve(jax_curve, [0.25], max_order=1)

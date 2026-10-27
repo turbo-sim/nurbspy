@@ -30,11 +30,11 @@ jobs:
         # Check both supported Python boundaries without multiplying every job.
         include:
           - os: ubuntu-latest
-            python: '3.11'
+            python: '3.13'
             installation:
-              name: numpy
-              package: '.'
-              pytest_args: ''
+              name: jax
+              package: '.[jax]'
+              pytest_args: '--require-backend=jax'
           - os: ubuntu-latest
             python: '3.13'
             installation:

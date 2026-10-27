@@ -19,6 +19,17 @@ The standalone development benchmark calls production APIs; obsolete projection
 prototype implementations were removed. Finite sampling does not guarantee a
 global closest point on arbitrary geometry.
 
+Updated the optional JAX backend to JAX/JAXlib 0.12, Equinox 0.13,
+Diffrax 0.7.2, Optimistix 0.1 and Quadax 0.3. This development version now
+requires Python 3.12 or 3.13. CI checks the JAX backend at both Python
+boundaries, and the documentation workflow uses Python 3.12.
+
+Adapted the fixed Clenshaw-Curtis quadrature call to Quadax's polynomial-order
+API, preserving the default 41-node rule. Other positive node-count requests
+round upwards to a supported $4k+1$-node rule (at least five nodes). Removed
+the obsolete SciPy L-BFGS-B display option. These dependency compatibility
+changes preserve the existing ODE and fixed-quadrature algorithms.
+
 ## [1.5.0] - 2026-10-26
 
 Reduced JAX tracing and compilation overhead by vectorizing the B-spline basis

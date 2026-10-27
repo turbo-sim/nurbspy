@@ -20,6 +20,10 @@ provide a complete solid-modeling CAD system.
 
 ## Installation for users
 
+The current source supports Python 3.12 and 3.13. The optional JAX backend
+uses JAX 0.12 and a compatible Equinox ecosystem; Python 3.11 is no longer
+supported by this development version.
+
 Use the following command to install the default NumPy backend:
 
 ```bash
