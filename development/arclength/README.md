@@ -7,6 +7,10 @@ in `cases.py`; ordinary correctness regressions live in `tests/`.
 Read [report.md](report.md) for the retained results and figures, and the
 [usage guide](../../docs/source/getting_started/jax_arclength.md) for API details.
 
+The retained timing data was measured at revision `1dcc173`, before the naming/
+dispatcher cleanup. The runner calls the current API; existing timing values
+and their original source fingerprints are preserved as dated evidence.
+
 ```powershell
 python development/arclength/benchmark.py --run --kind length
 python development/arclength/benchmark.py --run --kind length --tol 1e-9

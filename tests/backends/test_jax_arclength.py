@@ -21,6 +21,37 @@ def circle():
                           jnp.array([1., np.sqrt(.5), 1.]))
 
 
+@pytest.mark.parametrize("method, explicit", [
+    ("quad_adaptive", "get_arclength_quad_adaptive"),
+    ("quad_fixed", "get_arclength_quad_fixed"),
+    ("ode", "get_arclength_ode"),
+])
+def test_static_dispatcher_jit_and_ad(method, explicit):
+    def length(end, method):
+        c = nrb.NurbsCurve(jnp.stack((jnp.zeros(2), end), axis=1))
+        return c.get_arclength(method=method)
+    compiled = jax.jit(length, static_argnames="method")
+    end = jnp.array([3., 4.])
+    c = nrb.NurbsCurve(jnp.stack((jnp.zeros(2), end), axis=1))
+    assert_allclose(compiled(end, method), getattr(c, explicit)(), atol=1e-12)
+    assert_allclose(jax.grad(lambda p: compiled(p, method))(end), [.6, .8], atol=1e-10)
+    assert not hasattr(c, "get_arclength_quad")
+
+
+def test_dispatcher_validates_selected_method_options():
+    c = circle()
+    assert_allclose(c.get_arclength(method="quad_fixed", n_points=17),
+                    c.get_arclength_quad_fixed(n_points=17), atol=1e-12)
+    assert_allclose(c.get_arclength(0., 1., 1e-9),
+                    c.get_arclength_quad_adaptive(tol=1e-9), atol=1e-12)
+    with pytest.raises(TypeError, match="n_points, not tol"):
+        c.get_arclength(method="quad_fixed", tol=1e-9)
+    with pytest.raises(TypeError, match="atol"):
+        c.get_arclength(method="quad_fixed", atol=1e-9)
+    with pytest.raises(TypeError, match="n_points"):
+        c.get_arclength(method="ode", n_points=41)
+
+
 def reference_length(curve, a=0., b=1.):
     """Independent homogeneous SciPy spline derivative, split at all knots."""
     spline = BSpline(np.asarray(curve.U),
@@ -33,7 +64,7 @@ def reference_length(curve, a=0., b=1.):
                for lo, hi in zip(bounds[:-1], bounds[1:]))
 
 
-@pytest.mark.parametrize("method", ["quadrature", "ode"])
+@pytest.mark.parametrize("method", ["quad_adaptive", "ode"])
 def test_exact_lengths_and_interval_orientation(method):
     curve = nrb.NurbsCurve(jnp.array([[1., 4.], [2., 6.]]))
     assert_allclose(curve.get_arclength(method=method), 5., atol=1e-12)

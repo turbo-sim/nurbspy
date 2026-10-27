@@ -71,18 +71,23 @@ def main():
     figures(rows)
     sections = [r"""# Production JAX arc-length measurements
 
-Measured on 27 October 2026. Every timed operation calls production
+Measured on 27 October 2026 at revision `1dcc173`, before the API naming and
+dispatcher cleanup. Timing values were not rerun for that API-only refactor;
+the original measured-source fingerprints remain intact. API names below use
+the current spelling. Every timed operation calls production
 `nurbspy.jax`; there are no development integration/inverse implementations.
 Raw JSON includes environment and measured-source fingerprints. Comparisons
-are between current production alternatives, not a re-created older algorithm.
+are between production alternatives at that revision, not a re-created algorithm.
 
 ## Implemented behavior
 
 - `get_arclength()` defaults to adaptive knot-aware quadrature, with separate
   `atol`/`rtol`, `tol=1e-6` convenience, direct/Leibniz differentiation and optional
   diagnostics. Scalar calls raise on unsuccessful status.
-- `get_arclength_ode()` retains the knot-aware ODE alternative. The existing
-  `get_arclength_quad()` fixed Clenshaw-Curtis rule remains compatible.
+- `get_arclength()` dispatches statically to `get_arclength_quad_adaptive()`,
+  `get_arclength_quad_fixed()` or `get_arclength_ode()`. Method-specific options
+  are checked by the selected method. Fixed quadrature uses `n_points`, not a
+  tolerance; the ambiguous former method name has been removed.
 - `prepare_arclength()` supplies optional Gauss/basis tables for changing P/W;
   their resolution requires validation on the intended design family.
 - Dense reciprocal ODE maps use independent normalized knot-span solves, exact

@@ -97,7 +97,7 @@ def check_installed_backends(backend):
         # Exercise the Quadax order adapter from the installed wheel too.
         # This parabola's length is sqrt(2) + asinh(1).
         assert_allclose(
-            jax_curve.get_arclength_quad(), np.sqrt(2.0) + np.arcsinh(1.0),
+            jax_curve.get_arclength_quad_fixed(), np.sqrt(2.0) + np.arcsinh(1.0),
             rtol=1e-11,
         )
         assert_allclose(jax_curve.get_arclength(tol=1e-10),

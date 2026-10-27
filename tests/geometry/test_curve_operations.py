@@ -56,8 +56,8 @@ def test_straight_line_arclength(curve_backend):
 def test_jax_straight_line_quadrature(jax_backend):
     """Check JAX's additional fixed-quadrature arc-length API on an exact line."""
     curve = jax_backend.NurbsCurve(np.array([[1.0, 4.0], [2.0, 6.0]]))
-    assert_allclose(curve.get_arclength_quad(), 5.0, rtol=1e-10)
-    assert_allclose(curve.get_arclength_quad(0.2, 0.8), 3.0, rtol=1e-10)
+    assert_allclose(curve.get_arclength_quad_fixed(), 5.0, rtol=1e-10)
+    assert_allclose(curve.get_arclength_quad_fixed(0.2, 0.8), 3.0, rtol=1e-10)
 
 
 @pytest.mark.parametrize("n_points", [17, 32, 41, 42])
@@ -67,7 +67,7 @@ def test_jax_quadrature_node_requests_on_exact_circle(jax_backend, n_points):
         np.array([[1.0, 1.0, 0.0], [0.0, 1.0, 1.0]]),
         weights=np.array([1.0, np.sqrt(0.5), 1.0]),
     )
-    assert_allclose(curve.get_arclength_quad(n_points=n_points), np.pi / 2, rtol=0, atol=1e-10)
+    assert_allclose(curve.get_arclength_quad_fixed(n_points=n_points), np.pi / 2, rtol=0, atol=1e-10)
 
 
 def test_merged_curves_preserve_segment_geometry(curve_backend):

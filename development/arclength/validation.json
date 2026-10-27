@@ -8,6 +8,8 @@
   "Final guards checks, Python 3.13": "2 passed; 0 failures/errors",
   "Final interface checks, Python 3.12": "25 passed; 0 failures/errors",
   "Final guards checks, Python 3.12": "2 passed; 0 failures/errors",
-  "Measured runtime-source fingerprints": "All 60 retained timing cells match the final runtime source files",
-  "Recorded outcomes": "56 completed calls, 3 expected regularity rejections, 1 explicit extreme-weight solver failure; achieved accuracy is reported separately"
+  "Measured runtime-source fingerprints": "60 cells verified against revision 1dcc173 before API naming/dispatcher cleanup; original snapshots preserved",
+  "Recorded outcomes": "56 completed calls, 3 expected regularity rejections, 1 explicit extreme-weight solver failure; achieved accuracy is reported separately",
+  "API dispatcher refactor, Python 3.13": "64 relevant correctness/JIT/AD tests passed; original timing values not rerun",
+  "API dispatcher refactor, Python 3.12": "4 focused static-dispatch/JIT/AD/option-validation tests passed"
 }

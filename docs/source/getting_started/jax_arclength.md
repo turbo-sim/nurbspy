@@ -10,20 +10,32 @@ import jax.numpy as jnp
 import nurbspy.jax as nrb
 
 curve = nrb.NurbsCurve(jnp.array([[0., 0.5, 1.], [0., 0., 1.]]))
-length = curve.get_arclength()                         # adaptive, tol=1e-6
+length = curve.get_arclength()                         # adaptive dispatcher default
 length = curve.get_arclength(atol=1e-10, rtol=1e-9)      # separate controls
+length = curve.get_arclength_quad_adaptive(tol=1e-9)    # explicit adaptive
 length = curve.get_arclength_ode(tol=1e-9)              # explicit ODE
+length = curve.get_arclength_quad_fixed(n_points=41)   # explicit fixed rule
+length = curve.get_arclength(method="quad_fixed", n_points=41)
 info = curve.get_arclength(return_info=True)
 ```
 
-`tol` supplies each unspecified `atol` and `rtol`. Quadrature requests the
+The dispatcher chooses `"quad_adaptive"`, `"quad_fixed"` or `"ode"`. The method
+string is static under `eqx.filter_jit`, so only the selected calculation is
+compiled and differentiated. When exposing it as an argument to plain
+`jax.jit`, mark it static or close over a constant method.
+
+For adaptive/ODE integration, `tol` supplies each unspecified `atol` and `rtol`.
+The dispatcher uses `tol=None` to distinguish omitted tolerance from an explicit
+one; the effective adaptive/ODE default remains 1e-6. Fixed integration rejects
+`tol` and accepts `n_points`. Other options must match the selected method's
+signature; irrelevant options are rejected. Adaptive quadrature requests the
 combined target $\max(\mathrm{atol},\mathrm{rtol}|L|)$. ODE tolerances control
 local integration errors and are not a global length-error guarantee. Both
 methods return a signed integral when the limits are reversed. Equal limits
 give zero while retaining the endpoint derivatives of the signed integral.
 
-The existing `get_arclength_quad(n_points=41)` API retains its fixed global
-Clenshaw–Curtis rule for compatibility. It is not adaptive. Prefer
+`get_arclength_quad_fixed(n_points=41)` uses a fixed global Clenshaw–Curtis
+rule. The ambiguous `get_arclength_quad()` name has been removed. Prefer
 `get_arclength()` when accuracy must be controlled by tolerances; a fixed rule
 can miss narrow knot or rational-weight features.
 

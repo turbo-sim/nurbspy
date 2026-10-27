@@ -1,17 +1,22 @@
 # Production JAX arc-length measurements
 
-Measured on 27 October 2026. Every timed operation calls production
+Measured on 27 October 2026 at revision `1dcc173`, before the API naming and
+dispatcher cleanup. Timing values were not rerun for that API-only refactor;
+the original measured-source fingerprints remain intact. API names below use
+the current spelling. Every timed operation calls production
 `nurbspy.jax`; there are no development integration/inverse implementations.
 Raw JSON includes environment and measured-source fingerprints. Comparisons
-are between current production alternatives, not a re-created older algorithm.
+are between production alternatives at that revision, not a re-created algorithm.
 
 ## Implemented behavior
 
 - `get_arclength()` defaults to adaptive knot-aware quadrature, with separate
   `atol`/`rtol`, `tol=1e-6` convenience, direct/Leibniz differentiation and optional
   diagnostics. Scalar calls raise on unsuccessful status.
-- `get_arclength_ode()` retains the knot-aware ODE alternative. The existing
-  `get_arclength_quad()` fixed Clenshaw-Curtis rule remains compatible.
+- `get_arclength()` dispatches statically to `get_arclength_quad_adaptive()`,
+  `get_arclength_quad_fixed()` or `get_arclength_ode()`. Method-specific options
+  are checked by the selected method. Fixed quadrature uses `n_points`, not a
+  tolerance; the ambiguous former method name has been removed.
 - `prepare_arclength()` supplies optional Gauss/basis tables for changing P/W;
   their resolution requires validation on the intended design family.
 - Dense reciprocal ODE maps use independent normalized knot-span solves, exact
@@ -161,5 +166,7 @@ See the [usage guide](../../docs/source/getting_started/jax_arclength.md) and
 | Final guards checks, Python 3.13 | 2 passed; 0 failures/errors |
 | Final interface checks, Python 3.12 | 25 passed; 0 failures/errors |
 | Final guards checks, Python 3.12 | 2 passed; 0 failures/errors |
-| Measured runtime-source fingerprints | All 60 retained timing cells match the final runtime source files |
+| Measured runtime-source fingerprints | 60 cells verified against revision 1dcc173 before API naming/dispatcher cleanup; original snapshots preserved |
 | Recorded outcomes | 56 completed calls, 3 expected regularity rejections, 1 explicit extreme-weight solver failure; achieved accuracy is reported separately |
+| API dispatcher refactor, Python 3.13 | 64 relevant correctness/JIT/AD tests passed; original timing values not rerun |
+| API dispatcher refactor, Python 3.12 | 4 focused static-dispatch/JIT/AD/option-validation tests passed |

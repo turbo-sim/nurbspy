@@ -7,6 +7,12 @@ README-only edits are omitted.
 
 ## Unreleased
 
+Made `get_arclength()` a static JAX dispatcher over the explicit
+`get_arclength_quad_adaptive()`, `get_arclength_quad_fixed()` and
+`get_arclength_ode()` methods. Adaptive remains the default. Removed the
+ambiguous `get_arclength_quad()` name without a compatibility alias. Options
+are validated by the selected method; fixed quadrature rejects tolerances.
+
 Made JAX curve arc length adaptive by default, using public Gauss-Kronrod
 quadrature with explicit knot breakpoints, separate absolute/relative controls,
 optional differentiation strategies and convergence diagnostics. Retained an

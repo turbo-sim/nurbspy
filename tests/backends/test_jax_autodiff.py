@@ -135,7 +135,7 @@ def test_arclength_quadrature_gradient(bounds):
 
     def length(end):
         """Measure the specified parameter interval as the line endpoint varies."""
-        return nrb.NurbsCurve(jnp.stack([origin, end], axis=1)).get_arclength_quad(
+        return nrb.NurbsCurve(jnp.stack([origin, end], axis=1)).get_arclength_quad_fixed(
             *bounds
         )
 

@@ -678,79 +678,92 @@ class NurbsCurve(eqx.Module):
 
 
     @eqx.filter_jit
-    def get_arclength(self, u1=0.0, u2=1.0, tol=1e-6, *, atol=None, rtol=None,
-                      method="quadrature", adjoint="direct", max_intervals=512,
-                      max_steps=4096, return_info=False):
-        """Integrate curve speed over the requested parameter interval.
+    def get_arclength(self, u1=0.0, u2=1.0, tol=None, *, method="quad_adaptive", **options):
+        """Dispatch to an explicit arc-length method (adaptive by default).
 
-        The default is adaptive Gauss-Kronrod quadrature with explicit knot
-        breakpoints. ``method="ode"`` selects knot-aware Dopri5 integration.
-        Reversed limits return a signed integral; equal limits return zero.
-        Geometry must be real and finite, with positive weights and no interior
-        curve discontinuities. Zero speed is allowed for length calculation.
+        ``method`` is static under ``eqx.filter_jit``: only the selected method
+        is traced/compiled, and AD acts on that calculation. The choices are
+        ``"quad_adaptive"``, ``"quad_fixed"`` and ``"ode"``.
+
+        ``tol=None`` means 1e-6 for adaptive quadrature and ODE. The optional
+        third positional tolerance is retained. Fixed quadrature accepts
+        ``n_points`` instead and rejects an explicit tolerance. Other keyword
+        options are forwarded to the selected method; unsupported options raise
+        TypeError rather than being silently ignored. See each named method for
+        its numerical assumptions, diagnostics and differentiation semantics.
+        """
+        if method == "quad_fixed":
+            if tol is not None:
+                raise TypeError("quad_fixed uses n_points, not tol")
+            return self.get_arclength_quad_fixed(u1, u2, **options)
+        if method == "quad_adaptive":
+            return self.get_arclength_quad_adaptive(
+                u1, u2, 1e-6 if tol is None else tol, **options)
+        if method == "ode":
+            return self.get_arclength_ode(u1, u2, 1e-6 if tol is None else tol, **options)
+        raise ValueError("method must be 'quad_adaptive', 'quad_fixed' or 'ode'")
+
+    @eqx.filter_jit
+    def get_arclength_quad_adaptive(self, u1=0.0, u2=1.0, tol=1e-6, *,
+                                    atol=None, rtol=None, adjoint="direct",
+                                    max_intervals=512, return_info=False):
+        """Integrate speed using adaptive knot-aware Gauss-Kronrod quadrature.
+
+        Reversed limits give a signed integral and equal limits give zero.
+        Requires real finite geometry, positive weights, in-domain limits and
+        no interior curve discontinuities. Zero speed is allowed for length.
 
         Parameters
         ----------
         u1, u2 : float, optional
-            In-domain limits, defaulting to 0 and 1.
+            In-domain integration limits, defaulting to 0 and 1.
         tol : float, optional
-            Convenience default for each unspecified tolerance (1e-6).
+            Default for each unspecified tolerance (1e-6).
         atol, rtol : float, optional
-            Separate absolute and relative controls. The quadrature uses the
-            combined target ``max(atol, rtol*abs(length))``. ODE controls are
-            local and do not guarantee the global length error.
-        method : {"quadrature", "ode"}, optional
-            Adaptive quadrature is the general-purpose default.
+            Absolute/relative controls: target max(atol, rtol*abs(length)).
         adjoint : {"direct", "leibniz"}, optional
-            Quadrature AD strategy. Direct differentiates the accepted mesh;
-            Leibniz integrates sensitivities with their own adaptive solve.
-            An integral's error estimate does not certify gradient accuracy.
-        max_intervals, max_steps : int, optional
-            Static workspace limits for quadrature and ODE, respectively.
+            Direct differentiates the accepted mesh; Leibniz integrates
+            sensitivities with their own adaptive solve. A primal error
+            estimate does not certify gradient accuracy.
+        max_intervals : int, optional
+            Static workspace limit, default 512.
         return_info : bool, optional
-            Return :class:`ArcLengthInfo` instead of a scalar. Nonzero status
-            reports invalid inputs or unsuccessful integration. Scalar calls
-            raise on failure, including under JIT; they never silently accept
-            an unconverged integral. Error estimates are not certificates.
-
-        Returns
-        -------
-        length : scalar or ArcLengthInfo
-            Signed length, or value/error/work/status diagnostics.
+            Return ArcLengthInfo with value/error/work/status instead of a
+            scalar. Nonzero status reports invalid input or solver failure.
+            Scalar calls raise on failure, including under JIT.
 
         Notes
         -----
-        Extreme rational weight layers may evade finite sampling or exhaust
-        floating-point resolution. Endpoint grading reduces this risk without
-        providing a universal guarantee. At exactly zero velocity AD selects a
-        zero norm subgradient; collapsed-curve length is not differentiable.
+        Normalization and endpoint grading improve rational-layer resolution,
+        but extreme features can evade sampling or exhaust floating-point
+        resolution. Error estimates are not certificates. At zero velocity AD
+        selects a zero norm subgradient; collapsed length is not differentiable.
         """
-        atol = tol if atol is None else atol
-        rtol = tol if rtol is None else rtol
-        if method == "quadrature":
-            info = _arc._adaptive_length(self, u1, u2, atol=atol, rtol=rtol,
-                                        adjoint=adjoint, max_intervals=max_intervals)
-        elif method == "ode":
-            info = _arc._ode_length(self, u1, u2, atol=atol, rtol=rtol,
-                                   max_steps=max_steps)
-        else:
-            raise ValueError("method must be 'quadrature' or 'ode'")
+        info = _arc._adaptive_length(
+            self, u1, u2, atol=tol if atol is None else atol,
+            rtol=tol if rtol is None else rtol, adjoint=adjoint,
+            max_intervals=max_intervals)
         return info if return_info else _arc._checked_value(info)
 
     @eqx.filter_jit
     def get_arclength_ode(self, u1=0.0, u2=1.0, tol=1e-6, *, atol=None, rtol=None,
                           max_steps=4096, return_info=False):
-        """Explicit knot-aware ODE alternative to :meth:`get_arclength`.
+        """Integrate speed with knot-aware Dopri5 and local error controls.
 
-        See that method for signed limits, tolerance and diagnostic semantics.
-        ODE ``error_estimate`` is NaN and ``evaluations`` is -1: Diffrax exposes
-        attempted step counts but no global error estimate or exact RHS count.
+        See get_arclength_quad_adaptive for geometry, signed interval and
+        diagnostic conventions. Each unspecified atol/rtol defaults to tol.
+        Local ODE controls do not guarantee the global length error.
+        max_steps is a static workspace limit. ODE error_estimate is NaN and
+        evaluations is -1: Diffrax exposes attempted step counts, not a global
+        error estimate or exact RHS count. Scalar calls raise on failure.
         """
-        return self.get_arclength(u1, u2, tol, method="ode", atol=atol, rtol=rtol,
-                                  max_steps=max_steps, return_info=return_info)
+        info = _arc._ode_length(
+            self, u1, u2, atol=tol if atol is None else atol,
+            rtol=tol if rtol is None else rtol, max_steps=max_steps)
+        return info if return_info else _arc._checked_value(info)
 
     @eqx.filter_jit
-    def get_arclength_quad(self, u1=0.0, u2=1.0, n_points=41):
+    def get_arclength_quad_fixed(self, u1=0.0, u2=1.0, n_points=41):
         """
         Compute the arc length of the NURBS curve over the parameter interval [u₁, u₂]
         using fixed-point numerical quadrature.

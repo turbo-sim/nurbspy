@@ -81,7 +81,7 @@ def length_worker(case, method, tol, workflow):
         if method == "prepared16":
             return table.value(P, W)
         if method == "fixed_cc41":
-            return c.get_arclength_quad(case.u1, case.u2)
+            return c.get_arclength_quad_fixed(case.u1, case.u2)
         if method == "ode":
             return c.get_arclength_ode(case.u1, case.u2, tol, return_info=info)
         return c.get_arclength(case.u1, case.u2, tol,
