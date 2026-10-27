@@ -7,6 +7,13 @@ README-only edits are omitted.
 
 ## Unreleased
 
+Added seven illustrated theory pages covering curve length and inverse maps,
+Frenet–Serret frames, surface sections, area/integration, surface differential
+geometry and point projection. Reproducible scripts evaluate nurbspy geometry
+and check independent references, exporting publication figures as SVG/PDF
+and high-resolution PNG. Backend differences and numerical limitations are
+documented alongside the equations.
+
 Made `get_arclength()` a static JAX dispatcher over the explicit
 `get_arclength_quad_adaptive()`, `get_arclength_quad_fixed()` and
 `get_arclength_ode()` methods. Adaptive remains the default. Removed the

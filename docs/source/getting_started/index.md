@@ -54,8 +54,9 @@ does not install Numba or JAX. The JAX extra does not require Numba; use
 `pip install "nurbspy[numba,jax]"` to install both extras.
 The JAX backend currently uses the CPU.
 
-For repeated JAX evaluations and optimization at fixed parameter locations,
-see [JAX performance and prepared evaluations](jax_performance.md).
+For repeated JAX evaluations at fixed parameter locations, see the
+{mod}`nurbspy.jax.prepared` API. The [theory pages](../theory/index.md) explain
+the geometric operations, including integration, inverse maps and projection.
 
 Verify the installation:
 
@@ -197,12 +198,4 @@ files. Push the resulting commit and tag with:
 
 ```bash
 git push origin main --tags
-```
-
-```{toctree}
-:hidden:
-:maxdepth: 1
-
-jax_performance
-jax_arclength
 ```

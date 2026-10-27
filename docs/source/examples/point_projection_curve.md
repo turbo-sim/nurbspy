@@ -34,7 +34,7 @@ reduce the chance of converging to the wrong local minimum, it first
 evaluates the objective at the midpoint of every knot span and starts the
 local optimization from whichever gives the smallest distance.
 
-Multi-start from knot-span midpoints is not a global-optimality guarantee:
+Choosing one starting point from knot-span midpoints is not a global-optimality guarantee:
 a curve with several closely spaced local minima can still trap the
 optimizer at the wrong one. Check contentious cases against
 {eq}`point-projection-orthogonality-curve`, or against an independent grid
@@ -44,6 +44,10 @@ search, as done below.
 default to `100`, `1e-6`, and `1e-6` respectively; pass tighter tolerances
 or a larger `maxiter` for hard-to-converge projections, or looser ones
 when only an approximate foot point is needed.
+
+This example uses the NumPy backend. The
+[projection theory](../theory/point_projection.md) also describes the JAX
+sampled initialization, bounded Newton refinement and implicit derivatives.
 
 ## Script
 

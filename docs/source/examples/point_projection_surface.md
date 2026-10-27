@@ -41,6 +41,10 @@ default to `200`, `1e-6`, and `1e-6` respectively; pass tighter tolerances
 or a larger `maxiter` for hard-to-converge projections, or looser ones
 when only an approximate foot point is needed.
 
+This example uses the NumPy backend. See the
+[projection theory](../theory/point_projection.md) for the common mathematics
+and the JAX single-start implementation.
+
 ## Script
 
 Run `python demos/documentation/point_projection_surface.py`, or
@@ -61,11 +65,12 @@ Run `python demos/documentation/point_projection_surface.py`, or
 ```{figure} images/point_projection_surface.png
 :alt: A NURBS surface with three external points connected by dashed lines to their closest points on the surface.
 
-Two projections land on the boundary curves of the patch; the third lands in its interior.
+Two projections land in the patch interior; one lands at a boundary corner.
 ```
 
 The first target projects onto the interior, where both orthogonality
-residuals are at solver tolerance. The second is closest to the surface's
-$u=1$ boundary curve, so only the $v$-condition holds: $v^*=0$ is pinned by
-the domain edge, and the nonzero $u$-residual reflects that. The third
+residuals are at solver tolerance. The second lands at the corner
+$(u,v)=(1,0)$, where both parameters are bounded and neither orthogonality
+condition is required. Its $v$-residual happens to vanish, while its nonzero
+$u$-residual is consistent with a constrained minimum. The third target
 again lands in the interior.

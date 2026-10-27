@@ -1,7 +1,11 @@
 # Theory
 
-These pages present the mathematical foundations of `nurbspy`, covering Bézier, B-spline, and NURBS curves and surfaces. The material progresses from Bézier to B-spline and then to NURBS representations, treating curves before surfaces and developing the relevant definitions, basis-function properties, and derivative formulas along the way. Most of the material follows *The NURBS Book* {cite:t}`NURBS_book`.
+These pages explain the mathematics behind `nurbspy`, from curve and surface
+representations to geometric calculations. Equations are paired with practical
+interpretations and figures evaluated using the package. The representation
+and derivative material follows *The NURBS Book* {cite:t}`NURBS_book`.
 
+## Representations and continuity
 
 ```{toctree}
 :maxdepth: 1
@@ -10,6 +14,32 @@ bezier
 bspline
 nurbs
 g2_continuity
+```
+
+## Curve and surface operations
+
+The operation pages connect analytic derivatives to lengths, local frames,
+surface measures and inverse problems. Each page distinguishes mathematical
+assumptions from numerical safeguards, identifies the relevant backend APIs,
+and links to reproducible figure-generation code.
+
+```{toctree}
+:maxdepth: 1
+
+curve_arclength
+curve_parameterization
+frenet_serret
+surface_isocurves
+surface_integrals
+surface_differential_geometry
+point_projection
+```
+
+## References
+
+```{toctree}
+:maxdepth: 1
+
 ../references/bibliography
 ```
 
@@ -28,3 +58,22 @@ Unless stated otherwise, knots are normalized and clamped to $[0,1]$,
 weights are strictly positive, and geometry is real. Derivatives at the
 ends of a curve or surface are one-sided limits. Curvature requires a
 nonzero first derivative.
+
+## Regenerate the illustrations
+
+From the repository root, with the development dependencies and JAX extra
+installed:
+
+```bash
+python docs/generate_theory_images.py
+python docs/generate_theory_images.py --only frames surface_geometry
+```
+
+The scripts call `set_plot_options()` and save each numerical illustration as
+a 300 dpi PNG, an SVG embedded in these pages and a vector PDF for publication.
+They also check the illustrated calculations against exact formulas or
+independent numerical references. The
+{download}`generator <../../generate_theory_images.py>` and
+{download}`figure-code notes <../../theory_figures/README.md>` describe the
+workflow. The scripts share helper geometries and styling, so run them from
+the repository using the commands above.
