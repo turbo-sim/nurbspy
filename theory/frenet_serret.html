@@ -1,0 +1,697 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Frenet–Serret frames and torsion &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9e8e7855"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'theory/frenet_serret';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/theory/frenet_serret.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Extracting isoparametric curves from surfaces" href="surface_isocurves.html" />
+    <link rel="prev" title="Arc-length parameterization and coordinate inversion" href="curve_parameterization.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Theory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="point_projection.html">Point projection onto curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/edit/main/docs/source/theory/frenet_serret.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2Ftheory/frenet_serret.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/theory/frenet_serret.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Frenet–Serret frames and torsion</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tangent-principal-normal-and-binormal">Tangent, principal normal and binormal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#curvature-measures-bending">Curvature measures bending</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#torsion-measures-twisting-of-the-bending-plane">Torsion measures twisting of the bending plane</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-and-plot-the-frame">Calculate and plot the frame</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#planar-normal-conventions">Planar normal conventions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regularity-and-practical-limits">Regularity and practical limits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproduce-the-figure">Reproduce the figure</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="frenetserret-frames-and-torsion">
+<h1>Frenet–Serret frames and torsion<a class="headerlink" href="#frenetserret-frames-and-torsion" title="Link to this heading">#</a></h1>
+<p>A curve describes position. Its local frame describes direction: where the
+curve is heading, where it bends and how its bending plane twists. These
+quantities are useful for placing cross-sections, interpreting spatial paths
+and defining curvature-dependent objectives.</p>
+<p>Assume a regular 3D curve, with nonzero speed and nonzero curvature at the point
+being evaluated. Derivatives below are with respect to the original parameter
+<span class="math notranslate nohighlight">\(u\)</span> unless an <span class="math notranslate nohighlight">\(s\)</span> subscript is shown.</p>
+<section id="tangent-principal-normal-and-binormal">
+<h2>Tangent, principal normal and binormal<a class="headerlink" href="#tangent-principal-normal-and-binormal" title="Link to this heading">#</a></h2>
+<p>The unit tangent follows increasing parameter:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf T=\frac{\mathbf C'}{\|\mathbf C'\|}.
+\]</div>
+<p>The component of <span class="math notranslate nohighlight">\(\mathbf C''\)</span> perpendicular to <span class="math notranslate nohighlight">\(\mathbf T\)</span> describes bending.
+Normalizing it gives the <strong>principal normal</strong>. The binormal completes a
+right-handed orthonormal frame:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf N=
+\frac{\mathbf C''-\mathbf T(\mathbf T\cdot\mathbf C'')}
+{\|\mathbf C''-\mathbf T(\mathbf T\cdot\mathbf C'')\|},
+\qquad
+\mathbf B=\mathbf T\times\mathbf N
+=\frac{\mathbf C'\times\mathbf C''}{\|\mathbf C'\times\mathbf C''\|}.
+\]</div>
+<p>The normal points toward the instantaneous center of curvature. The span of
+<span class="math notranslate nohighlight">\(\mathbf T\)</span> and <span class="math notranslate nohighlight">\(\mathbf N\)</span> is the osculating plane: the plane that locally
+captures the curve’s bending to second order.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/curve_frames.svg"><img alt="Frames computed and plotted on a spatial cubic Bézier curve, with separate curves showing its analytic curvature and torsion." src="../_images/curve_frames.svg" width="100%" /></a>
+<figcaption>
+<p><span class="caption-text">An exact Bézier representation of <span class="math notranslate nohighlight">\(\mathbf C(u)=(2u,2u^2,1.5u^3)\)</span>.
+The repository’s <code class="docutils literal notranslate"><span class="pre">plot_frenet_serret()</span></code> draws the computed tangent (red),
+principal normal (blue) and binormal (green). The right panel evaluates
+curvature and torsion along the same curve.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="curvature-measures-bending">
+<h2>Curvature measures bending<a class="headerlink" href="#curvature-measures-bending" title="Link to this heading">#</a></h2>
+<p>Using arc length <span class="math notranslate nohighlight">\(s\)</span>, curvature is the rate at which the tangent changes:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d\mathbf T}{ds}=\kappa\mathbf N,
+\qquad
+\kappa=
+\frac{\|\mathbf C'\times\mathbf C''\|}{\|\mathbf C'\|^3}.
+\]</div>
+<p>Curvature has inverse-length units. A circle of radius <span class="math notranslate nohighlight">\(R\)</span> has <span class="math notranslate nohighlight">\(\kappa=1/R\)</span>;
+a straight segment has zero curvature. This expression is independent of a
+regular change of parameter speed. For a planar curve, embed its derivatives
+in 3D or use the magnitude of <span class="math notranslate nohighlight">\(x'y''-y'x''\)</span> in the numerator.</p>
+<p>The radius <span class="math notranslate nohighlight">\(1/\kappa\)</span> describes the local osculating circle. Matching curvature
+magnitude alone does not guarantee a smooth join: tangent and curvature
+<strong>direction</strong> matter too. See <a class="reference internal" href="g2_continuity.html"><span class="std std-doc">geometric continuity</span></a>.</p>
+</section>
+<section id="torsion-measures-twisting-of-the-bending-plane">
+<h2>Torsion measures twisting of the bending plane<a class="headerlink" href="#torsion-measures-twisting-of-the-bending-plane" title="Link to this heading">#</a></h2>
+<p>The binormal changes when the osculating plane rotates. Torsion measures this
+rotation per unit arc length:</p>
+<div class="math notranslate nohighlight">
+\[
+\tau=
+\frac{(\mathbf C'\times\mathbf C'')\cdot\mathbf C'''}
+{\|\mathbf C'\times\mathbf C''\|^2}.
+\]</div>
+<p>Torsion is signed and also has inverse-length units. A planar curve with
+nonzero curvature has zero torsion. A nonzero value indicates that the local
+bending plane changes along the path; its sign depends on spatial handedness.
+Together the frame evolves according to the Frenet–Serret equations:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d\mathbf T}{ds}=\kappa\mathbf N,\qquad
+\frac{d\mathbf N}{ds}=-\kappa\mathbf T+\tau\mathbf B,\qquad
+\frac{d\mathbf B}{ds}=-\tau\mathbf N.
+\]</div>
+<p>These equations explain why curvature and torsion are distinct: curvature
+turns the tangent within the osculating plane; torsion rotates that plane.
+Curvature needs second derivatives; torsion needs third derivatives. A
+rational curve can have nonzero derivatives above its polynomial degree, so
+the degree alone does not determine whether torsion vanishes.</p>
+</section>
+<section id="calculate-and-plot-the-frame">
+<h2>Calculate and plot the frame<a class="headerlink" href="#calculate-and-plot-the-frame" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nurbspy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nrb</span>
+
+<span class="n">nrb</span><span class="o">.</span><span class="n">set_plot_options</span><span class="p">()</span>
+<span class="n">curve</span> <span class="o">=</span> <span class="n">nrb</span><span class="o">.</span><span class="n">NurbsCurve</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.</span><span class="p">,</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mf">2.</span><span class="p">],</span>
+                                 <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mf">2.</span><span class="p">],</span>
+                                 <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]]))</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">get_tangent</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="n">N</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">get_normal</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">get_binormal</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="n">kappa</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">get_curvature</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="n">tau</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">get_torsion</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">frenet_serret</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Frame vectors have shape <code class="docutils literal notranslate"><span class="pre">(ndim,</span> <span class="pre">N)</span></code>; curvature and torsion have one scalar per
+sample. Both NumPy and JAX offer these methods and plotting helpers. Use a 3D
+curve for the full spatial frame; a 2D return value cannot represent an
+out-of-plane binormal.</p>
+<section id="planar-normal-conventions">
+<h3>Planar normal conventions<a class="headerlink" href="#planar-normal-conventions" title="Link to this heading">#</a></h3>
+<p>For an oriented planar curve, a useful alternative to the principal normal is
+the left normal <span class="math notranslate nohighlight">\(\mathbf n_L=(-T_y,T_x)\)</span>. It is defined even on a regular
+straight segment and does not flip when signed planar curvature changes sign.
+It need not point toward the center of curvature.</p>
+<p>The backend conventions differ: NumPy <code class="docutils literal notranslate"><span class="pre">get_normal()</span></code> returns the principal
+normal and <code class="docutils literal notranslate"><span class="pre">get_normal_2D()</span></code> returns the left normal. JAX <code class="docutils literal notranslate"><span class="pre">get_normal()</span></code> uses
+the left-normal convention for a 2D curve and the principal normal for a 3D
+curve. Choose the convention explicitly when constructing offsets or matching
+frames between backends.</p>
+</section>
+</section>
+<section id="regularity-and-practical-limits">
+<h2>Regularity and practical limits<a class="headerlink" href="#regularity-and-practical-limits" title="Link to this heading">#</a></h2>
+<p>At zero speed the tangent is undefined. At zero curvature, the principal normal
+and binormal are undefined, and the torsion formula divides by zero. Some
+implementations return zero vectors or zero scalars in these cases; these are
+numerical conventions, not valid Frenet frames. A frame may flip abruptly
+near an inflection even when the curve looks smooth.</p>
+<p>At a repeated knot, the derivative order needed by the requested quantity must
+exist. Otherwise, discuss separate one-sided frames rather than a unique frame
+at the knot. Evaluate diagnostics away from such joins when checking
+orthogonality and derivative formulas.</p>
+<p>For sweeping a profile through nearly straight or inflected regions, a
+rotation-minimizing frame is often more suitable. Such a frame is a different
+construction and is not supplied by these Frenet methods.</p>
+</section>
+<section id="reproduce-the-figure">
+<h2>Reproduce the figure<a class="headerlink" href="#reproduce-the-figure" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>docs/generate_theory_images.py<span class="w"> </span>--only<span class="w"> </span>frames
+</pre></div>
+</div>
+<p>The <a class="reference download internal" download="" href="../_downloads/a1f80e2014fad6a14a198ff429422f60/frames.py"><code class="xref download docutils literal notranslate"><span class="pre">figure</span> <span class="pre">script</span></code></a> uses nurbspy’s frame plotter,
+checks frame orthonormality and compares torsion with the exact spatial cubic.
+<a class="reference download internal" download="" href="../_downloads/9e93de3f8fc03f03e05a193b885144f5/curve_frames.pdf"><span class="xref download myst">Download the vector PDF</span></a>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="curve_parameterization.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Arc-length parameterization and coordinate inversion</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="surface_isocurves.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Extracting isoparametric curves from surfaces</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tangent-principal-normal-and-binormal">Tangent, principal normal and binormal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#curvature-measures-bending">Curvature measures bending</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#torsion-measures-twisting-of-the-bending-plane">Torsion measures twisting of the bending plane</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-and-plot-the-frame">Calculate and plot the frame</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#planar-normal-conventions">Planar normal conventions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regularity-and-practical-limits">Regularity and practical limits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproduce-the-figure">Reproduce the figure</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

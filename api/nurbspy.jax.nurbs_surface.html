@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=40912020"></script>
+    <script src="../_static/documentation_options.js?v=9e8e7855"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -141,15 +141,19 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../getting_started/jax_performance.html">JAX performance and prepared evaluations</a></li>
-</ul>
-</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Getting started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../theory/bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/bspline.html">B-spline curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/nurbs.html">NURBS curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/point_projection.html">Point projection onto curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../references/bibliography.html">References</a></li>
 </ul>
 </details></li>
@@ -171,6 +175,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="nurbspy.html">nurbspy package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="nurbspy.jax.html">nurbspy.jax package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
@@ -564,10 +569,10 @@ scalar arguments are static under <code class="docutils literal notranslate"><sp
 <td><p>Draw sampled surface values or curvature colors on host axes.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_surface.NurbsSurface.project_point_to_surface" title="nurbspy.jax.nurbs_surface.NurbsSurface.project_point_to_surface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_point_to_surface</span></code></a>(P[, maxiter, ftol, ...])</p></td>
-<td><p>Return the bounded closest-point parameters (u,v) in [0,1]^2.</p></td>
+<td><p>Return a sampled single-start projection on the actual knot domain.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_surface.NurbsSurface.project_points" title="nurbspy.jax.nurbs_surface.NurbsSurface.project_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_points</span></code></a>(points[, maxiter, ftol, gtol])</p></td>
-<td><p>Project points shaped (ndim,N), returning parameters shaped (2,N).</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_surface.NurbsSurface.project_points" title="nurbspy.jax.nurbs_surface.NurbsSurface.project_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_points</span></code></a>(points[, maxiter, ftol, ...])</p></td>
+<td><p>Project (ndim,N) queries; sample geometry once, return (2,N).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.nurbs_surface.NurbsSurface.rescale_plot" title="nurbspy.jax.nurbs_surface.NurbsSurface.rescale_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rescale_plot</span></code></a>(fig, ax)</p></td>
 <td><p>Set equal three-dimensional plot scales on the host.</p></td>
@@ -796,24 +801,26 @@ identity w*S=A gives the two-dimensional quotient-rule recurrence.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="nurbspy.jax.nurbs_surface.NurbsSurface.project_point_to_surface">
-<span class="sig-name descname"><span class="pre">project_point_to_surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/jax/nurbs_surface.html#NurbsSurface.project_point_to_surface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_surface.NurbsSurface.project_point_to_surface" title="Link to this definition">#</a></dt>
-<dd><p>Return the bounded closest-point parameters (u,v) in [0,1]^2.</p>
-<p>A multistart projected Newton solve minimizes half the squared
-distance. <code class="docutils literal notranslate"><span class="pre">maxiter</span></code> and tolerances are static. A custom JVP uses
-implicit differentiation of the converged stationarity conditions,
-including fixed active bounds, in both forward and reverse mode.</p>
-<p>Derivatives require a locally unique regular minimum with a nonsingular
-reduced Hessian and a stable active set. They are not defined at ties,
-transitions onto/off a boundary, or singular surface points. The search
-is local with multiple starts; it does not guarantee a global minimum
-on arbitrary folded patches. Plotting and solver diagnostics are not
-part of this differentiable calculation.</p>
+<span class="sig-name descname"><span class="pre">project_point_to_surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples_per_span</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-12</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/jax/nurbs_surface.html#NurbsSurface.project_point_to_surface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_surface.NurbsSurface.project_point_to_surface" title="Link to this definition">#</a></dt>
+<dd><p>Return a sampled single-start projection on the actual knot domain.</p>
+<p>The closest sampled surface point starts one bounded local Newton
+solve. There is no multistart mode or hidden restart. <code class="docutils literal notranslate"><span class="pre">gtol</span></code> bounds
+tangent-scaled spatial stationarity relative to <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">distance</span></code>;
+<code class="docutils literal notranslate"><span class="pre">ftol</span></code>/<code class="docutils literal notranslate"><span class="pre">xtol</span></code> detect stagnation, never convergence on their own.
+A failed solve raises an error. Sampling cannot certify global optimality.</p>
+<p>Exact implicit derivatives support query and geometry sensitivities at
+a locally unique regular minimum with stable active bounds. Weak-bound
+transitions, nonsmooth knots and singular reduced Hessians yield NaN
+sensitivities. The existing positional arguments remain supported.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="nurbspy.jax.nurbs_surface.NurbsSurface.project_points">
-<span class="sig-name descname"><span class="pre">project_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/jax/nurbs_surface.html#NurbsSurface.project_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_surface.NurbsSurface.project_points" title="Link to this definition">#</a></dt>
-<dd><p>Project points shaped (ndim,N), returning parameters shaped (2,N).</p>
+<span class="sig-name descname"><span class="pre">project_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples_per_span</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-12</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/jax/nurbs_surface.html#NurbsSurface.project_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.nurbs_surface.NurbsSurface.project_points" title="Link to this definition">#</a></dt>
+<dd><p>Project (ndim,N) queries; sample geometry once, return (2,N).</p>
+<p>Requires finite geometry, positive weights and continuous knot vectors.
+<code class="docutils literal notranslate"><span class="pre">samples_per_span</span></code> is an interior budget for each knot span/axis.
+See <code class="docutils literal notranslate"><span class="pre">project_point_to_surface</span></code> for convergence and AD assumptions.</p>
 </dd></dl>
 
 <dl class="py attribute">

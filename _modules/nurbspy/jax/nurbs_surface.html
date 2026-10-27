@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=40912020"></script>
+    <script src="../../../_static/documentation_options.js?v=9e8e7855"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -140,15 +140,19 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../getting_started/jax_performance.html">JAX performance and prepared evaluations</a></li>
-</ul>
-</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../theory/bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../theory/bspline.html">B-spline curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../theory/nurbs.html">NURBS curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/point_projection.html">Point projection onto curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../references/bibliography.html">References</a></li>
 </ul>
 </details></li>
@@ -170,6 +174,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
@@ -709,48 +714,52 @@
 <div class="viewcode-block" id="NurbsSurface.project_point_to_surface">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.project_point_to_surface">[docs]</a>
     <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">project_point_to_surface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">ftol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">gtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the bounded closest-point parameters (u,v) in [0,1]^2.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">project_point_to_surface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">ftol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">gtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+                                 <span class="n">samples_per_span</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a sampled single-start projection on the actual knot domain.</span>
 
-<span class="sd">        A multistart projected Newton solve minimizes half the squared</span>
-<span class="sd">        distance. ``maxiter`` and tolerances are static. A custom JVP uses</span>
-<span class="sd">        implicit differentiation of the converged stationarity conditions,</span>
-<span class="sd">        including fixed active bounds, in both forward and reverse mode.</span>
+<span class="sd">        The closest sampled surface point starts one bounded local Newton</span>
+<span class="sd">        solve. There is no multistart mode or hidden restart. ``gtol`` bounds</span>
+<span class="sd">        tangent-scaled spatial stationarity relative to ``1 + distance``;</span>
+<span class="sd">        ``ftol``/``xtol`` detect stagnation, never convergence on their own.</span>
+<span class="sd">        A failed solve raises an error. Sampling cannot certify global optimality.</span>
 
-<span class="sd">        Derivatives require a locally unique regular minimum with a nonsingular</span>
-<span class="sd">        reduced Hessian and a stable active set. They are not defined at ties,</span>
-<span class="sd">        transitions onto/off a boundary, or singular surface points. The search</span>
-<span class="sd">        is local with multiple starts; it does not guarantee a global minimum</span>
-<span class="sd">        on arbitrary folded patches. Plotting and solver diagnostics are not</span>
-<span class="sd">        part of this differentiable calculation.</span>
+<span class="sd">        Exact implicit derivatives support query and geometry sensitivities at</span>
+<span class="sd">        a locally unique regular minimum with stable active bounds. Weak-bound</span>
+<span class="sd">        transitions, nonsmooth knots and singular reduced Hessians yield NaN</span>
+<span class="sd">        sensitivities. The existing positional arguments remain supported.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">._surface_projection</span><span class="w"> </span><span class="kn">import</span> <span class="n">project_surface_point</span>
-
         <span class="n">point</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">P</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">point</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">,):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The query point must match the surface dimension&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">maxiter</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ftol</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">gtol</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Iteration limit and tolerances must be nonnegative&quot;</span><span class="p">)</span>
-        <span class="n">parameters</span> <span class="o">=</span> <span class="n">project_surface_point</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">gtol</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">parameters</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_points</span><span class="p">(</span><span class="n">point</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">gtol</span><span class="p">,</span>
+                                         <span class="n">samples_per_span</span><span class="o">=</span><span class="n">samples_per_span</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="n">xtol</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">parameters</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="NurbsSurface.project_points">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.project_points">[docs]</a>
     <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">project_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">ftol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">gtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Project points shaped (ndim,N), returning parameters shaped (2,N).&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">project_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">ftol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">gtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+                       <span class="n">samples_per_span</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Project (ndim,N) queries; sample geometry once, return (2,N).</span>
+
+<span class="sd">        Requires finite geometry, positive weights and continuous knot vectors.</span>
+<span class="sd">        ``samples_per_span`` is an interior budget for each knot span/axis.</span>
+<span class="sd">        See ``project_point_to_surface`` for convergence and AD assumptions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">._surface_projection</span><span class="w"> </span><span class="kn">import</span> <span class="n">project_surface_points</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">._point_projection</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_options</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A nonempty NurbsSurface is required&quot;</span><span class="p">)</span>
         <span class="n">points</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">points</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;points must have shape (ndim,N)&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
-            <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">point</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_point_to_surface</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">gtol</span><span class="p">),</span>
-                <span class="n">in_axes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="p">)(</span><span class="n">points</span><span class="p">)</span>
-        <span class="p">)</span></div>
+        <span class="n">validate_options</span><span class="p">(</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">samples_per_span</span><span class="p">,</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">gtol</span><span class="p">,</span> <span class="n">xtol</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">project_surface_points</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">gtol</span><span class="p">,</span> <span class="n">xtol</span><span class="p">,</span>
+                                      <span class="n">samples_per_span</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NurbsSurface.PointToSurfaceProjectionProblem">

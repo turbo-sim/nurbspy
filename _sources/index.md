@@ -6,7 +6,7 @@ The package provides a compact interface for constructing and manipulating **Bé
 
 With `nurbspy`, you can evaluate curves and surfaces at arbitrary parameter values, compute analytical derivatives and geometric quantities such as tangents, normals, and curvature, project points onto parametric geometries, and visualize the results with Matplotlib. The emphasis is on exposing the underlying NURBS mathematics through a small and transparent Python API.
 
-`nurbspy` is **not a CAD kernel**. It does not provide trimming, Boolean operations, boundary-representation solid modeling, topology management, or STEP/IGES import and export. Applications requiring those capabilities are better served by a complete geometry kernel such as OpenCascade. The scope of `nurbspy` is intentionally narrower: **representing, evaluating, and differentiating parametric curves and surfaces in Python** while keeping the geometry directly accessible to numerical code.
+`nurbspy` is **not a fully-featured CAD kernel**. It does not provide trimming, Boolean operations, boundary-representation solid modeling, topology management, or STEP/IGES import and export. Applications requiring those capabilities are better served by a complete geometry kernel such as OpenCascade. The scope of `nurbspy` is intentionally narrower: **representing, evaluating, and differentiating parametric curves and surfaces in Python** while keeping the geometry directly accessible to numerical code.
 
 ## Documentation
 
@@ -27,7 +27,7 @@ Install `nurbspy`, as a user or as a developer.
 :link: theory/index
 :link-type: doc
 
-Definitions, derivatives, and geometric continuity, from Bézier to NURBS.
+Representations, derivatives, lengths, frames, surface geometry and projection.
 :::
 
 :::{grid-item-card} Examples

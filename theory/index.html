@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=40912020"></script>
+    <script src="../_static/documentation_options.js?v=9e8e7855"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -52,7 +52,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Bézier curves and surfaces" href="bezier.html" />
-    <link rel="prev" title="JAX performance and prepared evaluations" href="../getting_started/jax_performance.html" />
+    <link rel="prev" title="Getting started" href="../getting_started/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -143,15 +143,19 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../getting_started/jax_performance.html">JAX performance and prepared evaluations</a></li>
-</ul>
-</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Getting started</a></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Theory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bspline.html">B-spline curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nurbs.html">NURBS curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="point_projection.html">Point projection onto curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../references/bibliography.html">References</a></li>
 </ul>
 </details></li>
@@ -173,6 +177,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
@@ -412,7 +417,11 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#representations-and-continuity">Representations and continuity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#curve-and-surface-operations">Curve and surface operations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notation-and-assumptions">Notation and assumptions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regenerate-the-illustrations">Regenerate the illustrations</a></li>
 </ul>
             </nav>
         </div>
@@ -426,16 +435,47 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="theory">
 <h1>Theory<a class="headerlink" href="#theory" title="Link to this heading">#</a></h1>
-<p>These pages present the mathematical foundations of <code class="docutils literal notranslate"><span class="pre">nurbspy</span></code>, covering Bézier, B-spline, and NURBS curves and surfaces. The material progresses from Bézier to B-spline and then to NURBS representations, treating curves before surfaces and developing the relevant definitions, basis-function properties, and derivative formulas along the way. Most of the material follows <em>The NURBS Book</em> <span id="id1">Piegl and Tiller [<a class="reference internal" href="../references/bibliography.html#id42" title="Les Piegl and Wayne Tiller. The NURBS Book. Springer, 2 edition, 1997. doi:10.1007/978-3-642-59223-2.">1997</a>]</span>.</p>
+<p>These pages explain the mathematics behind <code class="docutils literal notranslate"><span class="pre">nurbspy</span></code>, from curve and surface
+representations to geometric calculations. Equations are paired with practical
+interpretations and figures evaluated using the package. The representation
+and derivative material follows <em>The NURBS Book</em> <span id="id1">Piegl and Tiller [<a class="reference internal" href="../references/bibliography.html#id42" title="Les Piegl and Wayne Tiller. The NURBS Book. Springer, 2 edition, 1997. doi:10.1007/978-3-642-59223-2.">1997</a>]</span>.</p>
+<section id="representations-and-continuity">
+<h2>Representations and continuity<a class="headerlink" href="#representations-and-continuity" title="Link to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bspline.html">B-spline curves and surfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nurbs.html">NURBS curves and surfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="g2_continuity.html">G² continuity of NURBS curves</a></li>
+</ul>
+</div>
+</section>
+<section id="curve-and-surface-operations">
+<h2>Curve and surface operations<a class="headerlink" href="#curve-and-surface-operations" title="Link to this heading">#</a></h2>
+<p>The operation pages connect analytic derivatives to lengths, local frames,
+surface measures and inverse problems. Each page distinguishes mathematical
+assumptions from numerical safeguards, identifies the relevant backend APIs,
+and links to reproducible figure-generation code.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point_projection.html">Point projection onto curves and surfaces</a></li>
+</ul>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../references/bibliography.html">References</a></li>
 </ul>
 </div>
+</section>
 <section id="notation-and-assumptions">
 <h2>Notation and assumptions<a class="headerlink" href="#notation-and-assumptions" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="table">
@@ -471,6 +511,23 @@ weights are strictly positive, and geometry is real. Derivatives at the
 ends of a curve or surface are one-sided limits. Curvature requires a
 nonzero first derivative.</p>
 </section>
+<section id="regenerate-the-illustrations">
+<h2>Regenerate the illustrations<a class="headerlink" href="#regenerate-the-illustrations" title="Link to this heading">#</a></h2>
+<p>From the repository root, with the development dependencies and JAX extra
+installed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>docs/generate_theory_images.py
+python<span class="w"> </span>docs/generate_theory_images.py<span class="w"> </span>--only<span class="w"> </span>frames<span class="w"> </span>surface_geometry
+</pre></div>
+</div>
+<p>The scripts call <code class="docutils literal notranslate"><span class="pre">set_plot_options()</span></code> and save each numerical illustration as
+a 300 dpi PNG, an SVG embedded in these pages and a vector PDF for publication.
+They also check the illustrated calculations against exact formulas or
+independent numerical references. The
+<a class="reference download internal" download="" href="../_downloads/fb777a47baf1a19e14f94466fb9c44dc/generate_theory_images.py"><code class="xref download docutils literal notranslate"><span class="pre">generator</span></code></a> and
+<a class="reference download internal" download="" href="../_downloads/71ac848ebde09f6effdeba95b48af35b/README.md"><code class="xref download docutils literal notranslate"><span class="pre">figure-code</span> <span class="pre">notes</span></code></a> describe the
+workflow. The scripts share helper geometries and styling, so run them from
+the repository using the commands above.</p>
+</section>
 </section>
 
 
@@ -485,12 +542,12 @@ nonzero first derivative.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../getting_started/jax_performance.html"
+       href="../getting_started/index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">JAX performance and prepared evaluations</p>
+        <p class="prev-next-title">Getting started</p>
       </div>
     </a>
     <a class="right-next"
@@ -520,7 +577,11 @@ nonzero first derivative.</p>
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#representations-and-continuity">Representations and continuity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#curve-and-surface-operations">Curve and surface operations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notation-and-assumptions">Notation and assumptions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regenerate-the-illustrations">Regenerate the illustrations</a></li>
 </ul>
   </nav></div>
 

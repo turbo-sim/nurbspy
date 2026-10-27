@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=40912020"></script>
+    <script src="../../../_static/documentation_options.js?v=9e8e7855"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -140,15 +140,19 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../getting_started/jax_performance.html">JAX performance and prepared evaluations</a></li>
-</ul>
-</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../theory/bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../theory/bspline.html">B-spline curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../theory/nurbs.html">NURBS curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/point_projection.html">Point projection onto curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../references/bibliography.html">References</a></li>
 </ul>
 </details></li>
@@ -170,6 +174,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
@@ -347,24 +352,15 @@
                 <article class="bd-article">
                   
   <h1>Source code for nurbspy.jax.prepared_projection</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Explicit fixed-geometry snapshots for repeated surface point projection.</span>
-
-<span class="sd">Only coarse initialization is prepared. Newton parameters change, so refinement</span>
-<span class="sd">continues to use the general evaluator and its exact implicit derivatives.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Explicit fixed-geometry spatial sampling for repeated surface projection.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">equinox</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqx</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">._surface_projection</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">_sample_axes</span><span class="p">,</span>
-    <span class="n">_sample_parameters</span><span class="p">,</span>
-    <span class="n">_select_seeds</span><span class="p">,</span>
-    <span class="n">project_surface_point_from_seeds</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._point_projection</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_geometry</span><span class="p">,</span> <span class="n">validate_options</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._surface_projection</span><span class="w"> </span><span class="kn">import</span> <span class="n">sample_surface</span><span class="p">,</span> <span class="n">project_surface_from_samples</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_surface</span><span class="w"> </span><span class="kn">import</span> <span class="n">NurbsSurface</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.prepared</span><span class="w"> </span><span class="kn">import</span> <span class="n">prepare_surface</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;PreparedSurfaceProjection&quot;</span><span class="p">,</span> <span class="s2">&quot;prepare_surface_projection&quot;</span><span class="p">]</span>
 
@@ -372,81 +368,70 @@
 <div class="viewcode-block" id="PreparedSurfaceProjection">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PreparedSurfaceProjection</span><span class="p">(</span><span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An immutable surface snapshot with its original coarse points prepared.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Immutable geometry/grid snapshot, with one local solve per query.</span>
 
-<span class="sd">    Rebuild with :func:`prepare_surface_projection` after changing control</span>
-<span class="sd">    points, weights, knots, or degrees. Replacing geometry leaves alone would</span>
-<span class="sd">    make the cached coarse points stale. Ordinary JAX arrays and Equinox</span>
-<span class="sd">    modules are immutable; this object has no hidden cache or mutation.</span>
-
-<span class="sd">    Query derivatives use the same implicit minimum equations as</span>
-<span class="sd">    ``NurbsSurface.project_point_to_surface``. Geometry derivatives remain</span>
-<span class="sd">    available when the factory is inside the differentiated function. They</span>
-<span class="sd">    require a unique regular minimum and a stable active set; seed ties and</span>
-<span class="sd">    basin changes are not differentiable.</span>
+<span class="sd">    Rebuild after changing P/W, knots, degrees or sampling density. Replacing</span>
+<span class="sd">    geometry leaves alone makes cached positions stale. Query derivatives use</span>
+<span class="sd">    the same exact implicit minimum equations as general surface projection.</span>
+<span class="sd">    Build inside AD for geometry sensitivities; uniqueness, regularity and a</span>
+<span class="sd">    stable active set are required. There is no global cache or hidden retry.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">surface</span><span class="p">:</span> <span class="n">NurbsSurface</span>
     <span class="n">sample_parameters</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">Array</span>
     <span class="n">sampled_points</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">Array</span>
+    <span class="n">samples_per_span</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PreparedSurfaceProjection.project_point">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_point">[docs]</a>
     <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">project_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">ftol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">gtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return parameters shaped (2,), using the general solver&#39;s settings.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">project_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">ftol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">gtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a parameter pair shaped (2,) for one query.&quot;&quot;&quot;</span>
         <span class="n">point</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">point</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">point</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">ndim</span><span class="p">,):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The query point must match the surface dimension&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">maxiter</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ftol</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">gtol</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Iteration limit and tolerances must be nonnegative&quot;</span><span class="p">)</span>
-        <span class="n">seeds</span> <span class="o">=</span> <span class="n">_select_seeds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sample_parameters</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampled_points</span><span class="p">,</span> <span class="n">point</span><span class="p">)</span>
-        <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span>
-        <span class="k">return</span> <span class="n">project_surface_point_from_seeds</span><span class="p">(</span>
-            <span class="n">surface</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">seeds</span><span class="p">,</span>
-            <span class="n">surface</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">q</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">gtol</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_points</span><span class="p">(</span><span class="n">point</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">gtol</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="n">xtol</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="PreparedSurfaceProjection.project_points">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_points">[docs]</a>
     <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">project_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">ftol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">gtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Project points shaped (ndim,N), returning parameters shaped (2,N).&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">project_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">ftol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">gtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Project (ndim,N) queries with the general single-start solver.&quot;&quot;&quot;</span>
         <span class="n">points</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">points</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">ndim</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;points must have shape (ndim,N)&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span>
-            <span class="k">lambda</span> <span class="n">point</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_point</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">gtol</span><span class="p">),</span>
-            <span class="n">in_axes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_axes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">)(</span><span class="n">points</span><span class="p">)</span></div>
+        <span class="n">validate_options</span><span class="p">(</span><span class="n">maxiter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples_per_span</span><span class="p">,</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">gtol</span><span class="p">,</span> <span class="n">xtol</span><span class="p">)</span>
+        <span class="n">surface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surface</span>
+        <span class="k">return</span> <span class="n">project_surface_from_samples</span><span class="p">(</span>
+            <span class="n">surface</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sample_parameters</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampled_points</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">q</span><span class="p">,</span>
+            <span class="n">maxiter</span><span class="p">,</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">gtol</span><span class="p">,</span> <span class="n">xtol</span><span class="p">,</span>
+        <span class="p">)</span></div>
 </div>
 
 
 
 <div class="viewcode-block" id="prepare_surface_projection">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.prepare_surface_projection">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">prepare_surface_projection</span><span class="p">(</span><span class="n">surface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare coarse points for repeated projection onto one fixed surface.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">prepare_surface_projection</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">samples_per_span</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample one fixed surface once for repeated query batches.</span>
 
-<span class="sd">    The seed grid and four-start selection are the same as the general solver.</span>
-<span class="sd">    Factorized one-dimensional polynomial basis tables evaluate that grid once;</span>
-<span class="sd">    the snapshot retains only its parameter/spatial points, plus the surface.</span>
-<span class="sd">    Include preparation in first-use timing. Across query batches this avoids</span>
-<span class="sd">    rebuilding the initial spatial grid; no promise is made that it accelerates</span>
-<span class="sd">    an individual Newton iteration or that XLA has not hoisted common sampling</span>
-<span class="sd">    work already in a general batched call.</span>
+<span class="sd">    The default interior budget is eight samples per knot span/axis, with all</span>
+<span class="sd">    knot boundaries included. Strong positive weight ratios inform endpoint</span>
+<span class="sd">    coverage. Preparation and general projection use the identical grid and</span>
+<span class="sd">    one-start solver. This does not certify global closest points on folded or</span>
+<span class="sd">    poorly resolved geometry. Include preparation when assessing first-use cost.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">NurbsSurface</span><span class="p">)</span> <span class="ow">or</span> <span class="n">surface</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A nonempty NurbsSurface is required&quot;</span><span class="p">)</span>
-    <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">_sample_axes</span><span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">V</span><span class="p">)</span>
-    <span class="n">basis</span> <span class="o">=</span> <span class="n">prepare_surface</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">max_order_u</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_order_v</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">sampled_points</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">W</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">PreparedSurfaceProjection</span><span class="p">(</span>
-        <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
-        <span class="n">sample_parameters</span><span class="o">=</span><span class="n">_sample_parameters</span><span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">V</span><span class="p">),</span>
-        <span class="n">sampled_points</span><span class="o">=</span><span class="n">sampled_points</span><span class="p">,</span>
-    <span class="p">)</span></div>
+    <span class="n">validate_options</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">samples_per_span</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="mf">1e-12</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">check_geometry</span><span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">V</span><span class="p">),</span> <span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">q</span><span class="p">))</span>
+    <span class="n">parameters</span><span class="p">,</span> <span class="n">positions</span> <span class="o">=</span> <span class="n">sample_surface</span><span class="p">(</span>
+        <span class="n">P</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">q</span><span class="p">,</span> <span class="n">samples_per_span</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">PreparedSurfaceProjection</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span> <span class="n">sample_parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+                                     <span class="n">sampled_points</span><span class="o">=</span><span class="n">positions</span><span class="p">,</span> <span class="n">samples_per_span</span><span class="o">=</span><span class="n">samples_per_span</span><span class="p">)</span></div>
 
 </pre></div>
 

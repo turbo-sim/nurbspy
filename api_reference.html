@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=40912020"></script>
+    <script src="_static/documentation_options.js?v=9e8e7855"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -141,15 +141,19 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="getting_started/jax_performance.html">JAX performance and prepared evaluations</a></li>
-</ul>
-</details></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started/index.html">Getting started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="theory/bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory/bspline.html">B-spline curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory/nurbs.html">NURBS curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/point_projection.html">Point projection onto curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="references/bibliography.html">References</a></li>
 </ul>
 </details></li>
@@ -171,6 +175,7 @@
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
@@ -446,7 +451,10 @@
 <tr class="row-odd"><td><p>Repeated JAX surface evaluation</p></td>
 <td><p><a class="reference internal" href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.prepare_surface" title="nurbspy.jax.prepared.prepare_surface"><code class="xref py py-func docutils literal notranslate"><span class="pre">nurbspy.jax.prepared.prepare_surface()</span></code></a></p></td>
 </tr>
-<tr class="row-even"><td><p>Repeated projection onto a fixed JAX surface</p></td>
+<tr class="row-even"><td><p>Repeated JAX arc-length evaluation</p></td>
+<td><p><a class="reference internal" href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.prepare_arclength" title="nurbspy.jax.arclength.prepare_arclength"><code class="xref py py-func docutils literal notranslate"><span class="pre">nurbspy.jax.arclength.prepare_arclength()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Repeated projection onto a fixed JAX surface</p></td>
 <td><p><a class="reference internal" href="api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.prepare_surface_projection" title="nurbspy.jax.prepared_projection.prepare_surface_projection"><code class="xref py py-func docutils literal notranslate"><span class="pre">nurbspy.jax.prepared_projection.prepare_surface_projection()</span></code></a></p></td>
 </tr>
 </tbody>
@@ -456,8 +464,11 @@
 backends, their surface generators, and the shared graphics module.
 The root <code class="docutils literal notranslate"><span class="pre">nurbspy</span></code> interface continues to expose the NumPy implementation.
 Check backend signatures and differentiation guarantees before switching imports.
-The <a class="reference internal" href="getting_started/jax_performance.html"><span class="std std-doc">JAX performance guide</span></a> explains prepared
-table lifetimes, output shapes and differentiation contracts.</p>
+The <a class="reference internal" href="theory/index.html"><span class="std std-doc">operation theory pages</span></a> explain lengths, inverse maps,
+frames, surface geometry and projection. Prepared-table lifetimes, output
+shapes and differentiation contracts are documented in the
+<a class="reference internal" href="api/nurbspy.jax.prepared.html#module-nurbspy.jax.prepared" title="nurbspy.jax.prepared"><code class="xref py py-mod docutils literal notranslate"><span class="pre">nurbspy.jax.prepared</span></code></a>, <a class="reference internal" href="api/nurbspy.jax.arclength.html#module-nurbspy.jax.arclength" title="nurbspy.jax.arclength"><code class="xref py py-mod docutils literal notranslate"><span class="pre">nurbspy.jax.arclength</span></code></a> and
+<a class="reference internal" href="api/nurbspy.jax.prepared_projection.html#module-nurbspy.jax.prepared_projection" title="nurbspy.jax.prepared_projection"><code class="xref py py-mod docutils literal notranslate"><span class="pre">nurbspy.jax.prepared_projection</span></code></a> API pages.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api/nurbspy.html">nurbspy package</a><ul>

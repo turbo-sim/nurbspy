@@ -1,0 +1,885 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nurbspy.jax.arclength &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=9e8e7855"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/nurbspy/jax/arclength';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/_modules/nurbspy/jax/arclength.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/point_projection.html">Point projection onto curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2F_modules/nurbspy/jax/arclength.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for nurbspy.jax.arclength</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Knot-aware JAX arc length and reusable integration tables.</span>
+
+<span class="sd">Adaptive quadrature is the general length method; an ODE alternative remains</span>
+<span class="sd">available. Both use public solver APIs and expose unsuccessful termination.</span>
+<span class="sd">Prepared Gauss tables are optional: their resolution must be checked on the</span>
+<span class="sd">intended geometry family. Dense inverse maps use a reciprocal ODE on each knot</span>
+<span class="sd">span, with no iterative quadrature in a query. See the usage guide for numerical</span>
+<span class="sd">assumptions, differentiation, tolerances and table invalidation.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_operator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NamedTuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">diffrax</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dfx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">equinox</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">quadax</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qdx</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.prepared</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PreparedCurveBasis</span> <span class="k">as</span> <span class="n">_PreparedCurveBasis</span><span class="p">,</span>
+    <span class="n">prepare_curve</span> <span class="k">as</span> <span class="n">_prepare_curve</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ArcLengthInfo&quot;</span><span class="p">,</span> <span class="s2">&quot;ArcLengthMap&quot;</span><span class="p">,</span> <span class="s2">&quot;PreparedArcLength&quot;</span><span class="p">,</span> <span class="s2">&quot;prepare_arclength&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="ArcLengthInfo">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthInfo">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ArcLengthInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Common value/work diagnostics; an unavailable estimate is NaN.</span>
+
+<span class="sd">    Adaptive statuses 0..8 are Quadax&#39;s public severity enum, not bit flags.</span>
+<span class="sd">    This wrapper adds 16=invalid geometry/options and 32=nonfinite sampled</span>
+<span class="sd">    speed/value. ODE adds 64=unsuccessful solver termination. Fixed rules do not</span>
+<span class="sd">    return this type: no tolerance or error estimator is implied by a rule.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">value</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">Array</span>
+    <span class="n">error_estimate</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">Array</span>
+    <span class="n">evaluations</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">Array</span>
+    <span class="n">status</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">Array</span>
+    <span class="n">intervals</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">Array</span></div>
+
+
+
+<span class="nd">@jax</span><span class="o">.</span><span class="n">custom_jvp</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_speed_norm</span><span class="p">(</span><span class="n">derivative</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Euclidean speed; explicitly select the zero subgradient at zero speed.</span>
+
+<span class="sd">    Length is not generally differentiable at a collapsed curve. Returning this</span>
+<span class="sd">    finite convention does not establish existence of a unique derivative.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">derivative</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+
+
+<span class="nd">@_speed_norm</span><span class="o">.</span><span class="n">defjvp</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">__speed_norm_jvp</span><span class="p">(</span><span class="n">primals</span><span class="p">,</span> <span class="n">tangents</span><span class="p">):</span>
+    <span class="p">(</span><span class="n">derivative</span><span class="p">,),</span> <span class="p">(</span><span class="n">tangent</span><span class="p">,)</span> <span class="o">=</span> <span class="n">primals</span><span class="p">,</span> <span class="n">tangents</span>
+    <span class="n">speed</span> <span class="o">=</span> <span class="n">_speed_norm</span><span class="p">(</span><span class="n">derivative</span><span class="p">)</span>
+    <span class="n">denominator</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">speed</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">speed</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">derivative_speed</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="n">speed</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">derivative</span> <span class="o">*</span> <span class="n">tangent</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">denominator</span><span class="p">,</span> <span class="mf">0.0</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">speed</span><span class="p">,</span> <span class="n">derivative_speed</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_span_bounds</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">u1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Static-shape clipped span bounds, oriented sign, and geometry validity.</span>
+
+<span class="sd">    Repeated/clipped zero-width spans are retained to keep the JAX shape static.</span>
+<span class="sd">    Public Quadax ignores them. Explicit limits preserve endpoint Leibniz</span>
+<span class="sd">    derivatives; differentiating a clip at equality would choose half of one.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">curve</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Arc length requires real geometry, knots and limits&quot;</span><span class="p">)</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">result_type</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">curve</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">u2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">)</span>
+    <span class="n">knots</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="n">curve</span><span class="o">.</span><span class="n">p</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">)</span> <span class="o">-</span> <span class="n">curve</span><span class="o">.</span><span class="n">p</span><span class="p">],</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span>
+    <span class="n">knots</span> <span class="o">=</span> <span class="n">knots</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">lo</span><span class="p">)</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">hi</span><span class="p">)</span>
+    <span class="n">domain_lo</span><span class="p">,</span> <span class="n">domain_hi</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="n">curve</span><span class="o">.</span><span class="n">p</span><span class="p">],</span> <span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="o">-</span><span class="n">curve</span><span class="o">.</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">multiplicity</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">interior</span> <span class="o">=</span> <span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">U</span> <span class="o">&gt;</span> <span class="n">domain_lo</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">U</span> <span class="o">&lt;</span> <span class="n">domain_hi</span><span class="p">)</span>
+    <span class="n">valid</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">p</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">u1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">u2</span><span class="p">)</span>
+        <span class="o">&amp;</span> <span class="p">(</span><span class="n">domain_hi</span> <span class="o">&gt;</span> <span class="n">domain_lo</span><span class="p">)</span>
+        <span class="o">&amp;</span> <span class="p">(</span><span class="n">lo</span> <span class="o">&gt;=</span> <span class="n">domain_lo</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">hi</span> <span class="o">&lt;=</span> <span class="n">domain_hi</span><span class="p">)</span>
+        <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">P</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">W</span><span class="p">))</span>
+        <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">W</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">interior</span><span class="p">,</span> <span class="n">multiplicity</span> <span class="o">&lt;=</span> <span class="n">curve</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">knots</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">u2</span> <span class="o">&gt;=</span> <span class="n">u1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">),</span> <span class="n">valid</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_normalised_geometry</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">orient_endpoint</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Work in [0,1] so offsets in a translated knot domain do not hide layers.</span>
+
+<span class="sd">    The entire curve is reflected when the first endpoint has the larger</span>
+<span class="sd">    weight. This places the tested endpoint layer near zero, where tiny float64</span>
+<span class="sd">    coordinates remain representable. It is a heuristic for positive rational</span>
+<span class="sd">    endpoint layers, not a guarantee for arbitrary interior sharp features.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">domain_lo</span><span class="p">,</span> <span class="n">domain_hi</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="n">curve</span><span class="o">.</span><span class="n">p</span><span class="p">],</span> <span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="o">-</span><span class="n">curve</span><span class="o">.</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="n">domain_hi</span> <span class="o">-</span> <span class="n">domain_lo</span>
+    <span class="n">safe_width</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">width</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">knots</span> <span class="o">=</span> <span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">U</span> <span class="o">-</span> <span class="n">domain_lo</span><span class="p">)</span> <span class="o">/</span> <span class="n">safe_width</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">u1</span> <span class="o">-</span> <span class="n">domain_lo</span><span class="p">)</span> <span class="o">/</span> <span class="n">safe_width</span><span class="p">,</span> <span class="p">(</span><span class="n">u2</span> <span class="o">-</span> <span class="n">domain_lo</span><span class="p">)</span> <span class="o">/</span> <span class="n">safe_width</span>
+    <span class="n">reverse</span> <span class="o">=</span> <span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">curve</span><span class="o">.</span><span class="n">W</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="n">orient_endpoint</span> <span class="k">else</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">maximum_weight</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">W</span><span class="p">))</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">W</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">maximum_weight</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">maximum_weight</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">result_type</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">curve</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+    <span class="n">normalised</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">curve</span><span class="p">)(</span>
+        <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">reverse</span><span class="p">,</span> <span class="n">points</span><span class="p">[:,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">points</span><span class="p">),</span>
+        <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">reverse</span><span class="p">,</span> <span class="n">weights</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">weights</span><span class="p">),</span> <span class="n">degree</span><span class="o">=</span><span class="n">curve</span><span class="o">.</span><span class="n">p</span><span class="p">,</span>
+        <span class="n">knots</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">reverse</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">knots</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">knots</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">normalised</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">reverse</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">reverse</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_graded_breakpoints</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">ratio</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Seed logarithmic fractions for the demonstrated rational endpoint layer.</span>
+
+<span class="sd">    For weights [1,R], the line speed contains a width O(1/R) layer that a</span>
+<span class="sd">    conventional unsampled error estimator can entirely miss. Nine logarithmic</span>
+<span class="sd">    fractions at each span endpoint address that case. Extremely small panels</span>
+<span class="sd">    can still exhaust floating-point resolution and must report failure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">ratio</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+    <span class="n">fractions</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span> <span class="n">left</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">left</span><span class="p">)))</span>
+    <span class="n">panels</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bounds</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">fractions</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">panels</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_adaptive_length</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">u1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+                    <span class="n">max_intervals</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">grade_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">orient_endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">adjoint</span><span class="o">=</span><span class="s2">&quot;direct&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Knot-aware public GK21 with independent absolute/relative tolerances.</span>
+
+<span class="sd">    Geometry/limits are normalized before evaluation. Large positive weight</span>
+<span class="sd">    ratios (&gt;1e4) activate an endpoint grading heuristic. Set grade_weights=False</span>
+<span class="sd">    to demonstrate the unsampled-layer limitation of ordinary adaptivity.</span>
+
+<span class="sd">    DirectAdjoint differentiates the accepted discretization; LeibnizAdjoint</span>
+<span class="sd">    gives the derivative its own adaptive solve. Neither an integral&#39;s error</span>
+<span class="sd">    estimate nor status 0 is a gradient-error certificate. The nonfinite-speed</span>
+<span class="sd">    check probes mesh ends/midpoints; it cannot inspect every internal sample</span>
+<span class="sd">    because Quadax intentionally masks nonfinite integrand samples.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_intervals</span> <span class="o">=</span> <span class="n">_operator</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">max_intervals</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">max_intervals</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_intervals must be a positive integer&quot;</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">original_valid</span> <span class="o">=</span> <span class="n">_span_bounds</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">)</span>
+    <span class="n">curve</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">_normalised_geometry</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">u1</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">u2</span><span class="p">),</span> <span class="n">orient_endpoint</span><span class="p">)</span>
+    <span class="n">bounds</span><span class="p">,</span> <span class="n">sign</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="n">_span_bounds</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">valid</span> <span class="o">=</span> <span class="p">(</span><span class="n">valid</span> <span class="o">&amp;</span> <span class="n">original_valid</span> <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">atol</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">rtol</span><span class="p">)</span>
+             <span class="o">&amp;</span> <span class="p">(</span><span class="n">atol</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">rtol</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">((</span><span class="n">atol</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">rtol</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">adjoint</span> <span class="o">==</span> <span class="s2">&quot;direct&quot;</span><span class="p">:</span>
+        <span class="n">differentiation</span> <span class="o">=</span> <span class="n">qdx</span><span class="o">.</span><span class="n">DirectAdjoint</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">adjoint</span> <span class="o">==</span> <span class="s2">&quot;leibniz&quot;</span><span class="p">:</span>
+        <span class="n">differentiation</span> <span class="o">=</span> <span class="n">qdx</span><span class="o">.</span><span class="n">LeibnizAdjoint</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;adjoint must be &#39;direct&#39; or &#39;leibniz&#39;&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">speed</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">_speed_norm</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">integrate</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">max_intervals</span><span class="p">:</span>
+            <span class="c1"># A static conservative bound: repeated points cost no work in</span>
+            <span class="c1"># Quadax, but require a larger workspace for its seed array.</span>
+            <span class="k">return</span> <span class="n">ArcLengthInfo</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+                                <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">value</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">qdx</span><span class="o">.</span><span class="n">quadgk</span><span class="p">(</span>
+            <span class="n">speed</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">epsabs</span><span class="o">=</span><span class="n">atol</span><span class="p">,</span> <span class="n">epsrel</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">max_ninter</span><span class="o">=</span><span class="n">max_intervals</span><span class="p">,</span>
+            <span class="n">full_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">adjoint</span><span class="o">=</span><span class="n">differentiation</span><span class="p">,</span> <span class="n">extrapolate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">throw</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">probes</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">points</span><span class="p">,</span> <span class="p">(</span><span class="n">points</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">finite</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">speed</span><span class="p">(</span><span class="n">probes</span><span class="p">)))</span> <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">valid</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">finite</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ArcLengthInfo</span><span class="p">(</span><span class="n">sign</span> <span class="o">*</span> <span class="n">value</span><span class="p">,</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">stop_gradient</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">err</span><span class="p">),</span>
+                            <span class="n">info</span><span class="o">.</span><span class="n">neval</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;ninter&quot;</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">nonzero</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">grade_weights</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">integrate</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">W</span><span class="p">)</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">W</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">ratio</span> <span class="o">&gt;</span> <span class="mf">1e4</span><span class="p">,</span>
+                            <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="n">integrate</span><span class="p">(</span><span class="n">_graded_breakpoints</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">ratio</span><span class="p">)),</span>
+                            <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="n">integrate</span><span class="p">(</span><span class="n">bounds</span><span class="p">),</span> <span class="n">operand</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">zero</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+        <span class="n">speed_value</span> <span class="o">=</span> <span class="n">speed</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">speed_value</span>
+        <span class="k">return</span> <span class="n">ArcLengthInfo</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+                            <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">speed_value</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">invalid</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ArcLengthInfo</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+                            <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">valid</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">,</span> <span class="n">zero</span><span class="p">,</span> <span class="n">nonzero</span><span class="p">,</span> <span class="n">operand</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span> <span class="n">invalid</span><span class="p">,</span> <span class="n">operand</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ode_length</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">u1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+               <span class="n">max_steps</span><span class="o">=</span><span class="mi">4096</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Forward speed ODE with public forced steps at all interior knots.</span>
+
+<span class="sd">    Smooth knots force a step boundary. Knots of multiplicity &gt;= degree are</span>
+<span class="sd">    marked as jumps, so Diffrax recomputes the vector field instead of reusing</span>
+<span class="sd">    an FSAL stage across a possible C0 speed jump. Treating every smooth knot as</span>
+<span class="sd">    a jump was measurably worse on the narrow-span case in this study.</span>
+<span class="sd">    Attempted step counts are exposed; Diffrax does not expose exact field</span>
+<span class="sd">    evaluation counts here, so evaluations=-1. No global error is invented.</span>
+<span class="sd">    Reversed limits give a signed integral, and zero intervals retain the</span>
+<span class="sd">    endpoint derivatives of that integral.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_steps</span> <span class="o">=</span> <span class="n">_operator</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">max_steps</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">max_steps</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_steps must be a positive integer&quot;</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">original_valid</span> <span class="o">=</span> <span class="n">_span_bounds</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">)</span>
+    <span class="n">curve</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">_normalised_geometry</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">u1</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">u2</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">points</span><span class="p">,</span> <span class="n">sign</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="n">_span_bounds</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">valid</span> <span class="o">=</span> <span class="p">(</span><span class="n">valid</span> <span class="o">&amp;</span> <span class="n">original_valid</span> <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">atol</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">rtol</span><span class="p">)</span>
+             <span class="o">&amp;</span> <span class="p">(</span><span class="n">atol</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">rtol</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">((</span><span class="n">atol</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">rtol</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)))</span>
+    <span class="n">controller</span> <span class="o">=</span> <span class="n">dfx</span><span class="o">.</span><span class="n">PIDController</span><span class="p">(</span><span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">interior</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">multiplicity</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">interior</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">active</span> <span class="o">=</span> <span class="p">(</span><span class="n">interior</span> <span class="o">&gt;</span> <span class="n">lo</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">interior</span> <span class="o">&lt;</span> <span class="n">hi</span><span class="p">)</span>
+        <span class="c1"># Inactive entries become +inf, retaining static JAX shapes (including</span>
+        <span class="c1"># partial limits) without empty-controller arrays or host np.unique.</span>
+        <span class="n">steps</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">active</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">multiplicity</span> <span class="o">&lt;</span> <span class="n">curve</span><span class="o">.</span><span class="n">p</span><span class="p">),</span> <span class="n">interior</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">))</span>
+        <span class="n">jumps</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">active</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">multiplicity</span> <span class="o">&gt;=</span> <span class="n">curve</span><span class="o">.</span><span class="n">p</span><span class="p">),</span> <span class="n">interior</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">))</span>
+        <span class="n">controller</span> <span class="o">=</span> <span class="n">dfx</span><span class="o">.</span><span class="n">ClipStepSizeController</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="n">step_ts</span><span class="o">=</span><span class="n">steps</span><span class="p">,</span> <span class="n">jump_ts</span><span class="o">=</span><span class="n">jumps</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">speed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_speed_norm</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">nonzero</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+        <span class="n">solution</span> <span class="o">=</span> <span class="n">dfx</span><span class="o">.</span><span class="n">diffeqsolve</span><span class="p">(</span>
+            <span class="n">dfx</span><span class="o">.</span><span class="n">ODETerm</span><span class="p">(</span><span class="n">speed</span><span class="p">),</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dopri5</span><span class="p">(),</span> <span class="n">t0</span><span class="o">=</span><span class="n">lo</span><span class="p">,</span> <span class="n">t1</span><span class="o">=</span><span class="n">hi</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+            <span class="n">dt0</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">),</span> <span class="n">stepsize_controller</span><span class="o">=</span><span class="n">controller</span><span class="p">,</span>
+            <span class="n">adjoint</span><span class="o">=</span><span class="n">dfx</span><span class="o">.</span><span class="n">DirectAdjoint</span><span class="p">(),</span> <span class="n">saveat</span><span class="o">=</span><span class="n">dfx</span><span class="o">.</span><span class="n">SaveAt</span><span class="p">(</span><span class="n">t1</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+            <span class="n">max_steps</span><span class="o">=</span><span class="n">max_steps</span><span class="p">,</span> <span class="n">throw</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">solution</span><span class="o">.</span><span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">finite</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="c1"># Seven stages for the initial step; FSAL saves one per subsequent</span>
+        <span class="c1"># ordinary step, but forced jumps invalidate it. Do not invent neval.</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">valid</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">finite</span><span class="p">,</span>
+            <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">solution</span><span class="o">.</span><span class="n">result</span> <span class="o">==</span> <span class="n">dfx</span><span class="o">.</span><span class="n">RESULTS</span><span class="o">.</span><span class="n">successful</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="mi">32</span><span class="p">),</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ArcLengthInfo</span><span class="p">(</span><span class="n">sign</span> <span class="o">*</span> <span class="n">value</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+                            <span class="n">status</span><span class="p">,</span> <span class="n">solution</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="s2">&quot;num_steps&quot;</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">zero</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+        <span class="n">speed_value</span> <span class="o">=</span> <span class="n">speed</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">speed_value</span>
+        <span class="k">return</span> <span class="n">ArcLengthInfo</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+                            <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">speed_value</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">invalid</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ArcLengthInfo</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span>
+                            <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">valid</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">,</span> <span class="n">zero</span><span class="p">,</span> <span class="n">nonzero</span><span class="p">,</span> <span class="n">operand</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span> <span class="n">invalid</span><span class="p">,</span> <span class="n">operand</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_spanwise_nodes</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">u1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">subdivisions</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gauss nodes and oriented weights on every clipped knot span.&quot;&quot;&quot;</span>
+    <span class="n">order</span><span class="p">,</span> <span class="n">subdivisions</span> <span class="o">=</span> <span class="n">_operator</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">order</span><span class="p">),</span> <span class="n">_operator</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">subdivisions</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">order</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">subdivisions</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;order &gt;= 2 and subdivisions &gt;= 1 are required&quot;</span><span class="p">)</span>
+    <span class="n">bounds</span><span class="p">,</span> <span class="n">sign</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_span_bounds</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">)</span>
+    <span class="n">fractions</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">subdivisions</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">panels</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bounds</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">fractions</span>
+    <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">panels</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">panels</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polynomial</span><span class="o">.</span><span class="n">legendre</span><span class="o">.</span><span class="n">leggauss</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="p">(</span><span class="n">left</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">right</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">sign</span> <span class="o">*</span> <span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">nodes</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">weights</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="PreparedArcLength">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.PreparedArcLength">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PreparedArcLength</span><span class="p">(</span><span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixed Gauss nodes and basis tables reusable with changing P and W.</span>
+
+<span class="sd">    Rebuild for changed knots, degree, limits, order or subdivisions. The object</span>
+<span class="sd">    stores polynomial basis tables, not a snapshot of rational geometry. Fixed</span>
+<span class="sd">    rules have no convergence guarantee; compare with adaptive integration on</span>
+<span class="sd">    the intended design family before using them in an objective.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">basis</span><span class="p">:</span> <span class="n">_PreparedCurveBasis</span>
+    <span class="n">weights</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">Array</span>
+
+<div class="viewcode-block" id="PreparedArcLength.value">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.PreparedArcLength.value">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a differentiable length; omitted weights mean unit weights.&quot;&quot;&quot;</span>
+        <span class="n">P</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">P</span><span class="p">),</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">W</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">P</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">W</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">jnp</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">W</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Prepared arc length requires real geometry and weights&quot;</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">*</span> <span class="n">_speed_norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="n">valid</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">P</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">W</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="n">valid</span> <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">W</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">W</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">eqx</span><span class="o">.</span><span class="n">error_if</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="o">~</span><span class="n">valid</span><span class="p">,</span> <span class="s2">&quot;Prepared arc length requires finite geometry and positive weights&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="prepare_arclength">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.prepare_arclength">[docs]</a>
+<span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">prepare_arclength</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">u1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">subdivisions</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare basis tables; rebuild for new knots/limits/order.</span>
+
+<span class="sd">    Build inside an AD transform for knot/limit sensitivities. At a zero-width</span>
+<span class="sd">    interval fixed quadrature currently does not promise endpoint AD semantics.</span>
+<span class="sd">    Even GL16/GL32 agreement can miss an extreme rational endpoint layer, so</span>
+<span class="sd">    validate the expected geometry family with an independent adaptive/reference</span>
+<span class="sd">    calculation rather than an order comparison alone.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="n">_span_bounds</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">)</span>
+    <span class="n">nodes</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">_spanwise_nodes</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">subdivisions</span><span class="o">=</span><span class="n">subdivisions</span><span class="p">)</span>
+    <span class="c1"># Tables depend on P&#39;s shape, not its values. Tie the guard to a returned</span>
+    <span class="c1"># numerical array so JIT cannot discard it as an unused geometry check.</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">error_if</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="o">~</span><span class="n">valid</span><span class="p">,</span>
+        <span class="s2">&quot;Arc length requires a continuous real curve, positive weights and in-domain limits&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">PreparedArcLength</span><span class="p">(</span><span class="n">_prepare_curve</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">max_order</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">weights</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_checked_value</span><span class="p">(</span><span class="n">info</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">eqx</span><span class="o">.</span><span class="n">error_if</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span>
+                        <span class="s2">&quot;Arc-length integration failed or inputs are invalid. &quot;</span>
+                        <span class="s2">&quot;Use return_info=True to inspect status/error, or increase the integration budget.&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ArcLengthMap">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthMap">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ArcLengthMap</span><span class="p">(</span><span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dense reciprocal-ODE data behind a curve&#39;s compiled inverse callable.</span>
+
+<span class="sd">    Queries accept scalars or arrays, preserve shape, and support JAX AD on</span>
+<span class="sd">    regular curves. Changing geometry requires rebuilding the map; keep its</span>
+<span class="sd">    construction inside an AD transform for geometry sensitivities. Each knot</span>
+<span class="sd">    span starts at its exact parameter and its dense endpoint is normalized to</span>
+<span class="sd">    the other exact endpoint. This prevents drift across speed jumps.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">solutions</span><span class="p">:</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Solution</span>
+    <span class="n">bounds</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">Array</span>
+    <span class="n">cumulative</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">Array</span>
+    <span class="n">end_values</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">Array</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">total_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cumulative</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">error_if</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="o">~</span><span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">s</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">s</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_length</span><span class="p">)),</span>
+                         <span class="s2">&quot;Arc-length map queries must lie between zero and the total length&quot;</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">evaluate_one</span><span class="p">(</span><span class="n">distance</span><span class="p">):</span>
+            <span class="n">panel</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cumulative</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">size</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cumulative</span><span class="p">[</span><span class="n">panel</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">cumulative</span><span class="p">[</span><span class="n">panel</span><span class="p">]</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="p">(</span><span class="n">distance</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">cumulative</span><span class="p">[</span><span class="n">panel</span><span class="p">])</span><span class="o">/</span><span class="n">length</span>
+            <span class="n">solution</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="n">panel</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">solutions</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">solution</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">time</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">end_values</span><span class="p">[</span><span class="n">panel</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="n">panel</span><span class="p">]</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">)[</span><span class="n">panel</span><span class="p">]</span><span class="o">*</span><span class="n">x</span>
+
+        <span class="n">values</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">evaluate_one</span><span class="p">)(</span><span class="n">s</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="c1"># Exact endpoint values, preserving the interpolation&#39;s one-sided JVP.</span>
+        <span class="n">correction</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">values</span><span class="p">,</span>
+                               <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">values</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">values</span> <span class="o">+</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">stop_gradient</span><span class="p">(</span><span class="n">correction</span><span class="p">)</span>
+
+    <span class="n">evaluate</span> <span class="o">=</span> <span class="fm">__call__</span></div>
+
+
+
+<span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_prepare_map</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">steps_per_span</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                 <span class="n">max_intervals</span><span class="o">=</span><span class="mi">512</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compile reusable span solves; no host loops, roots or hidden speed floor.</span>
+
+<span class="sd">    Both ODE time and its dependent parameter are normalized within a span.</span>
+<span class="sd">    Repeated zero-width spans are retained for static JAX shapes; their dummy</span>
+<span class="sd">    solutions are never selected by a valid query. Dense storage is bounded by</span>
+<span class="sd">    max_steps per span. Local tolerances do not certify global inverse accuracy.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_steps</span><span class="p">,</span> <span class="n">steps_per_span</span> <span class="o">=</span> <span class="n">_operator</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">max_steps</span><span class="p">),</span> <span class="n">_operator</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">steps_per_span</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">max_steps</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">steps_per_span</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_steps and steps_per_span must be positive integers&quot;</span><span class="p">)</span>
+    <span class="n">bounds</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="n">_span_bounds</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="n">curve</span><span class="o">.</span><span class="n">p</span><span class="p">],</span> <span class="n">curve</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="o">-</span><span class="n">curve</span><span class="o">.</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">valid</span> <span class="o">=</span> <span class="n">valid</span> <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">tol</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tol</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">curve</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">tree_at</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">curve</span><span class="p">,</span> <span class="n">eqx</span><span class="o">.</span><span class="n">error_if</span><span class="p">(</span>
+        <span class="n">curve</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="o">~</span><span class="n">valid</span><span class="p">,</span> <span class="s2">&quot;Arc-length maps require finite real geometry and positive weights&quot;</span><span class="p">))</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">widths</span> <span class="o">=</span> <span class="n">b</span><span class="o">-</span><span class="n">a</span>
+    <span class="n">active</span> <span class="o">=</span> <span class="n">widths</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+    <span class="c1"># Explicit left limits at each right endpoint avoid sampling the following</span>
+    <span class="c1"># span&#39;s derivative at a C0 knot. Stop only the unrepresentable ulp shift,</span>
+    <span class="c1"># retaining derivatives with respect to the actual knot positions.</span>
+    <span class="n">frozen_a</span><span class="p">,</span> <span class="n">frozen_b</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">stop_gradient</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">stop_gradient</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="n">b</span><span class="o">-</span><span class="p">(</span><span class="n">frozen_b</span><span class="o">-</span><span class="n">jnp</span><span class="o">.</span><span class="n">nextafter</span><span class="p">(</span><span class="n">frozen_b</span><span class="p">,</span> <span class="n">frozen_a</span><span class="p">))</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span><span class="o">+</span><span class="p">(</span><span class="n">right</span><span class="o">-</span><span class="n">a</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">17</span><span class="p">)</span>
+    <span class="n">speeds</span> <span class="o">=</span> <span class="n">_speed_norm</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">regular</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">active</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">speeds</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">speeds</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span> <span class="kc">True</span><span class="p">))</span>
+    <span class="n">curve</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">tree_at</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="n">curve</span><span class="p">,</span> <span class="n">eqx</span><span class="o">.</span><span class="n">error_if</span><span class="p">(</span>
+        <span class="n">curve</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="o">~</span><span class="n">regular</span><span class="p">,</span> <span class="s2">&quot;The reciprocal ODE requires positive speed; stationary/flat curves need a different inverse method&quot;</span><span class="p">))</span>
+
+    <span class="n">infos</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">:</span> <span class="n">_adaptive_length</span><span class="p">(</span>
+        <span class="n">curve</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">tol</span><span class="o">/</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span> <span class="n">rtol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span>
+        <span class="n">max_intervals</span><span class="o">=</span><span class="n">max_intervals</span><span class="p">))(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">lengths</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">error_if</span><span class="p">(</span><span class="n">infos</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="n">jnp</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">infos</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="n">jnp</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">active</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">infos</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)),</span>
+        <span class="s2">&quot;Arc-length map construction requires converged positive knot-span lengths&quot;</span><span class="p">)</span>
+    <span class="n">cumulative</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">lengths</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">lengths</span><span class="p">)))</span>
+    <span class="n">cumulative</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">error_if</span><span class="p">(</span><span class="n">cumulative</span><span class="p">,</span> <span class="n">cumulative</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">,</span>
+                              <span class="s2">&quot;A zero-length curve has no unique arc-length inverse&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">right_limit</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="n">hi</span><span class="o">-</span><span class="n">lo</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">field</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">lo</span><span class="o">+</span><span class="n">width</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">right_limit</span><span class="p">)</span>
+            <span class="n">speed</span> <span class="o">=</span> <span class="n">_speed_norm</span><span class="p">(</span><span class="n">curve</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># Only the artificial zero-width spans use the dummy x&#39;=1.</span>
+            <span class="n">denominator</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">width</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">*</span><span class="n">speed</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">width</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="o">/</span><span class="n">denominator</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dfx</span><span class="o">.</span><span class="n">diffeqsolve</span><span class="p">(</span>
+            <span class="n">dfx</span><span class="o">.</span><span class="n">ODETerm</span><span class="p">(</span><span class="n">field</span><span class="p">),</span> <span class="n">dfx</span><span class="o">.</span><span class="n">Dopri5</span><span class="p">(),</span> <span class="n">t0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">t1</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">y0</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">dt0</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>
+            <span class="n">stepsize_controller</span><span class="o">=</span><span class="n">dfx</span><span class="o">.</span><span class="n">PIDController</span><span class="p">(</span><span class="n">atol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span>
+                                                 <span class="n">dtmax</span><span class="o">=</span><span class="mf">1.0</span><span class="o">/</span><span class="n">steps_per_span</span><span class="p">),</span>
+            <span class="n">saveat</span><span class="o">=</span><span class="n">dfx</span><span class="o">.</span><span class="n">SaveAt</span><span class="p">(</span><span class="n">t1</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dense</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">adjoint</span><span class="o">=</span><span class="n">dfx</span><span class="o">.</span><span class="n">DirectAdjoint</span><span class="p">(),</span>
+            <span class="n">max_steps</span><span class="o">=</span><span class="n">max_steps</span><span class="p">,</span> <span class="n">throw</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">solutions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">solve</span><span class="p">)(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">lengths</span><span class="p">)</span>
+    <span class="n">end_values</span> <span class="o">=</span> <span class="n">solutions</span><span class="o">.</span><span class="n">ys</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">probes</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">solution</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">solution</span><span class="o">.</span><span class="n">evaluate</span><span class="p">)(</span><span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">33</span><span class="p">)))(</span><span class="n">solutions</span><span class="p">)</span>
+    <span class="n">good</span> <span class="o">=</span> <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">solutions</span><span class="o">.</span><span class="n">result</span> <span class="o">==</span> <span class="n">dfx</span><span class="o">.</span><span class="n">RESULTS</span><span class="o">.</span><span class="n">successful</span><span class="p">)</span>
+            <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">probes</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">probes</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="o">&amp;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">end_values</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">end_values</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">error_if</span><span class="p">(</span><span class="n">end_values</span><span class="p">,</span> <span class="o">~</span><span class="n">good</span><span class="p">,</span>
+                              <span class="s2">&quot;Arc-length inverse ODE failed or its sampled dense output is not monotone&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ArcLengthMap</span><span class="p">(</span><span class="n">solutions</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">cumulative</span><span class="p">,</span> <span class="n">end_values</span><span class="p">)</span>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

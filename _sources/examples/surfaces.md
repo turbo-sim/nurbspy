@@ -66,4 +66,5 @@ Use `surface.get_derivative(u, v, order_u=1, order_v=0)` for
 $\mathbf S_u$ and switch the orders for $\mathbf S_v$.
 `surface.get_normals(u, v)` returns unit normals at regular points;
 `surface.get_curvature(u, v)` returns `(mean_curvature, gaussian_curvature)`.
-The [NURBS theory](../theory/nurbs.md) explains these quantities.
+The [surface differential geometry](../theory/surface_differential_geometry.md)
+page explains these quantities and their orientation conventions.

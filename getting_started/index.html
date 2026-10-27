@@ -40,18 +40,16 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=40912020"></script>
+    <script src="../_static/documentation_options.js?v=9e8e7855"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'getting_started/index';</script>
     <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/getting_started/index.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="JAX performance and prepared evaluations" href="jax_performance.html" />
+    <link rel="next" title="Theory" href="../theory/index.html" />
     <link rel="prev" title="Welcome to nurbspy!" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -143,15 +141,19 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Getting started</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="jax_performance.html">JAX performance and prepared evaluations</a></li>
-</ul>
-</details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Getting started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../theory/bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/bspline.html">B-spline curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/nurbs.html">NURBS curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/point_projection.html">Point projection onto curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../references/bibliography.html">References</a></li>
 </ul>
 </details></li>
@@ -173,6 +175,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
@@ -451,6 +454,9 @@ provide a complete solid-modeling CAD system.</p>
 </section>
 <section id="installation-for-users">
 <h2>Installation for users<a class="headerlink" href="#installation-for-users" title="Link to this heading">#</a></h2>
+<p>The current source supports Python 3.12 and 3.13. The optional JAX backend
+uses JAX 0.12 and a compatible Equinox ecosystem; Python 3.11 is no longer
+supported by this development version.</p>
 <p>Use the following command to install the default NumPy backend:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>nurbspy
 </pre></div>
@@ -473,8 +479,9 @@ Python versions supported by Numba; omit it to avoid those dependency constraint
 does not install Numba or JAX. The JAX extra does not require Numba; use
 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;nurbspy[numba,jax]&quot;</span></code> to install both extras.
 The JAX backend currently uses the CPU.</p>
-<p>For repeated JAX evaluations and optimization at fixed parameter locations,
-see <a class="reference internal" href="jax_performance.html"><span class="std std-doc">JAX performance and prepared evaluations</span></a>.</p>
+<p>For repeated JAX evaluations at fixed parameter locations, see the
+<a class="reference internal" href="../api/nurbspy.jax.prepared.html#module-nurbspy.jax.prepared" title="nurbspy.jax.prepared"><code class="xref py py-mod docutils literal notranslate"><span class="pre">nurbspy.jax.prepared</span></code></a> API. The <a class="reference internal" href="../theory/index.html"><span class="std std-doc">theory pages</span></a> explain
+the geometric operations, including integration, inverse maps and projection.</p>
 <p>Verify the installation:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import nurbspy; print(nurbspy.__version__)&quot;</span>
 </pre></div>
@@ -530,7 +537,7 @@ regenerated on every build, so edit the Python docstrings to change the API.</p>
 <section id="running-the-tests">
 <h3>Running the tests<a class="headerlink" href="#running-the-tests" title="Link to this heading">#</a></h3>
 <p>Run the full suite with Poetry from the repository root:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>tests/run_tests.py
 </pre></div>
 </div>
 <p>Tests are grouped by what they verify:</p>
@@ -571,7 +578,7 @@ poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> 
 </div>
 <p>To exercise both optional backends explicitly:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>install<span class="w"> </span>--with<span class="w"> </span>dev<span class="w"> </span>--extras<span class="w"> </span><span class="s2">&quot;numba jax&quot;</span>
-poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests<span class="w"> </span>--require-backend<span class="o">=</span>numba<span class="w"> </span>--require-backend<span class="o">=</span>jax
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>tests/run_tests.py<span class="w"> </span>--require-backend<span class="o">=</span>numba<span class="w"> </span>--require-backend<span class="o">=</span>jax
 </pre></div>
 </div>
 <p>Ordinary runs skip JAX tests if JAX is absent. An installed but broken JAX
@@ -582,6 +589,16 @@ backend fail early, and CI uses it for its optional-extra jobs.</p>
 forwards extra pytest arguments. Once the environment is active, run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tests/run_tests.py
 python<span class="w"> </span>tests/run_tests.py<span class="w"> </span>-k<span class="w"> </span>projection
+</pre></div>
+</div>
+<p>GitHub CI uses this same runner for its backend matrix and for the full suite
+with both extras installed from a wheel. Installed-package smoke checks remain
+separate. Tests run on pull requests to <code class="docutils literal notranslate"><span class="pre">main</span></code>, pushes to <code class="docutils literal notranslate"><span class="pre">main</span></code> and release
+tags; package publication remains restricted to release tags after tests pass.</p>
+<p>CI reports the 15 slowest test phases taking at least one second. This is
+diagnostic reporting, not a timing threshold or benchmark. To inspect durations
+locally, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>tests/run_tests.py<span class="w"> </span>--durations<span class="o">=</span><span class="m">15</span><span class="w"> </span>--durations-min<span class="o">=</span><span class="m">1</span>.0
 </pre></div>
 </div>
 </section>
@@ -600,8 +617,6 @@ the working tree is not clean); pass <code class="docutils literal notranslate">
 files. Push the resulting commit and tag with:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main<span class="w"> </span>--tags
 </pre></div>
-</div>
-<div class="toctree-wrapper compound">
 </div>
 </section>
 </section>
@@ -628,11 +643,11 @@ files. Push the resulting commit and tag with:</p>
       </div>
     </a>
     <a class="right-next"
-       href="jax_performance.html"
+       href="../theory/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">JAX performance and prepared evaluations</p>
+        <p class="prev-next-title">Theory</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

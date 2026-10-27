@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=40912020"></script>
+    <script src="../_static/documentation_options.js?v=9e8e7855"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -141,15 +141,19 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../getting_started/jax_performance.html">JAX performance and prepared evaluations</a></li>
-</ul>
-</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Getting started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../theory/bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/bspline.html">B-spline curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/nurbs.html">NURBS curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/point_projection.html">Point projection onto curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../references/bibliography.html">References</a></li>
 </ul>
 </details></li>
@@ -171,6 +175,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="nurbspy.html">nurbspy package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="nurbspy.jax.html">nurbspy.jax package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
@@ -415,6 +420,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_points"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.project_points()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.sample_parameters"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.sample_parameters</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.sampled_points"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.sampled_points</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.samples_per_span"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.samples_per_span</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.surface"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.surface</span></code></a></li>
 </ul>
 </li>
@@ -432,45 +438,39 @@
                   
   <section id="module-nurbspy.jax.prepared_projection">
 <span id="nurbspy-jax-prepared-projection-module"></span><h1>nurbspy.jax.prepared_projection module<a class="headerlink" href="#module-nurbspy.jax.prepared_projection" title="Link to this heading">#</a></h1>
-<p>Explicit fixed-geometry snapshots for repeated surface point projection.</p>
-<p>Only coarse initialization is prepared. Newton parameters change, so refinement
-continues to use the general evaluator and its exact implicit derivatives.</p>
+<p>Explicit fixed-geometry spatial sampling for repeated surface projection.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="nurbspy.jax.prepared_projection.PreparedSurfaceProjection">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nurbspy.jax.prepared_projection.</span></span><span class="sig-name descname"><span class="pre">PreparedSurfaceProjection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surface</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface" title="nurbspy.jax.nurbs_surface.NurbsSurface"><span class="pre">NurbsSurface</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampled_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/jax/prepared_projection.html#PreparedSurfaceProjection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nurbspy.jax.prepared_projection.</span></span><span class="sig-name descname"><span class="pre">PreparedSurfaceProjection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surface</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface" title="nurbspy.jax.nurbs_surface.NurbsSurface"><span class="pre">NurbsSurface</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampled_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples_per_span</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/jax/prepared_projection.html#PreparedSurfaceProjection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
-<p>An immutable surface snapshot with its original coarse points prepared.</p>
-<p>Rebuild with <a class="reference internal" href="#nurbspy.jax.prepared_projection.prepare_surface_projection" title="nurbspy.jax.prepared_projection.prepare_surface_projection"><code class="xref py py-func docutils literal notranslate"><span class="pre">prepare_surface_projection()</span></code></a> after changing control
-points, weights, knots, or degrees. Replacing geometry leaves alone would
-make the cached coarse points stale. Ordinary JAX arrays and Equinox
-modules are immutable; this object has no hidden cache or mutation.</p>
-<p>Query derivatives use the same implicit minimum equations as
-<code class="docutils literal notranslate"><span class="pre">NurbsSurface.project_point_to_surface</span></code>. Geometry derivatives remain
-available when the factory is inside the differentiated function. They
-require a unique regular minimum and a stable active set; seed ties and
-basin changes are not differentiable.</p>
+<p>Immutable geometry/grid snapshot, with one local solve per query.</p>
+<p>Rebuild after changing P/W, knots, degrees or sampling density. Replacing
+geometry leaves alone makes cached positions stale. Query derivatives use
+the same exact implicit minimum equations as general surface projection.
+Build inside AD for geometry sensitivities; uniqueness, regularity and a
+stable active set are required. There is no global cache or hidden retry.</p>
 <p class="rubric">Methods</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_point" title="nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_point</span></code></a>(point[, maxiter, ftol, gtol])</p></td>
-<td><p>Return parameters shaped (2,), using the general solver's settings.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_point" title="nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_point</span></code></a>(point[, maxiter, ftol, gtol, xtol])</p></td>
+<td><p>Return a parameter pair shaped (2,) for one query.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_points" title="nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_points</span></code></a>(points[, maxiter, ftol, gtol])</p></td>
-<td><p>Project points shaped (ndim,N), returning parameters shaped (2,N).</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_points" title="nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_points</span></code></a>(points[, maxiter, ftol, ...])</p></td>
+<td><p>Project (ndim,N) queries with the general single-start solver.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_point">
-<span class="sig-name descname"><span class="pre">project_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/jax/prepared_projection.html#PreparedSurfaceProjection.project_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_point" title="Link to this definition">#</a></dt>
-<dd><p>Return parameters shaped (2,), using the general solver’s settings.</p>
+<span class="sig-name descname"><span class="pre">project_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-12</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/jax/prepared_projection.html#PreparedSurfaceProjection.project_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_point" title="Link to this definition">#</a></dt>
+<dd><p>Return a parameter pair shaped (2,) for one query.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_points">
-<span class="sig-name descname"><span class="pre">project_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/jax/prepared_projection.html#PreparedSurfaceProjection.project_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_points" title="Link to this definition">#</a></dt>
-<dd><p>Project points shaped (ndim,N), returning parameters shaped (2,N).</p>
+<span class="sig-name descname"><span class="pre">project_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-12</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/jax/prepared_projection.html#PreparedSurfaceProjection.project_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_points" title="Link to this definition">#</a></dt>
+<dd><p>Project (ndim,N) queries with the general single-start solver.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -484,6 +484,11 @@ basin changes are not differentiable.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="nurbspy.jax.prepared_projection.PreparedSurfaceProjection.samples_per_span">
+<span class="sig-name descname"><span class="pre">samples_per_span</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.samples_per_span" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="nurbspy.jax.prepared_projection.PreparedSurfaceProjection.surface">
 <span class="sig-name descname"><span class="pre">surface</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface" title="nurbspy.jax.nurbs_surface.NurbsSurface"><span class="pre">NurbsSurface</span></a></em><a class="headerlink" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.surface" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
@@ -492,15 +497,13 @@ basin changes are not differentiable.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nurbspy.jax.prepared_projection.prepare_surface_projection">
-<span class="sig-prename descclassname"><span class="pre">nurbspy.jax.prepared_projection.</span></span><span class="sig-name descname"><span class="pre">prepare_surface_projection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surface</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/jax/prepared_projection.html#prepare_surface_projection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.prepared_projection.prepare_surface_projection" title="Link to this definition">#</a></dt>
-<dd><p>Prepare coarse points for repeated projection onto one fixed surface.</p>
-<p>The seed grid and four-start selection are the same as the general solver.
-Factorized one-dimensional polynomial basis tables evaluate that grid once;
-the snapshot retains only its parameter/spatial points, plus the surface.
-Include preparation in first-use timing. Across query batches this avoids
-rebuilding the initial spatial grid; no promise is made that it accelerates
-an individual Newton iteration or that XLA has not hoisted common sampling
-work already in a general batched call.</p>
+<span class="sig-prename descclassname"><span class="pre">nurbspy.jax.prepared_projection.</span></span><span class="sig-name descname"><span class="pre">prepare_surface_projection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surface</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples_per_span</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/jax/prepared_projection.html#prepare_surface_projection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.jax.prepared_projection.prepare_surface_projection" title="Link to this definition">#</a></dt>
+<dd><p>Sample one fixed surface once for repeated query batches.</p>
+<p>The default interior budget is eight samples per knot span/axis, with all
+knot boundaries included. Strong positive weight ratios inform endpoint
+coverage. Preparation and general projection use the identical grid and
+one-start solver. This does not certify global closest points on folded or
+poorly resolved geometry. Include preparation when assessing first-use cost.</p>
 </dd></dl>
 
 </section>
@@ -557,6 +560,7 @@ work already in a general batched call.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.project_points"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.project_points()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.sample_parameters"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.sample_parameters</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.sampled_points"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.sampled_points</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.samples_per_span"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.samples_per_span</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.surface"><code class="docutils literal notranslate"><span class="pre">PreparedSurfaceProjection.surface</span></code></a></li>
 </ul>
 </li>

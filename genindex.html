@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=40912020"></script>
+    <script src="_static/documentation_options.js?v=9e8e7855"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -140,15 +140,19 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="getting_started/jax_performance.html">JAX performance and prepared evaluations</a></li>
-</ul>
-</details></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started/index.html">Getting started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="theory/bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory/bspline.html">B-spline curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory/nurbs.html">NURBS curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/point_projection.html">Point projection onto curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="references/bibliography.html">References</a></li>
 </ul>
 </details></li>
@@ -170,6 +174,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
@@ -354,6 +359,7 @@
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
@@ -363,6 +369,7 @@
  | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
@@ -371,6 +378,10 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthInfo">ArcLengthInfo (class in nurbspy.jax.arclength)</a>
+</li>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthMap">ArcLengthMap (class in nurbspy.jax.arclength)</a>
+</li>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.attach_nurbs_udir">attach_nurbs_udir() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 
       <ul>
@@ -391,8 +402,12 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.basis">basis (nurbspy.jax.prepared.PreparedCurveBasis attribute)</a>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.PreparedArcLength.basis">basis (nurbspy.jax.arclength.PreparedArcLength attribute)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.basis">(nurbspy.jax.prepared.PreparedCurveBasis attribute)</a>
 </li>
+      </ul></li>
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.basis_u">basis_u (nurbspy.jax.prepared.PreparedSurfaceBasis attribute)</a>
 </li>
   </ul></td>
@@ -400,6 +415,8 @@
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.basis_v">basis_v (nurbspy.jax.prepared.PreparedSurfaceBasis attribute)</a>
 </li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.binomial_coeff">binomial_coeff() (in module nurbspy.jax.nurbs_curve)</a>
+</li>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthMap.bounds">bounds (nurbspy.jax.arclength.ArcLengthMap attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -477,6 +494,8 @@
 </li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.create_mp4">create_mp4() (in module nurbspy.graphics)</a>
 </li>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthMap.cumulative">cumulative (nurbspy.jax.arclength.ArcLengthMap attribute)</a>
+</li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.curve_type">curve_type (nurbspy.jax.nurbs_curve.NurbsCurve attribute)</a>
 </li>
   </ul></td>
@@ -492,6 +511,22 @@
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.degree_u">degree_u (nurbspy.jax.prepared.PreparedSurfaceBasis attribute)</a>
 </li>
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.degree_v">degree_v (nurbspy.jax.prepared.PreparedSurfaceBasis attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthMap.end_values">end_values (nurbspy.jax.arclength.ArcLengthMap attribute)</a>
+</li>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthInfo.error_estimate">error_estimate (nurbspy.jax.arclength.ArcLengthInfo attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthMap.evaluate">evaluate() (nurbspy.jax.arclength.ArcLengthMap method)</a>
+</li>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthInfo.evaluations">evaluations (nurbspy.jax.arclength.ArcLengthInfo attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -519,7 +554,11 @@
         <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.get_arclength">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
 </li>
       </ul></li>
-      <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_quad">get_arclength_quad() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
+      <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_ode">get_arclength_ode() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
+</li>
+      <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_quad_adaptive">get_arclength_quad_adaptive() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
+</li>
+      <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_quad_fixed">get_arclength_quad_fixed() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 </li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_binormal">get_binormal() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
@@ -569,14 +608,14 @@
         <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.get_derivatives">(nurbspy.jax.prepared.PreparedSurfaceBasis method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.get_isocurve_u">get_isocurve_u() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 
       <ul>
         <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.get_isocurve_u">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.get_isocurve_v">get_isocurve_v() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 
       <ul>
@@ -654,6 +693,10 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthInfo.intervals">intervals (nurbspy.jax.arclength.ArcLengthInfo attribute)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="M">M</h2>
@@ -720,6 +763,8 @@
         <li><a href="api/nurbspy.graphics.html#module-nurbspy.graphics">nurbspy.graphics</a>
 </li>
         <li><a href="api/nurbspy.jax.html#module-nurbspy.jax">nurbspy.jax</a>
+</li>
+        <li><a href="api/nurbspy.jax.arclength.html#module-nurbspy.jax.arclength">nurbspy.jax.arclength</a>
 </li>
         <li><a href="api/nurbspy.jax.nurbs_basis_functions.html#module-nurbspy.jax.nurbs_basis_functions">nurbspy.jax.nurbs_basis_functions</a>
 </li>
@@ -812,6 +857,13 @@
 </li>
       </ul></li>
       <li>
+    nurbspy.jax.arclength
+
+      <ul>
+        <li><a href="api/nurbspy.jax.arclength.html#module-nurbspy.jax.arclength">module</a>
+</li>
+      </ul></li>
+      <li>
     nurbspy.jax.nurbs_basis_functions
 
       <ul>
@@ -881,6 +933,8 @@
         <li><a href="api/nurbspy.jax.prepared.html#module-nurbspy.jax.prepared">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     nurbspy.jax.prepared_projection
 
@@ -888,8 +942,6 @@
         <li><a href="api/nurbspy.jax.prepared_projection.html#module-nurbspy.jax.prepared_projection">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     nurbspy.numpy
 
@@ -1074,14 +1126,14 @@
         <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_isocurve_u">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot_isocurve_v">plot_isocurve_v() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 
       <ul>
         <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_isocurve_v">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot_normals">plot_normals() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 
       <ul>
@@ -1100,11 +1152,15 @@
         <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.plot_torsion">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
 </li>
       </ul></li>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.prepare_arclength">prepare_arclength() (in module nurbspy.jax.arclength)</a>
+</li>
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.prepare_curve">prepare_curve() (in module nurbspy.jax.prepared)</a>
 </li>
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.prepare_surface">prepare_surface() (in module nurbspy.jax.prepared)</a>
 </li>
       <li><a href="api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.prepare_surface_projection">prepare_surface_projection() (in module nurbspy.jax.prepared_projection)</a>
+</li>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.PreparedArcLength">PreparedArcLength (class in nurbspy.jax.arclength)</a>
 </li>
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis">PreparedCurveBasis (class in nurbspy.jax.prepared)</a>
 </li>
@@ -1182,21 +1238,35 @@
 </li>
       <li><a href="api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.sampled_points">sampled_points (nurbspy.jax.prepared_projection.PreparedSurfaceProjection attribute)</a>
 </li>
+      <li><a href="api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.samples_per_span">samples_per_span (nurbspy.jax.prepared_projection.PreparedSurfaceProjection attribute)</a>
+</li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.savefig_in_formats">savefig_in_formats() (in module nurbspy.graphics)</a>
 </li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.scale_graphics_x">scale_graphics_x() (in module nurbspy.graphics)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.scale_graphics_y">scale_graphics_y() (in module nurbspy.graphics)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.set_plot_options">set_plot_options() (in module nurbspy.graphics)</a>
+</li>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthMap.solutions">solutions (nurbspy.jax.arclength.ArcLengthMap attribute)</a>
+</li>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthInfo.status">status (nurbspy.jax.arclength.ArcLengthInfo attribute)</a>
 </li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.style_3d_axes">style_3d_axes() (in module nurbspy.graphics)</a>
 </li>
       <li><a href="api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.surface">surface (nurbspy.jax.prepared_projection.PreparedSurfaceProjection attribute)</a>
 </li>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.surface_type">surface_type (nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthMap.total_length">total_length (nurbspy.jax.arclength.ArcLengthMap property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1224,11 +1294,15 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.V">V (nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.V_mults">V_mults (nurbspy.jax.nurbs_surface.NurbsSurface property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.V_values">V_values (nurbspy.jax.nurbs_surface.NurbsSurface property)</a>
+</li>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthInfo.value">value (nurbspy.jax.arclength.ArcLengthInfo attribute)</a>
+</li>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.PreparedArcLength.value">value() (nurbspy.jax.arclength.PreparedArcLength method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1242,6 +1316,10 @@
         <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.W">(nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.PreparedArcLength.weights">weights (nurbspy.jax.arclength.PreparedArcLength attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 

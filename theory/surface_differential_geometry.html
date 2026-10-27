@@ -1,0 +1,709 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Surface differential geometry &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9e8e7855"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'theory/surface_differential_geometry';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/theory/surface_differential_geometry.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Point projection onto curves and surfaces" href="point_projection.html" />
+    <link rel="prev" title="Surface area and surface integrals" href="surface_integrals.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Theory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="point_projection.html">Point projection onto curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/edit/main/docs/source/theory/surface_differential_geometry.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2Ftheory/surface_differential_geometry.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/theory/surface_differential_geometry.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Surface differential geometry</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tangent-plane-and-oriented-normal">Tangent plane and oriented normal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-first-fundamental-form-local-distance">The first fundamental form: local distance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-second-fundamental-form-local-bending">The second fundamental form: local bending</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-mean-and-gaussian-curvature">Principal, mean and Gaussian curvature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-the-quantities">Calculate the quantities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#degeneracy-knots-and-numerical-sensitivity">Degeneracy, knots and numerical sensitivity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproduce-the-figure">Reproduce the figure</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="surface-differential-geometry">
+<h1>Surface differential geometry<a class="headerlink" href="#surface-differential-geometry" title="Link to this heading">#</a></h1>
+<p>Surface differential geometry turns partial derivatives into physical
+directions, lengths and bending measures. The main quantities are the tangent
+plane, oriented normal, local metric and curvatures. This page explains the
+calculations behind <code class="docutils literal notranslate"><span class="pre">get_normals()</span></code> and <code class="docutils literal notranslate"><span class="pre">get_curvature()</span></code> for a regular 3D
+surface <span class="math notranslate nohighlight">\(\mathbf S(u,v)\)</span>.</p>
+<section id="tangent-plane-and-oriented-normal">
+<h2>Tangent plane and oriented normal<a class="headerlink" href="#tangent-plane-and-oriented-normal" title="Link to this heading">#</a></h2>
+<p>The two partial derivatives describe how position changes along the parameter
+directions:</p>
+<div class="math notranslate nohighlight">
+\[
+d\mathbf S=\mathbf S_u\,du+\mathbf S_v\,dv,\qquad
+\mathbf n=\frac{\mathbf S_u\times\mathbf S_v}
+{\|\mathbf S_u\times\mathbf S_v\|}.
+\]</div>
+<p><span class="math notranslate nohighlight">\(\mathbf S_u\)</span> and <span class="math notranslate nohighlight">\(\mathbf S_v\)</span> span the tangent plane when they are linearly
+independent. They need not be perpendicular or have unit length. Their cross
+product sets the normal’s orientation. Reversing one parameter direction
+reverses the normal; reversing both preserves it. The package does not infer
+an application-specific notion of outward direction from a collection of patches.</p>
+</section>
+<section id="the-first-fundamental-form-local-distance">
+<h2>The first fundamental form: local distance<a class="headerlink" href="#the-first-fundamental-form-local-distance" title="Link to this heading">#</a></h2>
+<p>Taking the squared norm of <span class="math notranslate nohighlight">\(d\mathbf S\)</span> gives</p>
+<div class="math notranslate nohighlight">
+\[
+ds^2=E\,du^2+2F\,du\,dv+G\,dv^2,
+\qquad
+E=\mathbf S_u\cdot\mathbf S_u,\quad
+F=\mathbf S_u\cdot\mathbf S_v,\quad
+G=\mathbf S_v\cdot\mathbf S_v.
+\]</div>
+<p>The matrix <span class="math notranslate nohighlight">\(\mathrm I=\begin{pmatrix}E&amp;F\\F&amp;G\end{pmatrix}\)</span> is the
+<strong>metric</strong>, or first fundamental form. It converts parameter increments to
+physical lengths. <span class="math notranslate nohighlight">\(F=0\)</span> means the two parameter directions are locally
+orthogonal. Regularity requires <span class="math notranslate nohighlight">\(EG-F^2&gt;0\)</span>, and the area scale factor is
+<span class="math notranslate nohighlight">\(J_A=\sqrt{EG-F^2}\)</span>. See <a class="reference internal" href="surface_integrals.html"><span class="std std-doc">surface integration</span></a>.</p>
+<p>This explains why a unit step in <span class="math notranslate nohighlight">\(u\)</span> and a unit step in <span class="math notranslate nohighlight">\(v\)</span> are not generally
+comparable physical motions. The metric is also useful when diagnosing a
+stretched or nearly collapsed parameterization.</p>
+</section>
+<section id="the-second-fundamental-form-local-bending">
+<h2>The second fundamental form: local bending<a class="headerlink" href="#the-second-fundamental-form-local-bending" title="Link to this heading">#</a></h2>
+<p>Project the second partial derivatives onto the normal:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+e=\mathbf n\cdot\mathbf S_{uu},\qquad
+f=\mathbf n\cdot\mathbf S_{uv},\qquad
+g=\mathbf n\cdot\mathbf S_{vv},\qquad
+\mathrm{II}=\begin{pmatrix}e&amp;f\\f&amp;g\end{pmatrix}.
+\end{split}\]</div>
+<p>These coefficients describe the surface’s bending away from the tangent
+plane. For a nonzero parameter direction <span class="math notranslate nohighlight">\((\alpha,\beta)\)</span>, the signed normal
+curvature in that direction is</p>
+<div class="math notranslate nohighlight">
+\[
+k_n(\alpha,\beta)=
+\frac{e\alpha^2+2f\alpha\beta+g\beta^2}
+{E\alpha^2+2F\alpha\beta+G\beta^2}.
+\]</div>
+<p>The denominator measures physical tangent length; the numerator measures
+bending toward the chosen normal. This ratio, rather than a raw second
+partial derivative, gives a geometrically meaningful curvature.</p>
+</section>
+<section id="principal-mean-and-gaussian-curvature">
+<h2>Principal, mean and Gaussian curvature<a class="headerlink" href="#principal-mean-and-gaussian-curvature" title="Link to this heading">#</a></h2>
+<p>The extreme values of <span class="math notranslate nohighlight">\(k_n\)</span> are the principal curvatures <span class="math notranslate nohighlight">\(k_1,k_2\)</span>. Their
+parameter directions solve <span class="math notranslate nohighlight">\(\mathrm{II}\,\mathbf a=k\,\mathrm I\,\mathbf a\)</span>.
+Map a parameter direction <span class="math notranslate nohighlight">\((\alpha,\beta)\)</span> into the physical tangent vector
+<span class="math notranslate nohighlight">\(\alpha\mathbf S_u+\beta\mathbf S_v\)</span> before interpreting or plotting it.</p>
+<p>The package returns mean curvature <span class="math notranslate nohighlight">\(H\)</span> and Gaussian curvature <span class="math notranslate nohighlight">\(K\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+H=\frac{k_1+k_2}{2}
+=\frac{Eg-2Ff+Ge}{2(EG-F^2)},\qquad
+K=k_1k_2=\frac{eg-f^2}{EG-F^2}.
+\]</div>
+<p><span class="math notranslate nohighlight">\(H\)</span> has inverse-length units; <span class="math notranslate nohighlight">\(K\)</span> has inverse-length-squared units. Reversing
+the normal changes the signs of <span class="math notranslate nohighlight">\(e,f,g,k_1,k_2,H\)</span>, while <span class="math notranslate nohighlight">\(K\)</span> stays unchanged.
+With these definitions, a sphere with outward normal has <span class="math notranslate nohighlight">\(H=-1/R\)</span> and
+<span class="math notranslate nohighlight">\(K=1/R^2\)</span>. A cylinder has <span class="math notranslate nohighlight">\(K=0\)</span> even though it bends in one direction.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Gaussian curvature</p></th>
+<th class="head"><p>Local interpretation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(K&gt;0\)</span></p></td>
+<td><p>Both principal curvatures have the same sign; locally dome-like</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(K&lt;0\)</span></p></td>
+<td><p>Principal curvatures have opposite signs; locally saddle-like</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(K=0\)</span></p></td>
+<td><p>At least one principal curvature vanishes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>From returned <span class="math notranslate nohighlight">\(H,K\)</span>, principal curvature <strong>values</strong> can be recovered as
+<span class="math notranslate nohighlight">\(k_{1,2}=H\pm\sqrt{H^2-K}\)</span>. Near an umbilic point, where the curvatures
+coincide, the principal directions are not uniquely determined. Roundoff can
+make <span class="math notranslate nohighlight">\(H^2-K\)</span> slightly negative; a tiny negative value may be clipped for display,
+but a substantial negative value signals a numerical or implementation problem.
+The package has no dedicated principal-direction or metric API; these are
+derived calculations using its partial derivatives.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/surface_geometry.svg"><img alt="An exact NURBS torus colored by computed Gaussian and signed mean curvature, with evaluated outward normals." src="../_images/surface_geometry.svg" width="100%" /></a>
+<figcaption>
+<p><span class="caption-text">An exact rational torus with major radius 2 and tube radius 0.6. Gaussian
+curvature is positive on the outer side and negative on the inner side.
+Mean curvature uses the outward normals shown in the right panel, and is
+negative under the stated convention. Colors are computed from nurbspy’s
+analytic derivatives; no qualitative curvature field is imposed.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="calculate-the-quantities">
+<h2>Calculate the quantities<a class="headerlink" href="#calculate-the-quantities" title="Link to this heading">#</a></h2>
+<p>Both backends expose the same surface geometry methods:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># surface is a regular 3D NurbsSurface; u and v are paired arrays.</span>
+<span class="n">su</span> <span class="o">=</span> <span class="n">surface</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">sv</span> <span class="o">=</span> <span class="n">surface</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">normal</span> <span class="o">=</span> <span class="n">surface</span><span class="o">.</span><span class="n">get_normals</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>       <span class="c1"># Shape (3, N).</span>
+<span class="n">H</span><span class="p">,</span> <span class="n">K</span> <span class="o">=</span> <span class="n">surface</span><span class="o">.</span><span class="n">get_curvature</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>       <span class="c1"># Each shape (N,).</span>
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">np.sum(su*sv,</span> <span class="pre">axis=0)</span></code> for metric contractions with NumPy, or the JAX
+equivalent. Mixed derivative order <code class="docutils literal notranslate"><span class="pre">(1,1)</span></code> means <span class="math notranslate nohighlight">\(\mathbf S_{uv}\)</span>;
+<code class="docutils literal notranslate"><span class="pre">(2,0)</span></code> and <code class="docutils literal notranslate"><span class="pre">(0,2)</span></code> mean <span class="math notranslate nohighlight">\(\mathbf S_{uu}\)</span> and <span class="math notranslate nohighlight">\(\mathbf S_{vv}\)</span>. Values and
+partials pair the entries of <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span>; form a mesh explicitly for a grid.</p>
+<p>For repeated changing-design calculations at fixed locations, JAX
+<code class="docutils literal notranslate"><span class="pre">prepare_surface()</span></code> can retain the basis tables. Prepare derivatives through
+order two for curvature and order one for normals or area. Changing the
+sampling layout or defining knots requires rebuilding those tables.</p>
+</section>
+<section id="degeneracy-knots-and-numerical-sensitivity">
+<h2>Degeneracy, knots and numerical sensitivity<a class="headerlink" href="#degeneracy-knots-and-numerical-sensitivity" title="Link to this heading">#</a></h2>
+<p>At <span class="math notranslate nohighlight">\(\mathbf S_u\times\mathbf S_v=0\)</span>, the normal and ordinary curvature
+formulas are undefined. This may describe a collapsed patch or a singular
+parameterization of an otherwise smooth physical surface, such as a pole.
+Do not interpret NaNs or very large curvature near such a point as reliable
+physical bending.</p>
+<p>Curvature requires the relevant second derivatives. Repeated knots can reduce
+smoothness; distinguish one-sided curvature from a unique curvature at a
+join. Very different parameter scales and nearly parallel tangent directions
+can also make the metric poorly conditioned. Compare against analytic shapes
+and inspect the area Jacobian when results look suspicious.</p>
+</section>
+<section id="reproduce-the-figure">
+<h2>Reproduce the figure<a class="headerlink" href="#reproduce-the-figure" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>docs/generate_theory_images.py<span class="w"> </span>--only<span class="w"> </span>surface_geometry
+</pre></div>
+</div>
+<p>The <a class="reference download internal" download="" href="../_downloads/c62f47689bd3c13b3d8c6c9a6aeeb988/surface_geometry.py"><code class="xref download docutils literal notranslate"><span class="pre">figure</span> <span class="pre">script</span></code></a> checks both
+curvatures against the analytic torus formulas and verifies unit normals.
+<a class="reference download internal" download="" href="../_downloads/58fb9c5556d467f3c80d1072f9e77d7a/surface_geometry.pdf"><span class="xref download myst">Download the vector PDF</span></a>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="surface_integrals.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Surface area and surface integrals</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="point_projection.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Point projection onto curves and surfaces</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tangent-plane-and-oriented-normal">Tangent plane and oriented normal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-first-fundamental-form-local-distance">The first fundamental form: local distance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-second-fundamental-form-local-bending">The second fundamental form: local bending</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principal-mean-and-gaussian-curvature">Principal, mean and Gaussian curvature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-the-quantities">Calculate the quantities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#degeneracy-knots-and-numerical-sensitivity">Degeneracy, knots and numerical sensitivity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproduce-the-figure">Reproduce the figure</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

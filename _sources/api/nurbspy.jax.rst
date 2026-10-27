@@ -12,6 +12,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   nurbspy.jax.arclength
    nurbspy.jax.nurbs_basis_functions
    nurbspy.jax.nurbs_curve
    nurbspy.jax.nurbs_curve_circular_arc

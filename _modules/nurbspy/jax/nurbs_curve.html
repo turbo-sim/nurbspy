@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=40912020"></script>
+    <script src="../../../_static/documentation_options.js?v=9e8e7855"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -140,15 +140,19 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../getting_started/jax_performance.html">JAX performance and prepared evaluations</a></li>
-</ul>
-</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../theory/bezier.html">Bézier curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../theory/bspline.html">B-spline curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../theory/nurbs.html">NURBS curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/point_projection.html">Point projection onto curves and surfaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../references/bibliography.html">References</a></li>
 </ul>
 </details></li>
@@ -170,6 +174,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
@@ -347,11 +352,12 @@
                 <article class="bd-article">
                   
   <h1>Source code for nurbspy.jax.nurbs_curve</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_operator</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">equinox</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqx</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">optimistix</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optx</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">diffrax</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dfx</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">quadax</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qdx</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
@@ -362,6 +368,7 @@
     <span class="n">_compute_basis_derivatives</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..graphics</span><span class="w"> </span><span class="kn">import</span> <span class="n">style_3d_axes</span><span class="p">,</span> <span class="n">close_3d_box</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">arclength</span> <span class="k">as</span> <span class="n">_arc</span>
 
 
 <div class="viewcode-block" id="binomial_coeff">
@@ -1065,68 +1072,101 @@
 <div class="viewcode-block" id="NurbsCurve.get_arclength">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength">[docs]</a>
     <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_arclength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compute the arc length of the NURBS curve over the parameter interval [u₁, u₂]</span>
-<span class="sd">        by numerically integrating the local curve speed as an ordinary differential equation (ODE).</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_arclength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;quad_adaptive&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dispatch to an explicit arc-length method (adaptive by default).</span>
 
-<span class="sd">        The arc length of a parametric curve C(u) = [x(u), y(u), z(u)]ᵀ is defined as</span>
+<span class="sd">        ``method`` is static under ``eqx.filter_jit``: only the selected method</span>
+<span class="sd">        is traced/compiled, and AD acts on that calculation. The choices are</span>
+<span class="sd">        ``&quot;quad_adaptive&quot;``, ``&quot;quad_fixed&quot;`` and ``&quot;ode&quot;``.</span>
 
-<span class="sd">            L(u₁, u₂) = ∫ ‖C&#39;(u)‖ du,</span>
+<span class="sd">        ``tol=None`` means 1e-6 for adaptive quadrature and ODE. The optional</span>
+<span class="sd">        third positional tolerance is retained. Fixed quadrature accepts</span>
+<span class="sd">        ``n_points`` instead and rejects an explicit tolerance. Other keyword</span>
+<span class="sd">        options are forwarded to the selected method; unsupported options raise</span>
+<span class="sd">        TypeError rather than being silently ignored. See each named method for</span>
+<span class="sd">        its numerical assumptions, diagnostics and differentiation semantics.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;quad_fixed&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">tol</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;quad_fixed uses n_points, not tol&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_arclength_quad_fixed</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;quad_adaptive&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_arclength_quad_adaptive</span><span class="p">(</span>
+                <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="mf">1e-6</span> <span class="k">if</span> <span class="n">tol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">tol</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;ode&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_arclength_ode</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="mf">1e-6</span> <span class="k">if</span> <span class="n">tol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">tol</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;method must be &#39;quad_adaptive&#39;, &#39;quad_fixed&#39; or &#39;ode&#39;&quot;</span><span class="p">)</span></div>
 
-<span class="sd">        where C&#39;(u) = dC/du and ‖C&#39;(u)‖ = √(x&#39;(u)² + y&#39;(u)² + z&#39;(u)²) is the instantaneous</span>
-<span class="sd">        curve speed. This equation can be expressed as an initial-value problem:</span>
 
-<span class="sd">            ds/du = ‖C&#39;(u)‖,     s(u₁) = 0,</span>
+<div class="viewcode-block" id="NurbsCurve.get_arclength_quad_adaptive">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_quad_adaptive">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_arclength_quad_adaptive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+                                    <span class="n">atol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">adjoint</span><span class="o">=</span><span class="s2">&quot;direct&quot;</span><span class="p">,</span>
+                                    <span class="n">max_intervals</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">return_info</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Integrate speed using adaptive knot-aware Gauss-Kronrod quadrature.</span>
 
-<span class="sd">        which is solved numerically over [u₁, u₂] to obtain the cumulative arc length L = s(u₂).</span>
-
-<span class="sd">        The ODE is integrated using a fifth-order Dormand-Prince (Dopri5) adaptive solver</span>
-<span class="sd">        with a PID stepsize controller. The integration tolerances (relative and absolute)</span>
-<span class="sd">        are both set to `tol`, which ensures consistent accuracy across varying cspeeds and curvatures.</span>
+<span class="sd">        Reversed limits give a signed integral and equal limits give zero.</span>
+<span class="sd">        Requires real finite geometry, positive weights, in-domain limits and</span>
+<span class="sd">        no interior curve discontinuities. Zero speed is allowed for length.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        u1 : float, optional</span>
-<span class="sd">            Lower limit of integration for the arc length computation (default: 0.0).</span>
-
-<span class="sd">        u2 : float, optional</span>
-<span class="sd">            Upper limit of integration for the arc length computation (default: 1.0).</span>
-
+<span class="sd">        u1, u2 : float, optional</span>
+<span class="sd">            In-domain integration limits, defaulting to 0 and 1.</span>
 <span class="sd">        tol : float, optional</span>
-<span class="sd">            Relative and absolute tolerance for the adaptive ODE solver (default: 1e-6).</span>
+<span class="sd">            Default for each unspecified tolerance (1e-6).</span>
+<span class="sd">        atol, rtol : float, optional</span>
+<span class="sd">            Absolute/relative controls: target max(atol, rtol*abs(length)).</span>
+<span class="sd">        adjoint : {&quot;direct&quot;, &quot;leibniz&quot;}, optional</span>
+<span class="sd">            Direct differentiates the accepted mesh; Leibniz integrates</span>
+<span class="sd">            sensitivities with their own adaptive solve. A primal error</span>
+<span class="sd">            estimate does not certify gradient accuracy.</span>
+<span class="sd">        max_intervals : int, optional</span>
+<span class="sd">            Static workspace limit, default 512.</span>
+<span class="sd">        return_info : bool, optional</span>
+<span class="sd">            Return ArcLengthInfo with value/error/work/status instead of a</span>
+<span class="sd">            scalar. Nonzero status reports invalid input or solver failure.</span>
+<span class="sd">            Scalar calls raise on failure, including under JIT.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        L : float</span>
-<span class="sd">            Arc length of the curve segment C(u) for u ∈ [u₁, u₂].</span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Normalization and endpoint grading improve rational-layer resolution,</span>
+<span class="sd">        but extreme features can evade sampling or exhaust floating-point</span>
+<span class="sd">        resolution. Error estimates are not certificates. At zero velocity AD</span>
+<span class="sd">        selects a zero norm subgradient; collapsed length is not differentiable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">_arc</span><span class="o">.</span><span class="n">_adaptive_length</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">tol</span> <span class="k">if</span> <span class="n">atol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">atol</span><span class="p">,</span>
+            <span class="n">rtol</span><span class="o">=</span><span class="n">tol</span> <span class="k">if</span> <span class="n">rtol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">rtol</span><span class="p">,</span> <span class="n">adjoint</span><span class="o">=</span><span class="n">adjoint</span><span class="p">,</span>
+            <span class="n">max_intervals</span><span class="o">=</span><span class="n">max_intervals</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">info</span> <span class="k">if</span> <span class="n">return_info</span> <span class="k">else</span> <span class="n">_arc</span><span class="o">.</span><span class="n">_checked_value</span><span class="p">(</span><span class="n">info</span><span class="p">)</span></div>
 
-        <span class="n">dC_fun</span> <span class="o">=</span> <span class="n">eqx</span><span class="o">.</span><span class="n">filter_jit</span><span class="p">(</span><span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">])</span>
-        <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dC_fun</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
 
-        <span class="n">ctrl</span> <span class="o">=</span> <span class="n">dfx</span><span class="o">.</span><span class="n">PIDController</span><span class="p">(</span><span class="n">rtol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">tol</span><span class="p">)</span>
-        <span class="n">term</span> <span class="o">=</span> <span class="n">dfx</span><span class="o">.</span><span class="n">ODETerm</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-        <span class="n">sol</span> <span class="o">=</span> <span class="n">dfx</span><span class="o">.</span><span class="n">diffeqsolve</span><span class="p">(</span>
-            <span class="n">term</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="n">dfx</span><span class="o">.</span><span class="n">Dopri5</span><span class="p">(),</span>
-            <span class="n">t0</span><span class="o">=</span><span class="n">u1</span><span class="p">,</span>
-            <span class="n">t1</span><span class="o">=</span><span class="n">u2</span><span class="p">,</span>
-            <span class="n">y0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-            <span class="n">dt0</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
-            <span class="n">stepsize_controller</span><span class="o">=</span><span class="n">ctrl</span><span class="p">,</span>
-            <span class="n">adjoint</span><span class="o">=</span><span class="n">dfx</span><span class="o">.</span><span class="n">DirectAdjoint</span><span class="p">(),</span>
-            <span class="n">saveat</span><span class="o">=</span><span class="n">dfx</span><span class="o">.</span><span class="n">SaveAt</span><span class="p">(</span><span class="n">t1</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>  <span class="c1"># Only need final value</span>
-        <span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">sol</span><span class="o">.</span><span class="n">ys</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span></div>
-
-    
-<div class="viewcode-block" id="NurbsCurve.get_arclength_quad">
-<a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_quad">[docs]</a>
+<div class="viewcode-block" id="NurbsCurve.get_arclength_ode">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_ode">[docs]</a>
     <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_arclength_quad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">n_points</span><span class="o">=</span><span class="mi">41</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_arclength_ode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">max_steps</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span> <span class="n">return_info</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Integrate speed with knot-aware Dopri5 and local error controls.</span>
+
+<span class="sd">        See get_arclength_quad_adaptive for geometry, signed interval and</span>
+<span class="sd">        diagnostic conventions. Each unspecified atol/rtol defaults to tol.</span>
+<span class="sd">        Local ODE controls do not guarantee the global length error.</span>
+<span class="sd">        max_steps is a static workspace limit. ODE error_estimate is NaN and</span>
+<span class="sd">        evaluations is -1: Diffrax exposes attempted step counts, not a global</span>
+<span class="sd">        error estimate or exact RHS count. Scalar calls raise on failure.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">_arc</span><span class="o">.</span><span class="n">_ode_length</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">tol</span> <span class="k">if</span> <span class="n">atol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">atol</span><span class="p">,</span>
+            <span class="n">rtol</span><span class="o">=</span><span class="n">tol</span> <span class="k">if</span> <span class="n">rtol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">rtol</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="n">max_steps</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">info</span> <span class="k">if</span> <span class="n">return_info</span> <span class="k">else</span> <span class="n">_arc</span><span class="o">.</span><span class="n">_checked_value</span><span class="p">(</span><span class="n">info</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.get_arclength_quad_fixed">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength_quad_fixed">[docs]</a>
+    <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_arclength_quad_fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">n_points</span><span class="o">=</span><span class="mi">41</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the arc length of the NURBS curve over the parameter interval [u₁, u₂]</span>
 <span class="sd">        using fixed-point numerical quadrature.</span>
@@ -1151,7 +1191,9 @@
 <span class="sd">            Upper bound of the parameter domain (default: 1.0).</span>
 
 <span class="sd">        n_points : int, optional</span>
-<span class="sd">            Number of quadrature points used in the Clenshaw-Curtis rule (default: 41).</span>
+<span class="sd">            Requested minimum number of quadrature points (default: 41).</span>
+<span class="sd">            Rounded up to a rule with ``4*k+1`` nodes, with at least 5 nodes,</span>
+<span class="sd">            as required by Quadax&#39;s embedded Clenshaw-Curtis rule.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1169,91 +1211,52 @@
         <span class="c1"># Only the integral is used. Quadax&#39;s error estimate can have undefined</span>
         <span class="c1"># gradients for constant speed, so keep that diagnostic out of autodiff.</span>
         <span class="n">error_norm</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">error</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">stop_gradient</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">error</span><span class="p">)))</span>
-        <span class="n">rule</span> <span class="o">=</span> <span class="n">qdx</span><span class="o">.</span><span class="n">ClenshawCurtisRule</span><span class="p">(</span><span class="n">n_points</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">error_norm</span><span class="p">)</span>
+        <span class="n">n_points</span> <span class="o">=</span> <span class="n">_operator</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">n_points</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_points</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n_points must be a positive integer&quot;</span><span class="p">)</span>
+        <span class="c1"># Quadax &gt;=0.3 takes a polynomial order divisible by four, not a</span>
+        <span class="c1"># node count. Order 40 preserves the existing default 41-node rule.</span>
+        <span class="c1"># Round other requests upwards so they use at least n_points nodes.</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="p">((</span><span class="n">n_points</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">//</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="n">rule</span> <span class="o">=</span> <span class="n">qdx</span><span class="o">.</span><span class="n">ClenshawCurtisRule</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">error_norm</span><span class="p">)</span>
         <span class="n">arclength</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">integrand</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">arclength</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="NurbsCurve.reparametrize_by_arclength">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_arclength">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">reparametrize_by_arclength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Construct a callable function that reparametrizes the NURBS curve by arc length,</span>
-<span class="sd">        returning the corresponding parameter values u(s) for prescribed arc-length positions s.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reparametrize_by_arclength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+                                   <span class="n">steps_per_span</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">max_intervals</span><span class="o">=</span><span class="mi">512</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a dense ODE map ``u_of_s`` and the total arc length.</span>
 
-<span class="sd">        Let the parametric curve be</span>
-<span class="sd">            C(u) = [x(u), y(u), z(u)]ᵀ,      u ∈ [0, 1].</span>
+<span class="sd">        Adaptive quadrature first computes each knot-span length. Independent</span>
+<span class="sd">        reciprocal ODEs then integrate normalized parameter against normalized</span>
+<span class="sd">        distance on each span. Dense interpolants give fast queries without</span>
+<span class="sd">        quadrature or root finding. Exact span anchors prevent cumulative drift</span>
+<span class="sd">        across knots; ``steps_per_span`` sets a minimum dense-output resolution.</span>
 
-<span class="sd">        The arc length of a parametric curve C(u) = [x(u), y(u), z(u)]ᵀ is defined as</span>
+<span class="sd">        This method requires a regular curve with positive speed, including</span>
+<span class="sd">        one-sided endpoint limits. Sampled stationary points, flat spans,</span>
+<span class="sd">        failed solves and nonmonotone sampled output are rejected explicitly.</span>
+<span class="sd">        No epsilon is added to hide a reciprocal singularity. Regularity and</span>
+<span class="sd">        monotonicity sampling are checks, not everywhere-valid proofs.</span>
 
-<span class="sd">            s(u₁, u₂) = ∫ ‖C&#39;(u)‖ du,</span>
+<span class="sd">        ``tol`` is the quadrature and local ODE control, not a global inverse-</span>
+<span class="sd">        map or unit-speed error guarantee. Tighter controls may be needed for</span>
+<span class="sd">        sensitivities. ``max_steps`` bounds dense storage per knot span.</span>
 
-<span class="sd">        where C&#39;(u) = dC/du and ‖C&#39;(u)‖ = √(x&#39;(u)² + y&#39;(u)² + z&#39;(u)²) is the instantaneous</span>
-<span class="sd">        curve speed. This equation can be expressed as an initial-value problem:</span>
-
-<span class="sd">            ds/du = ‖C&#39;(u)‖,  with   s(0) = 0,</span>
-<span class="sd">                                   </span>
-<span class="sd">        which is solved numerically over [0, 1] to obtain the cumulative arc length s_total.</span>
-
-<span class="sd">        To obtain the inverse mapping u(s), this routine solves the reciprocal ODE</span>
-
-<span class="sd">            du/ds = 1 / ‖C&#39;(u)‖,    with   u(0) = 0.</span>
-
-<span class="sd">        The integration of this equation yields a continuous function u(s) that relates</span>
-<span class="sd">        the normalized arc-length coordinate s to the corresponding curve parameter u.</span>
-
-<span class="sd">        Computationally, the method proceeds in two stages:</span>
-
-<span class="sd">            1. Compute the total arc length s_total by direct integration</span>
-<span class="sd">            2. Obtain the inverse mapping u(s) by inverse integration</span>
-
-<span class="sd">        The method returns the total arc length s_total and a compiled,</span>
-<span class="sd">        vectorized function handle u(s), built from a dense interpolation of the ODE</span>
-<span class="sd">        solution, for efficient and differentiable evaluation of the inverse mapping.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        tol : float, optional</span>
-<span class="sd">            Relative and absolute tolerance for the adaptive ODE solver (default: 1e-6).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        u_of_s : callable</span>
-<span class="sd">            A JAX-compiled, vectorized function u(s) constructed from a dense</span>
-<span class="sd">            interpolation of the ODE solution. Evaluating u_of_s(s) returns</span>
-<span class="sd">            the corresponding curve parameter(s) for prescribed arc-length</span>
-<span class="sd">            position(s) s ∈ [0, s_total].</span>
-
-<span class="sd">        s_total : float</span>
-<span class="sd">            The total cumulative arc length of the curve over the parameter</span>
-<span class="sd">            interval [0, 1].</span>
+<span class="sd">        The returned compiled callable accepts scalar/array distances in</span>
+<span class="sd">        ``[0, total_length]``, preserves shape and supports JAX differentiation</span>
+<span class="sd">        on regular curves. It is a geometry snapshot: rebuild after changes to</span>
+<span class="sd">        control points, weights or knots. Keep construction inside a transform</span>
+<span class="sd">        when differentiating with respect to the geometry.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Direct integration: compute total arclength</span>
-        <span class="n">s_total</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_arclength</span><span class="p">(</span><span class="n">u1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">)</span>
-
-        <span class="c1"># Inverse integration: compute mapping u(s)</span>
-        <span class="k">def</span><span class="w"> </span><span class="nf">f_inverse</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-            <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-            <span class="n">dC</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">speed</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dC</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
-            <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">speed</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">)</span>
-
-        <span class="n">term_inv</span> <span class="o">=</span> <span class="n">dfx</span><span class="o">.</span><span class="n">ODETerm</span><span class="p">(</span><span class="n">f_inverse</span><span class="p">)</span>
-        <span class="n">ctrl</span> <span class="o">=</span> <span class="n">dfx</span><span class="o">.</span><span class="n">PIDController</span><span class="p">(</span><span class="n">rtol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">tol</span><span class="p">)</span>
-        <span class="n">sol_inv</span> <span class="o">=</span> <span class="n">dfx</span><span class="o">.</span><span class="n">diffeqsolve</span><span class="p">(</span>
-            <span class="n">term_inv</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="n">dfx</span><span class="o">.</span><span class="n">Dopri5</span><span class="p">(),</span>
-            <span class="n">t0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-            <span class="n">t1</span><span class="o">=</span><span class="n">s_total</span><span class="p">,</span>
-            <span class="n">y0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-            <span class="n">dt0</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>
-            <span class="n">stepsize_controller</span><span class="o">=</span><span class="n">ctrl</span><span class="p">,</span>
-            <span class="n">adjoint</span><span class="o">=</span><span class="n">dfx</span><span class="o">.</span><span class="n">DirectAdjoint</span><span class="p">(),</span>
-            <span class="n">saveat</span><span class="o">=</span><span class="n">dfx</span><span class="o">.</span><span class="n">SaveAt</span><span class="p">(</span><span class="n">dense</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">t1</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-        <span class="p">)</span>
-
-        <span class="c1"># Return compiled and vectorized function handle</span>
-        <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">sol_inv</span><span class="o">.</span><span class="n">evaluate</span><span class="p">)),</span> <span class="n">s_total</span></div>
+        <span class="n">mapping</span> <span class="o">=</span> <span class="n">_arc</span><span class="o">.</span><span class="n">_prepare_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="n">max_steps</span><span class="p">,</span>
+                                    <span class="n">steps_per_span</span><span class="o">=</span><span class="n">steps_per_span</span><span class="p">,</span>
+                                    <span class="n">max_intervals</span><span class="o">=</span><span class="n">max_intervals</span><span class="p">)</span>
+        <span class="c1"># Preserve the compiled-function interface, including jax.jit(inverse)</span>
+        <span class="c1"># and inverse.lower(...). The reusable builder above caches span solves.</span>
+        <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">mapping</span><span class="p">(</span><span class="n">s</span><span class="p">)),</span> <span class="n">mapping</span><span class="o">.</span><span class="n">total_length</span></div>
 
 
 
@@ -1339,131 +1342,53 @@
 <div class="viewcode-block" id="NurbsCurve.project_points">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.project_points">[docs]</a>
     <span class="nd">@eqx</span><span class="o">.</span><span class="n">filter_jit</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">project_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Q_all</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Vectorized projection of multiple points onto the NURBS curve.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">project_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Q_all</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">samples_per_span</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+                       <span class="n">gtol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span> <span class="n">ftol</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Project query columns using sampled initialization and one local solve.</span>
 
-<span class="sd">        The projection point `C(u*)` minimizes the squared Euclidean distance to `Q`:</span>
+<span class="sd">        The knot-aware grid is evaluated once for the batch. Its nearest point</span>
+<span class="sd">        starts a bounded Newton/line-search minimization on the actual knot</span>
+<span class="sd">        domain. ``samples_per_span`` is a static interior sampling budget;</span>
+<span class="sd">        strongly unequal positive weights add logarithmic endpoint coverage</span>
+<span class="sd">        within that budget. Finite sampling cannot guarantee a global minimum.</span>
 
-<span class="sd">            f(u) = ||C(u) - Q||²</span>
+<span class="sd">        ``tol`` now controls tangent-scaled spatial stationarity, with threshold</span>
+<span class="sd">        ``tol * (1 + distance)``. ``gtol`` overrides it when supplied. The default</span>
+<span class="sd">        1e-9 preserves the old effective internal tolerance; the old public 1e-6</span>
+<span class="sd">        argument was ignored. ``xtol`` and ``ftol`` detect stagnation, which alone</span>
+<span class="sd">        is never accepted as convergence. Nonconverged solves raise an error.</span>
+<span class="sd">        Static options must be finite/nonnegative; the sampling budget is positive.</span>
 
-<span class="sd">        The stationary condition is obtained from:</span>
+<span class="sd">        Inputs have shape (ndim,N); returned parameters have shape (N,).</span>
+<span class="sd">        Geometry must be finite, with positive weights and continuous knots</span>
+<span class="sd">        (interior multiplicity at most degree). Empty query batches are allowed.</span>
 
-<span class="sd">            f&#39;(u) = 2 (C(u) - Q) · C&#39;(u) = 0</span>
-
-<span class="sd">        which ensures that the vector from the curve to the point is orthogonal to the tangent</span>
-<span class="sd">        of the curve at the projection point.</span>
-
-<span class="sd">        The nonlinear equation is solved with a bounded Newton method (`optimistix.Newton`),</span>
-<span class="sd">        ensuring that `u_star` remains within [0, 1].</span>
-
-<span class="sd">        The initial guess is determined heuristically from the properties of the knot vector and control polygon</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        Q_all : array_like, shape (ndim, n_points)</span>
-<span class="sd">            Points to project onto the curve.</span>
-<span class="sd">        tol : float, optional</span>
-<span class="sd">            Relative and absolute tolerance for the Newton solver (default: 1e-9).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        u_all : ndarray, shape (n_points,)</span>
-<span class="sd">            Parameter values of the orthogonal projections.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        Do not differentiate directly through this method (e.g. with</span>
-<span class="sd">        `jax.grad` on a function that depends on `P` or `W` through the</span>
-<span class="sd">        returned `u_all`): the current implementation is not robust</span>
-<span class="sd">        under implicit differentiation and can raise a runtime error</span>
-<span class="sd">        from the backward pass (&quot;A linear solver received non-finite</span>
-<span class="sd">        (NaN or inf) input&quot;) even for ordinary, well-conditioned</span>
-<span class="sd">        interior projections.</span>
-
-<span class="sd">        This is also unnecessary: `u_all` solves exactly the first-order</span>
-<span class="sd">        stationarity condition of `||C(u) - Q||²`, so by the envelope</span>
-<span class="sd">        theorem (Danskin&#39;s theorem), the correct gradient of any</span>
-<span class="sd">        downstream objective built from `C(u_all)` with respect to `P`</span>
-<span class="sd">        or `W` is obtained by freezing `u_all` with `jax.lax.stop_gradient`</span>
-<span class="sd">        before differentiating, e.g.:</span>
-
-<span class="sd">            u_star = jax.lax.stop_gradient(curve.project_points(Q))</span>
-<span class="sd">            loss = jnp.sum((curve.get_value(u_star) - Q) ** 2)</span>
-<span class="sd">            grad = jax.grad(loss_fn)(params)</span>
-
-<span class="sd">        See `demos/demos_jax/demo_curve_fitting_gradient_optimization.py`</span>
-<span class="sd">        for a complete gradient-based curve-fitting example using this</span>
-<span class="sd">        pattern, verified against finite differences.</span>
+<span class="sd">        Forward and reverse AD use the exact unregularized stationarity Hessian</span>
+<span class="sd">        at a locally unique regular minimum with stable active bounds. Invalid</span>
+<span class="sd">        sensitivities at collapsed geometry, weak bounds and nonsmooth knots</span>
+<span class="sd">        are NaN. Local checks cannot certify global uniqueness. For the minimized</span>
+<span class="sd">        squared-distance loss only, freezing the solved parameters also gives</span>
+<span class="sd">        the envelope gradient; this does not apply to arbitrary downstream losses.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_project_point_scalar</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="mi">1</span><span class="p">)(</span><span class="n">Q_all</span><span class="p">)</span></div>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">._curve_projection</span><span class="w"> </span><span class="kn">import</span> <span class="n">project_curve_points</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">._point_projection</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_options</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A nonempty NurbsCurve is required&quot;</span><span class="p">)</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Q_all</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">points</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Q_all must have shape (ndim,N)&quot;</span><span class="p">)</span>
+        <span class="n">validate_options</span><span class="p">(</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">samples_per_span</span><span class="p">,</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">tol</span><span class="p">,</span> <span class="n">xtol</span><span class="p">)</span>
+        <span class="n">gtol</span> <span class="o">=</span> <span class="n">tol</span> <span class="k">if</span> <span class="n">gtol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">gtol</span>
+        <span class="n">validate_options</span><span class="p">(</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">samples_per_span</span><span class="p">,</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">gtol</span><span class="p">,</span> <span class="n">xtol</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">project_curve_points</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span>
+                                    <span class="n">maxiter</span><span class="p">,</span> <span class="n">ftol</span><span class="p">,</span> <span class="n">gtol</span><span class="p">,</span> <span class="n">xtol</span><span class="p">,</span> <span class="n">samples_per_span</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_project_point_scalar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Project a single point onto the NURBS curve by solving the orthogonality condition&quot;&quot;&quot;</span>
-        <span class="c1"># Ensure shape (ndim,)</span>
-        <span class="n">Q</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-
-        <span class="c1"># Function whose root defines orthogonality condition</span>
-        <span class="k">def</span><span class="w"> </span><span class="nf">residual</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-            <span class="n">C</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-            <span class="n">dC</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">C</span> <span class="o">-</span> <span class="n">Q</span><span class="p">)</span> <span class="o">*</span> <span class="n">dC</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">r</span>
-
-        <span class="c1"># Heuristic initial guess from control polygon</span>
-        <span class="n">u0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_projection_initial_guess</span><span class="p">(</span><span class="n">Q</span><span class="p">)])</span>
-
-        <span class="c1"># Run bounded Newton solver</span>
-        <span class="n">solver</span> <span class="o">=</span> <span class="n">optx</span><span class="o">.</span><span class="n">Newton</span><span class="p">(</span><span class="n">rtol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">tol</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">optx</span><span class="o">.</span><span class="n">root_find</span><span class="p">(</span>
-            <span class="n">residual</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">,</span>
-            <span class="n">y0</span><span class="o">=</span><span class="n">u0</span><span class="p">,</span>
-            <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lower&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">&quot;upper&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span>
-            <span class="n">throw</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">max_steps</span><span class="o">=</span><span class="n">max_iters</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="c1"># Return scalar value of u</span>
-        <span class="n">u_star</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="n">u_star</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_projection_initial_guess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Q</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Estimate a good initial guess for u by locating the control point closest to Q</span>
-<span class="sd">        and mapping its index proportionally to the active knot span [U[p], U[-p-1]].</span>
-<span class="sd">        This provides a fast and robust starting value for the projection solver.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">P</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span>
-        <span class="n">diff</span> <span class="o">=</span> <span class="n">P</span> <span class="o">-</span> <span class="n">Q</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
-        <span class="n">dist2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">diff</span> <span class="o">*</span> <span class="n">diff</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">j</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">dist2</span><span class="p">)</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="n">u_min</span><span class="p">,</span> <span class="n">u_max</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="n">U</span><span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># interior knot range</span>
-        <span class="n">u0</span> <span class="o">=</span> <span class="n">u_min</span> <span class="o">+</span> <span class="p">(</span><span class="n">u_max</span> <span class="o">-</span> <span class="n">u_min</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">u0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-
-    <span class="c1"># def _projection_initial_guess(self, Q, n_samples=101):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     Estimate a good initial guess for the projection parameter `u`</span>
-    <span class="c1">#     using a greedy sampling strategy.</span>
-
-    <span class="c1">#     The curve is sampled at `n_samples` uniformly spaced parameter values</span>
-    <span class="c1">#     within [U[0], U[-1]], and the point `C(u)` closest to the query</span>
-    <span class="c1">#     point `Q` is selected as the initial guess.</span>
-
-    <span class="c1">#     This provides a robust starting point for the Newton-based projection,</span>
-    <span class="c1">#     especially for highly curved or nonuniform NURBS.</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     U = self.U</span>
-    <span class="c1">#     u_min, u_max = U[0], U[-1]</span>
-    <span class="c1">#     u_candidates = jnp.linspace(u_min, u_max, n_samples)</span>
-    <span class="c1">#     C_candidates = self.get_value(u_candidates)  # (ndim, n_samples)</span>
-    <span class="c1">#     dist2 = jnp.sum((C_candidates - Q[:, None]) ** 2, axis=0)</span>
-    <span class="c1">#     i_best = jnp.argmin(dist2)</span>
-    <span class="c1">#     return u_candidates[i_best]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_project_point_scalar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compatibility helper, using the same sampled single-start solver.&quot;&quot;&quot;</span>
+        <span class="n">point</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_points</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">max_iters</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
 
     <span class="c1"># ---------------------------------------------------------------------------------------------------------------- #</span>
