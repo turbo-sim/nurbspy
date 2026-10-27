@@ -6,6 +6,50 @@ import pytest
 from scipy.interpolate import BSpline
 
 
+@pytest.mark.parametrize("order", [1, 2, 3])
+def test_basis_derivatives_with_nonclamped_knots(basis_backend, order):
+    """Retain lower-degree right-hand neighbors at non-clamped boundaries."""
+    knots = np.arange(9, dtype=float)
+    degree, count = 3, 5
+    # The highest derivative jumps at the active upper boundary. Compare its
+    # left limit, avoiding different right/left endpoint conventions.
+    samples = np.array([3., 3.2, 3.9, 4., 4.8, np.nextafter(5., 3.)])
+    expected = BSpline(knots, np.eye(count), degree)(samples, nu=order).T
+    actual = basis_backend.compute_basis_polynomials_derivatives(
+        count-1, degree, knots, samples, order
+    )
+    assert_allclose(actual, expected, rtol=1e-12, atol=1e-12)
+
+
+@pytest.mark.parametrize("degree", [0, 2, 3])
+@pytest.mark.parametrize("excess_order", [1, 4])
+@pytest.mark.parametrize("sample_kind", ["scalar", "array", "complex"])
+def test_basis_derivatives_above_degree_are_zero(
+    basis_backend, degree, excess_order, sample_kind
+):
+    """Above-degree requests must not recurse into negative-degree bases.
+
+    This exercises NumPy with its optional Numba decorator, as well as JAX.
+    Repeated knots and endpoints use the piecewise derivative convention;
+    distributional derivatives at jumps are not part of this API.
+    """
+    if sample_kind == "complex" and basis_backend.__name__.endswith(".jax"):
+        pytest.skip("Complex-step sample support is specific to NumPy.")
+    internal = [.4] if degree == 0 else [.4, .4]
+    knots = np.r_[np.zeros(degree+1), internal, np.ones(degree+1)]
+    count = len(knots)-degree-1
+    samples = .3 if sample_kind == "scalar" else np.array([0., .13, .4, .68, 1.])
+    if sample_kind == "complex":
+        samples = samples.astype(complex)+1e-30j
+    actual = basis_backend.compute_basis_polynomials_derivatives(
+        count-1, degree, knots, samples, degree+excess_order
+    )
+    assert actual.shape == (count, np.size(samples))
+    assert_allclose(actual, 0, rtol=0, atol=0)
+    if sample_kind == "complex":
+        assert np.iscomplexobj(actual)
+
+
 @pytest.mark.parametrize("order", [0, 1, 2, 3])
 def test_jax_basis_derivative_helpers_match_scipy(jax_backend, order):
     """Check every public derivative helper, including derivatives above degree."""

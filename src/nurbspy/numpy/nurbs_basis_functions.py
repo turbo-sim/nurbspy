@@ -129,7 +129,8 @@ def compute_basis_polynomials_derivatives(n, p, U, u, derivative_order):
 
     """ Evaluate the derivative of the n-th B-Spline basis polynomials of degree ´p´ for the input u-parametrization
 
-    The basis polynomials derivatives are computed recursively by implementing equations 2.7 and 2.9 directly
+    The basis polynomial derivatives use the degree recurrence in equations
+    2.7 and 2.9, evaluated iteratively to avoid cached recursive Numba calls.
 
     Parameters
     ----------
@@ -158,46 +159,50 @@ def compute_basis_polynomials_derivatives(n, p, U, u, derivative_order):
 
     """
 
-    # Check the number of derivative order (not possible to compile with Numba yet)
-    # if derivative_order > p: raise Exception('The derivative order is higher than the degree of the basis polynomials')
-    if derivative_order > p: print('The derivative order is higher than the degree of the basis polynomials')
-
     # Number of points where the polynomials are evaluated (vectorized computations)
     u = np.asarray(u * 1.0)     # Convert to array of floats
     Nu = u.size
 
-    # Compute the basis polynomials to the right hand side of equation 2.9 recursively down to the zeroth derivative
-    # Each new call reduces the degree of the basis polynomials by one
-    if derivative_order >= 1:
-        derivative_order -= 1
-        N = compute_basis_polynomials_derivatives(n, p - 1, U, u, derivative_order)
-    elif derivative_order == 0:
-        N = compute_basis_polynomials(n, p, U, u)
-        return N
-    else:
-        print('Oooopps, something went wrong in compute_basis_polynomials_derivatives()')
-        N = compute_basis_polynomials(n, p, U, u)
-        return N
+    # A polynomial of degree p has zero derivatives above p on every span.
+    # Reject a negative starting degree: the former recursive implementation
+    # used invalid indices in Python and unchecked native memory in Numba.
+    # Retain the usual sample axis and dtype, including complex-step inputs.
+    if derivative_order > p:
+        return np.zeros((n + 1, Nu), dtype=u.dtype)
 
-    # Initialize the array of basis polynomial derivatives
-    N_ders = np.zeros((n + 1, Nu), dtype=u.dtype)
+    if derivative_order <= 0:
+        return compute_basis_polynomials(n, p, U, u)
 
-    # Compute the derivatives of the (0, 1, ..., n) basis polynomials using equations 2.7 and 2.9
-    for i in range(n + 1):
+    # Begin with every degree-zero interval. Lower-degree bases have more
+    # entries than the final n+1 bases; retain those right-hand neighbors for
+    # non-clamped knots instead of indexing past a truncated array.
+    count = n + p + 1
+    N = np.zeros((count, Nu), dtype=u.dtype)
+    for i in range(count):
+        N[i, :] = (
+            1.0 * (np.real(u) >= U[i]) * (np.real(u) < U[i + 1])
+            + 1.0 * np.logical_and(np.real(u) == U[-1], i == n)
+        )
 
-        # Compute first factor (avoid division by zero by convention)
-        if (U[i + p] - U[i]) == 0:
-            n1 = np.zeros(Nu, dtype=u.dtype)
-        else:
-            n1 = p * N[i, :] / (U[i + p] - U[i])
-
-        # Compute second factor (avoid division by zero by convention)
-        if (U[i + p + 1] - U[i + 1]) == 0:
-            n2 = np.zeros(Nu, dtype=u.dtype)
-        else:
-            n2 = p * N[i + 1, :] / (U[i + p + 1] - U[i + 1])
-
-        # Compute the derivative of the current basis polynomials
-        N_ders[i, :] = n1 - n2
-
-    return N_ders
+    # First build the ordinary basis of degree p-k, then apply k derivative
+    # recurrences while raising the degree back to p. No Python/Numba function
+    # calls itself, so compiled cache entries have no recursive relocations.
+    for degree in range(1, p + 1):
+        count -= 1
+        next_values = np.zeros((count, Nu), dtype=u.dtype)
+        differentiating = degree > p - derivative_order
+        for i in range(count):
+            left = U[i + degree] - U[i]
+            right = U[i + degree + 1] - U[i + 1]
+            if left != 0:
+                if differentiating:
+                    next_values[i, :] += degree * N[i, :] / left
+                else:
+                    next_values[i, :] += (u - U[i]) * N[i, :] / left
+            if right != 0:
+                if differentiating:
+                    next_values[i, :] -= degree * N[i + 1, :] / right
+                else:
+                    next_values[i, :] += (U[i + degree + 1] - u) * N[i + 1, :] / right
+        N = next_values
+    return N
