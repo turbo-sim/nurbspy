@@ -7,55 +7,114 @@ README-only edits are omitted.
 
 ## Unreleased
 
-Added seven illustrated theory pages covering curve length and inverse maps,
-Frenet–Serret frames, surface sections, area/integration, surface differential
-geometry and point projection. Reproducible scripts evaluate nurbspy geometry
-and check independent references, exporting publication figures as SVG/PDF
-and high-resolution PNG. Backend differences and numerical limitations are
-documented alongside the equations.
+## [1.6.0] - 2026-10-27
 
-Made `get_arclength()` a static JAX dispatcher over the explicit
+### Compatibility and migration
+
+This minor release includes intentional compatibility changes. Review these
+before upgrading from 1.5.0:
+
+- Python 3.12 or 3.13 is now required; Python 3.11 is no longer supported.
+- The optional JAX stack now requires JAX/JAXlib 0.12, Equinox 0.13.8,
+  Diffrax 0.7.2, Optimistix 0.1 and Quadax 0.3. The NumPy backend remains the
+  default, with Numba and JAX available as optional extras.
+- JAX `NurbsCurve.get_arclength()` now defaults to knot-aware adaptive
+  quadrature instead of ODE integration. Request `method="ode"` or call
+  `get_arclength_ode()` explicitly when ODE integration is wanted.
+- Removed the JAX `get_arclength_quad()` name without a compatibility alias.
+  Replace it with `get_arclength_quad_fixed()` to retain fixed quadrature,
+  or choose `get_arclength_quad_adaptive()` for adaptive error control.
+- JAX point projection uses sampled initialization followed by one local
+  solve. The curve's previously ignored `tol` is now honored; nonconverged
+  solves fail explicitly instead of returning an unchecked result.
+
+For example:
+
+```python
+# Previous fixed-quadrature call:
+# length = curve.get_arclength_quad(n_points=41)
+length = curve.get_arclength_quad_fixed(n_points=41)
+
+# Explicit ODE integration rather than the new adaptive default:
+length = curve.get_arclength(method="ode", tol=1e-6)
+```
+
+### Arc length and reparameterization
+
+Made `get_arclength()` a static JAX dispatcher over
 `get_arclength_quad_adaptive()`, `get_arclength_quad_fixed()` and
-`get_arclength_ode()` methods. Adaptive remains the default. Removed the
-ambiguous `get_arclength_quad()` name without a compatibility alias. Options
-are validated by the selected method; fixed quadrature rejects tolerances.
+`get_arclength_ode()`. Method-specific options are validated; fixed quadrature
+rejects a tolerance argument. The default adaptive method uses public
+Gauss-Kronrod quadrature with explicit knot breakpoints, separate absolute and
+relative controls, differentiation strategies and convergence diagnostics.
 
-Made JAX curve arc length adaptive by default, using public Gauss-Kronrod
-quadrature with explicit knot breakpoints, separate absolute/relative controls,
-optional differentiation strategies and convergence diagnostics. Retained an
-explicit knot-aware ODE alternative and the existing fixed Clenshaw-Curtis API.
-Added optional prepared spanwise Gauss tables for repeated differentiable
-evaluations with changing control points and positive weights.
+Retained the explicit knot-aware ODE alternative and fixed Clenshaw-Curtis
+quadrature. Adapted fixed quadrature to Quadax's polynomial-order API,
+preserving the default 41-node rule. Other positive node-count requests round
+up to a supported $4k+1$-node rule, with at least five nodes. Added optional
+prepared spanwise Gauss tables for repeated differentiable evaluations with
+changing control points and positive weights.
 
-Retained dense reciprocal-ODE arc-length parameterization, with independent
+Retained dense reciprocal-ODE arc-length parameterization with independent
 knot-span solves, exact endpoint anchors and sampled regularity/monotonicity
-validation. Queries remain interpolation-only and preserve scalar/array shape;
-sampled zero-speed/flat curves and invalid queries are rejected explicitly.
-Added focused accuracy, interval, failure and AD regressions. Consolidated the
-standalone production-API benchmark under `development/arclength/`.
+validation. Interpolation-only queries preserve scalar/array shape; sampled
+stationary points, flat spans and invalid queries are rejected explicitly.
+Local ODE tolerances do not guarantee the same global inverse-map or
+unit-speed accuracy. Tighter tolerance and denser output remain configurable.
 
-Changed JAX curve and surface point projection to knot-aware sampled
-initialization followed by exactly one bounded local solve per query. General
-and prepared surface projections now share this single-start implementation.
-The curve's legacy `tol` is honored, and sample/iteration budgets are
-configurable. Safeguards use spatially scaled stationarity, stable Hessian
-regularization, feasible descent steps, explicit failure checks and exact
-implicit derivatives with moving bounds. Added regressions for conditioned
-rational curves, knot corners, general parameter domains and sensitivities.
-The standalone development benchmark calls production APIs; obsolete projection
-prototype implementations were removed. Finite sampling does not guarantee a
-global closest point on arbitrary geometry.
+### Point projection
 
-Updated the optional JAX backend to JAX/JAXlib 0.12, Equinox 0.13,
-Diffrax 0.7.2, Optimistix 0.1 and Quadax 0.3. This development version now
-requires Python 3.12 or 3.13. CI checks the JAX backend at both Python
-boundaries, and the documentation workflow uses Python 3.12.
+Changed JAX curve and surface projection to knot-aware sampled initialization
+and one bounded local solve per query. General and prepared surface projections
+share this implementation. Sample and iteration budgets are configurable.
+Safeguards use spatially scaled stationarity, Hessian regularization, feasible
+descent, explicit convergence checks and implicit derivatives with moving
+bounds. Added regressions for conditioned rational curves, knot corners,
+general parameter domains and sensitivities. Finite sampling does not guarantee
+a global closest point on arbitrary geometry.
 
-Adapted the fixed Clenshaw-Curtis quadrature call to Quadax's polynomial-order
-API, preserving the default 41-node rule. Other positive node-count requests
-round upwards to a supported $4k+1$-node rule (at least five nodes). Removed
-the obsolete SciPy L-BFGS-B display option. These dependency compatibility
-changes preserve the existing ODE and fixed-quadrature algorithms.
+Removed the obsolete SciPy L-BFGS-B display option. The NumPy projection
+algorithm is otherwise retained; the benchmark documents a local-minimum
+counterexample rather than treating tight solver tolerances as a global
+optimality guarantee.
+
+### NumPy and Numba correctness
+
+Replaced recursive B-spline basis derivatives with an iterative degree
+recurrence. Derivative orders above the polynomial degree return correctly
+shaped zeros, avoiding negative-degree indexing and native failures. Retaining
+all lower-degree neighbors fixes non-clamped derivatives; removing recursion
+also avoids the observed Numba disk-cache reload access violation. Scalar
+sample axes and complex-step dtypes are preserved. Rational NURBS derivatives
+above the polynomial degree can still be nonzero through the quotient rule.
+
+Added independent SciPy, above-degree and two-process cache-reuse regressions,
+including a short cache path for Windows. Renamed the private import helper
+from `_compat.py` to `_backward_compatibility.py`.
+
+### Benchmarks, documentation and tooling
+
+Added a standalone NumPy/Numba/JAX study under
+`development/jax_numpy_benchmark/`, covering 193 workloads with independent
+references, compilation/first-call/warm timings, a searchable HTML report and
+an API coverage inventory. Reports disclose numerical and convention
+differences, including projection minima and inverse-map derivative accuracy.
+Generated raw data, logs, caches and QA artifacts stay under Git-ignored
+`outputs/`; the readable reports remain usable without those local files.
+
+Consolidated production-API arc-length and projection benchmarks under
+`development/arclength/` and `development/point_projection/`, removing obsolete
+prototype implementations. Added seven illustrated theory pages with
+reproducible SVG/PDF/PNG figures, equations and backend limitations. Improved
+the minimum-bending-energy demo with feasible initialization, printed
+convergence history and synchronized timing.
+
+CI uses the shared test runner for backend installations and a combined-extras
+wheel, checks the supported Python boundaries, and reports slow test phases
+without timing thresholds. Publication remains restricted to release tags
+after tests pass. Validation for this release included 507 passing tests and
+six intentional JAX complex-step skips; a JIT-disabled focused/complex-step run
+had 66 passes and the same six skips.
 
 ## [1.5.0] - 2026-10-26
 
