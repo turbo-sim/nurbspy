@@ -332,45 +332,49 @@ class NurbsSurface(eqx.Module):
         return self._attach(new_nurbs, 1)
 
     @eqx.filter_jit
-    def project_point_to_surface(self, P, maxiter=200, ftol=1e-6, gtol=1e-6):
-        """Return the bounded closest-point parameters (u,v) in [0,1]^2.
+    def project_point_to_surface(self, P, maxiter=200, ftol=1e-6, gtol=1e-6, *,
+                                 samples_per_span=8, xtol=1e-12):
+        """Return a sampled single-start projection on the actual knot domain.
 
-        A multistart projected Newton solve minimizes half the squared
-        distance. ``maxiter`` and tolerances are static. A custom JVP uses
-        implicit differentiation of the converged stationarity conditions,
-        including fixed active bounds, in both forward and reverse mode.
+        The closest sampled surface point starts one bounded local Newton
+        solve. There is no multistart mode or hidden restart. ``gtol`` bounds
+        tangent-scaled spatial stationarity relative to ``1 + distance``;
+        ``ftol``/``xtol`` detect stagnation, never convergence on their own.
+        A failed solve raises an error. Sampling cannot certify global optimality.
 
-        Derivatives require a locally unique regular minimum with a nonsingular
-        reduced Hessian and a stable active set. They are not defined at ties,
-        transitions onto/off a boundary, or singular surface points. The search
-        is local with multiple starts; it does not guarantee a global minimum
-        on arbitrary folded patches. Plotting and solver diagnostics are not
-        part of this differentiable calculation.
+        Exact implicit derivatives support query and geometry sensitivities at
+        a locally unique regular minimum with stable active bounds. Weak-bound
+        transitions, nonsmooth knots and singular reduced Hessians yield NaN
+        sensitivities. The existing positional arguments remain supported.
         """
-        from ._surface_projection import project_surface_point
-
         point = jnp.asarray(P).reshape(-1)
         if point.shape != (self.ndim,):
             raise ValueError("The query point must match the surface dimension")
-        if maxiter < 0 or ftol < 0 or gtol < 0:
-            raise ValueError("Iteration limit and tolerances must be nonnegative")
-        parameters = project_surface_point(
-            self.P, self.W, self.U, self.V, point, self.p, self.q, maxiter, ftol, gtol
-        )
-        return parameters[0], parameters[1]
+        parameters = self.project_points(point[:, None], maxiter, ftol, gtol,
+                                         samples_per_span=samples_per_span, xtol=xtol)
+        return parameters[0, 0], parameters[1, 0]
 
     @eqx.filter_jit
-    def project_points(self, points, maxiter=200, ftol=1e-6, gtol=1e-6):
-        """Project points shaped (ndim,N), returning parameters shaped (2,N)."""
+    def project_points(self, points, maxiter=200, ftol=1e-6, gtol=1e-6, *,
+                       samples_per_span=8, xtol=1e-12):
+        """Project (ndim,N) queries; sample geometry once, return (2,N).
+
+        Requires finite geometry, positive weights and continuous knot vectors.
+        ``samples_per_span`` is an interior budget for each knot span/axis.
+        See ``project_point_to_surface`` for convergence and AD assumptions.
+        """
+        from ._surface_projection import project_surface_points
+        from ._point_projection import validate_options
+
+        if self.P.ndim != 3 or self.P.size == 0:
+            raise ValueError("A nonempty NurbsSurface is required")
         points = jnp.asarray(points)
         if points.ndim != 2 or points.shape[0] != self.ndim:
             raise ValueError("points must have shape (ndim,N)")
-        return jnp.stack(
-            jax.vmap(
-                lambda point: self.project_point_to_surface(point, maxiter, ftol, gtol),
-                in_axes=1,
-            )(points)
-        )
+        validate_options(maxiter, samples_per_span, ftol, gtol, xtol)
+        return project_surface_points(self.P, self.W, self.U, self.V, points,
+                                      self.p, self.q, maxiter, ftol, gtol, xtol,
+                                      samples_per_span)
 
     class PointToSurfaceProjectionProblem:
         """Compatibility wrapper for the NumPy distance-objective helper."""

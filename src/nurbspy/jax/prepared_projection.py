@@ -1,89 +1,69 @@
-"""Explicit fixed-geometry snapshots for repeated surface point projection.
-
-Only coarse initialization is prepared. Newton parameters change, so refinement
-continues to use the general evaluator and its exact implicit derivatives.
-"""
+"""Explicit fixed-geometry spatial sampling for repeated surface projection."""
 
 import equinox as eqx
 import jax
 import jax.numpy as jnp
 
-from ._surface_projection import (
-    _sample_axes,
-    _sample_parameters,
-    _select_seeds,
-    project_surface_point_from_seeds,
-)
+from ._point_projection import check_geometry, validate_options
+from ._surface_projection import sample_surface, project_surface_from_samples
 from .nurbs_surface import NurbsSurface
-from .prepared import prepare_surface
 
 __all__ = ["PreparedSurfaceProjection", "prepare_surface_projection"]
 
 
 class PreparedSurfaceProjection(eqx.Module):
-    """An immutable surface snapshot with its original coarse points prepared.
+    """Immutable geometry/grid snapshot, with one local solve per query.
 
-    Rebuild with :func:`prepare_surface_projection` after changing control
-    points, weights, knots, or degrees. Replacing geometry leaves alone would
-    make the cached coarse points stale. Ordinary JAX arrays and Equinox
-    modules are immutable; this object has no hidden cache or mutation.
-
-    Query derivatives use the same implicit minimum equations as
-    ``NurbsSurface.project_point_to_surface``. Geometry derivatives remain
-    available when the factory is inside the differentiated function. They
-    require a unique regular minimum and a stable active set; seed ties and
-    basin changes are not differentiable.
+    Rebuild after changing P/W, knots, degrees or sampling density. Replacing
+    geometry leaves alone makes cached positions stale. Query derivatives use
+    the same exact implicit minimum equations as general surface projection.
+    Build inside AD for geometry sensitivities; uniqueness, regularity and a
+    stable active set are required. There is no global cache or hidden retry.
     """
 
     surface: NurbsSurface
     sample_parameters: jax.Array
     sampled_points: jax.Array
+    samples_per_span: int = eqx.field(static=True, default=8)
 
     @eqx.filter_jit
-    def project_point(self, point, maxiter=200, ftol=1e-6, gtol=1e-6):
-        """Return parameters shaped (2,), using the general solver's settings."""
+    def project_point(self, point, maxiter=200, ftol=1e-6, gtol=1e-6, *, xtol=1e-12):
+        """Return a parameter pair shaped (2,) for one query."""
         point = jnp.asarray(point).reshape(-1)
         if point.shape != (self.surface.ndim,):
             raise ValueError("The query point must match the surface dimension")
-        if maxiter < 0 or ftol < 0 or gtol < 0:
-            raise ValueError("Iteration limit and tolerances must be nonnegative")
-        seeds = _select_seeds(self.sample_parameters, self.sampled_points, point)
-        surface = self.surface
-        return project_surface_point_from_seeds(
-            surface.P, surface.W, surface.U, surface.V, point, seeds,
-            surface.p, surface.q, maxiter, ftol, gtol,
-        )
+        return self.project_points(point[:, None], maxiter, ftol, gtol, xtol=xtol)[:, 0]
 
     @eqx.filter_jit
-    def project_points(self, points, maxiter=200, ftol=1e-6, gtol=1e-6):
-        """Project points shaped (ndim,N), returning parameters shaped (2,N)."""
+    def project_points(self, points, maxiter=200, ftol=1e-6, gtol=1e-6, *, xtol=1e-12):
+        """Project (ndim,N) queries with the general single-start solver."""
         points = jnp.asarray(points)
         if points.ndim != 2 or points.shape[0] != self.surface.ndim:
             raise ValueError("points must have shape (ndim,N)")
-        return jax.vmap(
-            lambda point: self.project_point(point, maxiter, ftol, gtol),
-            in_axes=1, out_axes=1,
-        )(points)
+        validate_options(maxiter, self.samples_per_span, ftol, gtol, xtol)
+        surface = self.surface
+        return project_surface_from_samples(
+            surface.P, surface.W, surface.U, surface.V, points,
+            self.sample_parameters, self.sampled_points, surface.p, surface.q,
+            maxiter, ftol, gtol, xtol,
+        )
 
 
-def prepare_surface_projection(surface):
-    """Prepare coarse points for repeated projection onto one fixed surface.
+def prepare_surface_projection(surface, *, samples_per_span=8):
+    """Sample one fixed surface once for repeated query batches.
 
-    The seed grid and four-start selection are the same as the general solver.
-    Factorized one-dimensional polynomial basis tables evaluate that grid once;
-    the snapshot retains only its parameter/spatial points, plus the surface.
-    Include preparation in first-use timing. Across query batches this avoids
-    rebuilding the initial spatial grid; no promise is made that it accelerates
-    an individual Newton iteration or that XLA has not hoisted common sampling
-    work already in a general batched call.
+    The default interior budget is eight samples per knot span/axis, with all
+    knot boundaries included. Strong positive weight ratios inform endpoint
+    coverage. Preparation and general projection use the identical grid and
+    one-start solver. This does not certify global closest points on folded or
+    poorly resolved geometry. Include preparation when assessing first-use cost.
     """
     if not isinstance(surface, NurbsSurface) or surface.P.size == 0:
         raise ValueError("A nonempty NurbsSurface is required")
-    u, v = _sample_axes(surface.U, surface.V)
-    basis = prepare_surface(surface, u, v, max_order_u=0, max_order_v=0, grid=True)
-    sampled_points = basis.get_value(surface.P, surface.W).reshape(surface.ndim, -1)
-    return PreparedSurfaceProjection(
-        surface=surface,
-        sample_parameters=_sample_parameters(surface.U, surface.V),
-        sampled_points=sampled_points,
+    validate_options(200, samples_per_span, 1e-6, 1e-6, 1e-12)
+    P = check_geometry(surface.P, surface.W, (surface.U, surface.V), (surface.p, surface.q))
+    parameters, positions = sample_surface(
+        P, surface.W, surface.U, surface.V, surface.p, surface.q, samples_per_span,
     )
+    return PreparedSurfaceProjection(surface=surface, sample_parameters=parameters,
+                                     sampled_points=positions, samples_per_span=samples_per_span)

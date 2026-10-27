@@ -938,130 +938,52 @@ class NurbsCurve(eqx.Module):
     # Define functions to solve point projection problem
     # ---------------------------------------------------------------------------------------------------------------- #
     @eqx.filter_jit
-    def project_points(self, Q_all, tol=1e-6):
+    def project_points(self, Q_all, tol=1e-9, *, maxiter=100, samples_per_span=64,
+                       gtol=None, xtol=1e-12, ftol=1e-14):
+        """Project query columns using sampled initialization and one local solve.
+
+        The knot-aware grid is evaluated once for the batch. Its nearest point
+        starts a bounded Newton/line-search minimization on the actual knot
+        domain. ``samples_per_span`` is a static interior sampling budget;
+        strongly unequal positive weights add logarithmic endpoint coverage
+        within that budget. Finite sampling cannot guarantee a global minimum.
+
+        ``tol`` now controls tangent-scaled spatial stationarity, with threshold
+        ``tol * (1 + distance)``. ``gtol`` overrides it when supplied. The default
+        1e-9 preserves the old effective internal tolerance; the old public 1e-6
+        argument was ignored. ``xtol`` and ``ftol`` detect stagnation, which alone
+        is never accepted as convergence. Nonconverged solves raise an error.
+        Static options must be finite/nonnegative; the sampling budget is positive.
+
+        Inputs have shape (ndim,N); returned parameters have shape (N,).
+        Geometry must be finite, with positive weights and continuous knots
+        (interior multiplicity at most degree). Empty query batches are allowed.
+
+        Forward and reverse AD use the exact unregularized stationarity Hessian
+        at a locally unique regular minimum with stable active bounds. Invalid
+        sensitivities at collapsed geometry, weak bounds and nonsmooth knots
+        are NaN. Local checks cannot certify global uniqueness. For the minimized
+        squared-distance loss only, freezing the solved parameters also gives
+        the envelope gradient; this does not apply to arbitrary downstream losses.
         """
-        Vectorized projection of multiple points onto the NURBS curve.
+        from ._curve_projection import project_curve_points
+        from ._point_projection import validate_options
 
-        The projection point `C(u*)` minimizes the squared Euclidean distance to `Q`:
+        if self.P.ndim != 2 or self.P.size == 0:
+            raise ValueError("A nonempty NurbsCurve is required")
+        points = jnp.asarray(Q_all)
+        if points.ndim != 2 or points.shape[0] != self.ndim:
+            raise ValueError("Q_all must have shape (ndim,N)")
+        validate_options(maxiter, samples_per_span, ftol, tol, xtol)
+        gtol = tol if gtol is None else gtol
+        validate_options(maxiter, samples_per_span, ftol, gtol, xtol)
+        return project_curve_points(self.P, self.W, self.U, points, self.p,
+                                    maxiter, ftol, gtol, xtol, samples_per_span)
 
-            f(u) = ||C(u) - Q||²
-
-        The stationary condition is obtained from:
-
-            f'(u) = 2 (C(u) - Q) · C'(u) = 0
-
-        which ensures that the vector from the curve to the point is orthogonal to the tangent
-        of the curve at the projection point.
-
-        The nonlinear equation is solved with a bounded Newton method (`optimistix.Newton`),
-        ensuring that `u_star` remains within [0, 1].
-
-        The initial guess is determined heuristically from the properties of the knot vector and control polygon
-
-        Parameters
-        ----------
-        Q_all : array_like, shape (ndim, n_points)
-            Points to project onto the curve.
-        tol : float, optional
-            Relative and absolute tolerance for the Newton solver (default: 1e-9).
-
-        Returns
-        -------
-        u_all : ndarray, shape (n_points,)
-            Parameter values of the orthogonal projections.
-
-        Notes
-        -----
-        Do not differentiate directly through this method (e.g. with
-        `jax.grad` on a function that depends on `P` or `W` through the
-        returned `u_all`): the current implementation is not robust
-        under implicit differentiation and can raise a runtime error
-        from the backward pass ("A linear solver received non-finite
-        (NaN or inf) input") even for ordinary, well-conditioned
-        interior projections.
-
-        This is also unnecessary: `u_all` solves exactly the first-order
-        stationarity condition of `||C(u) - Q||²`, so by the envelope
-        theorem (Danskin's theorem), the correct gradient of any
-        downstream objective built from `C(u_all)` with respect to `P`
-        or `W` is obtained by freezing `u_all` with `jax.lax.stop_gradient`
-        before differentiating, e.g.:
-
-            u_star = jax.lax.stop_gradient(curve.project_points(Q))
-            loss = jnp.sum((curve.get_value(u_star) - Q) ** 2)
-            grad = jax.grad(loss_fn)(params)
-
-        See `demos/demos_jax/demo_curve_fitting_gradient_optimization.py`
-        for a complete gradient-based curve-fitting example using this
-        pattern, verified against finite differences.
-        """
-        return jax.vmap(self._project_point_scalar, in_axes=1)(Q_all)
-
-    def _project_point_scalar(self, Q, max_iters=32, tol=1e-9):
-        """Project a single point onto the NURBS curve by solving the orthogonality condition"""
-        # Ensure shape (ndim,)
-        Q = jnp.asarray(Q).squeeze()
-
-        # Function whose root defines orthogonality condition
-        def residual(u, args):
-            C = self.get_value(u).squeeze()
-            dC = self.get_derivative(u, 1).squeeze()
-            r = jnp.sum((C - Q) * dC)
-            return r
-
-        # Heuristic initial guess from control polygon
-        u0 = jnp.array([self._projection_initial_guess(Q)])
-
-        # Run bounded Newton solver
-        solver = optx.Newton(rtol=tol, atol=tol)
-        result = optx.root_find(
-            residual,
-            solver=solver,
-            y0=u0,
-            options={"lower": 0.0, "upper": 1.0},
-            throw=False,
-            max_steps=max_iters,
-        )
-
-        # Return scalar value of u
-        u_star = result.value.squeeze()
-
-        return u_star
-
-    def _projection_initial_guess(self, Q):
-        """
-        Estimate a good initial guess for u by locating the control point closest to Q
-        and mapping its index proportionally to the active knot span [U[p], U[-p-1]].
-        This provides a fast and robust starting value for the projection solver.
-        """
-        P, U, p = self.P, self.U, self.p
-        diff = P - Q[:, None]
-        dist2 = jnp.sum(diff * diff, axis=0)
-        j = jnp.argmin(dist2)
-        n = P.shape[1] - 1
-        u_min, u_max = U[p], U[-p - 1]  # interior knot range
-        u0 = u_min + (u_max - u_min) * (j / n)
-        return jnp.clip(u0, 0.0, 1.0)
-
-    # def _projection_initial_guess(self, Q, n_samples=101):
-    #     """
-    #     Estimate a good initial guess for the projection parameter `u`
-    #     using a greedy sampling strategy.
-
-    #     The curve is sampled at `n_samples` uniformly spaced parameter values
-    #     within [U[0], U[-1]], and the point `C(u)` closest to the query
-    #     point `Q` is selected as the initial guess.
-
-    #     This provides a robust starting point for the Newton-based projection,
-    #     especially for highly curved or nonuniform NURBS.
-    #     """
-    #     U = self.U
-    #     u_min, u_max = U[0], U[-1]
-    #     u_candidates = jnp.linspace(u_min, u_max, n_samples)
-    #     C_candidates = self.get_value(u_candidates)  # (ndim, n_samples)
-    #     dist2 = jnp.sum((C_candidates - Q[:, None]) ** 2, axis=0)
-    #     i_best = jnp.argmin(dist2)
-    #     return u_candidates[i_best]
+    def _project_point_scalar(self, Q, max_iters=100, tol=1e-9):
+        """Compatibility helper, using the same sampled single-start solver."""
+        point = jnp.asarray(Q).reshape(-1, 1)
+        return self.project_points(point, tol=tol, maxiter=max_iters)[0]
 
 
     # ---------------------------------------------------------------------------------------------------------------- #

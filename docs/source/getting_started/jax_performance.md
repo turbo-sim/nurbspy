@@ -130,32 +130,76 @@ simpler. Knot and parameter derivatives require a smooth region or the basis
 evaluator's one-sided span convention. Independently splitting repeated knots
 is not covered by a smooth-sensitivity guarantee.
 
+## Point projection
+
+Curve and surface projection sample **geometry positions** over the active knot
+spans, choose the closest sampled point for each query, then run one bounded
+local minimization of squared distance. Samples are shared across the query
+batch. No local solver is run for each sampled point.
+
+```python
+# Queries have shape (ndim, N).
+u = curve.project_points(curve_queries, tol=1e-9, samples_per_span=64)  # (N,)
+uv = surface.project_points(surface_queries, gtol=1e-9,
+                            samples_per_span=8)  # (2, N)
+```
+
+The bounds are the actual active knot domains: $[U_p,U_{-p-1}]$ for a curve,
+and their Cartesian product for a surface. The search uses analytic geometry
+derivatives and the full squared-distance Hessian, including residual-curvature
+terms. It checks constrained stationarity rather than merely finding a root of
+the orthogonality equation. A sampled candidate remains available if local
+refinement does not improve the objective.
+
+The curve's `tol` now reaches the solver; `gtol` overrides it when supplied.
+The default `tol=1e-9` preserves the old solver's effective internal tolerance
+(its former public `tol=1e-6` was ignored). The stopping test scales the
+constrained gradient by physical tangent lengths, with threshold
+`gtol * (1 + residual_norm)`, so an affine change of parameter scale does not
+change the intended geometric accuracy. `maxiter`, `xtol` and `ftol` control
+iteration limits and stagnation; a finite result alone does not establish
+convergence. Iteration exhaustion or stagnation without convergence raises an
+error rather than silently accepting the parameter.
+
+The default sampling budgets are `samples_per_span=64` for curves and 8 for
+each surface axis. Very large positive rational weight ratios also inform
+logarithmic endpoint clustering. Sampling density controls initialization cost
+and basin coverage; it is static configuration and can trigger JAX recompilation.
+Finite samples cannot establish that every competing basin was covered.
+Narrow rational features and folded geometry can still produce a locally valid
+projection whose distance exceeds the global minimum. Projection supports
+finite positive weights and continuous knot domains; an interior knot's
+multiplicity must not exceed the degree.
+
 ## Repeated surface point projection
 
 ```python
-projection = nrb.prepare_surface_projection(surface)
-# Query arrays have shape (ndim, N); returned parameters have shape (2, N).
+projection = nrb.prepare_surface_projection(surface, samples_per_span=8)
 uv = projection.project_points(queries, ftol=1e-12, gtol=1e-10)
 other_uv = projection.project_points(other_queries, ftol=1e-12, gtol=1e-10)
 single_uv = projection.project_point(queries[:, 0])  # (2,)
 ```
 
-This object has a different lifetime: it snapshots the **complete surface**
-and its coarse spatial initialization grid. Rebuild it after changing P, W,
-knots or degrees. Replacing just its geometry leaves with `eqx.tree_at` would
-leave stale grid points. The snapshot uses the general solver's knot-midpoint
-and uniform grid and four-start selection. Newton and line-search parameters
-keep moving, so refinement uses the general evaluator and the same solver
-settings and implicit derivative equations. It does not replace projection
-with nearest-grid lookup.
+This object snapshots the **complete surface** and its sampled initialization
+grid. Rebuild it after changing P, W, knots or degrees. Replacing just its
+geometry leaves with `eqx.tree_at` would leave stale sample positions. It uses
+the same sampled initialization and one bounded refinement as the general
+projector. Refinement parameters keep moving, so it uses the general evaluator.
+The snapshot avoids repeating the geometry sampling pass; projection still
+performs local minimization after selecting the closest sample. Sampling density
+is fixed by the factory; rebuild the snapshot to change it. Solver tolerances
+and `maxiter` can vary between query calls.
 
 Query differentiation is supported. For geometry differentiation, construct
-the snapshot inside the differentiated function. Implicit sensitivities require
-a locally unique regular minimum, a nonsingular reduced Hessian and a stable
-active set. Seed ties, basin changes, singularities and active-set transitions
-have no guaranteed derivative. Multistart local projection does not guarantee
-the global minimum on an arbitrary folded surface. The bounded search retains
-the existing normalized parameter domain $[0,1]^2$.
+the snapshot inside the differentiated function. Implicit sensitivities use
+the exact reduced distance Hessian and require an isolated smooth minimum, a
+numerically well-conditioned Hessian and a stable active set. Seed ties, basin
+changes, collapsed geometry, nonsmooth knots and active-set transitions have no
+guaranteed ordinary derivative. Stationarity justifies ignoring parameter motion when
+differentiating the minimized distance under its regularity assumptions;
+an arbitrary downstream function of the projected parameter needs its implicit
+parameter derivative. A collapsed curve still has a finite forward projection,
+but its undefined parameter sensitivities are represented by NaNs.
 
 ## Cost, memory and numerical limits
 

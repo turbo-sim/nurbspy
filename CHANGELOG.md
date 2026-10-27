@@ -7,6 +7,18 @@ README-only edits are omitted.
 
 ## Unreleased
 
+Changed JAX curve and surface point projection to knot-aware sampled
+initialization followed by exactly one bounded local solve per query. General
+and prepared surface projections now share this single-start implementation.
+The curve's legacy `tol` is honored, and sample/iteration budgets are
+configurable. Safeguards use spatially scaled stationarity, stable Hessian
+regularization, feasible descent steps, explicit failure checks and exact
+implicit derivatives with moving bounds. Added regressions for conditioned
+rational curves, knot corners, general parameter domains and sensitivities.
+The standalone development benchmark calls production APIs; obsolete projection
+prototype implementations were removed. Finite sampling does not guarantee a
+global closest point on arbitrary geometry.
+
 ## [1.5.0] - 2026-10-26
 
 Reduced JAX tracing and compilation overhead by vectorizing the B-spline basis
