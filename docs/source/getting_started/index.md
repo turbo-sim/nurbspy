@@ -131,7 +131,7 @@ regenerated on every build, so edit the Python docstrings to change the API.
 Run the full suite with Poetry from the repository root:
 
 ```bash
-poetry run pytest tests
+poetry run python tests/run_tests.py
 ```
 
 Tests are grouped by what they verify:
@@ -164,7 +164,7 @@ To exercise both optional backends explicitly:
 
 ```bash
 poetry install --with dev --extras "numba jax"
-poetry run pytest tests --require-backend=numba --require-backend=jax
+poetry run python tests/run_tests.py --require-backend=numba --require-backend=jax
 ```
 
 Ordinary runs skip JAX tests if JAX is absent. An installed but broken JAX
@@ -178,6 +178,19 @@ forwards extra pytest arguments. Once the environment is active, run:
 ```bash
 python tests/run_tests.py
 python tests/run_tests.py -k projection
+```
+
+GitHub CI uses this same runner for its backend matrix and for the full suite
+with both extras installed from a wheel. Installed-package smoke checks remain
+separate. Tests run on pull requests to `main`, pushes to `main` and release
+tags; package publication remains restricted to release tags after tests pass.
+
+CI reports the 15 slowest test phases taking at least one second. This is
+diagnostic reporting, not a timing threshold or benchmark. To inspect durations
+locally, use:
+
+```bash
+poetry run python tests/run_tests.py --durations=15 --durations-min=1.0
 ```
 
 ### Bumping the version

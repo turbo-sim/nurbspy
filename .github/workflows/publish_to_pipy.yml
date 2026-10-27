@@ -2,6 +2,8 @@ name: Test and publish package to PyPI
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*.*.*'
   pull_request:
@@ -59,7 +61,7 @@ jobs:
         run: python -I "${{ github.workspace }}/tests/installation/check_installed_package.py" --backend ${{ matrix.installation.name }}
 
       - name: Run tests against the installed package with the requested backend required
-        run: python -m pytest ${{ matrix.installation.pytest_args }}
+        run: python tests/run_tests.py ${{ matrix.installation.pytest_args }} --durations=15 --durations-min=1.0
 
   combined_extras:
     name: Installed wheel with Numba and JAX
@@ -85,13 +87,16 @@ jobs:
 
           wheel = next(Path("wheelhouse").glob("nurbspy-*.whl"))
           subprocess.check_call([
-              sys.executable, "-m", "pip", "install", f"{wheel}[numba,jax]"
+              sys.executable, "-m", "pip", "install", f"{wheel}[numba,jax]", "pytest"
           ])
           PY
 
       - name: Smoke-check installed geometry and both extras
         working-directory: ${{ runner.temp }}
         run: python -I "${{ github.workspace }}/tests/installation/check_installed_package.py" --backend all
+
+      - name: Run the full suite with both optional backends required
+        run: python tests/run_tests.py --require-backend=numba --require-backend=jax --durations=15 --durations-min=1.0
 
   publish_to_pypi:
     needs: [test, combined_extras]
