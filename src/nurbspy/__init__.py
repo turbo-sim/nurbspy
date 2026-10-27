@@ -8,7 +8,7 @@ Existing root-level imports retain the NumPy implementation. Use
 from .numpy import *
 from .graphics import *
 
-from ._compat import register_numpy_module_aliases as _register_numpy_module_aliases
+from ._backward_compatibility import register_numpy_module_aliases as _register_numpy_module_aliases
 
 _register_numpy_module_aliases()
 del _register_numpy_module_aliases
