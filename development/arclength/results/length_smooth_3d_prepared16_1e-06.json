@@ -1,0 +1,47 @@
+{
+  "kind": "length",
+  "case": "smooth_3d",
+  "method": "prepared16",
+  "comparison_tol": 1e-06,
+  "tolerance": null,
+  "status": "ok",
+  "reference": {
+    "value": 5.284085567130157,
+    "error": 5.866513460717985e-14,
+    "evaluations": 252,
+    "analytic": false,
+    "messages": [],
+    "converged": true
+  },
+  "timing": {
+    "trace_lower_s": 0.027507900013006292,
+    "compile_s": 0.031416099998750724,
+    "first_execute_s": 0.001338299989583902,
+    "warm_s": {
+      "median": 3.9999998989515007e-05,
+      "min": 3.6600002204068005e-05,
+      "max": 0.00013949999993201345,
+      "samples": [
+        0.00013949999993201345,
+        5.1099996198900044e-05,
+        4.119999357499182e-05,
+        4.1799998143687844e-05,
+        3.850000211969018e-05,
+        3.850000211969018e-05,
+        3.9999998989515007e-05,
+        3.860000288113952e-05,
+        3.6600002204068005e-05
+      ]
+    },
+    "cold_kernel_s": 0.06026230000134092,
+    "preparation_s": 0.1708554000069853,
+    "cold_total_s": 0.2311177000083262
+  },
+  "prepared_bytes": 14592,
+  "value": 5.284085567130035,
+  "abs_error": 1.2256862191861728e-13,
+  "accuracy_pass": true,
+  "returncode": 0,
+  "environment_snapshot": "environment_length_1793115218716786800.json",
+  "worker_wall_s": 3.2441479999979492
+}

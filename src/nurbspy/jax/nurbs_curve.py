@@ -4,7 +4,6 @@ import jax
 import jax.numpy as jnp
 import equinox as eqx
 import optimistix as optx
-import diffrax as dfx
 import quadax as qdx
 
 import matplotlib.pyplot as plt
@@ -15,6 +14,7 @@ from .nurbs_basis_functions import (
     _compute_basis_derivatives,
 )
 from ..graphics import style_3d_axes, close_3d_box
+from . import arclength as _arc
 
 
 def binomial_coeff(n, k):
@@ -678,63 +678,77 @@ class NurbsCurve(eqx.Module):
 
 
     @eqx.filter_jit
-    def get_arclength(self, u1=0.0, u2=1.0, tol=1e-6):
-        """
-        Compute the arc length of the NURBS curve over the parameter interval [u₁, u₂]
-        by numerically integrating the local curve speed as an ordinary differential equation (ODE).
+    def get_arclength(self, u1=0.0, u2=1.0, tol=1e-6, *, atol=None, rtol=None,
+                      method="quadrature", adjoint="direct", max_intervals=512,
+                      max_steps=4096, return_info=False):
+        """Integrate curve speed over the requested parameter interval.
 
-        The arc length of a parametric curve C(u) = [x(u), y(u), z(u)]ᵀ is defined as
-
-            L(u₁, u₂) = ∫ ‖C'(u)‖ du,
-
-        where C'(u) = dC/du and ‖C'(u)‖ = √(x'(u)² + y'(u)² + z'(u)²) is the instantaneous
-        curve speed. This equation can be expressed as an initial-value problem:
-
-            ds/du = ‖C'(u)‖,     s(u₁) = 0,
-
-        which is solved numerically over [u₁, u₂] to obtain the cumulative arc length L = s(u₂).
-
-        The ODE is integrated using a fifth-order Dormand-Prince (Dopri5) adaptive solver
-        with a PID stepsize controller. The integration tolerances (relative and absolute)
-        are both set to `tol`, which ensures consistent accuracy across varying cspeeds and curvatures.
+        The default is adaptive Gauss-Kronrod quadrature with explicit knot
+        breakpoints. ``method="ode"`` selects knot-aware Dopri5 integration.
+        Reversed limits return a signed integral; equal limits return zero.
+        Geometry must be real and finite, with positive weights and no interior
+        curve discontinuities. Zero speed is allowed for length calculation.
 
         Parameters
         ----------
-        u1 : float, optional
-            Lower limit of integration for the arc length computation (default: 0.0).
-
-        u2 : float, optional
-            Upper limit of integration for the arc length computation (default: 1.0).
-
+        u1, u2 : float, optional
+            In-domain limits, defaulting to 0 and 1.
         tol : float, optional
-            Relative and absolute tolerance for the adaptive ODE solver (default: 1e-6).
+            Convenience default for each unspecified tolerance (1e-6).
+        atol, rtol : float, optional
+            Separate absolute and relative controls. The quadrature uses the
+            combined target ``max(atol, rtol*abs(length))``. ODE controls are
+            local and do not guarantee the global length error.
+        method : {"quadrature", "ode"}, optional
+            Adaptive quadrature is the general-purpose default.
+        adjoint : {"direct", "leibniz"}, optional
+            Quadrature AD strategy. Direct differentiates the accepted mesh;
+            Leibniz integrates sensitivities with their own adaptive solve.
+            An integral's error estimate does not certify gradient accuracy.
+        max_intervals, max_steps : int, optional
+            Static workspace limits for quadrature and ODE, respectively.
+        return_info : bool, optional
+            Return :class:`ArcLengthInfo` instead of a scalar. Nonzero status
+            reports invalid inputs or unsuccessful integration. Scalar calls
+            raise on failure, including under JIT; they never silently accept
+            an unconverged integral. Error estimates are not certificates.
 
         Returns
         -------
-        L : float
-            Arc length of the curve segment C(u) for u ∈ [u₁, u₂].
+        length : scalar or ArcLengthInfo
+            Signed length, or value/error/work/status diagnostics.
+
+        Notes
+        -----
+        Extreme rational weight layers may evade finite sampling or exhaust
+        floating-point resolution. Endpoint grading reduces this risk without
+        providing a universal guarantee. At exactly zero velocity AD selects a
+        zero norm subgradient; collapsed-curve length is not differentiable.
         """
+        atol = tol if atol is None else atol
+        rtol = tol if rtol is None else rtol
+        if method == "quadrature":
+            info = _arc._adaptive_length(self, u1, u2, atol=atol, rtol=rtol,
+                                        adjoint=adjoint, max_intervals=max_intervals)
+        elif method == "ode":
+            info = _arc._ode_length(self, u1, u2, atol=atol, rtol=rtol,
+                                   max_steps=max_steps)
+        else:
+            raise ValueError("method must be 'quadrature' or 'ode'")
+        return info if return_info else _arc._checked_value(info)
 
-        dC_fun = eqx.filter_jit(lambda u: self.get_derivative(u, 1)[:, 0])
-        def f(u, s, args):
-            return jnp.linalg.norm(dC_fun(u))
+    @eqx.filter_jit
+    def get_arclength_ode(self, u1=0.0, u2=1.0, tol=1e-6, *, atol=None, rtol=None,
+                          max_steps=4096, return_info=False):
+        """Explicit knot-aware ODE alternative to :meth:`get_arclength`.
 
-        ctrl = dfx.PIDController(rtol=tol, atol=tol)
-        term = dfx.ODETerm(f)
-        sol = dfx.diffeqsolve(
-            term,
-            solver=dfx.Dopri5(),
-            t0=u1,
-            t1=u2,
-            y0=0.0,
-            dt0=1e-6,
-            stepsize_controller=ctrl,
-            adjoint=dfx.DirectAdjoint(),
-            saveat=dfx.SaveAt(t1=True),  # Only need final value
-        )
+        See that method for signed limits, tolerance and diagnostic semantics.
+        ODE ``error_estimate`` is NaN and ``evaluations`` is -1: Diffrax exposes
+        attempted step counts but no global error estimate or exact RHS count.
+        """
+        return self.get_arclength(u1, u2, tol, method="ode", atol=atol, rtol=rtol,
+                                  max_steps=max_steps, return_info=return_info)
 
-        return sol.ys.squeeze()
-    
     @eqx.filter_jit
     def get_arclength_quad(self, u1=0.0, u2=1.0, n_points=41):
         """
@@ -792,84 +806,38 @@ class NurbsCurve(eqx.Module):
         arclength, err, *_ = rule.integrate(integrand, u1, u2, args=())
         return jnp.asarray(arclength).squeeze()
 
-    def reparametrize_by_arclength(self, tol=1e-6):
+    def reparametrize_by_arclength(self, tol=1e-6, *, max_steps=512,
+                                   steps_per_span=16, max_intervals=512):
+        """Return a dense ODE map ``u_of_s`` and the total arc length.
+
+        Adaptive quadrature first computes each knot-span length. Independent
+        reciprocal ODEs then integrate normalized parameter against normalized
+        distance on each span. Dense interpolants give fast queries without
+        quadrature or root finding. Exact span anchors prevent cumulative drift
+        across knots; ``steps_per_span`` sets a minimum dense-output resolution.
+
+        This method requires a regular curve with positive speed, including
+        one-sided endpoint limits. Sampled stationary points, flat spans,
+        failed solves and nonmonotone sampled output are rejected explicitly.
+        No epsilon is added to hide a reciprocal singularity. Regularity and
+        monotonicity sampling are checks, not everywhere-valid proofs.
+
+        ``tol`` is the quadrature and local ODE control, not a global inverse-
+        map or unit-speed error guarantee. Tighter controls may be needed for
+        sensitivities. ``max_steps`` bounds dense storage per knot span.
+
+        The returned compiled callable accepts scalar/array distances in
+        ``[0, total_length]``, preserves shape and supports JAX differentiation
+        on regular curves. It is a geometry snapshot: rebuild after changes to
+        control points, weights or knots. Keep construction inside a transform
+        when differentiating with respect to the geometry.
         """
-        Construct a callable function that reparametrizes the NURBS curve by arc length,
-        returning the corresponding parameter values u(s) for prescribed arc-length positions s.
-
-        Let the parametric curve be
-            C(u) = [x(u), y(u), z(u)]ᵀ,      u ∈ [0, 1].
-
-        The arc length of a parametric curve C(u) = [x(u), y(u), z(u)]ᵀ is defined as
-
-            s(u₁, u₂) = ∫ ‖C'(u)‖ du,
-
-        where C'(u) = dC/du and ‖C'(u)‖ = √(x'(u)² + y'(u)² + z'(u)²) is the instantaneous
-        curve speed. This equation can be expressed as an initial-value problem:
-
-            ds/du = ‖C'(u)‖,  with   s(0) = 0,
-                                   
-        which is solved numerically over [0, 1] to obtain the cumulative arc length s_total.
-
-        To obtain the inverse mapping u(s), this routine solves the reciprocal ODE
-
-            du/ds = 1 / ‖C'(u)‖,    with   u(0) = 0.
-
-        The integration of this equation yields a continuous function u(s) that relates
-        the normalized arc-length coordinate s to the corresponding curve parameter u.
-
-        Computationally, the method proceeds in two stages:
-
-            1. Compute the total arc length s_total by direct integration
-            2. Obtain the inverse mapping u(s) by inverse integration
-
-        The method returns the total arc length s_total and a compiled,
-        vectorized function handle u(s), built from a dense interpolation of the ODE
-        solution, for efficient and differentiable evaluation of the inverse mapping.
-
-        Parameters
-        ----------
-        tol : float, optional
-            Relative and absolute tolerance for the adaptive ODE solver (default: 1e-6).
-
-        Returns
-        -------
-        u_of_s : callable
-            A JAX-compiled, vectorized function u(s) constructed from a dense
-            interpolation of the ODE solution. Evaluating u_of_s(s) returns
-            the corresponding curve parameter(s) for prescribed arc-length
-            position(s) s ∈ [0, s_total].
-
-        s_total : float
-            The total cumulative arc length of the curve over the parameter
-            interval [0, 1].
-        """
-        # Direct integration: compute total arclength
-        s_total = self.get_arclength(u1=0.0, u2=1.0, tol=tol)
-
-        # Inverse integration: compute mapping u(s)
-        def f_inverse(s, u, args):
-            u = jnp.clip(u, 0.0, 1.0)
-            dC = self.get_derivative(u, order=1)
-            speed = jnp.linalg.norm(dC[:, 0])
-            return 1.0 / (speed + 1e-12)
-
-        term_inv = dfx.ODETerm(f_inverse)
-        ctrl = dfx.PIDController(rtol=tol, atol=tol)
-        sol_inv = dfx.diffeqsolve(
-            term_inv,
-            solver=dfx.Dopri5(),
-            t0=0.0,
-            t1=s_total,
-            y0=0.0,
-            dt0=1e-4,
-            stepsize_controller=ctrl,
-            adjoint=dfx.DirectAdjoint(),
-            saveat=dfx.SaveAt(dense=True, t1=True),
-        )
-
-        # Return compiled and vectorized function handle
-        return jax.jit(jax.vmap(sol_inv.evaluate)), s_total
+        mapping = _arc._prepare_map(self, tol=tol, max_steps=max_steps,
+                                    steps_per_span=steps_per_span,
+                                    max_intervals=max_intervals)
+        # Preserve the compiled-function interface, including jax.jit(inverse)
+        # and inverse.lower(...). The reusable builder above caches span solves.
+        return jax.jit(lambda s: mapping(s)), mapping.total_length
 
 
     def reparametrize_by_coordinate(self, dim=0, tol=1e-9):

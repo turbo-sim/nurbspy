@@ -1,0 +1,53 @@
+{
+  "kind": "length",
+  "case": "smooth_3d",
+  "method": "adaptive",
+  "comparison_tol": 1e-06,
+  "tolerance": 1e-06,
+  "status": "ok",
+  "reference": {
+    "value": 5.284085567130157,
+    "error": 5.866513460717985e-14,
+    "evaluations": 252,
+    "analytic": false,
+    "messages": [],
+    "converged": true
+  },
+  "timing": {
+    "trace_lower_s": 0.3519110999914119,
+    "compile_s": 0.9066075000009732,
+    "first_execute_s": 0.0028399000002536923,
+    "warm_s": {
+      "median": 0.00016349999350495636,
+      "min": 0.0001472000003559515,
+      "max": 0.00028759999258909374,
+      "samples": [
+        0.00028759999258909374,
+        0.00021100000594742596,
+        0.00016349999350495636,
+        0.00015619999612681568,
+        0.00015439999697264284,
+        0.0001472000003559515,
+        0.00014869999722577631,
+        0.00016850000247359276,
+        0.00016569999570492655
+      ]
+    },
+    "cold_kernel_s": 1.2613584999926388,
+    "preparation_s": 0.0,
+    "cold_total_s": 1.2613584999926388
+  },
+  "value": 5.284085567130158,
+  "abs_error": 8.881784197001252e-16,
+  "accuracy_pass": true,
+  "diagnostics": {
+    "value": 5.284085567130158,
+    "error_estimate": 1.127925756969323e-10,
+    "evaluations": 126,
+    "status": 0,
+    "intervals": 6
+  },
+  "returncode": 0,
+  "environment_snapshot": "environment_length_1793115218716786800.json",
+  "worker_wall_s": 4.307369699992705
+}

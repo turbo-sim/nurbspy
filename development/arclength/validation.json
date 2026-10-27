@@ -1,0 +1,13 @@
+{
+  "Python 3.13 full suite": "466 tests; 0 failures/errors",
+  "Python 3.12 full suite": "466 tests; 0 failures/errors",
+  "Documentation": "Sphinx build passed with warnings treated as errors",
+  "Installed wheel": "Combined-extras isolated smoke check passed; adaptive/prepared exports included",
+  "Wheel contents": "Production arc-length module included; no development payload",
+  "Final interface checks, Python 3.13": "25 passed; 0 failures/errors",
+  "Final guards checks, Python 3.13": "2 passed; 0 failures/errors",
+  "Final interface checks, Python 3.12": "25 passed; 0 failures/errors",
+  "Final guards checks, Python 3.12": "2 passed; 0 failures/errors",
+  "Measured runtime-source fingerprints": "All 60 retained timing cells match the final runtime source files",
+  "Recorded outcomes": "56 completed calls, 3 expected regularity rejections, 1 explicit extreme-weight solver failure; achieved accuracy is reported separately"
+}

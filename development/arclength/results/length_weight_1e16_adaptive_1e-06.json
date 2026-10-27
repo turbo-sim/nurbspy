@@ -1,0 +1,53 @@
+{
+  "kind": "length",
+  "case": "weight_1e16",
+  "method": "adaptive",
+  "comparison_tol": 1e-06,
+  "tolerance": 1e-06,
+  "status": "solver_failure",
+  "reference": {
+    "value": 1.0,
+    "error": 0.0,
+    "evaluations": 0,
+    "analytic": true,
+    "messages": [],
+    "converged": true
+  },
+  "timing": {
+    "trace_lower_s": 0.30296080000698566,
+    "compile_s": 0.5878288000094471,
+    "first_execute_s": 0.004945000007865019,
+    "warm_s": {
+      "median": 0.0002480999974068254,
+      "min": 0.00016799999866634607,
+      "max": 0.0003360999980941415,
+      "samples": [
+        0.00029209999775048345,
+        0.0002480999974068254,
+        0.00025949999690055847,
+        0.0002829000004567206,
+        0.0003360999980941415,
+        0.00016799999866634607,
+        0.00021739999647252262,
+        0.00023530000180471689,
+        0.00019869999960064888
+      ]
+    },
+    "cold_kernel_s": 0.8957346000242978,
+    "preparation_s": 0.0,
+    "cold_total_s": 0.8957346000242978
+  },
+  "value": 1.000017200411308,
+  "abs_error": 1.7200411307927155e-05,
+  "accuracy_pass": false,
+  "diagnostics": {
+    "value": 1.000017200411308,
+    "error_estimate": 0.09292463965951947,
+    "evaluations": 441,
+    "status": 6,
+    "intervals": 20
+  },
+  "returncode": 0,
+  "environment_snapshot": "environment_length_1793115218716786800.json",
+  "worker_wall_s": 3.865080499992473
+}

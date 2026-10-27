@@ -204,4 +204,5 @@ git push origin main --tags
 :maxdepth: 1
 
 jax_performance
+jax_arclength
 ```

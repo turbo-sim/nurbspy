@@ -7,6 +7,20 @@ README-only edits are omitted.
 
 ## Unreleased
 
+Made JAX curve arc length adaptive by default, using public Gauss-Kronrod
+quadrature with explicit knot breakpoints, separate absolute/relative controls,
+optional differentiation strategies and convergence diagnostics. Retained an
+explicit knot-aware ODE alternative and the existing fixed Clenshaw-Curtis API.
+Added optional prepared spanwise Gauss tables for repeated differentiable
+evaluations with changing control points and positive weights.
+
+Retained dense reciprocal-ODE arc-length parameterization, with independent
+knot-span solves, exact endpoint anchors and sampled regularity/monotonicity
+validation. Queries remain interpolation-only and preserve scalar/array shape;
+sampled zero-speed/flat curves and invalid queries are rejected explicitly.
+Added focused accuracy, interval, failure and AD regressions. Consolidated the
+standalone production-API benchmark under `development/arclength/`.
+
 Changed JAX curve and surface point projection to knot-aware sampled
 initialization followed by exactly one bounded local solve per query. General
 and prepared surface projections now share this single-start implementation.

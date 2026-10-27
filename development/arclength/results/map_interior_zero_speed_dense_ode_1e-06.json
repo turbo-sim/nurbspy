@@ -1,0 +1,12 @@
+{
+  "kind": "map",
+  "case": "interior_zero_speed",
+  "method": "dense_ode",
+  "comparison_tol": 1e-06,
+  "tolerance": 1e-06,
+  "status": "expected_rejection",
+  "reason": "EquinoxRuntimeError: Above is the stack outside of JIT. Below is the stack inside of JIT:\n  File \"C:\\Users\\roagr\\git_projects\\nurbspy\\src\\nurbspy\\jax\\arclength.py\", line 409, in _prepare_map\n    curve = eqx.tree_at(lambda c: c.P, curve, eqx.error_if(\n                                              ~~~~~~~~~~~~^\n        curve.P, ~regular, \"The reciprocal ODE requires positive speed; stationary/flat curves need a different inverse method\"))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nequinox.EquinoxRuntimeError: The reciprocal ODE requires positive speed; stationary/flat curves need a different inverse method\n\n-------------------\n\nAn error occurred during the runtime of your JAX program.\n\n1) Setting the environment variable `EQX_ON_ERROR=breakpoint` is usually the most useful\nway to debug such errors. This can be interacted with using most of the usual commands\nfor the Python debugger: `u` and `d` to move up and down frames, the name of a variable\nto print its value, etc.\n\n2) You may also like to try setting `JAX_DISABLE_JIT=1`. This will mean that you can\n(mostly) inspect the state of your program as if it was normal Python.\n\n3) See `https://docs.kidger.site/equinox/api/debug/` for more suggestions.\n",
+  "returncode": 0,
+  "environment_snapshot": "environment_map_1793115426445413900.json",
+  "worker_wall_s": 7.001041299998178
+}

@@ -1,0 +1,46 @@
+{
+  "kind": "length",
+  "case": "smooth_3d",
+  "method": "fixed_cc41",
+  "comparison_tol": 1e-06,
+  "tolerance": null,
+  "status": "ok",
+  "reference": {
+    "value": 5.284085567130157,
+    "error": 5.866513460717985e-14,
+    "evaluations": 252,
+    "analytic": false,
+    "messages": [],
+    "converged": true
+  },
+  "timing": {
+    "trace_lower_s": 0.08860699999786448,
+    "compile_s": 0.06789330000174232,
+    "first_execute_s": 0.0015887000045040622,
+    "warm_s": {
+      "median": 3.15000070258975e-05,
+      "min": 2.9799994081258774e-05,
+      "max": 0.00015249999705702066,
+      "samples": [
+        0.00015249999705702066,
+        3.659998765215278e-05,
+        3.15000070258975e-05,
+        3.070000093430281e-05,
+        3.0000010156072676e-05,
+        3.2100011594593525e-05,
+        2.9799994081258774e-05,
+        3.130000550299883e-05,
+        3.9700011257082224e-05
+      ]
+    },
+    "cold_kernel_s": 0.15808900000411086,
+    "preparation_s": 0.0,
+    "cold_total_s": 0.15808900000411086
+  },
+  "value": 5.28428460010756,
+  "abs_error": 0.00019903297740242465,
+  "accuracy_pass": false,
+  "returncode": 0,
+  "environment_snapshot": "environment_length_1793115218716786800.json",
+  "worker_wall_s": 3.263153899999452
+}

@@ -1,0 +1,53 @@
+{
+  "kind": "length",
+  "case": "quarter_circle",
+  "method": "ode",
+  "comparison_tol": 1e-06,
+  "tolerance": 1e-06,
+  "status": "ok",
+  "reference": {
+    "value": 1.5707963267948966,
+    "error": 0.0,
+    "evaluations": 0,
+    "analytic": true,
+    "messages": [],
+    "converged": true
+  },
+  "timing": {
+    "trace_lower_s": 0.323916499997722,
+    "compile_s": 0.5905156999942847,
+    "first_execute_s": 0.0005332000000635162,
+    "warm_s": {
+      "median": 5.26000076206401e-05,
+      "min": 4.739999712910503e-05,
+      "max": 0.00010279999696649611,
+      "samples": [
+        0.00010279999696649611,
+        6.019999273121357e-05,
+        5.4100004490464926e-05,
+        5.01000031363219e-05,
+        5.1700000767596066e-05,
+        5.370000144466758e-05,
+        5.26000076206401e-05,
+        5.099999543745071e-05,
+        4.739999712910503e-05
+      ]
+    },
+    "cold_kernel_s": 0.9149653999920702,
+    "preparation_s": 0.0,
+    "cold_total_s": 0.9149653999920702
+  },
+  "value": 1.5707959640501652,
+  "abs_error": 3.6274473136366225e-07,
+  "accuracy_pass": true,
+  "diagnostics": {
+    "value": 1.5707959640501652,
+    "error_estimate": null,
+    "evaluations": -1,
+    "status": 0,
+    "intervals": 10
+  },
+  "returncode": 0,
+  "environment_snapshot": "environment_length_1793115218716786800.json",
+  "worker_wall_s": 4.068711900006747
+}

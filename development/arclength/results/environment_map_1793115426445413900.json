@@ -1,0 +1,49 @@
+{
+  "time": "2026-10-27 16:37:06+0100",
+  "python": "3.13.2 (tags/v3.13.2:4f8bb39, Feb  4 2025, 15:23:48) [MSC v.1942 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+  "versions": {
+    "jax": "0.12.0.1",
+    "jaxlib": "0.12.0.1",
+    "equinox": "0.13.8",
+    "diffrax": "0.7.2",
+    "optimistix": "0.1.0",
+    "quadax": "0.3.1",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1"
+  },
+  "source_parent": "0a00846acfbfe07347d6ada50b16716f9b231991",
+  "source_sha256": {
+    "src\\nurbspy\\jax\\arclength.py": "b3a61ec42c774c778585f3fb3c0658145f56fc6fe77780e717b7c59a8a9a3289",
+    "src\\nurbspy\\jax\\nurbs_basis_functions.py": "4297430748fb56f10e598aa5f27fcf387cb905490c57f89da7d09e99a3703a78",
+    "src\\nurbspy\\jax\\nurbs_curve.py": "a3021900e66c76adfdd80c8aa5868b66476de73878766398c44398f8cbe353b9",
+    "src\\nurbspy\\jax\\nurbs_curve_circular_arc.py": "fb5c3958349ba72ba254e41b4fd4debd4dbce3a07acee4949ef6e8195e6251a2",
+    "src\\nurbspy\\jax\\nurbs_surface.py": "c3ac9fadc608e99eb48d76c96ad69c9ff1f5bf3404d17a312b0ebbd6574d6c76",
+    "src\\nurbspy\\jax\\nurbs_surface_bilinear.py": "9825293976d09bef1dcc3e5327a535514e6c137254468fbcda270c6211fbdd11",
+    "src\\nurbspy\\jax\\nurbs_surface_coons.py": "498c91aec36942d1492add5e3893c8f0c693d850b7a6f9be82f3f8e895d88c8c",
+    "src\\nurbspy\\jax\\nurbs_surface_extruded.py": "d2f3c3a4ea7d2e9c322d32d09e43dacf21a46ed0e6fd1815f3012c64f2eadd19",
+    "src\\nurbspy\\jax\\nurbs_surface_revolution.py": "19a4b07399b14b9b61740f5dce2899986f784b7dabfb1d06a9b792366d3ad18f",
+    "src\\nurbspy\\jax\\nurbs_surface_ruled.py": "fe585a340dff22ae9647eec2aa0385b3e8c90b02a6c363baadaaf8afeda4daad",
+    "src\\nurbspy\\jax\\prepared.py": "5575f4bccc7bb04967b941e74cc533449c1f7afe96f27bba46cbe9b07ad5512a",
+    "src\\nurbspy\\jax\\prepared_projection.py": "4b4954c43e4c182cd01622ca701d63dc7f47bfb4e84d4bb4ec166089fab0cfa0",
+    "src\\nurbspy\\jax\\_curve_projection.py": "ff6219f1d770d3f013b269312e29105c4659ef269eabaf8922d2da9764f0d9e0",
+    "src\\nurbspy\\jax\\_point_projection.py": "c3ca07b02f851b5b6aeb91d340e123444f82dbfa619cc87057a5daf824f9f3ba",
+    "src\\nurbspy\\jax\\_surface_generators.py": "ea297641a6a4a04af8c59e76548dc4d5465a292cf107aabc145cb63e8913c96c",
+    "src\\nurbspy\\jax\\_surface_projection.py": "bfb9a291e9b9cc1a6abfc897227f94dc35414489369fc8b132214150d238fb07",
+    "src\\nurbspy\\jax\\__init__.py": "122084d5a4528b9dc171749601e3c0fbf356d5f25c64d66735105b54322ef8a6",
+    "development\\arclength\\benchmark.py": "1b59991e2d7e9b577dbcd4979a84acc7952096989da3e521f8d822d44aabf3ac",
+    "development\\arclength\\cases.py": "27581ee477632a317aff3d42bccfb96af8f79ca7deafe71aa9524cec1c1393b5",
+    "development\\arclength\\make_report.py": "3b14e17231d588bad33f5d58d5f83bf06b0cee388b67c0d101ffbb679656c200"
+  },
+  "protocol": {
+    "device": "cpu",
+    "float64": true,
+    "native_thread_limits": 1,
+    "persistent_cache": false,
+    "fresh_process_per_cell": true,
+    "ode_length_max_steps": 4096,
+    "map_max_steps_per_span": 512,
+    "map_minimum_steps_per_span": 16
+  }
+}

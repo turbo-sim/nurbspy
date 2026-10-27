@@ -1,0 +1,47 @@
+{
+  "kind": "length",
+  "case": "rational_stress",
+  "method": "prepared16",
+  "comparison_tol": 1e-06,
+  "tolerance": null,
+  "status": "ok",
+  "reference": {
+    "value": 4.975350260999458,
+    "error": 3.5700300999040704e-12,
+    "evaluations": 1260,
+    "analytic": false,
+    "messages": [],
+    "converged": true
+  },
+  "timing": {
+    "trace_lower_s": 0.07041299999400508,
+    "compile_s": 0.0456069999927422,
+    "first_execute_s": 0.001327499994658865,
+    "warm_s": {
+      "median": 5.229999078437686e-05,
+      "min": 4.919999628327787e-05,
+      "max": 0.00017080000543501228,
+      "samples": [
+        0.00017080000543501228,
+        8.889999298844486e-05,
+        6.770000618416816e-05,
+        5.509999755304307e-05,
+        5.229999078437686e-05,
+        5.050000618211925e-05,
+        5.190000229049474e-05,
+        5.0700007705017924e-05,
+        4.919999628327787e-05
+      ]
+    },
+    "cold_kernel_s": 0.11734749998140614,
+    "preparation_s": 0.17320479999762028,
+    "cold_total_s": 0.29055229997902643
+  },
+  "prepared_bytes": 14592,
+  "value": 4.556079908496304,
+  "abs_error": 0.4192703525031538,
+  "accuracy_pass": false,
+  "returncode": 0,
+  "environment_snapshot": "environment_length_1793115218716786800.json",
+  "worker_wall_s": 3.655331700007082
+}

@@ -1,0 +1,46 @@
+{
+  "kind": "length",
+  "case": "quarter_circle",
+  "method": "fixed_cc41",
+  "comparison_tol": 1e-06,
+  "tolerance": null,
+  "status": "ok",
+  "reference": {
+    "value": 1.5707963267948966,
+    "error": 0.0,
+    "evaluations": 0,
+    "analytic": true,
+    "messages": [],
+    "converged": true
+  },
+  "timing": {
+    "trace_lower_s": 0.08019510000303853,
+    "compile_s": 0.05978539999341592,
+    "first_execute_s": 0.0015500000008614734,
+    "warm_s": {
+      "median": 3.6600002204068005e-05,
+      "min": 9.900002623908222e-06,
+      "max": 0.00016120000509545207,
+      "samples": [
+        0.00016120000509545207,
+        6.199999188538641e-05,
+        3.6600002204068005e-05,
+        5.420000525191426e-05,
+        5.950000195298344e-05,
+        1.9899991457350552e-05,
+        1.0900010238401592e-05,
+        1.0499992640689015e-05,
+        9.900002623908222e-06
+      ]
+    },
+    "cold_kernel_s": 0.14153049999731593,
+    "preparation_s": 0.0,
+    "cold_total_s": 0.14153049999731593
+  },
+  "value": 1.5707963267948966,
+  "abs_error": 0.0,
+  "accuracy_pass": true,
+  "returncode": 0,
+  "environment_snapshot": "environment_length_1793115218716786800.json",
+  "worker_wall_s": 3.1560597000061534
+}

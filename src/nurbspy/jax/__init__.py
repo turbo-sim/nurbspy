@@ -15,3 +15,5 @@ from .nurbs_surface_revolution import *
 from .nurbs_surface_coons import *
 from .prepared import *
 from .prepared_projection import *
+
+from .arclength import *

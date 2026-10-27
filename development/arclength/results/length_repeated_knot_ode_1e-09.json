@@ -1,0 +1,53 @@
+{
+  "kind": "length",
+  "case": "repeated_knot",
+  "method": "ode",
+  "comparison_tol": 1e-09,
+  "tolerance": 1e-09,
+  "status": "ok",
+  "reference": {
+    "value": 5.196689485690487,
+    "error": 1.8565310745398983e-12,
+    "evaluations": 462,
+    "analytic": false,
+    "messages": [],
+    "converged": true
+  },
+  "timing": {
+    "trace_lower_s": 0.7980343999952311,
+    "compile_s": 0.7386287999979686,
+    "first_execute_s": 0.004140899996855296,
+    "warm_s": {
+      "median": 0.0019001000036951154,
+      "min": 0.000821399997221306,
+      "max": 0.002058099998976104,
+      "samples": [
+        0.000821399997221306,
+        0.001610499995877035,
+        0.002027900001849048,
+        0.002058099998976104,
+        0.001980300003197044,
+        0.0019001000036951154,
+        0.0019117000047117472,
+        0.00189130000944715,
+        0.0017567000031704083
+      ]
+    },
+    "cold_kernel_s": 1.540804099990055,
+    "preparation_s": 0.0,
+    "cold_total_s": 1.540804099990055
+  },
+  "value": 5.196689484125779,
+  "abs_error": 1.5647083628778091e-09,
+  "accuracy_pass": true,
+  "diagnostics": {
+    "value": 5.196689484125779,
+    "error_estimate": null,
+    "evaluations": -1,
+    "status": 0,
+    "intervals": 101
+  },
+  "returncode": 0,
+  "environment_snapshot": "environment_length_1793115357165557500.json",
+  "worker_wall_s": 4.649652799998876
+}

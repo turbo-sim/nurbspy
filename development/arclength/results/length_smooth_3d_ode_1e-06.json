@@ -1,0 +1,53 @@
+{
+  "kind": "length",
+  "case": "smooth_3d",
+  "method": "ode",
+  "comparison_tol": 1e-06,
+  "tolerance": 1e-06,
+  "status": "ok",
+  "reference": {
+    "value": 5.284085567130157,
+    "error": 5.866513460717985e-14,
+    "evaluations": 252,
+    "analytic": false,
+    "messages": [],
+    "converged": true
+  },
+  "timing": {
+    "trace_lower_s": 0.8046380999876419,
+    "compile_s": 0.6969256000011228,
+    "first_execute_s": 0.0016749000060372055,
+    "warm_s": {
+      "median": 0.00019740000425372273,
+      "min": 0.00018260000797454268,
+      "max": 0.0003635000030044466,
+      "samples": [
+        0.0003635000030044466,
+        0.00020420001237653196,
+        0.00018560000171419233,
+        0.00018260000797454268,
+        0.00021779999951831996,
+        0.00018659999477677047,
+        0.00018319999799132347,
+        0.00019740000425372273,
+        0.00021689999266527593
+      ]
+    },
+    "cold_kernel_s": 1.503238599994802,
+    "preparation_s": 0.0,
+    "cold_total_s": 1.503238599994802
+  },
+  "value": 5.284088346788927,
+  "abs_error": 2.7796587698247777e-06,
+  "accuracy_pass": true,
+  "diagnostics": {
+    "value": 5.284088346788927,
+    "error_estimate": null,
+    "evaluations": -1,
+    "status": 0,
+    "intervals": 26
+  },
+  "returncode": 0,
+  "environment_snapshot": "environment_length_1793115218716786800.json",
+  "worker_wall_s": 4.844292399997357
+}

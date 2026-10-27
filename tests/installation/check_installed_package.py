@@ -100,6 +100,14 @@ def check_installed_backends(backend):
             jax_curve.get_arclength_quad(), np.sqrt(2.0) + np.arcsinh(1.0),
             rtol=1e-11,
         )
+        assert_allclose(jax_curve.get_arclength(tol=1e-10),
+                        np.sqrt(2.0) + np.arcsinh(1.0), rtol=1e-10)
+        arclength_table = jax_nrb.prepare_arclength(jax_curve)
+        assert_allclose(arclength_table.value(points),
+                        np.sqrt(2.0) + np.arcsinh(1.0), rtol=1e-10)
+        inverse, total = jax_curve.reparametrize_by_arclength(tol=1e-9)
+        assert_allclose(jax.jit(inverse)(np.array([0.0, float(total)])),
+                        [0.0, 1.0], atol=1e-10)
 
         # Verify prepared APIs are exported and included in the built wheel.
         basis = jax_nrb.prepare_curve(jax_curve, [0.25], max_order=1)
