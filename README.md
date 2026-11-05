@@ -1,7 +1,7 @@
 # nurbspy
 
 ## Description
-`nurbspy` is a Python package for Non-Uniform Rational Basis Spline (NURBS) curves and surfaces.
+Python library for B-Spline and NURBS curves and surfaces, with analytical derivatives, geometric analysis and support for shape optimization.
 The classes and methods were inspired by the algorithms presented in [The NURBS Book](https://doi.org/10.1007/978-3-642-59223-2) and the code uses vectorized [NumPy](https://numpy.org/) operations, with optional [Numba](http://numba.pydata.org/) just-in-time compilation for faster basis-function evaluation.
 
 `nurbspy` aims to be a simple NURBS library, not a fully fledged CAD kernel. If you need a powerful, open source CAD kernel we recommend you to check out the C++ [OpenCascade](https://www.opencascade.com/doc/occt-7.4.0/overview/html/index.html) library. If you feel that OpenCascade is too complex or you are not sure how to start using it, [this repository](https://github.com/RoberAgro/primer_open_cascade) might be useful for you!
@@ -183,3 +183,11 @@ mode; use `poetry run python -m pytest` in that environment.
 ## Contact information
 
 `nurbspy` was originally developed by [Roberto Agromayor](https://www.ntnu.edu/employees/roberto.agromayor) under the supervision of Associate Professor [Lars O. Nord](https://www.ntnu.edu/employees/lars.nord) at the [Norwegian University of Science and Technology (NTNU)](https://www.ntnu.no/) as part of his PhD on turbomachinery shape optimization, and has since been maintained and extended. Please, drop us an email to [roberto.agromayor@ntnu.no](mailto:roberto.agromayor@ntnu.no) if you have questions about the code or you have a bug to report!
+
+<!-- research-software-metadata:start -->
+## Development and citation
+
+Roberto Agromayor is the main developer of nurbspy.
+
+Citation metadata is provided in [CITATION.cff](CITATION.cff). For version-specific reproducibility, also record the release or commit used.
+<!-- research-software-metadata:end -->
