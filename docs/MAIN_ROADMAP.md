@@ -61,7 +61,7 @@ The order goes from small repairs to larger API additions and interaction work. 
 
 ## 2. Make figure and axes handling consistent
 
-**Status:** Planned. **Suggested commit:** `Standardize curve and surface plotting handles`.
+**Status:** Complete. **Validation:** 28 graphics and plot-handle tests passed. **Suggested commit:** `Standardize curve and surface plotting handles`.
 
 **Purpose:** Make plots compose reliably inside existing figures, subplots, and applications.
 

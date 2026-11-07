@@ -451,3 +451,22 @@ def scale_graphics_y(fig, scale, mode="multiply"):
                     path.vertices[:, 1] *= scale
                 elif mode == "add":
                     path.vertices[:, 1] += scale
+
+
+def _prepare_plot_axes(fig=None, ax=None, projection=None):
+    """Resolve supplied Matplotlib handles without silently replacing them."""
+    if fig is not None and not isinstance(fig, mpl.figure.Figure):
+        raise ValueError("fig must be a Matplotlib Figure")
+    if ax is not None:
+        if not isinstance(ax, mpl.axes.Axes):
+            raise ValueError("ax must be a Matplotlib Axes")
+        if fig is not None and ax.figure is not fig:
+            raise ValueError("fig and ax must belong to the same figure")
+        expected = '3d' if projection == '3d' else 'rectilinear'
+        if ax.name != expected:
+            raise ValueError(f"This plot requires {expected} axes")
+        return ax.figure, ax
+    if fig is None:
+        fig = plt.figure(figsize=(6, 5))
+    return fig, fig.add_subplot(111, projection=projection)
+

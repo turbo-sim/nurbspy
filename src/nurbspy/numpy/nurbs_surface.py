@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits  import mplot3d
 from .nurbs_curve  import NurbsCurve
 from .nurbs_basis_functions  import compute_basis_polynomials, compute_basis_polynomials_derivatives
-from ..graphics                import style_3d_axes, close_3d_box
+from ..graphics                import style_3d_axes, close_3d_box, _prepare_plot_axes
 
 
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -906,108 +906,47 @@ class NurbsSurface:
              surface=True, surface_color='blue', colorbar=False,
              boundary=True, control_points=False, normals=False, axis_off=False, ticks_off=False,
              Nu=50, Nv=50, isocurves_u=None, isocurves_v=None):
-
-        # Prepare the plot
-        if fig is None:
-
-            # One dimension (law of evolution)
-            if self.ndim == 1:
-                fig = mpl.pyplot.figure(figsize=(6, 5))
-                ax = fig.add_subplot(111, projection='3d')
+        """Plot a scalar, planar, or spatial patch; return ``(fig, ax)``."""
+        if self.ndim not in (1, 2, 3):
+            raise ValueError("The number of dimensions must be 1, 2 or 3")
+        projection = '3d' if self.ndim in (1, 3) else None
+        new_axes = ax is None
+        fig, ax = _prepare_plot_axes(fig, ax, projection)
+        if new_axes:
+            if projection:
                 style_3d_axes(ax, elev=30, azim=-105)
-                ax.set_xlabel('$u$ parameter', fontsize=11, color='k', labelpad=18)
-                ax.set_ylabel('$v$ parameter', fontsize=11, color='k', labelpad=18)
-                ax.set_zlabel('NURBS value', fontsize=11, color='k', labelpad=18)
-                # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # ax_xy.zaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                for t in ax.xaxis.get_major_ticks(): t.label1.set_fontsize(8)
-                for t in ax.yaxis.get_major_ticks(): t.label1.set_fontsize(8)
-                for t in ax.zaxis.get_major_ticks(): t.label1.set_fontsize(8)
-                if ticks_off:
-                    ax.set_xticks([])
-                    ax.set_yticks([])
-                    ax.set_zticks([])
-                if axis_off:
-                    ax.axis('off')
-
-
-            # Two dimensions (bi-variate plane)
-            if self.ndim == 2:
-                fig = plt.figure(figsize=(6, 5))
-                ax = fig.add_subplot(111)
-                ax.set_xlabel('$x$ axis', fontsize=12, color='k', labelpad=12)
-                ax.set_ylabel('$y$ axis', fontsize=12, color='k', labelpad=12)
-                for t in ax.xaxis.get_major_ticks(): t.label1.set_fontsize(12)
-                for t in ax.yaxis.get_major_ticks(): t.label1.set_fontsize(12)
-                if ticks_off:
-                    ax.set_xticks([])
-                    ax.set_yticks([])
-                if axis_off:
-                    ax.axis('off')
-
-
-            # Three dimensions
-            elif self.ndim == 3:
-                fig = mpl.pyplot.figure(figsize=(6, 5))
-                ax = fig.add_subplot(111, projection='3d')
-                style_3d_axes(ax, elev=30, azim=-105)
-                ax.set_xlabel('$x$ axis', fontsize=11, color='k', labelpad=18)
-                ax.set_ylabel('$y$ axis', fontsize=11, color='k', labelpad=18)
-                ax.set_zlabel('$z$ axis', fontsize=11, color='k', labelpad=18)
-                # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # ax_xy.zaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                for t in ax.xaxis.get_major_ticks(): t.label1.set_fontsize(8)
-                for t in ax.yaxis.get_major_ticks(): t.label1.set_fontsize(8)
-                for t in ax.zaxis.get_major_ticks(): t.label1.set_fontsize(8)
-                if ticks_off:
-                    ax.set_xticks([])
-                    ax.set_yticks([])
-                    ax.set_zticks([])
-                if axis_off:
-                    ax.axis('off')
-
-
-        # Add objects to the plot
-        if self.ndim == 1:
-            if surface:        self.plot_surface(fig, ax, color=surface_color, colorbar=colorbar, Nu=Nu, Nv=Nv)
-            if control_points: self.plot_control_points(fig, ax)
+            labels = ('$u$ parameter', '$v$ parameter', 'NURBS value') if self.ndim == 1 else ('$x$ axis', '$y$ axis', '$z$ axis')
+            ax.set_xlabel(labels[0], fontsize=11, labelpad=12)
+            ax.set_ylabel(labels[1], fontsize=11, labelpad=12)
+            if projection:
+                ax.set_zlabel(labels[2], fontsize=11, labelpad=12)
+        if ticks_off:
+            ax.set_xticks([])
+            ax.set_yticks([])
+            if projection:
+                ax.set_zticks([])
+        if axis_off:
+            ax.axis('off')
+        if surface:
+            self.plot_surface(fig, ax, color=surface_color, colorbar=colorbar, Nu=Nu, Nv=Nv)
+        if control_points:
+            self.plot_control_points(fig, ax)
+        if self.ndim > 1:
+            if boundary:
+                self.plot_boundary(fig, ax)
+            if isocurves_u:
+                self.plot_isocurve_u(fig, ax, np.linspace(0, 1, isocurves_u))
+            if isocurves_v:
+                self.plot_isocurve_v(fig, ax, np.linspace(0, 1, isocurves_v))
+        if normals:
+            self.plot_normals(fig, ax)
+        if self.ndim == 3:
+            self.rescale_plot(fig, ax)
+        elif self.ndim == 2:
+            ax.set_aspect(1.0)
+        else:
             ax.autoscale(enable=True)
             close_3d_box(ax)
-
-
-        if self.ndim == 2:
-            if surface:        self.plot_surface(fig, ax, color=surface_color, colorbar=colorbar, Nu=Nu, Nv=Nv)
-            if control_points: self.plot_control_points(fig, ax)
-            if boundary:       self.plot_boundary(fig, ax)
-            if isocurves_u:
-                self.plot_isocurve_u(fig, ax, u_values=np.linspace(0, 1, isocurves_u))
-            if isocurves_v:
-                  self.plot_isocurve_v(fig, ax, v_values=np.linspace(0, 1, isocurves_v))
-
-            # Set the aspect ratio of the data
-            ax.set_aspect(1.0)
-
-            # Adjust pad
-            plt.tight_layout(pad=5.0, w_pad=None, h_pad=None)
-
-
-        # Add objects to the plot
-        if self.ndim == 3:
-            # Add objects to the plot
-            if surface:        self.plot_surface(fig, ax, color=surface_color, colorbar=colorbar, Nu=Nu, Nv=Nv)
-            if boundary:       self.plot_boundary(fig, ax)
-            if control_points: self.plot_control_points(fig, ax)
-            if normals:        self.plot_normals(fig, ax)
-            if isocurves_u:
-                self.plot_isocurve_u(fig, ax, u_values=np.linspace(0, 1, isocurves_u))
-            if isocurves_v:
-                  self.plot_isocurve_v(fig, ax, v_values=np.linspace(0, 1, isocurves_v))
-
-            # Set the scaling of the axes
-            self.rescale_plot(fig, ax)
-
         return fig, ax
 
 
@@ -1264,15 +1203,13 @@ class NurbsSurface:
         close_3d_box(ax)
 
         # Adjust pad
-        plt.tight_layout(pad=5.0, w_pad=None, h_pad=None)
+        fig.tight_layout(pad=5.0, w_pad=None, h_pad=None)
 
 
     def plot_curvature(self, fig=None, ax=None, curvature_type='mean'):
 
         # Prepare the plot
-        if fig is None:
-            fig = mpl.pyplot.figure(figsize=(6, 5))
-            ax = fig.add_subplot(111, projection='3d')
+        fig, ax = _prepare_plot_axes(fig, ax, '3d')
         style_3d_axes(ax, elev=30, azim=-105)
         ax.set_xlabel('$x$ axis', fontsize=11, color='k', labelpad=18)
         ax.set_ylabel('$y$ axis', fontsize=11, color='k', labelpad=18)
@@ -1327,7 +1264,7 @@ class NurbsSurface:
         close_3d_box(ax)
 
         # Adjust pad
-        plt.tight_layout(pad=5.0, w_pad=None, h_pad=None)
+        fig.tight_layout(pad=5.0, w_pad=None, h_pad=None)
 
         return fig, ax
 

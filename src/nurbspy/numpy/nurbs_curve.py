@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 from mpl_toolkits    import mplot3d
 from .nurbs_basis_functions    import compute_basis_polynomials, compute_basis_polynomials_derivatives
-from ..graphics                 import style_3d_axes, close_3d_box
+from ..graphics                 import style_3d_axes, close_3d_box, _prepare_plot_axes
 
 
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -794,76 +794,35 @@ class NurbsCurve:
     # Plot the NURBS curve
     # ---------------------------------------------------------------------------------------------------------------- #
     def plot(self, fig=None, ax=None,
-             curve=True, control_points=True, frenet_serret=False, axis_off=False, ticks_off=False):
-
-        """ Create a plot and return the figure and axes handles """
-
-        if fig is None:
-
-            # One dimension (law of evolution)
-            if self.ndim == 1:
-                fig = plt.figure(figsize=(6, 5))
-                ax = fig.add_subplot(111)
-                ax.set_xlabel('$u$ parameter', fontsize=12, color='k', labelpad=12)
-                ax.set_ylabel('NURBS curve value', fontsize=12, color='k', labelpad=12)
-                # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)
-                # for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)
-                if ticks_off:
-                    ax.set_xticks([])
-                    ax.set_yticks([])
-                if axis_off:
-                    ax.axis('off')
-
-            # Two dimensions (plane curve)
-            elif self.ndim == 2:
-                fig = plt.figure(figsize=(6, 5))
-                ax = fig.add_subplot(111)
-                ax.set_xlabel('$x$ axis', fontsize=12, color='k', labelpad=12)
-                ax.set_ylabel('$y$ axis', fontsize=12, color='k', labelpad=12)
-                # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)
-                # for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)
-                if ticks_off:
-                    ax.set_xticks([])
-                    ax.set_yticks([])
-                if axis_off:
-                    ax.axis('off')
-
-            # Three dimensions (space curve)
-            elif self.ndim == 3:
-                fig = mpl.pyplot.figure(figsize=(6, 5))
-                ax = fig.add_subplot(111, projection='3d')
+             curve=True, control_points=True, frenet_serret=False, axis_off=False, ticks_off=False, rescale=True):
+        """Plot geometry on new or supplied axes; return ``(fig, ax)``."""
+        if self.ndim not in (1, 2, 3):
+            raise ValueError("The number of dimensions must be 1, 2 or 3")
+        new_axes = ax is None
+        fig, ax = _prepare_plot_axes(fig, ax, '3d' if self.ndim == 3 else None)
+        if new_axes:
+            if self.ndim == 3:
                 style_3d_axes(ax, elev=30, azim=-120)
-                ax.set_xlabel('$x$ axis', fontsize=12, color='k', labelpad=12)
-                ax.set_ylabel('$y$ axis', fontsize=12, color='k', labelpad=12)
-                ax.set_zlabel('$z$ axis', fontsize=12, color='k', labelpad=12)
-                # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # ax_xy.zaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(8)
-                # for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(8)
-                # for t in ax.zaxis.get_major_ticks(): t.label.set_fontsize(8)
-                if ticks_off:
-                    ax.set_xticks([])
-                    ax.set_yticks([])
-                    ax.set_zticks([])
-                if axis_off:
-                    ax.axis('off')
-
-            else: raise Exception('The number of dimensions must be 1, 2 or 3')
-
-
-        # Add objects to the plot
-        if curve:          self.plot_curve(fig, ax)
-        if control_points: self.plot_control_points(fig, ax)
-        if frenet_serret:  self.plot_frenet_serret(fig, ax)
-
-        # Set the scaling of the axes
-        self.rescale_plot(fig, ax)
-
+            labels = ('$u$ parameter', 'NURBS curve value') if self.ndim == 1 else ('$x$ axis', '$y$ axis')
+            ax.set_xlabel(labels[0], fontsize=12, labelpad=12)
+            ax.set_ylabel(labels[1], fontsize=12, labelpad=12)
+            if self.ndim == 3:
+                ax.set_zlabel('$z$ axis', fontsize=12, labelpad=12)
+        if ticks_off:
+            ax.set_xticks([])
+            ax.set_yticks([])
+            if self.ndim == 3:
+                ax.set_zticks([])
+        if axis_off:
+            ax.axis('off')
+        if curve:
+            self.plot_curve(fig, ax)
+        if control_points:
+            self.plot_control_points(fig, ax)
+        if frenet_serret:
+            self.plot_frenet_serret(fig, ax)
+        if rescale:
+            self.rescale_plot(fig, ax)
         return fig, ax
 
 
@@ -1058,7 +1017,7 @@ class NurbsCurve:
             ax.set_aspect(1.0)
 
             # Adjust pad
-            plt.tight_layout(pad=5.0, w_pad=None, h_pad=None)
+            fig.tight_layout(pad=5.0, w_pad=None, h_pad=None)
 
         # Three dimensions (space curve)
         if self.ndim == 3:
@@ -1080,21 +1039,19 @@ class NurbsCurve:
             close_3d_box(ax)
 
             # Adjust pad
-            plt.tight_layout(pad=5.0, w_pad=None, h_pad=None)
+            fig.tight_layout(pad=5.0, w_pad=None, h_pad=None)
 
 
     def plot_curvature(self, fig=None, ax=None, color='black', linestyle='-'):
 
         # Create the figure
-        if fig is None:
-            fig = plt.figure(figsize=(6, 5))
-            ax = fig.add_subplot(111)
+        fig, ax = _prepare_plot_axes(fig, ax)
         ax.set_xlabel('$u$ parameter', fontsize=12, color='k', labelpad=12)
         ax.set_ylabel('Curvature', fontsize=12, color='k', labelpad=12)
         # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
         # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-        for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)
-        for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)
+        for t in ax.xaxis.get_major_ticks(): t.label1.set_fontsize(12)
+        for t in ax.yaxis.get_major_ticks(): t.label1.set_fontsize(12)
         # ax_xy.set_xticks([])
         # ax_xy.set_yticks([])
         # ax_xy.axis('off')
@@ -1123,22 +1080,20 @@ class NurbsCurve:
         # ax_xy.set_aspect(np.abs((x2-x1)/(y2-y1))*ratio)
 
         # Adjust pad
-        plt.tight_layout(pad=5.0, w_pad=None, h_pad=None)
+        fig.tight_layout(pad=5.0, w_pad=None, h_pad=None)
 
         return fig, ax
 
     def plot_torsion(self, fig=None, ax=None, color='black', linestyle='-'):
 
         # Create the figure
-        if fig is None:
-            fig = plt.figure(figsize=(6, 5))
-            ax = fig.add_subplot(111)
+        fig, ax = _prepare_plot_axes(fig, ax)
         ax.set_xlabel('$u$ parameter', fontsize=12, color='k', labelpad=12)
         ax.set_ylabel('Torsion', fontsize=12, color='k', labelpad=12)
         # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
         # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-        for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)
-        for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)
+        for t in ax.xaxis.get_major_ticks(): t.label1.set_fontsize(12)
+        for t in ax.yaxis.get_major_ticks(): t.label1.set_fontsize(12)
         # ax_xy.set_xticks([])
         # ax_xy.set_yticks([])
         # ax_xy.axis('off')
@@ -1164,10 +1119,11 @@ class NurbsCurve:
         ratio = 1.00
         x1, x2 = ax.get_xlim()
         y1, y2 = ax.get_ylim()
-        ax.set_aspect(np.abs((x2 - x1) / (y2 - y1)) * ratio)
+        span_y = abs(y2 - y1)
+        ax.set_aspect(abs(x2 - x1) / span_y * ratio if span_y > 0 else 'auto')
 
         # Adjust pad
-        plt.tight_layout(pad=5.0, w_pad=None, h_pad=None)
+        fig.tight_layout(pad=5.0, w_pad=None, h_pad=None)
 
         return fig, ax
 
