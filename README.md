@@ -15,7 +15,8 @@ The classes and methods were inspired by the algorithms presented in [The NURBS 
 - Evaluation of coordinates and arbitrary-order analytical derivatives
 - Curvature (and, for surfaces, mean and Gaussian curvature)
 - Point projection / point inversion
-- Matplotlib-based visualization
+- Optional interactive desktop and embedded geometry viewing/editing
+- Matplotlib static and diagnostic plots
 
 Curves additionally offer the tangent, normal, and binormal unit vectors (Frenet-Serret frame), torsion, and arc-length by numerical quadrature. Surfaces additionally offer unit normal vectors, u- and v-isoparametric curves, and constructors for common special surfaces: bilinear, ruled, extruded, revolution, and Coons.
 
@@ -32,6 +33,43 @@ for usage, lifetimes, and tradeoffs.
 
 See the documentation for the [theory](https://turbo-sim.github.io/nurbspy/theory/index.html) behind these capabilities (Bézier, B-Spline, NURBS, and G² continuity) and the [examples](https://turbo-sim.github.io/nurbspy/examples/index.html) gallery, with complete scripts and their numerical and graphical output.
 
+
+## Interactive geometry viewing and editing
+
+The primary interactive geometry interface uses the shared `visualization/`
+renderer. Desktop windows start no web server. Install the optional desktop extra
+from this checkout, then run a curve or surface example:
+
+```powershell
+poetry install --extras desktop
+poetry run python demos/demos_viewer/demo_curve_view.py
+poetry run python demos/demos_viewer/demo_curve_edit.py
+poetry run python demos/demos_viewer/demo_surface_view.py
+poetry run python demos/demos_viewer/demo_surface_edit.py
+```
+
+```python
+import nurbspy as nrb
+
+curve = nrb.NurbsCurve([nrb.Point(0, 0), nrb.Point(1, 2), nrb.Point(3, 0)])
+curve.show()
+edited = curve.edit()
+if edited is not None:
+    edited.to_yaml("edited_curve.yaml")
+```
+
+View and edit use the same 3D/orthographic viewport, navigation dropdown,
+ViewCube, solid-colour defaults, diagnostics, and optional STL mesh display.
+Editors add direct X/Y/Z coordinates, constrained dragging, positive weights,
+and Reset. Original inputs are unchanged; Apply returns a new NumPy geometry,
+including for JAX inputs. YAML can restore that geometry through either backend.
+Undo/redo and file dialogs are deliberately omitted.
+
+For a host-owned Dash application, install `--extras web` and use
+`GeometryView` or `GeometryEditor`. See the [guide](docs/source/visualization.md)
+and [separate runnable examples](demos/demos_viewer/README.md). Existing
+`.plot()` methods retain their Matplotlib signatures; use `.show()`/`.edit()`
+for the new geometry experience or `show(backend="matplotlib")` explicitly.
 
 ## Installation
 

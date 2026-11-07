@@ -106,3 +106,23 @@ The dependency-backed behavior was verified against Trimesh 5.2.0 and NetworkX
 
 For complete plotted torus/oloid examples, presets, and parameter-selection
 guidance, see [the 3D-printing walkthrough](examples/stl_printing.md).
+
+## Edited geometry and in-memory STL
+
+Save/load remain code-level operations; no file dialogs are required in the
+viewer. Apply returns an independent NumPy geometry that supports the same YAML
+methods. Load through the selected backend before viewing:
+
+```python
+curve = nrb.NurbsCurve.from_yaml("curve.yaml")
+edited = curve.edit()
+if edited is not None:
+    edited.to_yaml("edited_curve.yaml")
+
+# Downloads use the same external Trimesh processing/writer as file export:
+data = nrb.export_stl_bytes(surface, nu=80, nv=30)
+```
+
+The interactive surface preview and Download STL use main's external mesh
+pipeline. No custom prototype STL writer is required. Display triangulation and
+export sampling can differ; STL validation remains the exporter's responsibility.

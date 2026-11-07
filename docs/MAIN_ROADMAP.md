@@ -22,7 +22,7 @@ The aim is to improve the existing numerical library, make geometry construction
 - Convert convenience inputs to backend arrays at construction. Numerical kernels operate on arrays, not collections of Point objects.
 - Preserve existing arbitrary-dimensional and complex-coordinate numerical use cases. Display and Point convenience restrictions must not restrict the core array API.
 - Keep optional dependencies optional, and import them only when their functionality is requested.
-- Do not port Dash, Flask server functionality, browser callbacks, or the experimental viewer's editing architecture to main.
+- Use the shared visualization core and serverless pywebview desktop. The optional Dash adapter embeds in a host-owned application; numerical imports and desktop usage do not start a server. This later user-approved design supersedes the original Qt/PyVista proposal.
 - Prefer established mesh processing and file writers over maintaining a general-purpose mesh repair/export implementation.
 
 ## Sequence at a glance
@@ -228,30 +228,25 @@ curve = NurbsCurve(
 
 **Acceptance:** Cached and uncached results agree after point and weight changes. Invalidation works after relevant structural changes. Measure responsiveness for representative models and identify practical limits. Numerical differentiation paths remain unaffected.
 
-## 12. Build the optional interactive desktop interface
+## 12. Shared interactive viewer and editor
 
-**Status:** Planned. **Suggested commit:** `Add optional desktop control-point and weight editor`.
+**Status:** Ported on main, validation recorded in `MAIN_PORT_REPORT.md`.
+The later user-approved scope replaces the initial Qt/PyVista proposal with a
+shared Three.js viewport, serverless pywebview desktop, and optional host-owned
+Dash embedding. Undo/redo is deferred; native save/load remains in Python.
 
-**Purpose:** Let users understand and modify curves and surfaces by dragging control points and changing weights while watching the geometry respond.
-
-**What and how:**
-
-- Prefer a desktop PyVista/VTK viewer embedded in Qt, subject to a small feasibility check of direct manipulation, supported environments, and packaging. Use an optional dependency extra and lazy imports. No browser, HTTP server, Dash, or Flask.
-- Provide one coherent entry point for NumPy/JAX curves and surfaces, with a documented lifecycle and a way to retrieve the edited native geometry. The final method name is an API decision for this item; do not preserve `.explore()` merely because the prototype used it.
-- Show geometry, control polygon/net, selectable point handles, axes, and useful display toggles. Use an orthographic constrained plane for 2D geometry.
-- Support point dragging in 2D. In 3D, provide axis/plane constraints or a translation gizmo so depth movement is deliberate. Point selection must remain usable when handles overlap, and camera navigation must not compete with dragging.
-- Edit the selected point's weight through a logarithmic positive-weight slider and a numeric field, with immediate geometry feedback. Treat handle position and weight as separate properties.
-- Integrate item 11's preview evaluation; update existing rendering objects and preserve the camera rather than rebuilding the scene on every event.
-- Start from an independent geometry copy. Provide undo/redo, reset, and explicit apply/return behavior. One completed drag is one undo action. Apply edits by rebuilding valid backend models as needed, including immutable JAX models.
-- Add snapshot/JSON saving and STL export through items 7 and 9. STL export is applicable to 3D surfaces and must use the current edited state.
-- Supply two short runnable examples: a curve editor and a surface editor, with the oloid available as a multi-patch inspection/export example. Independent patch editing must not imply automatic seam or continuity preservation.
-- Keep Matplotlib support available for existing scripts; the desktop editor is an optional new experience.
-
-**Acceptance:** Combine model/controller tests with real GUI checks for 2D dragging, constrained 3D dragging, weight changes, camera preservation, undo/redo, reset, and edited-state export. Verify clean window shutdown, no orphan server/process, and normal package imports without GUI dependencies. Test the primary Windows environment and document which other environments have actually been verified.
+- `show()` inspects; `edit()` returns a new NumPy host geometry on Apply.
+- NumPy/JAX classes delegate to the same `visualization/` package. Point inputs,
+  YAML, numerical routines, and existing static plotting signatures are preserved.
+- One spatial renderer supports perspective and XY/YZ/ZX projections, shared
+  display/edit panes, coordinate/weight editing, constraints, and ViewCube.
+- Main's Trimesh/NetworkX processing/writer handles STL, including downloads.
+- Optional extras are lazy; importing numerical geometry does not import a GUI.
+- Current behaviour is specified in `VIEWER_EDITOR_BEHAVIOR.md`.
 
 ## Deliberately outside this roadmap
 
-- Merging the experimental branch wholesale or porting its browser server functionality.
+- Merging the experimental branch wholesale, starting a hidden Dash server from desktop/numerical calls, or replacing main's external mesh writer.
 - Replacing the Python NURBS numerical backend with VTK's geometry algorithms.
 - A general CAD kernel, trimmed-surface mesher, Boolean solid modeller, or automatic multi-patch continuity solver.
 - Guaranteeing self-intersection-free or printable solids from arbitrary surface inputs.
@@ -305,4 +300,4 @@ The torus uses exact rational geometry; the sampled oloid explicitly separates
 boundary approximation from export sampling. All six preset/object exports were
 verified as closed volumes. Generated files live under ignored
 `output/stl_printing/`; the illustrated guide includes a committed comparison PNG.
-Items 11 and 12 remain outside the implemented scope.
+Item 11's full basis-table reuse remains future work; item 12's reviewed viewer/editor is now ported. The viewer already caches sampling/topology and reuses render buffers.

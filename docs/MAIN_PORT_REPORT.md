@@ -102,3 +102,62 @@ producing both STLs and a plot. A pre-existing JAX curve docstring indentation
 was corrected after strict documentation validation identified it.
 
 A clean strict Sphinx HTML build passed after the documentation correction.
+
+
+## Shared viewer/editor port to main ? 7 November 2026
+
+The reviewed prototype is now integrated on main in focused local commits:
+
+- `a1dd97b`: in-memory STL bytes through the existing external mesh pipeline.
+- `72f9d82`: shared desktop/embedded viewer/editor, optional dependencies, plotting
+  extraction, Point/backend/YAML compatibility checks, and frontend tests.
+- The documentation/example commit adds seven Point-based entry points, the
+  visualization guide, and `VIEWER_EDITOR_BEHAVIOR.md`.
+
+### Resulting behaviour
+
+`show()` opens the new shared geometry viewer; `edit()` returns an independent
+NumPy geometry on Apply or None on cancellation. The desktop uses a direct
+pywebview bridge and starts no HTTP server. `GeometryView`/`GeometryEditor`
+provide the same renderer inside a host-owned Dash application. Both NumPy/JAX
+classes have thin wrappers; accepted JAX edits are host NumPy objects and can be
+saved/restored through either backend's YAML API.
+
+The interface includes solid defaults, horizontal Display/Edit inspectors,
+Navigation dropdown, ViewCube, XY/YZ/ZX projections, ticked planar axes, grids
+behind geometry, matched point sizes, XYZ fields, weight editing, and normal/
+axis/plane constraints. Python retains all NURBS and diagnostic calculations.
+Undo/redo and viewer file dialogs are intentionally omitted as agreed.
+
+Main's Point constructors, serialization, and numerical method bodies/class
+bases were preserved. Plotting functions were extracted from main's current
+implementations into `visualization/plotting.py`; the four numerical classes
+keep their existing Matplotlib signatures and public help text. Examples use
+`show()`/`edit()` as the primary interactive geometry experience.
+
+STL previews/downloads reuse main's Trimesh/NetworkX processing and writer.
+The custom experimental exporter, Plotly application, and legacy assembly
+viewer were not ported. `export_stl_bytes()` supports downloads without temporary
+files; existing file exports retain their validation and Path return semantics.
+The lockfile was regenerated from main. Desktop/web dependencies are optional;
+vendor licenses are included and hashes match LF-normalized committed assets.
+
+### Validation
+
+- Full test tree with JAX and Numba explicitly required: **876 passed, 6 skipped**.
+  The six skips are the NumPy-specific complex-step checks under the JAX fixture.
+- Shared frontend suites: **70 checks passed**.
+- Main Point/backend/YAML integration and existing Point/YAML checks: **142 passed**.
+- External STL bytes/file export and tessellation: **52 passed**.
+- All seven demos passed code-only geometry/settings or embedded layout/asset checks.
+- Strict headless Sphinx HTML build passed after fixing its two new download links.
+- Main's wheel builds. An isolated wheel smoke check exercised Point construction,
+  native bridge acceptance/cancel-free return, NumPy/JAX YAML exchange, static
+  plotting, Dash asset serving, self-contained desktop HTML, and external STL.
+- Vendored checksums and packaged UI assets were checked against committed source.
+- One pre-existing JAX float32/float64 scatter FutureWarning remains in a YAML test.
+
+No computer control or live GUI session was used during this port, as requested.
+Prior Windows prototype interaction checks remain useful evidence, but this is
+not a claim of new cross-platform interactive verification. Changes are committed
+locally on main and have not been pushed.
