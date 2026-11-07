@@ -6,7 +6,7 @@ error guarantee. Vertices on different patches are not welded here.
 import numpy as np
 
 
-__all__ = ["tessellate_surfaces", "export_stl"]
+__all__ = ["tessellate_surfaces", "export_stl", "export_stl_bytes"]
 
 
 def _parameter_grid(knots, degree, count, control_count):
@@ -149,6 +149,24 @@ def export_stl(surfaces, path, nu=80, nv=30, *, require_closed=False, weld_toler
     path = Path(path)
     if path.suffix.lower() != ".stl":
         raise ValueError("Only .stl export is supported; use to_yaml() for native geometry")
+    path.write_bytes(export_stl_bytes(surfaces, nu=nu, nv=nv,
+                                    require_closed=require_closed, weld_tolerance=weld_tolerance))
+    return path
+
+
+def export_stl_bytes(surfaces, nu=80, nv=30, *, require_closed=False, weld_tolerance=None):
+    """Return binary STL using the same external mesh pipeline as export_stl.
+
+    Suitable for downloads and in-memory exchange. Sampling, processing,
+    validation, and units are identical to the file export operation.
+    """
+    mesh = _prepare_stl_mesh(surfaces, nu, nv, require_closed=require_closed,
+                             weld_tolerance=weld_tolerance)
+    return mesh.export(file_type="stl")
+
+
+def _prepare_stl_mesh(surfaces, nu=80, nv=30, *, require_closed=False, weld_tolerance=None):
+    """Return the externally processed/validated mesh shared by files and viewers."""
     if not isinstance(require_closed, (bool, np.bool_)):
         raise ValueError("require_closed must be a boolean")
     trimesh = _mesh_library()
@@ -205,6 +223,4 @@ def export_stl(surfaces, path, nu=80, nv=30, *, require_closed=False, weld_toler
     encoded_mesh = trimesh.Trimesh(vertices=encoded.astype(float), faces=mesh.faces, process=False)
     if not np.allclose(np.linalg.norm(encoded_mesh.face_normals, axis=1), 1.0):
         raise ValueError("Coordinate scale prevents reliable mesh-library normals; rescale the geometry")
-    data = encoded_mesh.export(file_type="stl")
-    path.write_bytes(data)
-    return path
+    return encoded_mesh
