@@ -132,7 +132,7 @@ curve = NurbsCurve(
 
 ## 6. Add Point grids for surfaces and geometric constructors
 
-**Status:** Planned. **Suggested commit:** `Accept Point grids in surface construction`.
+**Status:** Complete. **Validation:** 156 construction checks passed; the final 82 Point checks also cover integer-coordinate/fractional-weight precision. **Suggested commit:** `Accept Point grids in surface construction`.
 
 **Purpose:** Extend the readable construction convention consistently to surfaces and applicable geometric helpers.
 

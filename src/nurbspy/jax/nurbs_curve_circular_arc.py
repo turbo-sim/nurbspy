@@ -1,4 +1,5 @@
 import jax.numpy as jnp
+from .._control_points import point_coordinates
 from .nurbs_curve import NurbsCurve  # your JAX-compatible version
 
 
@@ -40,7 +41,7 @@ class CircularArc:
     """
     def __init__(self, O, X, Y, R, theta_start, theta_end):
         # Convert all inputs to JAX arrays
-        self.O = jnp.asarray(O)
+        self.O = point_coordinates(O, jnp)
         self.X = jnp.asarray(X)
         self.Y = jnp.asarray(Y)
         self.R = jnp.asarray(R)

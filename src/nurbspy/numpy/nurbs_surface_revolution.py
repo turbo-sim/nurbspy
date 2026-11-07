@@ -2,6 +2,7 @@
 # Import packages
 # -------------------------------------------------------------------------------------------------------------------- #
 import numpy as np
+from .._control_points import point_coordinates
 
 from .nurbs_surface import NurbsSurface
 
@@ -39,6 +40,8 @@ class NurbsSurfaceRevolution:
     """
 
     def __init__(self, generatrix, axis_point, axis_direction, angle_start, angle_end):
+
+        axis_point = point_coordinates(axis_point, np)
 
         # Set the data type used to initialize arrays (set `complex` if any argument is complex and `float` if not)
         temp = generatrix.P

@@ -1,6 +1,7 @@
 """Bilinear JAX surface construction."""
 
 import jax.numpy as jnp
+from .._control_points import point_coordinates
 from .nurbs_surface import NurbsSurface
 
 __all__ = ["NurbsSurfaceBilinear"]
@@ -15,7 +16,7 @@ class NurbsSurfaceBilinear:
 
     def __init__(self, P00, P01, P10, P11):
         """Store the corners and construct the degree-one patch."""
-        self.P00, self.P01, self.P10, self.P11 = map(jnp.asarray, (P00, P01, P10, P11))
+        self.P00, self.P01, self.P10, self.P11 = (point_coordinates(p, jnp) for p in (P00, P01, P10, P11))
         self.ndim = 3
         if any(
             point.shape != (3,) for point in (self.P00, self.P01, self.P10, self.P11)

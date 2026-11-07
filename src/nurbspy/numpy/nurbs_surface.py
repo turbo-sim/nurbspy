@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits  import mplot3d
 from .nurbs_curve  import NurbsCurve
 from .nurbs_basis_functions  import compute_basis_polynomials, compute_basis_polynomials_derivatives
+from .._control_points import surface_control_points
 from ..graphics                import style_3d_axes, close_3d_box, _prepare_plot_axes
 
 
@@ -22,7 +23,8 @@ class NurbsSurface:
 
         Parameters
         ----------
-        control_points : ndarray with shape (ndim, n+1, m+1)
+        control_points : ndarray with shape (ndim, n+1, m+1) or rectangular grid of Point
+            Point grids use points[u_index][v_index]; numerical inputs retain coordinate-first layout.
             Array containing the coordinates of the control points
             The first dimension of `P` spans the coordinates of the control points (any number of dimensions)
             The second dimension of `P` spans the u-direction control points (0, 1, ..., n)
@@ -86,6 +88,17 @@ class NurbsSurface:
 
     def __init__(self, control_points=None, weights=None, u_degree=None, v_degree=None, u_knots=None, v_knots=None):
 
+
+        if control_points is not None:
+            control_points = surface_control_points(control_points, np)
+        if weights is not None:
+            weights = np.asarray(weights)
+            if control_points is None or weights.shape != control_points.shape[1:]:
+                raise ValueError("weights must match the control-net shape (Nu, Nv)")
+        if u_knots is not None:
+            u_knots = np.asarray(u_knots)
+        if v_knots is not None:
+            v_knots = np.asarray(v_knots)
 
         # Void initialization
         if control_points is None and weights is None and u_degree is None and v_degree is None \

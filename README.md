@@ -217,3 +217,24 @@ The same `Point` is available from `nurbspy`, `nurbspy.numpy`, and `nurbspy.jax`
 Array-based construction continues to support arbitrary coordinate dimensions,
 complex numbers, and JAX transformations. Point coordinates can also be complex
 or scalar JAX values, including traced values inside differentiated functions.
+
+For surfaces, supply a rectangular Point grid. The outer index advances in
+`u`, the inner index in `v`, and `weights[i][j]` belongs to `points[i][j]`:
+
+```python
+surface = nrb.NurbsSurface(control_points=[
+    [nrb.Point(0, 0, 0), nrb.Point(0, 1, 0)],
+    [nrb.Point(1, 0, 0), nrb.Point(1, 1, 1)],
+    [nrb.Point(2, 0, 0), nrb.Point(2, 1, 0)],
+])
+```
+
+Internally this is still `P[:, i, j]`. Numerical arrays and nested numerical
+lists retain shape `(dimension, number_u, number_v)`. A flat Point sequence is
+not a surface grid. Mixed Point/numeric input, ragged rows, inconsistent Point
+dimensions, and mismatched weight grids raise clear errors.
+
+Individual locations also accept Point: circular-arc centers, bilinear-patch
+corners, and revolution-axis points. Direction vectors remain numerical arrays
+or sequences. The bilinear helper retains its historical argument order:
+`P00=S(0,0)`, `P01=S(1,0)`, `P10=S(0,1)`, and `P11=S(1,1)`.

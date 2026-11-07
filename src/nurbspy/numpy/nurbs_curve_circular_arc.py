@@ -2,6 +2,7 @@
 # Import packages
 # -------------------------------------------------------------------------------------------------------------------- #
 import numpy as np
+from .._control_points import point_coordinates
 
 from .nurbs_curve import NurbsCurve
 
@@ -47,6 +48,8 @@ class CircularArc:
     """
 
     def __init__(self, O, X, Y, R, theta_start, theta_end):
+
+        O = point_coordinates(O, np)
 
         # Set the data type used to initialize arrays (set `complex` if any argument is complex and `float` if not)
         for item in locals().values():

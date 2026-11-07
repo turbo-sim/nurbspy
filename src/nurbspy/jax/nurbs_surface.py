@@ -1,5 +1,7 @@
 """Differentiable tensor-product NURBS surfaces with the NumPy surface API."""
 
+from .._control_points import surface_control_points
+
 from math import comb
 
 import equinox as eqx
@@ -147,7 +149,7 @@ class NurbsSurface(eqx.Module):
             self.p = self.q = self.ndim = 0
             self.surface_type = "Void"
             return
-        P = jnp.asarray(control_points)
+        P = surface_control_points(control_points, jnp)
         if P.ndim != 3 or min(P.shape) < 1:
             raise ValueError("control_points must have shape (ndim, Nu, Nv)")
         W = jnp.ones(P.shape[1:]) if weights is None else jnp.asarray(weights)

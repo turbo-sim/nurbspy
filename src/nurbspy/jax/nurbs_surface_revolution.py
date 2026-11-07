@@ -5,6 +5,7 @@ import math
 import equinox as eqx
 import jax
 import jax.numpy as jnp
+from .._control_points import point_coordinates
 import numpy as np
 
 from .nurbs_surface import NurbsSurface
@@ -34,6 +35,7 @@ class NurbsSurfaceRevolution:
         n_arcs=None
     ):
         """Store the generatrix and axis, then construct rational circular rows."""
+        axis_point = point_coordinates(axis_point, jnp)
         if generatrix.P.shape[0] != 3 or jnp.shape(axis_point) != (3,):
             raise ValueError("The curve and axis point must be three-dimensional")
         if n_arcs is None:

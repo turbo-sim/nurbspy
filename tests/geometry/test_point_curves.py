@@ -85,3 +85,12 @@ def test_jax_point_scalars_preserve_jit_and_gradients(jax_backend):
         return jax_backend.NurbsCurve(jnp.array([[0., x, 2.], [0., 1., 0.]])).get_value(.4)[0, 0]
     assert jax.jit(point_value)(1.) == pytest.approx(array_value(1.))
     assert jax.jit(jax.grad(point_value))(1.) == pytest.approx(jax.grad(array_value)(1.))
+
+
+def test_integer_point_literals_keep_fractional_weights(curve_backend):
+    points = [Point(0, 0), Point(1, 1), Point(2, 0)]
+    curve = curve_backend.NurbsCurve(points, weights=[1., .5, 1.], degree=2)
+    reference = curve_backend.NurbsCurve(np.array([[0., 1., 2.], [0., 1., 0.]]),
+                                        weights=[1., .5, 1.], degree=2)
+    np.testing.assert_array_equal(curve.W, [1., .5, 1.])
+    np.testing.assert_allclose(curve.get_value(.4), reference.get_value(.4))

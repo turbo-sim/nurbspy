@@ -2,6 +2,7 @@
 # Import packages
 # -------------------------------------------------------------------------------------------------------------------- #
 import numpy as np
+from .._control_points import point_coordinates
 
 from .nurbs_surface import NurbsSurface
 
@@ -36,6 +37,8 @@ class NurbsSurfaceBilinear:
 
     def __init__(self, P00, P01, P10, P11):
 
+        P00, P01, P10, P11 = (point_coordinates(p, np) for p in (P00, P01, P10, P11))
+
         # Declare input variables as instance variables
         self.P00 = P00
         self.P01 = P01
@@ -59,7 +62,7 @@ class NurbsSurfaceBilinear:
 
         # Define the array of control points
         n_dim, n, m = self.ndim, 2, 2
-        P = np.zeros((n_dim, n, m))
+        P = np.zeros((n_dim, n, m), dtype=np.result_type(self.P00, self.P01, self.P10, self.P11, 1.0))
         P[:, 0, 0] = self.P00
         P[:, 1, 0] = self.P01
         P[:, 0, 1] = self.P10
