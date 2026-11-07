@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 
 from mpl_toolkits    import mplot3d
 from .nurbs_basis_functions    import compute_basis_polynomials, compute_basis_polynomials_derivatives
+from .._control_points import curve_control_points
 from ..graphics                 import style_3d_axes, close_3d_box, _prepare_plot_axes
 
 
@@ -22,7 +23,8 @@ class NurbsCurve:
 
         Parameters
         ----------
-        control_points : ndarray with shape (ndim, n+1)
+        control_points : ndarray with shape (ndim, n+1) or sequence of Point
+            Numerical inputs remain coordinate-first; Point sequences are point-first.
             Array containing the coordinates of the control points
             The first dimension of `P` spans the coordinates of the control points (any number of dimensions)
             The second dimension of `P` spans the u-direction control points (0,1,...,n)
@@ -82,6 +84,16 @@ class NurbsCurve:
     # ---------------------------------------------------------------------------------------------------------------- #
     def __init__(self, control_points=None, weights=None, degree=None, knots=None):
 
+
+        if control_points is not None:
+            control_points = curve_control_points(control_points, np)
+        if weights is not None:
+            weights = np.asarray(weights)
+            if control_points is None or weights.shape != control_points.shape[1:]:
+                raise ValueError("weights must match the number of control points")
+
+        if knots is not None:
+            knots = np.asarray(knots)
 
         # Void initialization
         if control_points is None and weights is None and degree is None and knots is None:

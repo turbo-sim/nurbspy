@@ -106,7 +106,7 @@ The order goes from small repairs to larger API additions and interaction work. 
 
 ## 5. Add Point input and curve normalization
 
-**Status:** Planned. **Suggested commit:** `Accept Point sequences in curve constructors`.
+**Status:** Complete. **Validation:** 98 curve, Point, derivative, and installation checks passed, including JAX JIT/grad and complex-step. **Suggested commit:** `Accept Point sequences in curve constructors`.
 
 **Purpose:** Let users construct curves naturally without remembering a matrix transpose.
 

@@ -1,3 +1,5 @@
+from .._control_points import curve_control_points
+
 import operator as _operator
 
 import jax
@@ -273,7 +275,8 @@ class NurbsCurve(eqx.Module):
 
     Parameters
     ----------
-    control_points : ndarray with shape (ndim, n+1)
+    control_points : ndarray with shape (ndim, n+1) or sequence of Point
+            Numerical inputs remain coordinate-first; Point sequences are point-first.
         Array containing the coordinates of the control points
         The first dimension of `P` spans the coordinates of the control points (any number of dimensions)
         The second dimension of `P` spans the u-direction control points (0,1,...,n)
@@ -352,7 +355,7 @@ class NurbsCurve(eqx.Module):
             return
 
         # Convert inputs to JAX arrays
-        P = jnp.asarray(control_points)
+        P = curve_control_points(control_points, jnp)
         W = None if weights is None else jnp.asarray(weights)
         p = degree
         U = None if knots is None else jnp.asarray(knots)

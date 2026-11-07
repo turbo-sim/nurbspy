@@ -195,3 +195,25 @@ Citation metadata is provided in [CITATION.cff](CITATION.cff). For version-speci
 ### Plotting with numerical backends
 
 NumPy and JAX geometry share the Matplotlib plotting implementation. Plotting JAX models copies their current arrays to the host; it does not modify the model. Call plotting methods outside JIT-compiled or differentiated functions. Numerical evaluation and automatic differentiation remain on the selected backend.
+
+### Readable control points
+
+Use immutable `Point` values directly through the existing constructor:
+
+```python
+import nurbspy as nrb
+
+curve = nrb.NurbsCurve(
+    control_points=[nrb.Point(0, 0), nrb.Point(1, 2), nrb.Point(3, 2), nrb.Point(4, 0)],
+    degree=3,
+)
+```
+
+Lists and tuples of `Point` objects are converted once to backend arrays.
+Weights are supplied separately. Reusing a Point does not link geometries.
+Numeric lists, tuples, and arrays retain the existing coordinate-first convention
+`P[coordinate, point_index]`; their layout is never guessed from shape or type.
+The same `Point` is available from `nurbspy`, `nurbspy.numpy`, and `nurbspy.jax`.
+Array-based construction continues to support arbitrary coordinate dimensions,
+complex numbers, and JAX transformations. Point coordinates can also be complex
+or scalar JAX values, including traced values inside differentiated functions.

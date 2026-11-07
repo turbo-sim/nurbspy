@@ -17,3 +17,5 @@ from .prepared import *
 from .prepared_projection import *
 
 from .arclength import *
+
+from ..point import Point
