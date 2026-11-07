@@ -1,4 +1,5 @@
 from ..serialization import GeometryYamlMixin as _GeometryYamlMixin
+from ..mesh import SurfaceMeshMixin as _SurfaceMeshMixin
 # -------------------------------------------------------------------------------------------------------------------- #
 # Import packages
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -18,7 +19,7 @@ from ..graphics                import style_3d_axes, close_3d_box, _prepare_plot
 # -------------------------------------------------------------------------------------------------------------------- #
 # Define the NURBS surface class
 # -------------------------------------------------------------------------------------------------------------------- #
-class NurbsSurface(_GeometryYamlMixin):
+class NurbsSurface(_SurfaceMeshMixin, _GeometryYamlMixin):
 
     """ Create a NURBS (Non-Uniform Rational Basis Spline) surface object
 

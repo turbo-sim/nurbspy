@@ -148,7 +148,7 @@ curve = NurbsCurve(
 
 ## 7. Add shared YAML geometry save/load
 
-**Status:** Complete. **Commit:** see `git log --grep="Add shared YAML geometry save and load"`. **Validation:** round trips, malformed inputs, independent arrays, cross-backend loading, and JAX differentiation covered by new tests.
+**Status:** Complete. **Commit:** `0e1c3d4`. **Checks before commit:** 154 passed. **Validation:** round trips, malformed inputs, independent arrays, cross-backend loading, and JAX differentiation covered by new tests.
 
 **Purpose:** Save editable geometry and support undo/reset without tying model state to a particular GUI.
 
@@ -164,7 +164,7 @@ curve = NurbsCurve(
 
 ## 8. Provide a small surface-to-triangle adapter
 
-**Status:** Planned. **Suggested commit:** `Add backend-neutral surface tessellation adapter`.
+**Status:** Complete. **Commit:** see `git log --grep="Add backend-neutral surface tessellation adapter"`. **Checks before commit:** 188 passed, covering knot-aware sampling, convergence, degenerate boundaries, NumPy/JAX connectivity, surface regressions, YAML, and installation.
 
 **Purpose:** Supply common sampled geometry to desktop rendering and external mesh tools.
 

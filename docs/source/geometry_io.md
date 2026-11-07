@@ -38,3 +38,24 @@ Loading reconstructs the full NURBS mathematical representation. Display setting
 backend runtime state, and convenience Bezier/B-spline classification labels are
 not persisted. Arrays are independent of the original geometry. This is geometry
 exchange, not a pickle of an arbitrary Python object.
+
+## Surface tessellation
+
+```python
+vertices, faces = surface.tessellate(nu=80, nv=30)
+# Or sample several patches into one pair of arrays:
+vertices, faces = nrb.tessellate_surfaces([surface_a, surface_b], nu=80, nv=30)
+```
+
+Vertices are NumPy arrays of shape `(N, 3)` and faces contain integer triangle
+indices of shape `(M, 3)`, regardless of the numerical backend. Sampling uses
+the actual knot domains and includes knot breaks, so counts may exceed `nu`
+and `nv`. Triangle orientation follows the patch's $u$-cross-$v$ orientation.
+Collapsed zero-area triangles are removed. Different patches retain separate
+vertices: this adapter does not weld seams, orient solids, or repair topology.
+
+Tessellation requires finite real 3D surfaces with positive finite weights.
+Discontinuous interior knots are rejected; provide separate continuous patches.
+Sampling resolution controls an approximation, not an error tolerance or a
+watertightness guarantee. The operation transfers evaluated samples to the host
+and is outside JIT/autodiff. It does not require a viewer or mesh library.
