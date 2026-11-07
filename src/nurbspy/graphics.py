@@ -5,12 +5,13 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
-# Attempt to import imageio for video generatioj
+# Image export remains optional; geometry and plotting must import without it.
 try:
-    import imageio
+    import imageio.v2 as imageio
 
-    IMEGEIO_AVAILABLE = True
+    IMAGEIO_AVAILABLE = True
 except ImportError:
+    imageio = None
     IMAGEIO_AVAILABLE = False
 
 
@@ -58,7 +59,7 @@ def set_plot_options(
     Parameters
     ----------
     fontsize : int, optional
-        Font size for text elements in the plot. Default is 13.
+        Font size for text elements in the plot. Default is 14.
     grid : bool, optional
         Whether to show grid lines on the plot. Default is True.
     major_ticks : bool, optional
@@ -67,17 +68,27 @@ def set_plot_options(
         Whether to show minor ticks. Default is True.
     margin : float, optional
         Margin size for axes. Default is 0.05.
-    color_order : str, optional
-        Color order to be used for plot lines. Options include "python" and "matlab". Default is "matlab".
+    color_order : str or iterable of colors, optional
+        Color cycle for plot lines. Named options are "python", "default"
+        (an alias for "python"), and "matlab". Default is "matlab".
 
     """
 
     if isinstance(color_order, str):
-        if color_order.lower() == "default":
-            color_order = COLORS_PYTHON
-
-        elif color_order.lower() == "matlab":
-            color_order = COLORS_MATLAB
+        palettes = {"python": COLORS_PYTHON, "default": COLORS_PYTHON,
+                    "matlab": COLORS_MATLAB}
+        try:
+            color_order = palettes[color_order.lower()]
+        except KeyError:
+            raise ValueError("color_order must be 'python', 'default', 'matlab', "
+                             "or a nonempty iterable of Matplotlib colors.") from None
+    else:
+        try:
+            color_order = list(color_order)
+        except TypeError:
+            raise ValueError("color_order must be a named palette or an iterable of colors.") from None
+        if not color_order or not all(mpl.colors.is_color_like(c) for c in color_order):
+            raise ValueError("color_order must contain valid Matplotlib colors.")
 
     # Define dictionary of custom settings
     rcParams = {
@@ -233,11 +244,20 @@ def close_3d_box(ax, color='k', linewidth=1.25, alpha=0.9, zorder=0):
     The box tracks the axes' x/y/z limits at render time (see
     _AutoUpdatingBox), so it is safe to call this before a caller makes
     further changes to the limits or box aspect ratio -- e.g. right after
-    plotting data, as rescale_plot() does.
+    plotting data, as rescale_plot() does. Repeated calls update and return
+    the same artist. The decorative box never contributes to data limits.
     """
+    box = getattr(ax, "_nurbspy_box", None)
+    if box is not None and box.axes is ax and box in ax.collections:
+        box.set_color(color)
+        box.set_linewidth(linewidth)
+        box.set_alpha(alpha)
+        box.set_zorder(zorder)
+        return box
     edges = _box_edges(ax.get_xlim3d(), ax.get_ylim3d(), ax.get_zlim3d())
     box = _AutoUpdatingBox(edges, colors=color, linewidths=linewidth, alpha=alpha, zorder=zorder)
-    ax.add_collection3d(box)
+    ax.add_collection3d(box, autolim=False)
+    ax._nurbspy_box = box
     return box
 
 
@@ -327,9 +347,9 @@ def create_gif(image_folder, output_file, duration=0.5):
         Duration of each frame in the GIF, by default 0.5 seconds.
     """
 
-    if not IMEGEIO_AVAILABLE:
+    if not IMAGEIO_AVAILABLE:
         raise ImportError(
-            "imageio is not installed. Please run `pip install imageio-ffmpeg` to run this function."
+            "GIF export requires imageio. Install it with `pip install imageio`."
         )
 
     images = []
@@ -355,9 +375,10 @@ def create_mp4(image_folder, output_file, fps=10):
         Frames per second in the output video, by default 10.
     """
 
-    if not IMEGEIO_AVAILABLE:
+    if not IMAGEIO_AVAILABLE:
         raise ImportError(
-            "imageio is not installed. Please run `pip install imageio-ffmpeg` to run this function."
+            "MP4 export requires imageio and FFmpeg support. "
+            "Install them with `pip install imageio imageio-ffmpeg`."
         )
 
     with imageio.get_writer(output_file, fps=fps) as writer:
