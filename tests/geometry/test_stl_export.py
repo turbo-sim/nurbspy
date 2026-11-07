@@ -5,8 +5,8 @@ import struct
 import numpy as np
 import pytest
 
-trimesh = pytest.importorskip("trimesh")
-pytest.importorskip("networkx")
+import trimesh
+import networkx  # Standard export dependency: missing installations must fail tests.
 
 from nurbspy.mesh import export_stl
 
@@ -109,14 +109,14 @@ def test_unsupported_format_and_closed_option(numpy_backend, tmp_path):
         surface.export(tmp_path / "patch.stl", require_closed="yes")
 
 
-def test_missing_optional_dependency_has_actionable_error(numpy_backend, monkeypatch, tmp_path):
+def test_missing_required_export_dependency_has_actionable_error(numpy_backend, monkeypatch, tmp_path):
     real_import = builtins.__import__
     def without_trimesh(name, *args, **kwargs):
         if name == "trimesh":
             raise ImportError("not installed")
         return real_import(name, *args, **kwargs)
     monkeypatch.setattr(builtins, "__import__", without_trimesh)
-    with pytest.raises(ImportError, match=r"nurbspy\[mesh\]"):
+    with pytest.raises(ImportError, match="install trimesh and networkx"):
         plane(numpy_backend).export(tmp_path / "patch.stl")
 
 
@@ -138,7 +138,7 @@ def test_oloid_seams_and_pinched_corners(numpy_backend, tmp_path):
     assert 2.9 < reloaded.volume < 3.1
 
 
-def test_optional_export_is_shared_between_backends(numpy_backend, jax_backend):
+def test_export_is_shared_between_backends(numpy_backend, jax_backend):
     assert numpy_backend.NurbsSurface.export is jax_backend.NurbsSurface.export
 
 

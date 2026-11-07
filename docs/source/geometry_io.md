@@ -58,13 +58,13 @@ Tessellation requires finite real 3D surfaces with positive finite weights.
 Discontinuous interior knots are rejected; provide separate continuous patches.
 Sampling resolution controls an approximation, not an error tolerance or a
 watertightness guarantee. The operation transfers evaluated samples to the host
-and is outside JIT/autodiff. It does not require a viewer or mesh library.
+and is outside JIT/autodiff. It does not load a viewer or mesh library.
 
 ## STL export
 
-Install optional mesh support with `pip install "nurbspy[mesh]"`. Trimesh and
-NetworkX handle mesh processing and writing; ordinary geometry use and
-`tessellate()` do not import these packages.
+Trimesh and NetworkX are standard dependencies installed with nurbspy. They
+handle mesh processing and writing; no extra installation option is needed.
+Ordinary geometry use and `tessellate()` do not import these packages.
 
 ```python
 surface.export("surface.stl", nu=80, nv=30)

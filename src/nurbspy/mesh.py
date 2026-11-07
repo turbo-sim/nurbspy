@@ -124,14 +124,14 @@ class SurfaceMeshMixin:
 def _mesh_library():
     try:
         import trimesh
-        import networkx  # Trimesh's winding repair uses this optional package.
+        import networkx  # Required by Trimesh's winding repair; imported lazily.
     except ImportError as error:
-        raise ImportError("STL export requires the mesh extra: pip install 'nurbspy[mesh]'") from error
+        raise ImportError("STL dependencies are unavailable; install trimesh and networkx or reinstall nurbspy") from error
     return trimesh
 
 
 def export_stl(surfaces, path, nu=80, nv=30, *, require_closed=False, weld_tolerance=None):
-    """Export one or several surfaces using optional Trimesh processing/writing.
+    """Export one or several surfaces using Trimesh processing/writing.
 
     ``require_closed=True`` checks edge closure, winding, and positive volume
     for ONE face-connected shell. Disconnected/nested shells are rejected in

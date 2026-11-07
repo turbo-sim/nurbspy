@@ -53,7 +53,7 @@ Implemented sequentially on main, verifying each item before its commit:
   sampling. Validation before commit: **188 passed**.
 - **9: STL export** (locate with `git log --grep="Add optional mesh-library-backed STL export"`):
   surfaces share `export("file.stl")`; root `export_stl()` supports patch collections.
-  Optional Trimesh/NetworkX support delegates mesh processing and binary writing.
+  Trimesh/NetworkX support delegates mesh processing and binary writing.
   Tests cover independent binary parsing/reloading, closed cubes and an oloid,
   open patches, unmatched seams, non-manifold edges, float32 limits, and missing
   dependencies. Validation included a full **738 passed / 6 skipped** regression
@@ -62,8 +62,7 @@ Implemented sequentially on main, verifying each item before its commit:
   run with Numba and JAX required also passed all **25 cases**.
 
 The final wheel builds; an isolated-process smoke test of YAML, tessellation,
-and STL directly from that wheel passed. Its dependency metadata includes the optional mesh
-extra. Poetry reports existing metadata-deprecation warnings. The regression
+and STL directly from that wheel passed. Its dependency metadata includes the mesh dependencies. Poetry reports existing metadata-deprecation warnings. The regression
 suite reports a JAX mixed float32/float64 scatter FutureWarning; this work does
 not change the numerical basis implementation to address it.
 
@@ -73,3 +72,15 @@ mode. No holes are filled, and self-intersections are not validated. Unresolvabl
 float32 geometry or zero mesh-library normals fails before writing. YAML stores
 mathematical geometry, not convenience Bezier/B-spline labels or arbitrary Python
 state. Items 10?12 and all viewer work remain outside this batch. No push occurred.
+
+
+### Dependency policy update
+
+Trimesh and NetworkX are now standard dependencies, installed with nurbspy.
+The separate mesh extra is removed. Imports remain lazy, so ordinary geometry
+and native tessellation do not initialize the mesh libraries. Export tests now
+require these dependencies rather than skipping when they are absent.
+
+Validation of the dependency-policy update: 43 export/installation tests passed;
+lockfile validation and wheel build passed; wheel metadata confirms unconditional
+Trimesh/NetworkX requirements and no mesh extra.

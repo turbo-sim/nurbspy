@@ -1586,10 +1586,9 @@ testing-docutils = ["pygments", "pytest (>=8,<9)", "pytest-param-files (>=0.6.0,
 name = "networkx"
 version = "3.7"
 description = "Python package for creating and manipulating graphs and networks"
-optional = true
+optional = false
 python-versions = "!=3.14.1,>=3.12"
 groups = ["main"]
-markers = "extra == \"mesh\""
 files = [
     {file = "networkx-3.7-py3-none-any.whl", hash = "sha256:e3fd2c13a7814cee3746340d8d7f8598a67f16a58bf47fb7f8793fab6efca1b0"},
     {file = "networkx-3.7.tar.gz", hash = "sha256:fd77a511bd90f39f3d016351345b52cf5319b813bdca01de3f755d3cca62e96a"},
@@ -3235,10 +3234,9 @@ test = ["argcomplete (>=3.0.3)", "mypy (>=1.7.0)", "mypy (>=1.7.0,<1.19) ; platf
 name = "trimesh"
 version = "5.2.0"
 description = "Import, export, process, analyze and view triangular meshes."
-optional = true
+optional = false
 python-versions = ">=3.10"
 groups = ["main"]
-markers = "extra == \"mesh\""
 files = [
     {file = "trimesh-5.2.0-py3-none-any.whl", hash = "sha256:04db2c7ec62afdd7763fb04c82bb5f257ddd984993a19ee83697f475fc58fd29"},
     {file = "trimesh-5.2.0.tar.gz", hash = "sha256:d0a845d058e5a4ff145d0f0082d80c58d761687ce389c79d422dbe774966957b"},
@@ -3730,10 +3728,9 @@ tzlocal = {version = ">=4.0", markers = "sys_platform != \"darwin\" and sys_plat
 
 [extras]
 jax = ["diffrax", "equinox", "jax", "jaxlib", "optimistix", "quadax"]
-mesh = ["networkx", "trimesh"]
 numba = ["numba"]
 
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<3.14"
-content-hash = "0d7b0500b7cb557e44eb751d51e6767570817b84c026e8d7446c202ec1e43dfa"
+content-hash = "0776fef343ec6324641784c4a574d246afb2bd70adf729aebf9805dd4bfede09"

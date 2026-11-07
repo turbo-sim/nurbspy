@@ -187,7 +187,7 @@ curve = NurbsCurve(
 **What and how:**
 
 - Keep a small nurbspy-facing export wrapper around the adapter from item 8.
-- Selected optional Trimesh plus NetworkX for headless mesh processing and STL writing. NumPy and JAX surfaces share `export()`; `export_stl()` handles patch collections. No viewer dependency is added.
+- Selected standard Trimesh plus NetworkX for headless mesh processing and STL writing. NumPy and JAX surfaces share `export()`; `export_stl()` handles patch collections. No viewer dependency is added.
 - Delegate supported vertex merging, face cleanup, winding operations, and STL writing. Make repair policy explicit and avoid silent hole filling or other changes to the intended geometry.
 - Retain the relevant experimental tests as acceptance cases, rather than assuming an external library automatically meets every requirement.
 - Distinguish exporting an open surface from requesting a closed solid. Explain seam sampling limitations, welding tolerance, unitless STL coordinates, and float32 precision limits.
@@ -288,7 +288,7 @@ The dependency candidates above were checked against their official documentatio
 - Item 8: `surface.tessellate()` and `tessellate_surfaces()` return host arrays,
   include knot breaks, and keep patch processing separate from export.
 - Item 9: `surface.export("file.stl")` and `export_stl(patches, "file.stl")`
-  delegate mesh processing/writing to the optional mesh extra.
+  delegate mesh processing/writing to standard Trimesh/NetworkX dependencies.
 - YAML was committed after 154 checks passed; tessellation after 188 checks passed.
 - Export full regression: 738 passed, 6 skipped with Numba and JAX required.
   The final small-scale normal guard was additionally covered by 121 focused

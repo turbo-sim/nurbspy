@@ -242,8 +242,9 @@ or sequences. The bilinear helper retains its historical argument order:
 
 ## Geometry files and STL export
 
-NumPy and JAX curves/surfaces share YAML persistence. Surface tessellation needs
-no mesh dependency; install `pip install "nurbspy[mesh]"` for optional STL export.
+NumPy and JAX curves/surfaces share YAML persistence. Trimesh and NetworkX are
+standard dependencies, so STL export works with a normal nurbspy installation.
+They are imported only when exporting; native tessellation does not load them.
 
 ```python
 curve.to_yaml("curve.yaml")

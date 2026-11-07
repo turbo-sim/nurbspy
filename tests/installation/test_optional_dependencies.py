@@ -28,7 +28,7 @@ def test_numpy_backend_without_usable_numba(numba_state):
             '''Keep this subprocess independent of installed optional packages.'''
 
             def find_spec(self, fullname, path=None, target=None):
-                '''Simulate unavailable optional dependencies in a fresh process.'''
+                '''Block accelerators and ensure standard mesh libraries load lazily.'''
                 if fullname in ("jax", "trimesh", "networkx"):
                     raise ModuleNotFoundError(f"No module named {fullname!r}", name=fullname)
                 if fullname == "numba":
