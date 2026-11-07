@@ -917,300 +917,232 @@ class NurbsSurface(_SurfaceMeshMixin, _GeometryYamlMixin):
     # ---------------------------------------------------------------------------------------------------------------- #
     # Plotting functions
     # ---------------------------------------------------------------------------------------------------------------- #
-    def plot(self, fig=None, ax = None,
-             surface=True, surface_color='blue', colorbar=False,
-             boundary=True, control_points=False, normals=False, axis_off=False, ticks_off=False,
-             Nu=50, Nv=50, isocurves_u=None, isocurves_v=None):
+    def show(self, **kwargs):
+        """Inspect with the shared interactive viewer; use backend=matplotlib for static plots."""
+        from ..visualization import show
+        return show(self, **kwargs)
+
+    def edit(self, **kwargs):
+        """Edit a host copy and return a new NumPy geometry on Apply, or None."""
+        from ..visualization import edit
+        return edit(self, **kwargs)
+
+    def plot(
+        self,
+        fig=None,
+        ax=None,
+        surface=True,
+        surface_color='blue',
+        colorbar=False,
+        boundary=True,
+        control_points=False,
+        normals=False,
+        axis_off=False,
+        ticks_off=False,
+        Nu=50,
+        Nv=50,
+        isocurves_u=None,
+        isocurves_v=None,
+    ):
         """Plot a scalar, planar, or spatial patch; return ``(fig, ax)``."""
-        if self.ndim not in (1, 2, 3):
-            raise ValueError("The number of dimensions must be 1, 2 or 3")
-        projection = '3d' if self.ndim in (1, 3) else None
-        new_axes = ax is None
-        fig, ax = _prepare_plot_axes(fig, ax, projection)
-        if new_axes:
-            if projection:
-                style_3d_axes(ax, elev=30, azim=-105)
-            labels = ('$u$ parameter', '$v$ parameter', 'NURBS value') if self.ndim == 1 else ('$x$ axis', '$y$ axis', '$z$ axis')
-            ax.set_xlabel(labels[0], fontsize=11, labelpad=12)
-            ax.set_ylabel(labels[1], fontsize=11, labelpad=12)
-            if projection:
-                ax.set_zlabel(labels[2], fontsize=11, labelpad=12)
-        if ticks_off:
-            ax.set_xticks([])
-            ax.set_yticks([])
-            if projection:
-                ax.set_zticks([])
-        if axis_off:
-            ax.axis('off')
-        if surface:
-            self.plot_surface(fig, ax, color=surface_color, colorbar=colorbar, Nu=Nu, Nv=Nv)
-        if control_points:
-            self.plot_control_points(fig, ax)
-        if self.ndim > 1:
-            if boundary:
-                self.plot_boundary(fig, ax)
-            if isocurves_u:
-                self.plot_isocurve_u(fig, ax, np.linspace(0, 1, isocurves_u))
-            if isocurves_v:
-                self.plot_isocurve_v(fig, ax, np.linspace(0, 1, isocurves_v))
-        if normals:
-            self.plot_normals(fig, ax)
-        if self.ndim == 3:
-            self.rescale_plot(fig, ax)
-        elif self.ndim == 2:
-            ax.set_aspect(1.0)
-        else:
-            ax.autoscale(enable=True)
-            close_3d_box(ax)
-        return fig, ax
+        from ..visualization.plotting import surface_plot
+
+        return surface_plot(
+            self,
+            fig=fig,
+            ax=ax,
+            surface=surface,
+            surface_color=surface_color,
+            colorbar=colorbar,
+            boundary=boundary,
+            control_points=control_points,
+            normals=normals,
+            axis_off=axis_off,
+            ticks_off=ticks_off,
+            Nu=Nu,
+            Nv=Nv,
+            isocurves_u=isocurves_u,
+            isocurves_v=isocurves_v,
+        )
 
 
-    def plot_surface(self, fig, ax, color='blue', alpha=0.30, colorbar=False, Nu=50, Nv=50):
+    def plot_surface(
+        self,
+        fig,
+        ax,
+        color='blue',
+        alpha=0.3,
+        colorbar=False,
+        Nu=50,
+        Nv=50,
+    ):
         """Draw geometry, optionally coloured by mean or Gaussian curvature."""
-        for name, count in (('Nu', Nu), ('Nv', Nv)):
-            if not isinstance(count, (int, np.integer)) or isinstance(count, bool) or count < 2:
-                raise ValueError(f"{name} must be an integer of at least 2")
-        u, v = np.meshgrid(np.linspace(0, 1, Nu), np.linspace(0, 1, Nv), indexing='ij')
-        coordinates = np.real(self.get_value(u.ravel(), v.ravel())).reshape((self.ndim, Nu, Nv))
-        if self.ndim == 2:
-            # A planar patch is filled along its perimeter, not its control polygon.
-            x, y = coordinates
-            perimeter = lambda grid: np.concatenate((grid[:, 0], grid[-1, 1:], grid[-2::-1, -1], grid[0, -2:0:-1]))
-            ax.fill(perimeter(x), perimeter(y), color=color, alpha=alpha)
-            return
-        if self.ndim == 1:
-            X, Y, Z = u, v, coordinates[0]
-        elif self.ndim == 3:
-            X, Y, Z = coordinates
-        else:
-            raise ValueError("The number of dimensions must be 1, 2 or 3")
-        if isinstance(color, str) and color in ('mean_curvature', 'gaussian_curvature'):
-            if self.ndim != 3:
-                raise ValueError("Curvature colouring requires a three-dimensional surface")
-            curvatures = np.real(self.get_curvature(u.ravel(), v.ravel()))
-            curvature = curvatures[0 if color == 'mean_curvature' else 1].reshape((Nu, Nv))
-            finite = curvature[np.isfinite(curvature)]
-            if not finite.size:
-                raise ValueError("Curvature is undefined at all sampled points")
-            low, high = finite.min(), finite.max()
-            if low == high:
-                padding = max(1.0, abs(low)) * 1e-6
-                low, high = low - padding, high + padding
-            norm = mpl.colors.Normalize(vmin=low, vmax=high)
-            mapper = mpl.cm.ScalarMappable(norm=norm, cmap='viridis')
-            mapper.set_array(curvature)
-            ax.plot_surface(X, Y, Z, facecolors=mapper.to_rgba(curvature), linewidth=0.75,
-                            alpha=1, shade=False, antialiased=True, zorder=2, rcount=Nu, ccount=Nv)
-            if colorbar:
-                cbar = fig.colorbar(mapper, ax=ax, orientation='vertical', pad=0.15, fraction=0.03, aspect=20)
-                cbar.set_label(color.replace('_', ' '))
-        else:
-            ax.plot_surface(X, Y, Z, color=color, linewidth=0, alpha=alpha, shade=False,
-                            antialiased=True, zorder=0, rcount=Nu, ccount=Nv)
+        from ..visualization.plotting import surface_plot_surface
+
+        return surface_plot_surface(
+            self,
+            fig=fig,
+            ax=ax,
+            color=color,
+            alpha=alpha,
+            colorbar=colorbar,
+            Nu=Nu,
+            Nv=Nv,
+        )
 
 
-    def plot_boundary(self, fig, ax, color='black', linewidth=1.00, linestyle='-',
-                      south=True, north=True, east=True, west=True):
-
+    def plot_boundary(
+        self,
+        fig,
+        ax,
+        color='black',
+        linewidth=1.0,
+        linestyle='-',
+        south=True,
+        north=True,
+        east=True,
+        west=True,
+    ):
         """ Plot the isoparametric curves at the boundary """
+        from ..visualization.plotting import surface_plot_boundary
 
-        # Create the isoparametric NURBS curves and plot them on the current figure
-        if east: self.get_isocurve_u(u0=0.00).plot_curve(fig, ax, linestyle=linestyle, linewidth=linewidth, color=color)
-        if west: self.get_isocurve_u(u0=1.00).plot_curve(fig, ax, linestyle=linestyle, linewidth=linewidth, color=color)
-        if south: self.get_isocurve_v(v0=0.00).plot_curve(fig, ax, linestyle=linestyle, linewidth=linewidth, color=color)
-        if north: self.get_isocurve_v(v0=1.00).plot_curve(fig, ax, linestyle=linestyle, linewidth=linewidth, color=color)
+        return surface_plot_boundary(
+            self,
+            fig=fig,
+            ax=ax,
+            color=color,
+            linewidth=linewidth,
+            linestyle=linestyle,
+            south=south,
+            north=north,
+            east=east,
+            west=west,
+        )
 
 
-    def plot_isocurve_u(self, fig, ax, u_values, color='black', linewidth=1.00, linestyle='-'):
-
+    def plot_isocurve_u(
+        self,
+        fig,
+        ax,
+        u_values,
+        color='black',
+        linewidth=1.0,
+        linestyle='-',
+    ):
         """ Plot isoparametric curves in the u-direction """
-        for u in u_values: self.get_isocurve_u(u0=u).plot_curve(fig, ax, color=color, linewidth=linewidth, linestyle=linestyle)
+        from ..visualization.plotting import surface_plot_isocurve_u
+
+        return surface_plot_isocurve_u(
+            self,
+            fig=fig,
+            ax=ax,
+            u_values=u_values,
+            color=color,
+            linewidth=linewidth,
+            linestyle=linestyle,
+        )
 
 
-    def plot_isocurve_v(self, fig, ax, v_values, color='black', linewidth=1.00, linestyle='-'):
-
+    def plot_isocurve_v(
+        self,
+        fig,
+        ax,
+        v_values,
+        color='black',
+        linewidth=1.0,
+        linestyle='-',
+    ):
         """ Plot isoparametric curves in the v-direction """
-        for v in v_values: self.get_isocurve_v(v0=v).plot_curve(fig, ax, color=color, linewidth=linewidth, linestyle=linestyle)
+        from ..visualization.plotting import surface_plot_isocurve_v
+
+        return surface_plot_isocurve_v(
+            self,
+            fig=fig,
+            ax=ax,
+            v_values=v_values,
+            color=color,
+            linewidth=linewidth,
+            linestyle=linestyle,
+        )
 
 
-    def plot_control_points(self, fig, ax, color='red', linewidth=1.00, linestyle='-', markersize=5, markerstyle='o'):
-
+    def plot_control_points(
+        self,
+        fig,
+        ax,
+        color='red',
+        linewidth=1.0,
+        linestyle='-',
+        markersize=5,
+        markerstyle='o',
+    ):
         """ Plot the control points """
+        from ..visualization.plotting import surface_plot_control_points
 
-        if self.ndim == 1:
-
-            # Plot the control net
-            Px = np.linspace(0, 1, np.shape(self.P)[1])
-            Py = np.linspace(0, 1, np.shape(self.P)[2])
-            Px, Py = np.meshgrid(Px, Py, indexing='ij')
-            Pz = np.real(self.P)[0, :, :]
-            ax.plot_wireframe(Px, Py, Pz,
-                              edgecolor=color,
-                              linewidth=linewidth,
-                              linestyles=linestyle,
-                              alpha=1.0,
-                              antialiased=True,
-                              zorder=1)
-
-            # Plot the control points
-            points, = ax.plot(Px.flatten(), Py.flatten(), Pz.flatten())
-            points.set_linewidth(linewidth)
-            points.set_linestyle(' ')
-            points.set_marker(markerstyle)
-            points.set_markersize(markersize)
-            points.set_markeredgewidth(linewidth)
-            points.set_markeredgecolor(color)
-            points.set_markerfacecolor('w')
-            points.set_zorder(4)
-            # points.set_label(' ')
-
-        if self.ndim == 2:
-            # Plot the control net
-            Px, Py = np.real(self.P)
-            ax.plot(Px, Py,
-                    color=color, linewidth=linewidth, linestyle='-', marker=markerstyle, markersize=markersize,
-                    markeredgewidth=linewidth, markeredgecolor=color, markerfacecolor='w', zorder=4)
-            ax.plot(Px.transpose(), Py.transpose(),
-                    color=color, linewidth=linewidth, linestyle='-', marker=markerstyle, markersize=markersize,
-                    markeredgewidth=linewidth, markeredgecolor=color, markerfacecolor='w', zorder=4)
-
-        if self.ndim == 3:
-            # Plot the control net
-            Px, Py, Pz = np.real(self.P)
-            ax.plot_wireframe(Px, Py, Pz,
-                              edgecolor=color,
-                              linewidth=linewidth,
-                              linestyles=linestyle,
-                              alpha=1.0,
-                              antialiased=True,
-                              zorder=1)
-
-            # Plot the control points
-            points, = ax.plot(Px.flatten(), Py.flatten(), Pz.flatten())
-            points.set_linewidth(linewidth)
-            points.set_linestyle(' ')
-            points.set_marker(markerstyle)
-            points.set_markersize(markersize)
-            points.set_markeredgewidth(linewidth)
-            points.set_markeredgecolor(color)
-            points.set_markerfacecolor('w')
-            points.set_zorder(4)
+        return surface_plot_control_points(
+            self,
+            fig=fig,
+            ax=ax,
+            color=color,
+            linewidth=linewidth,
+            linestyle=linestyle,
+            markersize=markersize,
+            markerstyle=markerstyle,
+        )
             # points.set_label(' ')
 
 
-    def plot_normals(self, fig, ax, number_u=10, number_v=10, scale=0.075):
+    def plot_normals(
+        self,
+        fig,
+        ax,
+        number_u=10,
+        number_v=10,
+        scale=0.075,
+    ):
         """Plot normals with a length proportional to the surface dimensions."""
-        if self.ndim != 3:
-            raise ValueError("Normal vectors require a three-dimensional surface")
-        if not np.isfinite(scale):
-            raise ValueError("scale must be finite")
-        for name, count in (('number_u', number_u), ('number_v', number_v)):
-            if not isinstance(count, (int, np.integer)) or isinstance(count, bool) or count < 1:
-                raise ValueError(f"{name} must be a positive integer")
-        u, v = np.meshgrid(np.linspace(1e-6, 1-1e-6, number_u),
-                           np.linspace(1e-6, 1-1e-6, number_v), indexing='ij')
-        u, v = u.ravel(), v.ravel()
-        S = np.real(self.get_value(u, v))
-        tangent_u = np.real(self.get_derivative(u, v, 1, 0))
-        tangent_v = np.real(self.get_derivative(u, v, 0, 1))
-        N = np.cross(tangent_u, tangent_v, axis=0)
-        magnitude = np.linalg.norm(N, axis=0)
-        valid = (magnitude > 0) & np.isfinite(magnitude) & np.all(np.isfinite(S), axis=0)
-        if not valid.any() or scale == 0:
-            return
-        Lu = self.get_isocurve_u(u0=0.5).get_arclength()
-        Lv = self.get_isocurve_v(v0=0.5).get_arclength()
-        length = scale * np.real(np.max([Lu, Lv]))
-        N = N[:, valid] / magnitude[valid] * length
-        S = S[:, valid]
-        ax.quiver(*S, *N, color='black', length=1, normalize=False)
+        from ..visualization.plotting import surface_plot_normals
+
+        return surface_plot_normals(
+            self,
+            fig=fig,
+            ax=ax,
+            number_u=number_u,
+            number_v=number_v,
+            scale=scale,
+        )
 
 
-    def rescale_plot(self, fig, ax):
-
+    def rescale_plot(
+        self,
+        fig,
+        ax,
+    ):
         """ Adjust the aspect ratio of the figure """
+        from ..visualization.plotting import surface_rescale_plot
 
-        # Set axes aspect ratio
-        ax.autoscale(enable=True)
-        x_min, x_max = ax.get_xlim()
-        y_min, y_max = ax.get_ylim()
-        z_min, z_max = ax.get_zlim()
-        x_mid = (x_min + x_max) / 2
-        y_mid = (y_min + y_max) / 2
-        z_mid = (z_min + z_max) / 2
-        L = np.max((x_max - x_min, y_max - y_min, z_max - z_min)) / 2
-        ax.set_xlim3d(x_mid - 1.0 * L, x_mid + 1.0 * L)
-        ax.set_ylim3d(y_mid - 1.0 * L, y_mid + 1.0 * L)
-        ax.set_zlim3d(z_mid - 1.0 * L, z_mid + 1.0 * L)
-
-        # Draw the full box outline now that the limits are final
-        close_3d_box(ax)
-
-        # Adjust pad
-        fig.tight_layout(pad=5.0, w_pad=None, h_pad=None)
+        return surface_rescale_plot(
+            self,
+            fig=fig,
+            ax=ax,
+        )
 
 
-    def plot_curvature(self, fig=None, ax=None, curvature_type='mean'):
+    def plot_curvature(
+        self,
+        fig=None,
+        ax=None,
+        curvature_type='mean',
+    ):
+        """Delegate rendering to the shared visualization functions."""
+        from ..visualization.plotting import surface_plot_curvature
 
-        # Prepare the plot
-        fig, ax = _prepare_plot_axes(fig, ax, '3d')
-        style_3d_axes(ax, elev=30, azim=-105)
-        ax.set_xlabel('$x$ axis', fontsize=11, color='k', labelpad=18)
-        ax.set_ylabel('$y$ axis', fontsize=11, color='k', labelpad=18)
-        ax.set_zlabel('$z$ axis', fontsize=11, color='k', labelpad=18)
-        # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-        # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-        # ax_xy.zaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-        for t in ax.xaxis.get_major_ticks(): t.label1.set_fontsize(8)
-        for t in ax.yaxis.get_major_ticks(): t.label1.set_fontsize(8)
-        for t in ax.zaxis.get_major_ticks(): t.label1.set_fontsize(8)
-        # ax_xy.set_xticks([])
-        # ax_xy.set_yticks([])
-        # ax_xy.set_zticks([])
-        # ax_xy.axis('off')
-
-        # (u,v) parametrization for the plot
-        Nu, Nv = 50, 50
-        u = np.linspace(0.00, 1.00, Nu)
-        v = np.linspace(0.00, 1.00, Nv)
-        [uu, vv] = np.meshgrid(u, v, indexing='ij')
-        u = uu.flatten()
-        v = vv.flatten()
-
-        # Get the curvature
-        if curvature_type == 'mean':
-            curvature, _ = np.real(self.get_curvature(u, v))
-        elif curvature_type == 'gaussian':
-            _, curvature = np.real(self.get_curvature(u, v))
-        else:
-            raise Exception("Choose a valid curvature type: 'mean' or 'gaussian'")
-
-        # Represent the curvature as a carpet plot or as a surface plot
-        ax.set_xlabel('$u$', fontsize=11, color='k', labelpad=10)
-        ax.set_ylabel('$v$', fontsize=11, color='k', labelpad=10)
-        ax.set_zlabel(r'$\kappa$' + ' ' + curvature_type, fontsize=11, color='k', labelpad=20)
-        curvature = np.reshape(curvature, (Nu, Nv))
-        ax.plot_surface(uu, vv, curvature,
-                        color='blue',
-                        # edgecolor='blue',
-                        # cmap = 'viridis',
-                        # facecolors=curvature_colormap,
-                        linewidth=0.75,
-                        alpha=0.50,
-                        shade=False,
-                        antialiased=True,
-                        zorder=0,
-                        ccount=50,
-                        rcount=50)
-
-        # Draw the full box outline now that the limits are final
-        ax.autoscale(enable=True)
-        close_3d_box(ax)
-
-        # Adjust pad
-        fig.tight_layout(pad=5.0, w_pad=None, h_pad=None)
-
-        return fig, ax
+        return surface_plot_curvature(
+            self,
+            fig=fig,
+            ax=ax,
+            curvature_type=curvature_type,
+        )
 
 
     # ---------------------------------------------------------------------------------------------------------------- #

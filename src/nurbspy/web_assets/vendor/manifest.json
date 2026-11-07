@@ -1,0 +1,29 @@
+{
+  "package": "three",
+  "version": "0.180.0",
+  "license": "MIT",
+  "source": "https://unpkg.com/three@0.180.0/",
+  "modification": "Bundled control and wide-line addons import the local three.module.js instead of a bare package specifier; upstream r180 behavior is unchanged.",
+  "sha256": {
+    "LICENSE": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
+    "OrbitControls.js": "06864a0fcb647730bfbc690b6c25a121199d716a3e299a40158509cbd247c3bf",
+    "three.core.js": "eb077d2417f61d3e6d9264c317cabc4ea35769ed6b0ab533067292a550784c20",
+    "three.module.js": "c8211c69345d2e9949dc7a8ac969380497aa0600a5a8ac6a459c8cd02dd9cb8a",
+    "TrackballControls.js": "b5fa5edb636736ce2bfaa481ea1f195b054e840872d352b895e2cbd5541f769e",
+    "ArcballControls.js": "353c7748e4e38fd69930db0971ddc51e334f8917b58c1df197cf35bdff3be46d",
+    "Line2.js": "69dd2120d4df14208796acf199f80a64d37e042cfa65dc2b98286694b2954194",
+    "LineSegments2.js": "a778c6ca7c4e17414d04d40bbb71c794e1083f364f8192abe9300feee561765e",
+    "LineGeometry.js": "b7ec6b0011e3b09dc72e17cfd8e8945295cb2bc8c8aa9aa19e47119680bdad7e",
+    "LineSegmentsGeometry.js": "591b56de3c6874180953e6b561fe6edf4197c5c3c5029453509c3b4c8362a124",
+    "LineMaterial.js": "06babf349e0b369d575582c9b1e5b13a51d12995b52529f9fe8318523bac7a04"
+  },
+  "additional_sources": {
+    "TrackballControls.js": "https://raw.githubusercontent.com/mrdoob/three.js/r180/examples/jsm/controls/TrackballControls.js",
+    "ArcballControls.js": "https://raw.githubusercontent.com/mrdoob/three.js/r180/examples/jsm/controls/ArcballControls.js",
+    "Line2.js": "https://raw.githubusercontent.com/mrdoob/three.js/r180/examples/jsm/lines/Line2.js",
+    "LineSegments2.js": "https://raw.githubusercontent.com/mrdoob/three.js/r180/examples/jsm/lines/LineSegments2.js",
+    "LineGeometry.js": "https://raw.githubusercontent.com/mrdoob/three.js/r180/examples/jsm/lines/LineGeometry.js",
+    "LineSegmentsGeometry.js": "https://raw.githubusercontent.com/mrdoob/three.js/r180/examples/jsm/lines/LineSegmentsGeometry.js",
+    "LineMaterial.js": "https://raw.githubusercontent.com/mrdoob/three.js/r180/examples/jsm/lines/LineMaterial.js"
+  }
+}

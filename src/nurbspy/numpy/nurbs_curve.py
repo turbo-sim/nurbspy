@@ -806,292 +806,162 @@ class NurbsCurve(_GeometryYamlMixin):
     # ---------------------------------------------------------------------------------------------------------------- #
     # Plot the NURBS curve
     # ---------------------------------------------------------------------------------------------------------------- #
-    def plot(self, fig=None, ax=None,
-             curve=True, control_points=True, frenet_serret=False, axis_off=False, ticks_off=False, rescale=True):
+    def show(self, **kwargs):
+        """Inspect with the shared interactive viewer; use backend=matplotlib for static plots."""
+        from ..visualization import show
+        return show(self, **kwargs)
+
+    def edit(self, **kwargs):
+        """Edit a host copy and return a new NumPy geometry on Apply, or None."""
+        from ..visualization import edit
+        return edit(self, **kwargs)
+
+    def plot(
+        self,
+        fig=None,
+        ax=None,
+        curve=True,
+        control_points=True,
+        frenet_serret=False,
+        axis_off=False,
+        ticks_off=False,
+        rescale=True,
+    ):
         """Plot geometry on new or supplied axes; return ``(fig, ax)``."""
-        if self.ndim not in (1, 2, 3):
-            raise ValueError("The number of dimensions must be 1, 2 or 3")
-        new_axes = ax is None
-        fig, ax = _prepare_plot_axes(fig, ax, '3d' if self.ndim == 3 else None)
-        if new_axes:
-            if self.ndim == 3:
-                style_3d_axes(ax, elev=30, azim=-120)
-            labels = ('$u$ parameter', 'NURBS curve value') if self.ndim == 1 else ('$x$ axis', '$y$ axis')
-            ax.set_xlabel(labels[0], fontsize=12, labelpad=12)
-            ax.set_ylabel(labels[1], fontsize=12, labelpad=12)
-            if self.ndim == 3:
-                ax.set_zlabel('$z$ axis', fontsize=12, labelpad=12)
-        if ticks_off:
-            ax.set_xticks([])
-            ax.set_yticks([])
-            if self.ndim == 3:
-                ax.set_zticks([])
-        if axis_off:
-            ax.axis('off')
-        if curve:
-            self.plot_curve(fig, ax)
-        if control_points:
-            self.plot_control_points(fig, ax)
-        if frenet_serret:
-            self.plot_frenet_serret(fig, ax)
-        if rescale:
-            self.rescale_plot(fig, ax)
-        return fig, ax
+        from ..visualization.plotting import curve_plot
+
+        return curve_plot(
+            self,
+            fig=fig,
+            ax=ax,
+            curve=curve,
+            control_points=control_points,
+            frenet_serret=frenet_serret,
+            axis_off=axis_off,
+            ticks_off=ticks_off,
+            rescale=rescale,
+        )
 
 
-    def plot_curve(self, fig, ax, linewidth=1.5, linestyle='-', color='black', u1=0.00, u2=1.00):
-
+    def plot_curve(
+        self,
+        fig,
+        ax,
+        linewidth=1.5,
+        linestyle='-',
+        color='black',
+        u1=0.0,
+        u2=1.0,
+    ):
         """ Plot the coordinates of the NURBS curve """
+        from ..visualization.plotting import curve_plot_curve
 
-        # One dimension (law of evolution)
-        if self.ndim == 1:
-            u = np.linspace(u1, u2, 501)
-            X = np.real(self.get_value(u))
-            line, = ax.plot(u, X[0,:])
-            line.set_linewidth(linewidth)
-            line.set_linestyle(linestyle)
-            line.set_color(color)
-            line.set_marker(' ')
-            # line.set_label(' ')
-
-        # Two dimensions (plane curve)
-        elif self.ndim == 2:
-            u = np.linspace(u1, u2, 501)
-            X, Y = np.real(self.get_value(u))
-            line, = ax.plot(X, Y)
-            line.set_linewidth(linewidth)
-            line.set_linestyle(linestyle)
-            line.set_color(color)
-            line.set_marker(' ')
-            # line.set_label(' ')
-
-        # Three dimensions (space curve)
-        elif self.ndim == 3:
-            u = np.linspace(u1, u2, 501)
-            X, Y, Z = np.real(self.get_value(u))
-            line, = ax.plot(X, Y, Z)
-            line.set_linewidth(linewidth)
-            line.set_linestyle(linestyle)
-            line.set_color(color)
-            line.set_marker(' ')
-            # line.set_label(' ')
-
-        else: raise Exception('The number of dimensions must be 1, 2 or 3')
-
-        return fig, ax
+        return curve_plot_curve(
+            self,
+            fig=fig,
+            ax=ax,
+            linewidth=linewidth,
+            linestyle=linestyle,
+            color=color,
+            u1=u1,
+            u2=u2,
+        )
 
 
-    def plot_control_points(self, fig, ax, linewidth=1.25, linestyle='-.', color='red', markersize=5, markerstyle='o'):
-
+    def plot_control_points(
+        self,
+        fig,
+        ax,
+        linewidth=1.25,
+        linestyle='-.',
+        color='red',
+        markersize=5,
+        markerstyle='o',
+    ):
         """ Plot the control points of the NURBS curve """
+        from ..visualization.plotting import curve_plot_control_points
 
-        # One dimension (law of evolution)
-        if self.ndim == 1:
-            Px = np.real(self.P)
-            u = np.linspace(0, 1, Px.size)
-            line, = ax.plot(u, Px[0,:])
-            line.set_linewidth(linewidth)
-            line.set_linestyle(linestyle)
-            line.set_color(color)
-            line.set_marker(markerstyle)
-            line.set_markersize(markersize)
-            line.set_markeredgewidth(linewidth)
-            line.set_markeredgecolor(color)
-            line.set_markerfacecolor('w')
-            line.set_zorder(4)
-            # line.set_label(' ')
+        return curve_plot_control_points(
+            self,
+            fig=fig,
+            ax=ax,
+            linewidth=linewidth,
+            linestyle=linestyle,
+            color=color,
+            markersize=markersize,
+            markerstyle=markerstyle,
+        )
 
 
-        # Two dimensions (plane curve)
-        elif self.ndim == 2:
-            Px, Py = np.real(self.P)
-            line, = ax.plot(Px, Py)
-            line.set_linewidth(linewidth)
-            line.set_linestyle(linestyle)
-            line.set_color(color)
-            line.set_marker(markerstyle)
-            line.set_markersize(markersize)
-            line.set_markeredgewidth(linewidth)
-            line.set_markeredgecolor(color)
-            line.set_markerfacecolor('w')
-            line.set_zorder(4)
-            # line.set_label(' ')
-
-        # Three dimensions (space curve)
-        elif self.ndim == 3:
-            Px, Py, Pz = np.real(self.P)
-            line, = ax.plot(Px, Py, Pz)
-            line.set_linewidth(linewidth)
-            line.set_linestyle(linestyle)
-            line.set_color(color)
-            line.set_marker(markerstyle)
-            line.set_markersize(markersize)
-            line.set_markeredgewidth(linewidth)
-            line.set_markeredgecolor(color)
-            line.set_markerfacecolor('w')
-            line.set_zorder(4)
-            # line.set_label(' ')
-
-        else: raise Exception('The number of dimensions must be 2 or 3')
-
-        return fig, ax
-
-
-    def plot_frenet_serret(self, fig, ax, frame_number=5, frame_scale=0.10):
+    def plot_frenet_serret(
+        self,
+        fig,
+        ax,
+        frame_number=5,
+        frame_scale=0.1,
+    ):
         """Plot defined frame vectors; omit undefined directions at singular points."""
-        if self.ndim not in (2, 3):
-            raise ValueError("Frenet-Serret frames require a two- or three-dimensional curve")
-        if not isinstance(frame_number, (int, np.integer)) or isinstance(frame_number, bool) or frame_number < 1:
-            raise ValueError("frame_number must be a positive integer")
-        if not np.isfinite(frame_scale):
-            raise ValueError("frame_scale must be finite")
-        scale = frame_scale * np.real(self.get_arclength(0, 1))
-        u = np.linspace(1e-12, 1 - 1e-12, frame_number)
-        position = np.real(self.get_value(u))
-        # These directions are mathematically undefined at zero speed/curvature.
-        # Keep the numerical API unchanged and skip only the invalid plot arrows.
-        with np.errstate(divide='ignore', invalid='ignore'):
-            vectors = [np.real(self.get_tangent(u)), np.real(self.get_normal(u))]
-            if self.ndim == 3:
-                vectors.append(np.real(self.get_binormal(u)))
-        for k in range(frame_number):
-            if not np.all(np.isfinite(position[:, k])):
-                continue
-            for vector, color in zip(vectors, ('red', 'blue', 'green')):
-                direction = vector[:, k]
-                if not np.all(np.isfinite(direction)) or not np.any(direction) or scale == 0:
-                    continue
-                if self.ndim == 2:
-                    ax.quiver(*position[:, k], *(scale * direction), color=color,
-                              angles='xy', scale_units='xy', scale=1)
-                else:
-                    ax.quiver(*position[:, k], *direction, color=color, length=scale, normalize=True)
-        valid = np.all(np.isfinite(position), axis=0)
-        ax.plot(*position[:, valid], linestyle=' ', marker='o', markersize=5,
-                markeredgewidth=1.25, markeredgecolor='k', markerfacecolor='w', zorder=4)
-        return fig, ax
+        from ..visualization.plotting import curve_plot_frenet_serret
+
+        return curve_plot_frenet_serret(
+            self,
+            fig=fig,
+            ax=ax,
+            frame_number=frame_number,
+            frame_scale=frame_scale,
+        )
 
 
-    def rescale_plot(self, fig, ax):
-
+    def rescale_plot(
+        self,
+        fig,
+        ax,
+    ):
         """ Adjust the aspect ratio of the figure """
+        from ..visualization.plotting import curve_rescale_plot
 
-        # Two dimensions (plane curve)
-        if self.ndim == 2:
-
-            # Set the aspect ratio of the data
-            ax.set_aspect(1.0)
-
-            # Adjust pad
-            fig.tight_layout(pad=5.0, w_pad=None, h_pad=None)
-
-        # Three dimensions (space curve)
-        if self.ndim == 3:
-
-            # Set axes aspect ratio
-            ax.autoscale(enable=True)
-            x_min, x_max = ax.get_xlim()
-            y_min, y_max = ax.get_ylim()
-            z_min, z_max = ax.get_zlim()
-            x_mid = (x_min + x_max) / 2
-            y_mid = (y_min + y_max) / 2
-            z_mid = (z_min + z_max) / 2
-            L = np.max((x_max - x_min, y_max - y_min, z_max - z_min)) / 2
-            ax.set_xlim3d(x_mid - 1.0 * L, x_mid + 1.0 * L)
-            ax.set_ylim3d(y_mid - 1.0 * L, y_mid + 1.0 * L)
-            ax.set_zlim3d(z_mid - 1.0 * L, z_mid + 1.0 * L)
-
-            # Draw the full box outline now that the limits are final
-            close_3d_box(ax)
-
-            # Adjust pad
-            fig.tight_layout(pad=5.0, w_pad=None, h_pad=None)
+        return curve_rescale_plot(
+            self,
+            fig=fig,
+            ax=ax,
+        )
 
 
-    def plot_curvature(self, fig=None, ax=None, color='black', linestyle='-'):
+    def plot_curvature(
+        self,
+        fig=None,
+        ax=None,
+        color='black',
+        linestyle='-',
+    ):
+        """Delegate rendering to the shared visualization functions."""
+        from ..visualization.plotting import curve_plot_curvature
 
-        # Create the figure
-        fig, ax = _prepare_plot_axes(fig, ax)
-        ax.set_xlabel('$u$ parameter', fontsize=12, color='k', labelpad=12)
-        ax.set_ylabel('Curvature', fontsize=12, color='k', labelpad=12)
-        # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-        # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-        for t in ax.xaxis.get_major_ticks(): t.label1.set_fontsize(12)
-        for t in ax.yaxis.get_major_ticks(): t.label1.set_fontsize(12)
-        # ax_xy.set_xticks([])
-        # ax_xy.set_yticks([])
-        # ax_xy.axis('off')
+        return curve_plot_curvature(
+            self,
+            fig=fig,
+            ax=ax,
+            color=color,
+            linestyle=linestyle,
+        )
 
-        # Plot the curvature distribution
-        u = np.linspace(0, 1, 1000)
-        curvature = np.real(self.get_curvature(u))
-        line, = ax.plot(u, curvature)
-        line.set_linewidth(1.25)
-        line.set_linestyle(linestyle)
-        line.set_color(color)
-        line.set_marker(" ")
-        line.set_markersize(3.5)
-        line.set_markeredgewidth(1)
-        line.set_markeredgecolor("k")
-        line.set_markerfacecolor("w")
-        # line.set_label(' ')
+    def plot_torsion(
+        self,
+        fig=None,
+        ax=None,
+        color='black',
+        linestyle='-',
+    ):
+        """Delegate rendering to the shared visualization functions."""
+        from ..visualization.plotting import curve_plot_torsion
 
-        # Set the aspect ratio of the data
-        # ax_xy.set_aspect(1.0)
-
-        # # Set the aspect ratio of the figure
-        # ratio = 1.00
-        # x1, x2 = ax_xy.get_xlim()
-        # y1, y2 = ax_xy.get_ylim()
-        # ax_xy.set_aspect(np.abs((x2-x1)/(y2-y1))*ratio)
-
-        # Adjust pad
-        fig.tight_layout(pad=5.0, w_pad=None, h_pad=None)
-
-        return fig, ax
-
-    def plot_torsion(self, fig=None, ax=None, color='black', linestyle='-'):
-
-        # Create the figure
-        fig, ax = _prepare_plot_axes(fig, ax)
-        ax.set_xlabel('$u$ parameter', fontsize=12, color='k', labelpad=12)
-        ax.set_ylabel('Torsion', fontsize=12, color='k', labelpad=12)
-        # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-        # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-        for t in ax.xaxis.get_major_ticks(): t.label1.set_fontsize(12)
-        for t in ax.yaxis.get_major_ticks(): t.label1.set_fontsize(12)
-        # ax_xy.set_xticks([])
-        # ax_xy.set_yticks([])
-        # ax_xy.axis('off')
-
-        # Plot the curvature distribution
-        u = np.linspace(0, 1, 1000)
-        torsion = np.real(self.get_torsion(u))
-        line, = ax.plot(u, torsion)
-        line.set_linewidth(1.25)
-        line.set_linestyle(linestyle)
-        line.set_color(color)
-        line.set_marker(" ")
-        line.set_markersize(3.5)
-        line.set_markeredgewidth(1)
-        line.set_markeredgecolor("k")
-        line.set_markerfacecolor("w")
-        # line.set_label(' ')
-
-        # Set the aspect ratio of the data
-        # ax_xy.set_aspect(1.0)
-
-        # Set the aspect ratio of the figure
-        ratio = 1.00
-        x1, x2 = ax.get_xlim()
-        y1, y2 = ax.get_ylim()
-        span_y = abs(y2 - y1)
-        ax.set_aspect(abs(x2 - x1) / span_y * ratio if span_y > 0 else 'auto')
-
-        # Adjust pad
-        fig.tight_layout(pad=5.0, w_pad=None, h_pad=None)
-
-        return fig, ax
+        return curve_plot_torsion(
+            self,
+            fig=fig,
+            ax=ax,
+            color=color,
+            linestyle=linestyle,
+        )
 
 
     # ---------------------------------------------------------------------------------------------------------------- #

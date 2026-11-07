@@ -413,25 +413,23 @@ class NurbsSurface(_SurfaceMeshMixin, _GeometryYamlMixin, eqx.Module):
                 / denominator
             )
 
-    def _as_numpy_surface(self):
-        """Transfer geometry to the host for Matplotlib/CAD-style utilities only."""
-        from ..numpy.nurbs_surface import NurbsSurface as NumpySurface
 
-        return NumpySurface(
-            np.asarray(self.P),
-            np.asarray(self.W),
-            self.p,
-            self.q,
-            np.asarray(self.U),
-            np.asarray(self.V),
-        )
+    def show(self, **kwargs):
+        """Inspect with the shared interactive viewer; use backend=matplotlib for static plots."""
+        from ..visualization import show
+        return show(self, **kwargs)
+
+    def edit(self, **kwargs):
+        """Edit a host copy and return a new NumPy geometry on Apply, or None."""
+        from ..visualization import edit
+        return edit(self, **kwargs)
 
     def plot(
         self,
         fig=None,
         ax=None,
         surface=True,
-        surface_color="blue",
+        surface_color='blue',
         colorbar=False,
         boundary=True,
         control_points=False,
@@ -444,90 +442,195 @@ class NurbsSurface(_SurfaceMeshMixin, _GeometryYamlMixin, eqx.Module):
         isocurves_v=None,
     ):
         """Plot on the host with the NumPy API; plotting is outside JIT and autodiff."""
-        return self._as_numpy_surface().plot(
-            fig,
-            ax,
-            surface,
-            surface_color,
-            colorbar,
-            boundary,
-            control_points,
-            normals,
-            axis_off,
-            ticks_off,
-            Nu,
-            Nv,
-            isocurves_u,
-            isocurves_v,
+        from ..visualization.plotting import surface_plot
+
+        return surface_plot(
+            self,
+            fig=fig,
+            ax=ax,
+            surface=surface,
+            surface_color=surface_color,
+            colorbar=colorbar,
+            boundary=boundary,
+            control_points=control_points,
+            normals=normals,
+            axis_off=axis_off,
+            ticks_off=ticks_off,
+            Nu=Nu,
+            Nv=Nv,
+            isocurves_u=isocurves_u,
+            isocurves_v=isocurves_v,
         )
 
     def plot_surface(
-        self, fig, ax, color="blue", alpha=0.30, colorbar=False, Nu=50, Nv=50
+        self,
+        fig,
+        ax,
+        color='blue',
+        alpha=0.3,
+        colorbar=False,
+        Nu=50,
+        Nv=50,
     ):
         """Draw sampled surface values or curvature colors on host axes."""
-        return self._as_numpy_surface().plot_surface(
-            fig, ax, color, alpha, colorbar, Nu, Nv
+        from ..visualization.plotting import surface_plot_surface
+
+        return surface_plot_surface(
+            self,
+            fig=fig,
+            ax=ax,
+            color=color,
+            alpha=alpha,
+            colorbar=colorbar,
+            Nu=Nu,
+            Nv=Nv,
         )
 
     def plot_boundary(
         self,
         fig,
         ax,
-        color="black",
+        color='black',
         linewidth=1.0,
-        linestyle="-",
+        linestyle='-',
         south=True,
         north=True,
         east=True,
         west=True,
     ):
         """Draw the four boundary curves on host axes."""
-        return self._as_numpy_surface().plot_boundary(
-            fig, ax, color, linewidth, linestyle, south, north, east, west
+        from ..visualization.plotting import surface_plot_boundary
+
+        return surface_plot_boundary(
+            self,
+            fig=fig,
+            ax=ax,
+            color=color,
+            linewidth=linewidth,
+            linestyle=linestyle,
+            south=south,
+            north=north,
+            east=east,
+            west=west,
         )
 
     def plot_isocurve_u(
-        self, fig, ax, u_values, color="black", linewidth=1.0, linestyle="-"
+        self,
+        fig,
+        ax,
+        u_values,
+        color='black',
+        linewidth=1.0,
+        linestyle='-',
     ):
         """Draw sections with fixed u on host axes."""
-        return self._as_numpy_surface().plot_isocurve_u(
-            fig, ax, u_values, color, linewidth, linestyle
+        from ..visualization.plotting import surface_plot_isocurve_u
+
+        return surface_plot_isocurve_u(
+            self,
+            fig=fig,
+            ax=ax,
+            u_values=u_values,
+            color=color,
+            linewidth=linewidth,
+            linestyle=linestyle,
         )
 
     def plot_isocurve_v(
-        self, fig, ax, v_values, color="black", linewidth=1.0, linestyle="-"
+        self,
+        fig,
+        ax,
+        v_values,
+        color='black',
+        linewidth=1.0,
+        linestyle='-',
     ):
         """Draw sections with fixed v on host axes."""
-        return self._as_numpy_surface().plot_isocurve_v(
-            fig, ax, v_values, color, linewidth, linestyle
+        from ..visualization.plotting import surface_plot_isocurve_v
+
+        return surface_plot_isocurve_v(
+            self,
+            fig=fig,
+            ax=ax,
+            v_values=v_values,
+            color=color,
+            linewidth=linewidth,
+            linestyle=linestyle,
         )
 
     def plot_control_points(
         self,
         fig,
         ax,
-        color="red",
+        color='red',
         linewidth=1.0,
-        linestyle="-",
+        linestyle='-',
         markersize=5,
-        markerstyle="o",
+        markerstyle='o',
     ):
         """Draw the control net on host axes."""
-        return self._as_numpy_surface().plot_control_points(
-            fig, ax, color, linewidth, linestyle, markersize, markerstyle
+        from ..visualization.plotting import surface_plot_control_points
+
+        return surface_plot_control_points(
+            self,
+            fig=fig,
+            ax=ax,
+            color=color,
+            linewidth=linewidth,
+            linestyle=linestyle,
+            markersize=markersize,
+            markerstyle=markerstyle,
         )
 
-    def plot_normals(self, fig, ax, number_u=10, number_v=10, scale=0.075):
+    def plot_normals(
+        self,
+        fig,
+        ax,
+        number_u=10,
+        number_v=10,
+        scale=0.075,
+    ):
         """Draw sampled unit normals on host axes."""
-        return self._as_numpy_surface().plot_normals(fig, ax, number_u, number_v, scale)
+        from ..visualization.plotting import surface_plot_normals
 
-    def rescale_plot(self, fig, ax):
+        return surface_plot_normals(
+            self,
+            fig=fig,
+            ax=ax,
+            number_u=number_u,
+            number_v=number_v,
+            scale=scale,
+        )
+
+    def rescale_plot(
+        self,
+        fig,
+        ax,
+    ):
         """Set equal three-dimensional plot scales on the host."""
-        return self._as_numpy_surface().rescale_plot(fig, ax)
+        from ..visualization.plotting import surface_rescale_plot
 
-    def plot_curvature(self, fig=None, ax=None, curvature_type="mean"):
+        return surface_rescale_plot(
+            self,
+            fig=fig,
+            ax=ax,
+        )
+
+    def plot_curvature(
+        self,
+        fig=None,
+        ax=None,
+        curvature_type='mean',
+    ):
         """Plot mean or Gaussian curvature over parameter space on the host."""
-        return self._as_numpy_surface().plot_curvature(fig, ax, curvature_type)
+        from ..visualization.plotting import surface_plot_curvature
+
+        return surface_plot_curvature(
+            self,
+            fig=fig,
+            ax=ax,
+            curvature_type=curvature_type,
+        )
 
 
 def make_offset_surface(surface, offset):

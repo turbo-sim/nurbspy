@@ -981,51 +981,159 @@ class NurbsCurve(_GeometryYamlMixin, eqx.Module):
         return self.project_points(point, tol=tol, maxiter=max_iters)[0]
 
 
-    def _as_numpy_curve(self):
-        """Transfer geometry to the host for plotting outside JIT and autodiff."""
-        from ..numpy.nurbs_curve import NurbsCurve as NumpyCurve
 
-        return NumpyCurve(np.asarray(self.P), np.asarray(self.W), self.p, np.asarray(self.U))
 
+    def show(self, **kwargs):
+        """Inspect with the shared interactive viewer; use backend=matplotlib for static plots."""
+        from ..visualization import show
+        return show(self, **kwargs)
+
+    def edit(self, **kwargs):
+        """Edit a host copy and return a new NumPy geometry on Apply, or None."""
+        from ..visualization import edit
+        return edit(self, **kwargs)
 
     def plot(
-        self, fig=None, ax=None, curve=True, control_points=True,
-        frenet_serret=False, axis_off=False, ticks_off=False, rescale=True,
+        self,
+        fig=None,
+        ax=None,
+        curve=True,
+        control_points=True,
+        frenet_serret=False,
+        axis_off=False,
+        ticks_off=False,
+        rescale=True,
     ):
         """Plot host geometry through the shared NumPy plotting implementation."""
-        return self._as_numpy_curve().plot(
-            fig, ax, curve, control_points, frenet_serret, axis_off, ticks_off, rescale
+        from ..visualization.plotting import curve_plot
+
+        return curve_plot(
+            self,
+            fig=fig,
+            ax=ax,
+            curve=curve,
+            control_points=control_points,
+            frenet_serret=frenet_serret,
+            axis_off=axis_off,
+            ticks_off=ticks_off,
+            rescale=rescale,
         )
 
     def plot_curve(
-        self, fig, ax, linewidth=1.5, linestyle="-", color="black", u1=0.00, u2=1.00
+        self,
+        fig,
+        ax,
+        linewidth=1.5,
+        linestyle='-',
+        color='black',
+        u1=0.0,
+        u2=1.0,
     ):
         """Plot sampled coordinates on host axes."""
-        return self._as_numpy_curve().plot_curve(fig, ax, linewidth, linestyle, color, u1, u2)
+        from ..visualization.plotting import curve_plot_curve
 
-    def plot_control_points(
-        self, fig, ax, linewidth=1.25, linestyle="-.", color="red", markersize=5, markerstyle="o",
-    ):
-        """Plot the control polygon on host axes."""
-        return self._as_numpy_curve().plot_control_points(
-            fig, ax, linewidth, linestyle, color, markersize, markerstyle
+        return curve_plot_curve(
+            self,
+            fig=fig,
+            ax=ax,
+            linewidth=linewidth,
+            linestyle=linestyle,
+            color=color,
+            u1=u1,
+            u2=u2,
         )
 
-    def plot_frenet_serret(self, fig, ax, frame_number=5, frame_scale=0.10):
+    def plot_control_points(
+        self,
+        fig,
+        ax,
+        linewidth=1.25,
+        linestyle='-.',
+        color='red',
+        markersize=5,
+        markerstyle='o',
+    ):
+        """Plot the control polygon on host axes."""
+        from ..visualization.plotting import curve_plot_control_points
+
+        return curve_plot_control_points(
+            self,
+            fig=fig,
+            ax=ax,
+            linewidth=linewidth,
+            linestyle=linestyle,
+            color=color,
+            markersize=markersize,
+            markerstyle=markerstyle,
+        )
+
+    def plot_frenet_serret(
+        self,
+        fig,
+        ax,
+        frame_number=5,
+        frame_scale=0.1,
+    ):
         """Plot geometric reference frames on host axes."""
-        return self._as_numpy_curve().plot_frenet_serret(fig, ax, frame_number, frame_scale)
+        from ..visualization.plotting import curve_plot_frenet_serret
 
-    def rescale_plot(self, fig, ax):
+        return curve_plot_frenet_serret(
+            self,
+            fig=fig,
+            ax=ax,
+            frame_number=frame_number,
+            frame_scale=frame_scale,
+        )
+
+    def rescale_plot(
+        self,
+        fig,
+        ax,
+    ):
         """Set equal spatial plot scales on the host."""
-        return self._as_numpy_curve().rescale_plot(fig, ax)
+        from ..visualization.plotting import curve_rescale_plot
 
-    def plot_curvature(self, fig=None, ax=None, color="black", linestyle="-"):
+        return curve_rescale_plot(
+            self,
+            fig=fig,
+            ax=ax,
+        )
+
+    def plot_curvature(
+        self,
+        fig=None,
+        ax=None,
+        color='black',
+        linestyle='-',
+    ):
         """Plot curvature over the parameter interval on the host."""
-        return self._as_numpy_curve().plot_curvature(fig, ax, color, linestyle)
+        from ..visualization.plotting import curve_plot_curvature
 
-    def plot_torsion(self, fig=None, ax=None, color="black", linestyle="-"):
+        return curve_plot_curvature(
+            self,
+            fig=fig,
+            ax=ax,
+            color=color,
+            linestyle=linestyle,
+        )
+
+    def plot_torsion(
+        self,
+        fig=None,
+        ax=None,
+        color='black',
+        linestyle='-',
+    ):
         """Plot torsion over the parameter interval on the host."""
-        return self._as_numpy_curve().plot_torsion(fig, ax, color, linestyle)
+        from ..visualization.plotting import curve_plot_torsion
+
+        return curve_plot_torsion(
+            self,
+            fig=fig,
+            ax=ax,
+            color=color,
+            linestyle=linestyle,
+        )
 
 
 # ---------------------------------------------------------------------------------------------------------------- #
