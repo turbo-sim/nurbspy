@@ -9,6 +9,7 @@ import optimistix as optx
 import quadax as qdx
 
 import numpy as np
+from ..serialization import GeometryYamlMixin as _GeometryYamlMixin
 
 from .nurbs_basis_functions import (
     compute_basis_polynomials,
@@ -270,7 +271,7 @@ def compute_all_nurbs_derivatives(P, W, p, U, u, up_to_order):
 # ----------------------------------------------------------- #
 # Main NURBS curve class
 # ----------------------------------------------------------- #
-class NurbsCurve(eqx.Module):
+class NurbsCurve(_GeometryYamlMixin, eqx.Module):
     """Create a NURBS (Non-Uniform Rational Basis Spline) curve object
 
     Parameters

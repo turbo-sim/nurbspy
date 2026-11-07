@@ -54,4 +54,5 @@ getting_started/index
 theory/index
 examples/index
 api_reference
+geometry_io
 ```

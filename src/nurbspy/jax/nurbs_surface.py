@@ -8,6 +8,7 @@ import equinox as eqx
 import jax
 import jax.numpy as jnp
 import numpy as np
+from ..serialization import GeometryYamlMixin as _GeometryYamlMixin
 
 from .nurbs_basis_functions import (
     compute_basis_polynomials,
@@ -105,7 +106,7 @@ def _clamped_knots(count, degree):
     )
 
 
-class NurbsSurface(eqx.Module):
+class NurbsSurface(_GeometryYamlMixin, eqx.Module):
     """A differentiable surface with paired parameters and NumPy-compatible shapes.
 
     ``control_points`` has shape (ndim, Nu, Nv), and ``weights`` has shape

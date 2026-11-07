@@ -35,7 +35,7 @@ The aim is to improve the existing numerical library, make geometry construction
 | 4 | Share NumPy/JAX plotting implementation | Selective port | 2, 3 |
 | 5 | Add Point input and curve normalization | New implementation | None |
 | 6 | Add Point grids for surfaces and geometric constructors | New implementation | 5 |
-| 7 | Add explicit geometry snapshots and JSON exchange | Extract and redesign | 5, 6 |
+| 7 | Add shared YAML geometry save/load | Extract and redesign | 5, 6 |
 | 8 | Provide a small surface-to-triangle adapter | Extract and redesign | None |
 | 9 | Delegate mesh processing and STL export | Replace experimental approach | 8 |
 | 10 | Provide a minimal native oloid/export example | Adapt experimental demo | 9 |
@@ -146,9 +146,9 @@ curve = NurbsCurve(
 
 **Acceptance:** Use unequal grid dimensions to expose accidental transposes. Verify equivalent geometry, derivatives, and weights for Point and numerical input across both backends and applicable helpers.
 
-## 7. Add explicit geometry snapshots and JSON exchange
+## 7. Add shared YAML geometry save/load
 
-**Status:** Planned. **Suggested commit:** `Add geometry snapshots and versioned JSON exchange`.
+**Status:** Complete. **Commit:** see `git log --grep="Add shared YAML geometry save and load"`. **Validation:** round trips, malformed inputs, independent arrays, cross-backend loading, and JAX differentiation covered by new tests.
 
 **Purpose:** Save editable geometry and support undo/reset without tying model state to a particular GUI.
 
@@ -157,8 +157,8 @@ curve = NurbsCurve(
 - Extract the useful serialization idea from `viewer.py`, not its Dash state schema or viewer classes.
 - Provide an explicit snapshot/restore boundary for curves and surfaces containing control points, weights, degrees, and knots. Choose the smallest public API consistent with the existing package when implementing this item.
 - Keep in-memory copies independent and backend-aware. Restoring creates a new valid model rather than partially mutating a model with stale derived data.
-- Define a versioned JSON representation, dimension validation, and clear errors for unsupported versions. Document whether JSON supports complex coordinates; reject them explicitly if not supported instead of discarding imaginary parts.
-- Serialize geometry only, not arbitrary Python objects or backend runtime state. A collection of patches can be a list of geometry records; a new assembly model is not required.
+- Define a versioned YAML representation, dimension validation, and clear errors for unsupported versions. Complex arrays retain their dtype and explicit real/imaginary data.
+- Use safe YAML loading; serialize geometry only, not arbitrary Python objects or backend runtime state. A collection of patches can be a list of geometry records; a new assembly model is not required.
 
 **Acceptance:** Round-trip coordinates, weights, knots, and evaluations; ensure snapshots do not alias their originals. Verify invalid records, backend restoration, and the documented complex-coordinate behavior.
 

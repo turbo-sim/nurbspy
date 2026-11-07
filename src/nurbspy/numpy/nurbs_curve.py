@@ -1,3 +1,4 @@
+from ..serialization import GeometryYamlMixin as _GeometryYamlMixin
 # -------------------------------------------------------------------------------------------------------------------- #
 # Import packages
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -17,7 +18,7 @@ from ..graphics                 import style_3d_axes, close_3d_box, _prepare_plo
 # -------------------------------------------------------------------------------------------------------------------- #
 # Define the NURBS curve class
 # -------------------------------------------------------------------------------------------------------------------- #
-class NurbsCurve:
+class NurbsCurve(_GeometryYamlMixin):
 
     """ Create a NURBS (Non-Uniform Rational Basis Spline) curve object
 
