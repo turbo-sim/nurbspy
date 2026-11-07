@@ -91,7 +91,7 @@ The order goes from small repairs to larger API additions and interaction work. 
 
 ## 4. Share NumPy/JAX plotting implementation
 
-**Status:** Planned. **Suggested commit:** `Share host plotting between NumPy and JAX backends`.
+**Status:** Complete. **Validation:** 60 plotting and installation checks passed. **Suggested commit:** `Share host plotting between NumPy and JAX backends`.
 
 **Purpose:** Remove duplicated visualization code so fixes apply to both backends.
 

@@ -6,14 +6,13 @@ import equinox as eqx
 import optimistix as optx
 import quadax as qdx
 
-import matplotlib.pyplot as plt
+import numpy as np
 
 from .nurbs_basis_functions import (
     compute_basis_polynomials,
     compute_all_basis_polynomials_derivatives,
     _compute_basis_derivatives,
 )
-from ..graphics import style_3d_axes, close_3d_box
 from . import arclength as _arc
 
 
@@ -978,389 +977,51 @@ class NurbsCurve(eqx.Module):
         return self.project_points(point, tol=tol, maxiter=max_iters)[0]
 
 
-    # ---------------------------------------------------------------------------------------------------------------- #
-    # Define functions for plotting
-    # ---------------------------------------------------------------------------------------------------------------- #
+    def _as_numpy_curve(self):
+        """Transfer geometry to the host for plotting outside JIT and autodiff."""
+        from ..numpy.nurbs_curve import NurbsCurve as NumpyCurve
+
+        return NumpyCurve(np.asarray(self.P), np.asarray(self.W), self.p, np.asarray(self.U))
+
+
     def plot(
-        self,
-        fig=None,
-        ax=None,
-        curve=True,
-        control_points=True,
-        frenet_serret=False,
-        axis_off=False,
-        ticks_off=False,
-        rescale=True,
+        self, fig=None, ax=None, curve=True, control_points=True,
+        frenet_serret=False, axis_off=False, ticks_off=False, rescale=True,
     ):
-        """Create a plot and return the figure and axes handles"""
-
-        if fig is None:
-
-            # One dimension (law of evolution)
-            if self.ndim == 1:
-                fig = plt.figure(figsize=(6, 5))
-                ax = fig.add_subplot(111)
-                ax.set_xlabel("$u$ parameter", fontsize=12, color="k", labelpad=12)
-                ax.set_ylabel("NURBS curve value", fontsize=12, color="k", labelpad=12)
-                # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)
-                # for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)
-                if ticks_off:
-                    ax.set_xticks([])
-                    ax.set_yticks([])
-                if axis_off:
-                    ax.axis("off")
-
-            # Two dimensions (plane curve)
-            elif self.ndim == 2:
-                fig = plt.figure(figsize=(6, 5))
-                ax = fig.add_subplot(111)
-                ax.set_xlabel("$x$ axis", fontsize=12, color="k", labelpad=12)
-                ax.set_ylabel("$y$ axis", fontsize=12, color="k", labelpad=12)
-                # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)
-                # for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)
-                if ticks_off:
-                    ax.set_xticks([])
-                    ax.set_yticks([])
-                if axis_off:
-                    ax.axis("off")
-
-            # Three dimensions (space curve)
-            elif self.ndim == 3:
-                fig = plt.figure(figsize=(6, 5))
-                ax = fig.add_subplot(111, projection="3d")
-                style_3d_axes(ax, elev=30, azim=-120, pane_alpha=1.0)
-                ax.set_xlabel("$x$ axis", fontsize=12, color="k", labelpad=12)
-                ax.set_ylabel("$y$ axis", fontsize=12, color="k", labelpad=12)
-                ax.set_zlabel("$z$ axis", fontsize=12, color="k", labelpad=12)
-                # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # ax_xy.zaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-                # for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(8)
-                # for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(8)
-                # for t in ax.zaxis.get_major_ticks(): t.label.set_fontsize(8)
-                if ticks_off:
-                    ax.set_xticks([])
-                    ax.set_yticks([])
-                    ax.set_zticks([])
-                if axis_off:
-                    ax.axis("off")
-
-            else:
-                raise Exception("The number of dimensions must be 1, 2 or 3")
-
-        # Add objects to the plot
-        if curve:
-            self.plot_curve(fig, ax)
-        if control_points:
-            self.plot_control_points(fig, ax)
-        if frenet_serret:
-            self.plot_frenet_serret(fig, ax)
-
-        # Set the scaling of the axes
-        if rescale:
-            self.rescale_plot(fig, ax)
-
-        return fig, ax
+        """Plot host geometry through the shared NumPy plotting implementation."""
+        return self._as_numpy_curve().plot(
+            fig, ax, curve, control_points, frenet_serret, axis_off, ticks_off, rescale
+        )
 
     def plot_curve(
         self, fig, ax, linewidth=1.5, linestyle="-", color="black", u1=0.00, u2=1.00
     ):
-        """Plot the coordinates of the NURBS curve"""
-
-        # One dimension (law of evolution)
-        if self.ndim == 1:
-            u = jnp.linspace(u1, u2, 501)
-            X = self.get_value(u)
-            (line,) = ax.plot(u, X[0, :])
-            line.set_linewidth(linewidth)
-            line.set_linestyle(linestyle)
-            line.set_color(color)
-            line.set_marker(" ")
-
-        # Two dimensions (plane curve)
-        elif self.ndim == 2:
-            u = jnp.linspace(u1, u2, 501)
-            X, Y = self.get_value(u)
-            (line,) = ax.plot(X, Y)
-            line.set_linewidth(linewidth)
-            line.set_linestyle(linestyle)
-            line.set_color(color)
-            line.set_marker(" ")
-
-        # Three dimensions (space curve)
-        elif self.ndim == 3:
-            u = jnp.linspace(u1, u2, 501)
-            X, Y, Z = self.get_value(u)
-            (line,) = ax.plot(X, Y, Z)
-            line.set_linewidth(linewidth)
-            line.set_linestyle(linestyle)
-            line.set_color(color)
-            line.set_marker(" ")
-
-        else:
-            raise Exception("The number of dimensions must be 1, 2 or 3")
-
-        return fig, ax
+        """Plot sampled coordinates on host axes."""
+        return self._as_numpy_curve().plot_curve(fig, ax, linewidth, linestyle, color, u1, u2)
 
     def plot_control_points(
-        self,
-        fig,
-        ax,
-        linewidth=1.25,
-        linestyle="-.",
-        color="red",
-        markersize=5,
-        markerstyle="o",
+        self, fig, ax, linewidth=1.25, linestyle="-.", color="red", markersize=5, markerstyle="o",
     ):
-        """Plot the control points of the NURBS curve"""
-
-        # One dimension (law of evolution)
-        if self.ndim == 1:
-            Px = self.P
-            u = jnp.linspace(0.0, 1.0, Px.size)
-            (line,) = ax.plot(u, Px[0, :])
-            line.set_linewidth(linewidth)
-            line.set_linestyle(linestyle)
-            line.set_color(color)
-            line.set_marker(markerstyle)
-            line.set_markersize(markersize)
-            line.set_markeredgewidth(linewidth)
-            line.set_markeredgecolor(color)
-            line.set_markerfacecolor("w")
-            line.set_zorder(4)
-            # line.set_label(' ')
-
-        # Two dimensions (plane curve)
-        elif self.ndim == 2:
-            Px, Py = self.P
-            (line,) = ax.plot(Px, Py)
-            line.set_linewidth(linewidth)
-            line.set_linestyle(linestyle)
-            line.set_color(color)
-            line.set_marker(markerstyle)
-            line.set_markersize(markersize)
-            line.set_markeredgewidth(linewidth)
-            line.set_markeredgecolor(color)
-            line.set_markerfacecolor("w")
-            line.set_zorder(4)
-            # line.set_label(' ')
-
-        # Three dimensions (space curve)
-        elif self.ndim == 3:
-            Px, Py, Pz = self.P
-            (line,) = ax.plot(Px, Py, Pz)
-            line.set_linewidth(linewidth)
-            line.set_linestyle(linestyle)
-            line.set_color(color)
-            line.set_marker(markerstyle)
-            line.set_markersize(markersize)
-            line.set_markeredgewidth(linewidth)
-            line.set_markeredgecolor(color)
-            line.set_markerfacecolor("w")
-            line.set_zorder(4)
-            # line.set_label(' ')
-
-        else:
-            raise Exception("The number of dimensions must be 2 or 3")
-
-        return fig, ax
+        """Plot the control polygon on host axes."""
+        return self._as_numpy_curve().plot_control_points(
+            fig, ax, linewidth, linestyle, color, markersize, markerstyle
+        )
 
     def plot_frenet_serret(self, fig, ax, frame_number=5, frame_scale=0.10):
-        """Plot some Frenet-Serret reference frames along the NURBS curve"""
-
-        # Compute the tangent, normal and binormal unitary vectors
-        u = jnp.linspace(0.0, 1.0, frame_number)
-        position = self.get_value(u)
-        tangent = self.get_tangent(u)
-        normal = self.get_normal(u)
-        binormal = self.get_binormal(u)
-
-        # Compute a length scale (fraction of the curve arc length)
-        scale = float(frame_scale * self.get_arclength(0.0, 1.0))
-
-        # Two dimensions (plane curve)
-        if self.ndim == 2:
-
-            # Plot the frames of reference
-            for k in range(frame_number):
-
-                # Plot the tangent vector
-                x, y = position[:, k]
-                u, v = tangent[:, k]
-                ax.quiver(x, y, u, v, color="red", scale=7.5)
-
-                # Plot the normal vector
-                x, y = position[:, k]
-                u, v = normal[:, k]
-                ax.quiver(x, y, u, v, color="blue", scale=7.5)
-
-            # Plot the origin of the vectors
-            x, y = position
-            (points,) = ax.plot(x, y)
-            points.set_linestyle(" ")
-            points.set_marker("o")
-            points.set_markersize(5)
-            points.set_markeredgewidth(1.25)
-            points.set_markeredgecolor("k")
-            points.set_markerfacecolor("w")
-            points.set_zorder(4)
-            # points.set_label(' ')
-
-        # Three dimensions (space curve)
-        elif self.ndim == 3:
-
-            # Plot the frames of reference
-            for k in range(frame_number):
-
-                # Plot the tangent vector
-                x, y, z = position[:, k]
-                u, v, w = tangent[:, k]
-                ax.quiver(x, y, z, u, v, w, color="red", length=scale, normalize=True)
-
-                # Plot the norma vector
-                x, y, z = position[:, k]
-                u, v, w = normal[:, k]
-                ax.quiver(x, y, z, u, v, w, color="blue", length=scale, normalize=True)
-
-                # Plot the binormal vector
-                x, y, z = position[:, k]
-                u, v, w = binormal[:, k]
-                ax.quiver(x, y, z, u, v, w, color="green", length=scale, normalize=True)
-
-            # Plot the origin of the vectors
-            x, y, z = position
-            (points,) = ax.plot(x, y, z)
-            points.set_linestyle(" ")
-            points.set_marker("o")
-            points.set_markersize(5)
-            points.set_markeredgewidth(1.25)
-            points.set_markeredgecolor("k")
-            points.set_markerfacecolor("w")
-            points.set_zorder(4)
-            # points.set_label(' ')
-
-        else:
-            raise Exception("The number of dimensions must be 2 or 3")
-
-        return fig, ax
+        """Plot geometric reference frames on host axes."""
+        return self._as_numpy_curve().plot_frenet_serret(fig, ax, frame_number, frame_scale)
 
     def rescale_plot(self, fig, ax):
-        """Adjust the aspect ratio of the figure"""
-
-        # Two dimensions (plane curve)
-        if self.ndim == 2:
-
-            # Set the aspect ratio of the data
-            ax.set_aspect(1.0)
-
-            # Adjust pad
-            plt.tight_layout(pad=1.0)
-
-        # Three dimensions (space curve)
-        if self.ndim == 3:
-
-            # Set axes aspect ratio
-            ax.autoscale(enable=True)
-            x_min, x_max = ax.get_xlim()
-            y_min, y_max = ax.get_ylim()
-            z_min, z_max = ax.get_zlim()
-            x_mid = (x_min + x_max) / 2
-            y_mid = (y_min + y_max) / 2
-            z_mid = (z_min + z_max) / 2
-            # L = jnp.max((x_max - x_min, y_max - y_min, z_max - z_min)) / 2
-            L = jnp.max(jnp.array([x_max - x_min, y_max - y_min, z_max - z_min])) / 2
-
-            ax.set_xlim3d(x_mid - 1.0 * L, x_mid + 1.0 * L)
-            ax.set_ylim3d(y_mid - 1.0 * L, y_mid + 1.0 * L)
-            ax.set_zlim3d(z_mid - 1.0 * L, z_mid + 1.0 * L)
-
-            # Draw the full box outline now that the limits are final
-            close_3d_box(ax)
-
-            # Adjust pad
-            plt.tight_layout(pad=1.0)
+        """Set equal spatial plot scales on the host."""
+        return self._as_numpy_curve().rescale_plot(fig, ax)
 
     def plot_curvature(self, fig=None, ax=None, color="black", linestyle="-"):
-
-        # Create the figure
-        if fig is None:
-            fig = plt.figure(figsize=(6, 5))
-            ax = fig.add_subplot(111)
-        ax.set_xlabel("$u$ parameter", fontsize=12, color="k", labelpad=12)
-        ax.set_ylabel("Curvature", fontsize=12, color="k", labelpad=12)
-        # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-        # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-        for t in ax.xaxis.get_major_ticks():
-            t.label.set_fontsize(12)
-        for t in ax.yaxis.get_major_ticks():
-            t.label.set_fontsize(12)
-        # ax_xy.set_xticks([])
-        # ax_xy.set_yticks([])
-        # ax_xy.axis('off')
-
-        # Plot the curvature distribution
-        u = jnp.linspace(0, 1, 501)
-        curvature = self.get_curvature(u)
-        (line,) = ax.plot(u, curvature)
-        line.set_linewidth(1.25)
-        line.set_linestyle(linestyle)
-        line.set_color(color)
-        line.set_marker(" ")
-        line.set_markersize(3.5)
-        line.set_markeredgewidth(1)
-        line.set_markeredgecolor("k")
-        line.set_markerfacecolor("w")
-
-        # Adjust pad
-        plt.tight_layout(pad=5.0, w_pad=None, h_pad=None)
-
-        return fig, ax
+        """Plot curvature over the parameter interval on the host."""
+        return self._as_numpy_curve().plot_curvature(fig, ax, color, linestyle)
 
     def plot_torsion(self, fig=None, ax=None, color="black", linestyle="-"):
-
-        # Create the figure
-        if fig is None:
-            fig = plt.figure(figsize=(6, 5))
-            ax = fig.add_subplot(111)
-        ax.set_xlabel("$u$ parameter", fontsize=12, color="k", labelpad=12)
-        ax.set_ylabel("Torsion", fontsize=12, color="k", labelpad=12)
-        # ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-        # ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter('%.1f'))
-        for t in ax.xaxis.get_major_ticks():
-            t.label.set_fontsize(12)
-        for t in ax.yaxis.get_major_ticks():
-            t.label.set_fontsize(12)
-        # ax_xy.set_xticks([])
-        # ax_xy.set_yticks([])
-        # ax_xy.axis('off')
-
-        # Plot the curvature distribution
-        u = jnp.linspace(0, 1, 501)
-        torsion = self.get_torsion(u)
-        (line,) = ax.plot(u, torsion)
-        line.set_linewidth(1.25)
-        line.set_linestyle(linestyle)
-        line.set_color(color)
-        line.set_marker(" ")
-        line.set_markersize(3.5)
-        line.set_markeredgewidth(1)
-        line.set_markeredgecolor("k")
-        line.set_markerfacecolor("w")
-
-        # Set the aspect ratio of the figure
-        ratio = 1.00
-        x1, x2 = ax.get_xlim()
-        y1, y2 = ax.get_ylim()
-        ax.set_aspect(jnp.abs((x2 - x1) / (y2 - y1)) * ratio)
-
-        # Adjust pad
-        plt.tight_layout(pad=5.0, w_pad=None, h_pad=None)
-
-        return fig, ax
+        """Plot torsion over the parameter interval on the host."""
+        return self._as_numpy_curve().plot_torsion(fig, ax, color, linestyle)
 
 
 # ---------------------------------------------------------------------------------------------------------------- #

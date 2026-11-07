@@ -191,3 +191,7 @@ Roberto Agromayor is the main developer of nurbspy.
 
 Citation metadata is provided in [CITATION.cff](CITATION.cff). For version-specific reproducibility, also record the release or commit used.
 <!-- research-software-metadata:end -->
+
+### Plotting with numerical backends
+
+NumPy and JAX geometry share the Matplotlib plotting implementation. Plotting JAX models copies their current arrays to the host; it does not modify the model. Call plotting methods outside JIT-compiled or differentiated functions. Numerical evaluation and automatic differentiation remain on the selected backend.
