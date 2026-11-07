@@ -256,3 +256,13 @@ surface.export("surface.stl", nu=80, nv=30)
 For multi-patch shells, use `nrb.export_stl(patches, "solid.stl", require_closed=True)`.
 See [geometry I/O](docs/source/geometry_io.md) for backend selection, sampling,
 closure checks, and the limits of STL precision and solid validation.
+
+
+Plot and export an exact NURBS torus and a sampled ruled-surface oloid:
+
+```bash
+python demos/demos_surfaces/demo_stl_printing.py --quality print
+```
+
+See the [printing walkthrough](docs/source/examples/stl_printing.md) for all
+sampling/export parameters, preview/fine presets, dimensions, and slicer units.

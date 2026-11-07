@@ -38,7 +38,7 @@ The aim is to improve the existing numerical library, make geometry construction
 | 7 | Add shared YAML geometry save/load | Extract and redesign | 5, 6 |
 | 8 | Provide a small surface-to-triangle adapter | Extract and redesign | None |
 | 9 | Delegate mesh processing and STL export | Replace experimental approach | 8 |
-| 10 | Provide a minimal native oloid/export example | Adapt experimental demo | 9 |
+| 10 | Provide plotted torus and oloid STL examples | Adapt experimental demo | 9 |
 | 11 | Establish efficient evaluation for interactive edits | New implementation | 5, 6 |
 | 12 | Build the optional interactive desktop interface | New implementation | 7, 8, 9, 11 |
 
@@ -196,9 +196,9 @@ curve = NurbsCurve(
 
 **Acceptance:** Independently reload exported files; check sampled geometry and topology on representative open patches, closed multi-patch solids, and problematic seams. Exercise scale/precision cases, missing optional dependencies, and either supported or explicitly rejected nested shells. Mesh export must work without any GUI or web server.
 
-## 10. Provide a minimal native oloid/export example
+## 10. Provide plotted torus and oloid STL examples
 
-**Status:** Planned. **Suggested commit:** `Add minimal ruled-surface oloid export demo`.
+**Status:** Complete. **Commit:** see `git log --grep="Add illustrated torus and oloid STL printing example"`. **Validation:** 36 example/export tests passed; preview, print, and fine files reloaded as closed volumes; plots rendered and inspected.
 
 **Purpose:** Demonstrate a practical construction-to-export workflow using native nurbspy geometry.
 
@@ -295,3 +295,14 @@ The dependency candidates above were checked against their official documentatio
   I/O/installation checks. One existing JAX mixed-dtype scatter warning remains.
 - Lock validation and final wheel build succeeded. No push was requested.
 - Items 10, 11, and 12 are not implemented by this batch.
+
+
+## Illustrated STL printing examples (7 November 2026)
+
+Item 10 now includes one standalone torus/oloid script with native plotting,
+reloaded-STL comparison panels, three quality presets, and a full parameter guide.
+The torus uses exact rational geometry; the sampled oloid explicitly separates
+boundary approximation from export sampling. All six preset/object exports were
+verified as closed volumes. Generated files live under ignored
+`output/stl_printing/`; the illustrated guide includes a committed comparison PNG.
+Items 11 and 12 remain outside the implemented scope.

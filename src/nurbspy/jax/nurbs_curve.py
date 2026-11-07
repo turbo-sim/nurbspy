@@ -277,7 +277,7 @@ class NurbsCurve(_GeometryYamlMixin, eqx.Module):
     Parameters
     ----------
     control_points : ndarray with shape (ndim, n+1) or sequence of Point
-            Numerical inputs remain coordinate-first; Point sequences are point-first.
+        Numerical inputs remain coordinate-first; Point sequences are point-first.
         Array containing the coordinates of the control points
         The first dimension of `P` spans the coordinates of the control points (any number of dimensions)
         The second dimension of `P` spans the u-direction control points (0,1,...,n)

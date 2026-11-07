@@ -103,3 +103,6 @@ with no tolerance-controlled geometric accuracy guarantee.
 The dependency-backed behavior was verified against Trimesh 5.2.0 and NetworkX
 3.7. See [Trimesh processing](https://trimesh.org/trimesh.html) and
 [its STL writer](https://trimesh.org/trimesh.exchange.stl.html).
+
+For complete plotted torus/oloid examples, presets, and parameter-selection
+guidance, see [the 3D-printing walkthrough](examples/stl_printing.md).

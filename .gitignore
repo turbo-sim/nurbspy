@@ -56,3 +56,5 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+# Generated STL printing examples and comparison plots
+/output/stl_printing/

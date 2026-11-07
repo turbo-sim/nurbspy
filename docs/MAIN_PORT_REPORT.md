@@ -84,3 +84,21 @@ require these dependencies rather than skipping when they are absent.
 Validation of the dependency-policy update: 43 export/installation tests passed;
 lockfile validation and wheel build passed; wheel metadata confirms unconditional
 Trimesh/NetworkX requirements and no mesh extra.
+
+
+## Illustrated 3D-printing example
+
+Added `demos/demos_surfaces/demo_stl_printing.py`, constructing an exact NURBS
+torus and two sampled ruled oloid patches. It exports solid STLs, reloads them
+for validation, plots native geometry beside actual STL triangles, and saves a
+comparison PNG. Preview/print/fine presets separate oloid boundary density from
+mesh sampling. The walkthrough explains all sampling/export controls, seam
+rounding, units, convergence, and slicer responsibilities.
+
+All six preset/object exports reloaded as closed positive volumes. The focused
+example/export suite passed 36 checks, including analytic torus geometry,
+periodicity, volume convergence, oloid contact geometry, and the headless CLI
+producing both STLs and a plot. A pre-existing JAX curve docstring indentation
+was corrected after strict documentation validation identified it.
+
+A clean strict Sphinx HTML build passed after the documentation correction.

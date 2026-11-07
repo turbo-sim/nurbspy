@@ -25,5 +25,6 @@ coons_patch
 curvature_continuity
 point_projection_curve
 point_projection_surface
+stl_printing
 
 ```
