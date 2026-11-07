@@ -6,7 +6,7 @@ error guarantee. Vertices on different patches are not welded here.
 import numpy as np
 
 
-__all__ = ["tessellate_surfaces"]
+__all__ = ["tessellate_surfaces", "export_stl"]
 
 
 def _parameter_grid(knots, degree, count, control_count):
@@ -114,3 +114,97 @@ class SurfaceMeshMixin:
     def tessellate(self, nu=80, nv=30):
         """Sample this surface as NumPy vertices/triangles; see tessellate_surfaces."""
         return tessellate_surfaces(self, nu=nu, nv=nv)
+
+    def export(self, path, *, nu=80, nv=30, require_closed=False, weld_tolerance=None):
+        """Write .stl through Trimesh; see export_stl for sampling/solid limits."""
+        return export_stl(self, path, nu=nu, nv=nv, require_closed=require_closed,
+                          weld_tolerance=weld_tolerance)
+
+
+def _mesh_library():
+    try:
+        import trimesh
+        import networkx  # Trimesh's winding repair uses this optional package.
+    except ImportError as error:
+        raise ImportError("STL export requires the mesh extra: pip install 'nurbspy[mesh]'") from error
+    return trimesh
+
+
+def export_stl(surfaces, path, nu=80, nv=30, *, require_closed=False, weld_tolerance=None):
+    """Export one or several surfaces using optional Trimesh processing/writing.
+
+    ``require_closed=True`` checks edge closure, winding, and positive volume
+    for ONE face-connected shell. Disconnected/nested shells are rejected in
+    this mode; cavity interpretation and self-intersection testing are outside
+    this exporter. No holes are filled. Open surface export is the default.
+
+    Seam merging uses Trimesh's decimal rounding on scale-normalized vertices.
+    ``weld_tolerance`` is an approximate absolute rounding scale, defaulting to
+    1e-10 times the largest extent. Compatible boundary samples are required;
+    it cannot stitch different parameterizations or repair arbitrary geometry.
+    STL coordinates are unitless float32. Precision collapse is rejected before
+    writing. Returns the output Path. This host operation is outside JIT.
+    """
+    from pathlib import Path
+    path = Path(path)
+    if path.suffix.lower() != ".stl":
+        raise ValueError("Only .stl export is supported; use to_yaml() for native geometry")
+    if not isinstance(require_closed, (bool, np.bool_)):
+        raise ValueError("require_closed must be a boolean")
+    trimesh = _mesh_library()
+    vertices, faces = tessellate_surfaces(surfaces, nu=nu, nv=nv)
+    extent = float(np.ptp(vertices, axis=0).max())
+    if not np.isfinite(extent) or extent <= 0:
+        raise ValueError("Combined surface extent must be finite and positive")
+    origin = vertices.min(axis=0)
+    if weld_tolerance is None:
+        relative_tolerance = 1e-10
+    else:
+        if isinstance(weld_tolerance, (bool, np.bool_)) or not np.isscalar(weld_tolerance):
+            raise ValueError("weld_tolerance must be a positive finite length")
+        try:
+            relative_tolerance = float(weld_tolerance) / extent
+        except (TypeError, ValueError, OverflowError) as error:
+            raise ValueError("weld_tolerance must be a positive finite length") from error
+    if not np.isfinite(relative_tolerance) or not 1e-15 <= relative_tolerance < 1:
+        raise ValueError("weld_tolerance must be between 1e-15 times the extent and the extent")
+    digits = int(np.ceil(-np.log10(relative_tolerance)))
+    mesh = trimesh.Trimesh(vertices=(vertices - origin) / extent, faces=faces, process=False)
+    mesh.merge_vertices(digits_vertex=digits)
+    mesh.update_faces(mesh.unique_faces())
+    mesh.update_faces(mesh.nondegenerate_faces(height=0))
+    mesh.remove_unreferenced_vertices()
+    if not len(mesh.faces):
+        raise ValueError("No triangles remain after mesh processing; reduce weld_tolerance")
+    if np.any(np.bincount(mesh.edges_unique_inverse) > 2):
+        raise ValueError("Mesh contains non-manifold edges; export patches separately or revise the geometry")
+    trimesh.repair.fix_winding(mesh)
+    if not mesh.is_winding_consistent:
+        raise ValueError("Mesh winding cannot be made consistent")
+    if require_closed:
+        if not mesh.is_watertight:
+            raise ValueError("Mesh is not closed; boundary samples must match and all openings must be covered")
+        labels = trimesh.graph.connected_component_labels(mesh.face_adjacency, node_count=len(mesh.faces))
+        if len(np.unique(labels)) != 1:
+            raise ValueError("Closed export supports one connected shell; disconnected or nested cavity shells are unsupported")
+        trimesh.repair.fix_normals(mesh, multibody=False)
+        if not mesh.is_volume:
+            raise ValueError("Mesh must enclose a finite positive volume")
+    positions = np.asarray(mesh.vertices) * extent + origin
+    if np.max(np.abs(positions)) > np.finfo(np.float32).max:
+        raise ValueError("Coordinates exceed STL float32 range; rescale the geometry")
+    encoded = positions.astype(np.float32)
+    if len(np.unique(encoded, axis=0)) != len(positions):
+        raise ValueError("STL float32 precision merges vertices; recenter/rescale or reduce sampling")
+    # Normalize encoded positions for a stable collapse check at tiny/large scales.
+    check = (encoded.astype(float) - origin) / extent
+    triangles = check[np.asarray(mesh.faces)]
+    normals = np.cross(triangles[:, 1] - triangles[:, 0], triangles[:, 2] - triangles[:, 0])
+    if np.any(np.linalg.norm(normals, axis=1) == 0):
+        raise ValueError("STL float32 precision collapses triangles; recenter/rescale the geometry")
+    encoded_mesh = trimesh.Trimesh(vertices=encoded.astype(float), faces=mesh.faces, process=False)
+    if not np.allclose(np.linalg.norm(encoded_mesh.face_normals, axis=1), 1.0):
+        raise ValueError("Coordinate scale prevents reliable mesh-library normals; rescale the geometry")
+    data = encoded_mesh.export(file_type="stl")
+    path.write_bytes(data)
+    return path

@@ -238,3 +238,20 @@ Individual locations also accept Point: circular-arc centers, bilinear-patch
 corners, and revolution-axis points. Direction vectors remain numerical arrays
 or sequences. The bilinear helper retains its historical argument order:
 `P00=S(0,0)`, `P01=S(1,0)`, `P10=S(0,1)`, and `P11=S(1,1)`.
+
+
+## Geometry files and STL export
+
+NumPy and JAX curves/surfaces share YAML persistence. Surface tessellation needs
+no mesh dependency; install `pip install "nurbspy[mesh]"` for optional STL export.
+
+```python
+curve.to_yaml("curve.yaml")
+restored = nrb.NurbsCurve.from_yaml("curve.yaml")
+vertices, faces = surface.tessellate(nu=80, nv=30)
+surface.export("surface.stl", nu=80, nv=30)
+```
+
+For multi-patch shells, use `nrb.export_stl(patches, "solid.stl", require_closed=True)`.
+See [geometry I/O](docs/source/geometry_io.md) for backend selection, sampling,
+closure checks, and the limits of STL precision and solid validation.

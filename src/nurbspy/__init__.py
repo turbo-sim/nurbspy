@@ -7,7 +7,7 @@ Existing root-level imports retain the NumPy implementation. Use
 # Preserve the historical exports, including shared graphics helpers.
 from .numpy import *
 from .graphics import *
-from .mesh import tessellate_surfaces
+from .mesh import tessellate_surfaces, export_stl
 
 from ._backward_compatibility import register_numpy_module_aliases as _register_numpy_module_aliases
 

@@ -36,3 +36,40 @@ The demo migration and this report are a separate final commit; locate it with g
 No browser server, desktop GUI, mesh exporter, or new runtime dependency was added. Roadmap items 7–12 remain pending. STL and desktop interaction will be handled in their own later steps. Tests and demo checks ran on the current Windows/Python 3.13 environment; this is not a claim of verification on every supported platform.
 
 Changes are committed locally on main and have not been pushed.
+
+
+## Subsequent geometry I/O batch
+
+Implemented sequentially on main, verifying each item before its commit:
+
+- **7: YAML save/load** (`0e1c3d4`): both backends and both geometry classes share
+  `to_yaml()` and classmethod `from_yaml()`. Coordinates, weights, degrees, full
+  knots, numeric dtypes, and complex arrays survive safe versioned YAML exchange.
+  Restoring chooses the calling class's backend and creates independent arrays.
+  Validation before commit: **154 passed**.
+- **8: Surface tessellation** (`9ef9bfe`): a small backend-independent adapter
+  returns NumPy vertices/triangles using actual knot domains and knot breaks.
+  NumPy/JAX surfaces share `tessellate()`. No mesh dependency is needed for
+  sampling. Validation before commit: **188 passed**.
+- **9: STL export** (locate with `git log --grep="Add optional mesh-library-backed STL export"`):
+  surfaces share `export("file.stl")`; root `export_stl()` supports patch collections.
+  Optional Trimesh/NetworkX support delegates mesh processing and binary writing.
+  Tests cover independent binary parsing/reloading, closed cubes and an oloid,
+  open patches, unmatched seams, non-manifold edges, float32 limits, and missing
+  dependencies. Validation included a full **738 passed / 6 skipped** regression
+  run with Numba and JAX required. A final tiny-scale normal guard was followed
+  by **121 passing** focused I/O/installation checks. The final export-only
+  run with Numba and JAX required also passed all **25 cases**.
+
+The final wheel builds; an isolated-process smoke test of YAML, tessellation,
+and STL directly from that wheel passed. Its dependency metadata includes the optional mesh
+extra. Poetry reports existing metadata-deprecation warnings. The regression
+suite reports a JAX mixed float32/float64 scatter FutureWarning; this work does
+not change the numerical basis implementation to address it.
+
+STL remains sampled and unitless. Closed export supports one connected shell;
+nested cavity shells and disconnected solids are explicitly rejected in that
+mode. No holes are filled, and self-intersections are not validated. Unresolvable
+float32 geometry or zero mesh-library normals fails before writing. YAML stores
+mathematical geometry, not convenience Bezier/B-spline labels or arbitrary Python
+state. Items 10?12 and all viewer work remain outside this batch. No push occurred.

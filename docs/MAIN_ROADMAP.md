@@ -164,7 +164,7 @@ curve = NurbsCurve(
 
 ## 8. Provide a small surface-to-triangle adapter
 
-**Status:** Complete. **Commit:** see `git log --grep="Add backend-neutral surface tessellation adapter"`. **Checks before commit:** 188 passed, covering knot-aware sampling, convergence, degenerate boundaries, NumPy/JAX connectivity, surface regressions, YAML, and installation.
+**Status:** Complete. **Commit:** `9ef9bfe`. **Checks before commit:** 188 passed, covering knot-aware sampling, convergence, degenerate boundaries, NumPy/JAX connectivity, surface regressions, YAML, and installation.
 
 **Purpose:** Supply common sampled geometry to desktop rendering and external mesh tools.
 
@@ -180,14 +180,14 @@ curve = NurbsCurve(
 
 ## 9. Delegate mesh processing and STL export
 
-**Status:** Planned. **Suggested commit:** `Add optional mesh-library-backed STL export`.
+**Status:** Complete. **Commit:** see `git log --grep="Add optional mesh-library-backed STL export"`. **Validation:** full suite 738 passed, 6 skipped; after the final normal-precision guard, 121 focused I/O/installation checks passed.
 
 **Purpose:** Offer useful export while reducing the burden of maintaining mesh algorithms and file-format code.
 
 **What and how:**
 
 - Keep a small nurbspy-facing export wrapper around the adapter from item 8.
-- Select one established optional mesh backend after a focused comparison: Trimesh for headless mesh processing/export, or PyVista/VTK if reuse with the planned desktop viewer provides sufficient capabilities. This dependency decision is pending; do not add both by default.
+- Selected optional Trimesh plus NetworkX for headless mesh processing and STL writing. NumPy and JAX surfaces share `export()`; `export_stl()` handles patch collections. No viewer dependency is added.
 - Delegate supported vertex merging, face cleanup, winding operations, and STL writing. Make repair policy explicit and avoid silent hole filling or other changes to the intended geometry.
 - Retain the relevant experimental tests as acceptance cases, rather than assuming an external library automatically meets every requirement.
 - Distinguish exporting an open surface from requesting a closed solid. Explain seam sampling limitations, welding tolerance, unitless STL coordinates, and float32 precision limits.
@@ -279,3 +279,19 @@ The dependency candidates above were checked against their official documentatio
 - Full regression suite with Numba and JAX required: 636 passed, 6 skipped.
 - The package-level minimal example also uses Point inputs and runs headlessly.
 - See [the executive report](MAIN_PORT_REPORT.md) for the scope and verification summary. No push was performed.
+
+
+## YAML, tessellation, and STL batch (7 November 2026)
+
+- Item 7: `to_yaml()` / `from_yaml()` shared across NumPy/JAX curves and surfaces,
+  with versioned safe YAML and explicit complex-array/dtype preservation.
+- Item 8: `surface.tessellate()` and `tessellate_surfaces()` return host arrays,
+  include knot breaks, and keep patch processing separate from export.
+- Item 9: `surface.export("file.stl")` and `export_stl(patches, "file.stl")`
+  delegate mesh processing/writing to the optional mesh extra.
+- YAML was committed after 154 checks passed; tessellation after 188 checks passed.
+- Export full regression: 738 passed, 6 skipped with Numba and JAX required.
+  The final small-scale normal guard was additionally covered by 121 focused
+  I/O/installation checks. One existing JAX mixed-dtype scatter warning remains.
+- Lock validation and final wheel build succeeded. No push was requested.
+- Items 10, 11, and 12 are not implemented by this batch.

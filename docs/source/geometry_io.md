@@ -59,3 +59,47 @@ Discontinuous interior knots are rejected; provide separate continuous patches.
 Sampling resolution controls an approximation, not an error tolerance or a
 watertightness guarantee. The operation transfers evaluated samples to the host
 and is outside JIT/autodiff. It does not require a viewer or mesh library.
+
+## STL export
+
+Install optional mesh support with `pip install "nurbspy[mesh]"`. Trimesh and
+NetworkX handle mesh processing and writing; ordinary geometry use and
+`tessellate()` do not import these packages.
+
+```python
+surface.export("surface.stl", nu=80, nv=30)
+
+# Export a collection of patches forming one closed shell:
+nrb.export_stl(patches, "solid.stl", nu=50, nv=50, require_closed=True)
+```
+
+NumPy and JAX surfaces share the same `export()` method. It returns the written
+`Path` and supports `.stl` files only. Curves have no surface area and cannot
+be exported as STL; use YAML to preserve their native geometry instead.
+
+The exporter normalizes coordinates for processing, delegates decimal-rounded
+seam merging, duplicate/degenerate-face cleanup, and winding repair to Trimesh,
+then writes a binary STL. `weld_tolerance` is an approximate absolute rounding
+scale; its default is $10^{-10}$ times the largest extent. It must be at least
+$10^{-15}$ times the extent and smaller than the extent. This rounding scale is
+not a guaranteed Euclidean merge radius. Boundary samples must match; different
+patch parameterizations are not automatically stitched. No openings are capped
+or holes filled.
+
+By default, open surfaces are permitted. `require_closed=True` additionally
+checks edge closure, consistent winding, positive volume, and a single connected
+shell. Disconnected solids and nested cavity shells are deliberately rejected
+in this mode; export separate solids separately. These checks do not prove
+absence of geometric self-intersections or general suitability for printing.
+
+STL has no units and stores float32 coordinates. Range overflow and precision
+collapse are rejected before the destination is written. Very small coordinate
+scales that the mesh library cannot resolve into unit normals are also rejected,
+rather than writing zero normals. Recenter or rescale
+geometry when coordinate offsets overwhelm feature sizes. Existing files are
+not replaced when geometry validation fails. Sampling remains an approximation,
+with no tolerance-controlled geometric accuracy guarantee.
+
+The dependency-backed behavior was verified against Trimesh 5.2.0 and NetworkX
+3.7. See [Trimesh processing](https://trimesh.org/trimesh.html) and
+[its STL writer](https://trimesh.org/trimesh.exchange.stl.html).

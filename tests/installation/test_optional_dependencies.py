@@ -29,8 +29,8 @@ def test_numpy_backend_without_usable_numba(numba_state):
 
             def find_spec(self, fullname, path=None, target=None):
                 '''Simulate unavailable optional dependencies in a fresh process.'''
-                if fullname == "jax":
-                    raise ModuleNotFoundError("No module named 'jax'", name="jax")
+                if fullname in ("jax", "trimesh", "networkx"):
+                    raise ModuleNotFoundError(f"No module named {fullname!r}", name=fullname)
                 if fullname == "numba":
                     if sys.argv[1] == "missing":
                         raise ModuleNotFoundError("No module named 'numba'", name="numba")
@@ -54,6 +54,8 @@ def test_numpy_backend_without_usable_numba(numba_state):
         assert "numba" not in sys.modules
         assert "jax" not in sys.modules
         assert "nurbspy.jax" not in sys.modules
+        assert "trimesh" not in sys.modules
+        assert "networkx" not in sys.modules
         assert not hasattr(nrb.compute_basis_polynomials, "py_func")
 
         knots = np.array([0., 0., 0., 1., 1., 1.])
@@ -74,6 +76,8 @@ def test_numpy_backend_without_usable_numba(numba_state):
         corners = np.array([[[0., 0.], [1., 1.]], [[0., 1.], [0., 1.]], [[0., 0.], [0., 0.]]])
         surface = nrb.NurbsSurface(control_points=corners)
         assert_allclose(surface.get_value(0.25, 0.75)[:, 0], [0.25, 0.75, 0.])
+        vertices, faces = surface.tessellate(3, 3)
+        assert vertices.shape == (9, 3) and faces.shape == (8, 3)
     """
     )
     result = subprocess.run(
