@@ -925,84 +925,37 @@ class NurbsCurve:
 
 
     def plot_frenet_serret(self, fig, ax, frame_number=5, frame_scale=0.10):
-
-        """ Plot some Frenet-Serret reference frames along the NURBS curve """
-
-        # Compute the tangent, normal and binormal unitary vectors
-        h = 1e-12
-        u = np.linspace(0+h, 1-h, frame_number)
+        """Plot defined frame vectors; omit undefined directions at singular points."""
+        if self.ndim not in (2, 3):
+            raise ValueError("Frenet-Serret frames require a two- or three-dimensional curve")
+        if not isinstance(frame_number, (int, np.integer)) or isinstance(frame_number, bool) or frame_number < 1:
+            raise ValueError("frame_number must be a positive integer")
+        if not np.isfinite(frame_scale):
+            raise ValueError("frame_scale must be finite")
+        scale = frame_scale * np.real(self.get_arclength(0, 1))
+        u = np.linspace(1e-12, 1 - 1e-12, frame_number)
         position = np.real(self.get_value(u))
-        tangent = np.real(self.get_tangent(u))
-        normal = np.real(self.get_normal(u))
-        binormal = np.real(self.get_binormal(u))
-
-        # Two dimensions (plane curve)
-        if self.ndim == 2:
-
-            # Plot the frames of reference
-            for k in range(frame_number):
-
-                # Plot the tangent vector
-                x, y = position[:, k]
-                u, v = tangent[:, k]
-                ax.quiver(x, y, u, v, color='red', scale=7.5)
-
-                # Plot the normal vector
-                x, y = position[:, k]
-                u, v = normal[:, k]
-                ax.quiver(x, y, u, v, color='blue', scale=7.5)
-
-            # Plot the origin of the vectors
-            x, y = position
-            points, = ax.plot(x, y)
-            points.set_linestyle(' ')
-            points.set_marker('o')
-            points.set_markersize(5)
-            points.set_markeredgewidth(1.25)
-            points.set_markeredgecolor('k')
-            points.set_markerfacecolor('w')
-            points.set_zorder(4)
-            # points.set_label(' ')
-
-        # Three dimensions (space curve)
-        elif self.ndim == 3:
-
-            # Compute a length scale (fraction of the curve arc length)
-            scale = frame_scale * self.get_arclength(0, 1)
-
-            # Plot the frames of reference
-            for k in range(frame_number):
-
-                # Plot the tangent vector
-                x, y, z = position[:, k]
-                u, v, w = tangent[:, k]
-                ax.quiver(x, y, z, u, v, w, color='red', length=scale, normalize=True)
-
-                # Plot the norma vector
-                x, y, z = position[:, k]
-                u, v, w = normal[:, k]
-                ax.quiver(x, y, z, u, v, w, color='blue', length=scale, normalize=True)
-
-                # Plot the binormal vector
-                x, y, z = position[:, k]
-                u, v, w = binormal[:, k]
-                ax.quiver(x, y, z, u, v, w, color='green', length=scale, normalize=True)
-
-            # Plot the origin of the vectors
-            x, y, z = position
-            points, = ax.plot(x, y, z)
-            points.set_linestyle(' ')
-            points.set_marker('o')
-            points.set_markersize(5)
-            points.set_markeredgewidth(1.25)
-            points.set_markeredgecolor('k')
-            points.set_markerfacecolor('w')
-            points.set_zorder(4)
-            # points.set_label(' ')
-
-
-        else: raise Exception('The number of dimensions must be 2 or 3')
-
+        # These directions are mathematically undefined at zero speed/curvature.
+        # Keep the numerical API unchanged and skip only the invalid plot arrows.
+        with np.errstate(divide='ignore', invalid='ignore'):
+            vectors = [np.real(self.get_tangent(u)), np.real(self.get_normal(u))]
+            if self.ndim == 3:
+                vectors.append(np.real(self.get_binormal(u)))
+        for k in range(frame_number):
+            if not np.all(np.isfinite(position[:, k])):
+                continue
+            for vector, color in zip(vectors, ('red', 'blue', 'green')):
+                direction = vector[:, k]
+                if not np.all(np.isfinite(direction)) or not np.any(direction) or scale == 0:
+                    continue
+                if self.ndim == 2:
+                    ax.quiver(*position[:, k], *(scale * direction), color=color,
+                              angles='xy', scale_units='xy', scale=1)
+                else:
+                    ax.quiver(*position[:, k], *direction, color=color, length=scale, normalize=True)
+        valid = np.all(np.isfinite(position), axis=0)
+        ax.plot(*position[:, valid], linestyle=' ', marker='o', markersize=5,
+                markeredgewidth=1.25, markeredgecolor='k', markerfacecolor='w', zorder=4)
         return fig, ax
 
 

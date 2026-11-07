@@ -951,124 +951,47 @@ class NurbsSurface:
 
 
     def plot_surface(self, fig, ax, color='blue', alpha=0.30, colorbar=False, Nu=50, Nv=50):
-
-        # Get the surface coordinates
-        u = np.linspace(0.00, 1.00, Nu)
-        v = np.linspace(0.00, 1.00, Nv)
-        [uu, vv] = np.meshgrid(u, v, indexing='ij')
-        u = uu.flatten()
-        v = vv.flatten()
-
-        if self.ndim == 1:
-
-            # Get the values
-            Z = np.real(self.get_value(u, v)).reshape((Nu, Nv))
-            u = u.reshape((Nu, Nv))
-            v = v.reshape((Nu, Nv))
-
-            # Plot the surface with a plain color
-            ax.plot_surface(u, v, Z,
-                            color=color,
-                            # edgecolor='blue',
-                            linewidth=0,
-                            alpha=alpha,
-                            shade=False,
-                            antialiased=True,
-                            zorder=0,
-                            ccount=Nv,
-                            rcount=Nu)
-
-
+        """Draw geometry, optionally coloured by mean or Gaussian curvature."""
+        for name, count in (('Nu', Nu), ('Nv', Nv)):
+            if not isinstance(count, (int, np.integer)) or isinstance(count, bool) or count < 2:
+                raise ValueError(f"{name} must be an integer of at least 2")
+        u, v = np.meshgrid(np.linspace(0, 1, Nu), np.linspace(0, 1, Nv), indexing='ij')
+        coordinates = np.real(self.get_value(u.ravel(), v.ravel())).reshape((self.ndim, Nu, Nv))
         if self.ndim == 2:
-
-            # Get the values
-            u = np.linspace(0, 1, Nu)
-            v = np.linspace(0, 1, Nv)
-
-            # Get the coordinates of the boundaries
-            x1, y1 = self.get_value(u, 0*u)
-            x2, y2 = self.get_value(1 + 0*v, v)
-            x3, y3 = self.get_value(u[::-1], 1 + 0*u)
-            x4, y4 = self.get_value(0 * v, v[::-1])
-            x = np.concatenate((x1, x2, x3, x4))
-            y = np.concatenate((y1, y2, y3, y4))
-
-            # Plot a filled polygon
-            ax.fill(x,y, color=color, alpha=alpha)
-
-        if self.ndim == 3:
-
-            # Get the coordinates
-            X, Y, Z = np.real(self.get_value(u, v)).reshape((3, Nu, Nv))
-
-            # Plot the surface
-            if color == 'mean_curvature':
-
-                # Define a colormap based on the curvature values
-                mean_curvature, _ = np.real(self.get_curvature(u, v))
-                curvature = np.reshape(mean_curvature, (Nu, Nv))
-                curvature_normalized = mpl.colors.Normalize(vmin=np.amin(curvature), vmax=np.amax(curvature))(curvature)
-                curvature_colormap = mpl.cm.viridis(curvature_normalized)
-
-                # Plot the surface with a curvature colormap
-                surf_handle = ax.plot_surface(X, Y, Z,
-                                              # color='blue',
-                                              # edgecolor='blue',
-                                              # cmap = 'viridis',
-                                              facecolors=curvature_colormap,
-                                              linewidth=0.75,
-                                              alpha=1,
-                                              shade=False,
-                                              antialiased=True,
-                                              zorder=2,
-                                              ccount=Nu,
-                                              rcount=Nv)
-                if colorbar:
-                    fig.set_size_inches(7, 5)
-                    surf_handle.set_clim(np.amin(curvature), np.amax(curvature))
-                    cbar = fig.colorbar(surf_handle, ax=ax, orientation='vertical', pad=0.15, fraction=0.03, aspect=20)
-                    cbar.set_label(color)
-
-            elif color == 'gaussian_curvature':
-
-                # Define a colormap based on the curvature values
-                _, gaussian_curvature= np.real(self.get_curvature(u, v))
-                curvature = np.reshape(gaussian_curvature, (Nu, Nv))
-                curvature_normalized = mpl.colors.Normalize(vmin=np.amin(curvature), vmax=np.amax(curvature))(curvature)
-                curvature_colormap = mpl.cm.viridis(curvature_normalized)
-
-                # Plot the surface with a curvature colormap
-                surf_handle = ax.plot_surface(X, Y, Z,
-                                              # color='blue',
-                                              # edgecolor='blue',
-                                              # cmap = 'viridis',
-                                              facecolors=curvature_colormap,
-                                              linewidth=0.75,
-                                              alpha=1,
-                                              shade=False,
-                                              antialiased=True,
-                                              zorder=2,
-                                              ccount=Nu,
-                                              rcount=Nv)
-                if colorbar:
-                    fig.set_size_inches(7, 5)
-                    surf_handle.set_clim(np.amin(curvature), np.amax(curvature))
-                    cbar = fig.colorbar(surf_handle, ax=ax, orientation='vertical', pad=0.15, fraction=0.03, aspect=20)
-                    cbar.set_label(color)
-
-            else:
-
-                # Plot the surface with a plain color
-                ax.plot_surface(X, Y, Z,
-                                color=color,
-                                # edgecolor='blue',
-                                linewidth=0,
-                                alpha=alpha,
-                                shade=False,
-                                antialiased=True,
-                                zorder=0,
-                                ccount=Nv,
-                                rcount=Nu)
+            # A planar patch is filled along its perimeter, not its control polygon.
+            x, y = coordinates
+            perimeter = lambda grid: np.concatenate((grid[:, 0], grid[-1, 1:], grid[-2::-1, -1], grid[0, -2:0:-1]))
+            ax.fill(perimeter(x), perimeter(y), color=color, alpha=alpha)
+            return
+        if self.ndim == 1:
+            X, Y, Z = u, v, coordinates[0]
+        elif self.ndim == 3:
+            X, Y, Z = coordinates
+        else:
+            raise ValueError("The number of dimensions must be 1, 2 or 3")
+        if isinstance(color, str) and color in ('mean_curvature', 'gaussian_curvature'):
+            if self.ndim != 3:
+                raise ValueError("Curvature colouring requires a three-dimensional surface")
+            curvatures = np.real(self.get_curvature(u.ravel(), v.ravel()))
+            curvature = curvatures[0 if color == 'mean_curvature' else 1].reshape((Nu, Nv))
+            finite = curvature[np.isfinite(curvature)]
+            if not finite.size:
+                raise ValueError("Curvature is undefined at all sampled points")
+            low, high = finite.min(), finite.max()
+            if low == high:
+                padding = max(1.0, abs(low)) * 1e-6
+                low, high = low - padding, high + padding
+            norm = mpl.colors.Normalize(vmin=low, vmax=high)
+            mapper = mpl.cm.ScalarMappable(norm=norm, cmap='viridis')
+            mapper.set_array(curvature)
+            ax.plot_surface(X, Y, Z, facecolors=mapper.to_rgba(curvature), linewidth=0.75,
+                            alpha=1, shade=False, antialiased=True, zorder=2, rcount=Nu, ccount=Nv)
+            if colorbar:
+                cbar = fig.colorbar(mapper, ax=ax, orientation='vertical', pad=0.15, fraction=0.03, aspect=20)
+                cbar.set_label(color.replace('_', ' '))
+        else:
+            ax.plot_surface(X, Y, Z, color=color, linewidth=0, alpha=alpha, shade=False,
+                            antialiased=True, zorder=0, rcount=Nu, ccount=Nv)
 
 
     def plot_boundary(self, fig, ax, color='black', linewidth=1.00, linestyle='-',
@@ -1161,25 +1084,31 @@ class NurbsSurface:
 
 
     def plot_normals(self, fig, ax, number_u=10, number_v=10, scale=0.075):
-
-        """ Plot the normal vectors """
-
-        # Compute the surface coordinates and normal vectors
-        h = 1e-6 # Add a small offset to avoid poles at the extremes [0, 1]
-        u = np.linspace(0.00+h, 1.00-h, number_u)
-        v = np.linspace(0.00+h, 1.00-h, number_v)
-        [u, v] = np.meshgrid(u, v, indexing='xy')
-        u = u.flatten()
-        v = v.flatten()
+        """Plot normals with a length proportional to the surface dimensions."""
+        if self.ndim != 3:
+            raise ValueError("Normal vectors require a three-dimensional surface")
+        if not np.isfinite(scale):
+            raise ValueError("scale must be finite")
+        for name, count in (('number_u', number_u), ('number_v', number_v)):
+            if not isinstance(count, (int, np.integer)) or isinstance(count, bool) or count < 1:
+                raise ValueError(f"{name} must be a positive integer")
+        u, v = np.meshgrid(np.linspace(1e-6, 1-1e-6, number_u),
+                           np.linspace(1e-6, 1-1e-6, number_v), indexing='ij')
+        u, v = u.ravel(), v.ravel()
         S = np.real(self.get_value(u, v))
-        N = np.real(self.get_normals(u, v))
-
-        # Scale the normal vectors and plot them
-        Lu = self.get_isocurve_u(u0=0.50).get_arclength()
-        Lv = self.get_isocurve_v(v0=0.50).get_arclength()
-        length_scale = scale*np.real(np.amax([Lu, Lv]))
-        N = length_scale * N
-        ax.quiver(S[0, :], S[1, :], S[2, :], N[0, :], N[1, :], N[2, :], color='black', length=np.abs(scale), normalize=True)
+        tangent_u = np.real(self.get_derivative(u, v, 1, 0))
+        tangent_v = np.real(self.get_derivative(u, v, 0, 1))
+        N = np.cross(tangent_u, tangent_v, axis=0)
+        magnitude = np.linalg.norm(N, axis=0)
+        valid = (magnitude > 0) & np.isfinite(magnitude) & np.all(np.isfinite(S), axis=0)
+        if not valid.any() or scale == 0:
+            return
+        Lu = self.get_isocurve_u(u0=0.5).get_arclength()
+        Lv = self.get_isocurve_v(v0=0.5).get_arclength()
+        length = scale * np.real(np.max([Lu, Lv]))
+        N = N[:, valid] / magnitude[valid] * length
+        S = S[:, valid]
+        ax.quiver(*S, *N, color='black', length=1, normalize=False)
 
 
     def rescale_plot(self, fig, ax):

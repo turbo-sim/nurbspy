@@ -77,7 +77,7 @@ The order goes from small repairs to larger API additions and interaction work. 
 
 ## 3. Correct diagnostic plots
 
-**Status:** Planned. **Suggested commit:** `Fix curvature and differential-geometry plots`.
+**Status:** Complete. **Validation:** 51 graphics and diagnostic-plot tests passed across NumPy and JAX. **Suggested commit:** `Fix curvature and differential-geometry plots`.
 
 **Purpose:** Ensure plots of geometric quantities are meaningful and stable on ordinary and degenerate cases.
 

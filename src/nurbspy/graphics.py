@@ -469,4 +469,3 @@ def _prepare_plot_axes(fig=None, ax=None, projection=None):
     if fig is None:
         fig = plt.figure(figsize=(6, 5))
     return fig, fig.add_subplot(111, projection=projection)
-
