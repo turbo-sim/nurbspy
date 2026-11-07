@@ -99,10 +99,11 @@ print("Minimum-bending-energy interpolation: building a feasible initial curve..
 # `optimization_examples.md`, which trades off bending energy against arc
 # length for this reason).
 # -------------------------------------------------------------------------------------------------------------------- #
-Q = np.array([
-    [0.0, 1.0, 2.0, 3.0, 4.0, 5.0],
-    [0.0, 2.0, -1.0, 2.0, -1.0, 1.5],
-])
+prescribed_points = [
+    nrb.Point(0.0, 0.0), nrb.Point(1.0, 2.0), nrb.Point(2.0, -1.0),
+    nrb.Point(3.0, 2.0), nrb.Point(4.0, -1.0), nrb.Point(5.0, 1.5),
+]
+Q = np.column_stack(prescribed_points)  # Arrays for the interpolation algebra.
 m = Q.shape[1]
 degree = 3
 n_control = m + 1
@@ -191,7 +192,7 @@ def constraints_jac_np(x):
 # a preliminary bending-energy optimization. Both the initial and final
 # curves therefore satisfy the same prescribed-point requirements.
 # -------------------------------------------------------------------------------------------------------------------- #
-dummy_curve = nrb.NurbsCurve(control_points=jnp.zeros((ndim, n_control)), degree=degree)
+dummy_curve = nrb.NurbsCurve([nrb.Point(0., 0.) for _ in range(n_control)], degree=degree)
 N_data = np.asarray(compute_basis_polynomials(n_control - 1, degree, dummy_curve.U, u_data))
 Q_np = np.asarray(Q)
 coefficients, _, rank, _ = np.linalg.lstsq(N_data.T, Q_np.T, rcond=None)

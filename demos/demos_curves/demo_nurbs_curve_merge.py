@@ -17,22 +17,23 @@ import matplotlib.pyplot as plt
 # -------------------------------------------------------------------------------------------------------------------- #
 # Create the first NURBS curve
 # -------------------------------------------------------------------------------------------------------------------- #
-# Define the array of control points
-P = np.zeros((2,8))
-P[:, 0] = [0.00, 0.00]
-P[:, 1] = [0.10, 0.50]
-P[:, 2] = [0.20, -0.50]
-P[:, 3] = [0.30, 0.00]
-P[:, 4] = [0.40, 0.10]
-P[:, 5] = [0.50, 0.20]
-P[:, 6] = [0.60, 0.30]
-P[:, 7] = [0.75, 0.00]
+# Define the control points
+P = [
+    nrb.Point(0.0, 0.0),
+    nrb.Point(0.1, 0.5),
+    nrb.Point(0.2, -0.5),
+    nrb.Point(0.3, 0.0),
+    nrb.Point(0.4, 0.1),
+    nrb.Point(0.5, 0.2),
+    nrb.Point(0.6, 0.3),
+    nrb.Point(0.75, 0.0),
+]
 
 # Define the array of control weights
 W = np.asarray([1, 1, 1, 1, 2, 2, 2, 2])
 
 # Highest index of the control points (counting from zero)
-n = np.shape(P)[1] - 1
+n = len(P) - 1
 
 # Define the order of the basis polynomials
 p = 3
@@ -48,18 +49,19 @@ nurbs1 = nrb.NurbsCurve(control_points=P, weights=W, degree=p, knots=U)
 # -------------------------------------------------------------------------------------------------------------------- #
 # Create the second NURBS curve
 # -------------------------------------------------------------------------------------------------------------------- #
-# Define the array of control points
-P = np.zeros((2,4))
-P[:, 0] = [0.75, 0.00]
-P[:, 1] = [1.00, 0.50]
-P[:, 2] = [1.25, -0.50]
-P[:, 3] = [1.50, 0.00]
+# Define the control points
+P = [
+    nrb.Point(0.75, 0.0),
+    nrb.Point(1.0, 0.5),
+    nrb.Point(1.25, -0.5),
+    nrb.Point(1.5, 0.0),
+]
 
 # Define the array of control weights
 W = np.asarray([5, 2, 2, 4])
 
 # Highest index of the control points (counting from zero)
-n = np.shape(P)[1] - 1
+n = len(P) - 1
 
 # Define the order of the basis polynomials
 p = 3
@@ -75,19 +77,20 @@ nurbs2 = nrb.NurbsCurve(control_points=P, weights=W, degree=p, knots=U)
 # -------------------------------------------------------------------------------------------------------------------- #
 # Create the third NURBS curve
 # -------------------------------------------------------------------------------------------------------------------- #
-# Define the array of control points
-P = np.zeros((2,5))
-P[:, 0] = [1.50, 0.00]
-P[:, 1] = [2.00, 0.50]
-P[:, 2] = [1.50, 0.75]
-P[:, 3] = [1.00, 0.60]
-P[:, 4] = [0.50, 0.30]
+# Define the control points
+P = [
+    nrb.Point(1.5, 0.0),
+    nrb.Point(2.0, 0.5),
+    nrb.Point(1.5, 0.75),
+    nrb.Point(1.0, 0.6),
+    nrb.Point(0.5, 0.3),
+]
 
 # Define the array of control weights
 W = np.asarray([1, 1, 1, 1, 1])
 
 # Highest index of the control points (counting from zero)
-n = np.shape(P)[1] - 1
+n = len(P) - 1
 
 # Define the order of the basis polynomials
 p = 3

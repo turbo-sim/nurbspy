@@ -14,12 +14,13 @@ import matplotlib.pyplot as plt
 # Extruded surface example:
 # -------------------------------------------------------------------------------------------------------------------- #
 # Define the base NURBS curve (rational Bézier curve)
-P = np.zeros((3, 5))
-P[:, 0] = [0.00, 0.00, 0.00]
-P[:, 1] = [0.50, 0.80, 0.00]
-P[:, 2] = [0.75, 0.60, 0.00]
-P[:, 3] = [1.00, 0.30, 0.00]
-P[:, 4] = [0.80, 0.10, 0.00]
+P = [
+    nrb.Point(0.0, 0.0, 0.0),
+    nrb.Point(0.5, 0.8, 0.0),
+    nrb.Point(0.75, 0.6, 0.0),
+    nrb.Point(1.0, 0.3, 0.0),
+    nrb.Point(0.8, 0.1, 0.0),
+]
 W = np.asarray([1, 1, 1, 1, 1])
 nurbsCurve = nrb.NurbsCurve(control_points=P, weights=W)
 
@@ -47,7 +48,7 @@ nurbsCurve.plot_curve(fig, ax, color='b', linewidth=2.5)
 # -------------------------------------------------------------------------------------------------------------------- #
 
 # Define a circular arc
-O = np.asarray([0.00, 0.00, 0.00])      # Circle center
+O = nrb.Point(0.0, 0.0, 0.0)
 X = np.asarray([1.00, 0.00, 0.00])      # Abscissa direction
 Y = np.asarray([0.00, 1.00, 0.00])      # Ordinate direction
 R = 0.5                                 # Circle radius
@@ -76,5 +77,3 @@ nurbsCurve.plot_curve(fig, ax, color='b', linewidth=2.5)
 
 # Show the figure
 plt.show()
-
-

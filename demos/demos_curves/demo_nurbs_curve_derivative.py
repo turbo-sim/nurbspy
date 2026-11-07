@@ -13,16 +13,17 @@ import matplotlib.pyplot as plt
 # -------------------------------------------------------------------------------------------------------------------- #
 # 3D NURBS curve example
 # -------------------------------------------------------------------------------------------------------------------- #
-# Define the array of control points
-P = np.zeros((3, 5))
-P[:, 0] = [0.00, 0.00, 0.00]
-P[:, 1] = [0.00, 0.30, 0.05]
-P[:, 2] = [0.25, 0.30, 0.30]
-P[:, 3] = [0.50, 0.30, -0.05]
-P[:, 4] = [0.50, 0.10, 0.10]
+# Define the control points
+P = [
+    nrb.Point(0.0, 0.0, 0.0),
+    nrb.Point(0.0, 0.3, 0.05),
+    nrb.Point(0.25, 0.3, 0.3),
+    nrb.Point(0.5, 0.3, -0.05),
+    nrb.Point(0.5, 0.1, 0.1),
+]
 
 # Maximum index of the control points (counting from zero)
-n = np.shape(P)[1] - 1
+n = len(P) - 1
 
 # Define the array of control point weights
 W = np.asarray([1, 1, 3, 1, 1])
@@ -63,4 +64,3 @@ print('The two-norm of the second derivative error is  :  ', np.sum((ddC_fd - dd
 print('The two-norm of the third derivative error is   :  ', np.sum((dddC_fd - dddC_exact) ** 2) ** (1 / 2) / len(u))
 
 plt.show()
-

@@ -15,38 +15,42 @@ import matplotlib.pyplot as plt
 # -------------------------------------------------------------------------------------------------------------------- #
 
 # Define the south boundary (rational Bézier curve)
-P = np.zeros((3, 4))
-P[:, 0] = [0.00, 0.00, 0.00]
-P[:, 1] = [0.33, 0.00, -0.40]
-P[:, 2] = [0.66, 0.10, 0.60]
-P[:, 3] = [1.00, 0.20, 0.40]
+P = [
+    nrb.Point(0.0, 0.0, 0.0),
+    nrb.Point(0.33, 0.0, -0.4),
+    nrb.Point(0.66, 0.1, 0.6),
+    nrb.Point(1.0, 0.2, 0.4),
+]
 W = np.asarray([1, 2, 2, 1])
 nurbsCurve_south = nrb.NurbsCurve(control_points=P, weights=W)
 
 # Define the north boundary (rational Bézier curve)
-P = np.zeros((3, 4))
-P[:, 0] = [0.05, 1.00, 0.00]
-P[:, 1] = [0.33, 1.15, 0.40]
-P[:, 2] = [0.66, 1.15, 0.00]
-P[:, 3] = [1.05, 1.25, 0.40]
+P = [
+    nrb.Point(0.05, 1.0, 0.0),
+    nrb.Point(0.33, 1.15, 0.4),
+    nrb.Point(0.66, 1.15, 0.0),
+    nrb.Point(1.05, 1.25, 0.4),
+]
 W = np.asarray([1, 2, 2, 1])
 nurbsCurve_north = nrb.NurbsCurve(control_points=P, weights=W)
 
 
 # Define the west boundary (rational Bézier curve)
-P = np.zeros((3, 3))
-P[:, 0] = nurbsCurve_south.P[:, 0]
-P[:, 1] = [-0.20, 0.50, -0.40]
-P[:, 2] = nurbsCurve_north.P[:, 0]
+P = [
+    nrb.Point(*nurbsCurve_south.P[:, 0]),
+    nrb.Point(-0.2, 0.5, -0.4),
+    nrb.Point(*nurbsCurve_north.P[:, 0]),
+]
 W = np.asarray([nurbsCurve_south.W[0], 1, nurbsCurve_north.W[0]])
 nurbsCurve_west = nrb.NurbsCurve(control_points=P, weights=W)
 
 
 # Define the east boundary (rational Bézier curve)
-P = np.zeros((3, 3))
-P[:, 0] = nurbsCurve_south.P[:, -1]
-P[:, 1] = [1.15, 0.50, 0.30]
-P[:, 2] = nurbsCurve_north.P[:, -1]
+P = [
+    nrb.Point(*nurbsCurve_south.P[:, -1]),
+    nrb.Point(1.15, 0.5, 0.3),
+    nrb.Point(*nurbsCurve_north.P[:, -1]),
+]
 W = np.asarray([nurbsCurve_south.W[-1], 1, nurbsCurve_north.W[-1]])
 nurbsCurve_east = nrb.NurbsCurve(control_points=P, weights=W)
 
@@ -67,6 +71,3 @@ nurbsCurve_north.plot_curve(fig, ax, color='b', linewidth=2.5)
 nurbsCurve_west.plot_curve(fig, ax, color='b', linewidth=2.5)
 nurbsCurve_east.plot_curve(fig, ax, color='b', linewidth=2.5)
 plt.show()
-
-
-

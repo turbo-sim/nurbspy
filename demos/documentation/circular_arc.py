@@ -5,8 +5,11 @@ import nurbspy as nrb
 
 nrb.set_plot_options()
 
-P = np.array([[1., 1., 0.],
-              [0., 1., 1.]])
+P = [
+    nrb.Point(1.0, 0.0),
+    nrb.Point(1.0, 1.0),
+    nrb.Point(0.0, 1.0),
+]
 W = np.array([1., 1 / np.sqrt(2), 1.])
 # Without a degree or knot vector, these inputs define rational Bezier.
 arc = nrb.NurbsCurve(control_points=P, weights=W)

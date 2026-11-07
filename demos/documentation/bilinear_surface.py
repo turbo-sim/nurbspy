@@ -7,10 +7,10 @@ nrb.set_plot_options()
 
 # This helper names its corners P00, P01, P10, P11 in this order:
 # (u,v) = (0,0), (1,0), (0,1), (1,1).
-P00 = np.array([0., 0., 0.])
-P01 = np.array([2., 0., 0.3])
-P10 = np.array([0., 2., 0.5])
-P11 = np.array([2., 2., 1.5])
+P00 = nrb.Point(0., 0., 0.)
+P01 = nrb.Point(2., 0., 0.3)
+P10 = nrb.Point(0., 2., 0.5)
+P11 = nrb.Point(2., 2., 1.5)
 surface = nrb.NurbsSurfaceBilinear(P00, P01, P10, P11).NurbsSurface
 
 u = np.array([0., 1., 0., 1.])

@@ -74,12 +74,13 @@ jax.config.update("jax_enable_x64", True)
 # -------------------------------------------------------------------------------------------------------------------- #
 # Generate a synthetic target point cloud from a hidden "ground truth" curve
 # -------------------------------------------------------------------------------------------------------------------- #
-P_true = jnp.array([
-    [0.00, 0.30, 0.70, 1.00, 1.30],
-    [0.00, 0.80, -0.30, 0.80, 0.00],
-])
+points_true = [
+    nrb.Point(0.00, 0.00), nrb.Point(0.30, 0.80), nrb.Point(0.70, -0.30),
+    nrb.Point(1.00, 0.80), nrb.Point(1.30, 0.00),
+]
 degree = 3
-true_curve = nrb.NurbsCurve(control_points=P_true, degree=degree)
+true_curve = nrb.NurbsCurve(control_points=points_true, degree=degree)
+P_true = true_curve.P  # Numerical arrays for perturbation and optimization.
 
 n_points = 16
 u_sample = jnp.linspace(0.04, 0.96, n_points)

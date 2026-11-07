@@ -13,13 +13,14 @@ import matplotlib.pyplot as plt
 # -------------------------------------------------------------------------------------------------------------------- #
 # 2D Bezier curve example
 # -------------------------------------------------------------------------------------------------------------------- #
-# Define the array of control points
-P = np.zeros((2,5))
-P[:, 0] = [0.20, 0.50]
-P[:, 1] = [0.40, 0.70]
-P[:, 2] = [0.80, 0.60]
-P[:, 3] = [0.60, 0.20]
-P[:, 4] = [0.40, 0.20]
+# Define the control points
+P = [
+    nrb.Point(0.2, 0.5),
+    nrb.Point(0.4, 0.7),
+    nrb.Point(0.8, 0.6),
+    nrb.Point(0.6, 0.2),
+    nrb.Point(0.4, 0.2),
+]
 
 # Create and plot the Bezier curve
 bezier2D = nrb.NurbsCurve(control_points=P)
@@ -29,18 +30,16 @@ bezier2D.plot(frenet_serret=False)
 # -------------------------------------------------------------------------------------------------------------------- #
 # 3D Bezier curve example
 # -------------------------------------------------------------------------------------------------------------------- #
-# Define the array of control points
-P = np.zeros((3,5))
-P[:, 0] = [0.00, 0.00, 0.00]
-P[:, 1] = [0.00, 0.30, 0.05]
-P[:, 2] = [0.25, 0.30, 0.30]
-P[:, 3] = [0.50, 0.30, -0.05]
-P[:, 4] = [0.50, 0.10, 0.10]
+# Define the control points
+P = [
+    nrb.Point(0.0, 0.0, 0.0),
+    nrb.Point(0.0, 0.3, 0.05),
+    nrb.Point(0.25, 0.3, 0.3),
+    nrb.Point(0.5, 0.3, -0.05),
+    nrb.Point(0.5, 0.1, 0.1),
+]
 
 # Create and plot the Bezier curve
 bezier3D = nrb.NurbsCurve(control_points=P)
 bezier3D.plot(frenet_serret=True)
 plt.show()
-
-
-

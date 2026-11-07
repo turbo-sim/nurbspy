@@ -37,7 +37,8 @@ def compute_intersection_control_point(x0, y0, x2, y2, theta_0, theta_2):
 
 def create_bezier_with_endpoint_radius(P, R):
     """Quadratic rational Bezier curve with prescribed radius of curvature at u=1."""
-    D20, D21 = P[:, 2] - P[:, 0], P[:, 2] - P[:, 1]
+    D20 = np.asarray(P[2]) - np.asarray(P[0])
+    D21 = np.asarray(P[2]) - np.asarray(P[1])
     w1 = np.sqrt(0.5 * R * abs(cross2d(D20, D21)) / np.linalg.norm(D21) ** 3)
     return nrb.NurbsCurve(control_points=P, weights=np.asarray([1.0, w1, 1.0]))
 
@@ -61,7 +62,7 @@ theta = np.radians([90.0, 25.0, 0.0, -15.0, 90.0])
 
 middle = [compute_intersection_control_point(x[i], y[i], x[i + 1], y[i + 1], theta[i], theta[i + 1])
           for i in range(4)]
-control_polygons = [np.asarray([[x[i], mx, x[i + 1]], [y[i], my, y[i + 1]]])
+control_polygons = [[nrb.Point(x[i], y[i]), nrb.Point(mx, my), nrb.Point(x[i + 1], y[i + 1])]
                      for i, (mx, my) in enumerate(middle)]
 P_a, P_b, P_c, P_d = control_polygons
 

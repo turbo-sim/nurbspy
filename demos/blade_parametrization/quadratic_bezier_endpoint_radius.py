@@ -43,7 +43,7 @@ def compute_intersection_control_point(x0, y0, x2, y2, theta_0, theta_2):
 def build_control_points(x0, y0, x2, y2, theta_0, theta_2):
     """Build the quadratic Bezier control points P0, P1, P2."""
     x1, y1 = compute_intersection_control_point(x0, y0, x2, y2, theta_0, theta_2)
-    return np.asarray([[x0, x1, x2], [y0, y1, y2]])
+    return [nrb.Point(x0, y0), nrb.Point(x1, y1), nrb.Point(x2, y2)]
 
 
 def compute_middle_weight_for_endpoint_radius(P, R):
@@ -51,16 +51,16 @@ def compute_middle_weight_for_endpoint_radius(P, R):
     Compute the middle weight w1 for a quadratic rational Bezier curve with
     weights [1, w1, 1] so that the radius of curvature at u=1 equals R.
     """
-    D20 = P[:, 2] - P[:, 0]  # P2 - P0
-    D21 = P[:, 2] - P[:, 1]  # P2 - P1
+    D20 = np.asarray(P[2]) - np.asarray(P[0])  # P2 - P0
+    D21 = np.asarray(P[2]) - np.asarray(P[1])  # P2 - P1
     return np.sqrt(0.5 * R * abs(cross2d(D20, D21)) / np.linalg.norm(D21) ** 3)
 
 
 def compute_endpoint_curvature(P, W):
     """Analytic curvature at u=1 for a quadratic (degree n=2) rational Bezier curve."""
     n = 2
-    D20 = P[:, 2] - P[:, 0]  # P2 - P0
-    D21 = P[:, 2] - P[:, 1]  # P2 - P1
+    D20 = np.asarray(P[2]) - np.asarray(P[0])  # P2 - P0
+    D21 = np.asarray(P[2]) - np.asarray(P[1])  # P2 - P1
     return (n - 1) / n * (W[2] * W[0]) / W[1] ** 2 * abs(cross2d(D20, D21)) / np.linalg.norm(D21) ** 3
 
 
@@ -82,7 +82,7 @@ P = build_control_points(x0, y0, x2, y2, theta_0, theta_2)
 u = np.linspace(0.0, 1.0, 400)
 
 fig, ax = plt.subplots(figsize=(6, 5), layout="constrained")
-ax.plot(P[0, :], P[1, :], "k--", marker="o", label="Control polygon")
+ax.plot([p.x for p in P], [p.y for p in P], "k--", marker="o", label="Control polygon")
 for R, color in zip(target_radii, nrb.COLORS_MATLAB):
     bezier, W = create_bezier_with_endpoint_radius(P, R)
     C = bezier.get_value(u)

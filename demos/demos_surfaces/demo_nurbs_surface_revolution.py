@@ -14,13 +14,14 @@ import matplotlib.pyplot as plt
 # Revolution surface example
 # -------------------------------------------------------------------------------------------------------------------- #
 
-# Define the array of control points
-P = np.zeros((3,5))
-P[:, 0] = [0.20, 0.00, 0.00]
-P[:, 1] = [0.50, 0.00, 0.25]
-P[:, 2] = [0.55, 0.00, 0.50]
-P[:, 3] = [0.45, 0.00, 0.75]
-P[:, 4] = [0.30, 0.00, 1.00]
+# Define the control points
+P = [
+    nrb.Point(0.2, 0.0, 0.0),
+    nrb.Point(0.5, 0.0, 0.25),
+    nrb.Point(0.55, 0.0, 0.5),
+    nrb.Point(0.45, 0.0, 0.75),
+    nrb.Point(0.3, 0.0, 1.0),
+]
 
 # Define the array of control point weights
 W = np.asarray([1, 2, 3, 2 ,1])
@@ -29,7 +30,7 @@ W = np.asarray([1, 2, 3, 2 ,1])
 nurbsGeneratrix = nrb.NurbsCurve(control_points=P, weights=W)
 
 # Set the a point to define the axis of revolution
-axis_point = np.asarray([0.0, 0.0, 0.0])
+axis_point = nrb.Point(0.0, 0.0, 0.0)
 
 # Set a direction to define the axis of revolution (needs not be unitary)
 axis_direction = np.asarray([0.2, -0.2, 1.0])
@@ -48,7 +49,7 @@ nurbsRevolutionSurface.plot(surface=True, control_points=True, boundary=True, no
 # -------------------------------------------------------------------------------------------------------------------- #
 
 # Create the generatrix NURBS curve
-O = np.asarray([0.00, 0.00, 0.00])    # Circle center
+O = nrb.Point(0.0, 0.0, 0.0)
 X = np.asarray([1.00, 0.00, 0.00])   # Abscissa direction (negative to see normals pointing outwards)
 Y = np.asarray([0.00, 0.00, 1.00])    # Ordinate direction
 R = 0.5
@@ -56,7 +57,7 @@ theta_start, theta_end = np.pi/2, 3/2*np.pi
 nurbsGeneratrix = nrb.CircularArc(O, X, Y, R, theta_start, theta_end).NurbsCurve
 
 # Set the a point to define the axis of revolution
-axis_point = np.asarray([0.0, 0.0, 0.0])
+axis_point = nrb.Point(0.0, 0.0, 0.0)
 
 # Set a direction to define the axis of revolution (needs not be unitary)
 axis_direction = np.asarray([0.0, 0.0, 1.0])
@@ -90,7 +91,7 @@ print('The two-norm error of the gaussian curvature computation is  :  ', error_
 # -------------------------------------------------------------------------------------------------------------------- #
 
 # Create the generatrix NURBS curve
-O = np.asarray([1.00, 0.00, 0.00])    # Circle center
+O = nrb.Point(1.0, 0.0, 0.0)
 X = np.asarray([1.00, 0.00, 0.00])    # Abscissa direction
 Y = np.asarray([0.00, 0.00, 1.00])    # Ordinate direction
 R = 0.5
@@ -98,7 +99,7 @@ theta_start, theta_end = 0, 2*np.pi
 nurbsGeneratrix = nrb.CircularArc(O, X, Y, R, theta_start, theta_end).NurbsCurve
 
 # Set the a point to define the axis of revolution
-axis_point = np.asarray([0.0, 0.0, 0.0])
+axis_point = nrb.Point(0.0, 0.0, 0.0)
 
 # Set a direction to define the axis of revolution (needs not be unitary)
 axis_direction = np.asarray([0.0, 0.0, 1.0])
@@ -113,6 +114,3 @@ nurbsRevolutionSurface.plot(surface=True, surface_color='gaussian_curvature', co
 
 # Show the figures
 plt.show()
-
-
-

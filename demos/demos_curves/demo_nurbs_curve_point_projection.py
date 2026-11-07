@@ -13,13 +13,14 @@ import matplotlib.pyplot as plt
 # -------------------------------------------------------------------------------------------------------------------- #
 # 2D NURBS curve example
 # -------------------------------------------------------------------------------------------------------------------- #
-# Define the array of control points
-P = np.zeros((2,5))
-P[:, 0] = [0.20, 0.50]
-P[:, 1] = [0.40, 0.70]
-P[:, 2] = [0.80, 0.60]
-P[:, 3] = [0.60, 0.20]
-P[:, 4] = [0.40, 0.20]
+# Define the control points
+P = [
+    nrb.Point(0.2, 0.5),
+    nrb.Point(0.4, 0.7),
+    nrb.Point(0.8, 0.6),
+    nrb.Point(0.6, 0.2),
+    nrb.Point(0.4, 0.2),
+]
 
 # Create the NURBS curve
 nurbs2D = nrb.NurbsCurve(control_points=P, degree=3)
@@ -37,4 +38,3 @@ Px, Py = P0.flatten()
 Cx, Cy = C0.flatten()
 ax.plot([Px, Cx], [Py, Cy], color='black', linestyle='--', marker='o', markeredgecolor='b', markerfacecolor='w')
 plt.show()
-

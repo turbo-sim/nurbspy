@@ -15,10 +15,10 @@ import matplotlib.pyplot as plt
 # -------------------------------------------------------------------------------------------------------------------- #
 
 # Set the bilinear surface defining points
-P00 = np.asarray([0.00, 0.00, 0.00])
-P01 = np.asarray([2.00, 0.50, 0.00])
-P10 = np.asarray([0.20, 1.00, 0.00])
-P11 = np.asarray([1.80, 1.50, 0.00])
+P00 = nrb.Point(0.00, 0.00, 0.00)
+P01 = nrb.Point(2.00, 0.50, 0.00)
+P10 = nrb.Point(0.20, 1.00, 0.00)
+P11 = nrb.Point(1.80, 1.50, 0.00)
 
 # Create and plot the NURBS surface
 bilinearNurbsSurface = nrb.NurbsSurfaceBilinear(P00, P01, P10, P11).NurbsSurface
@@ -34,10 +34,10 @@ bilinearNurbsSurface.plot_isocurve_v(fig, ax, np.linspace(0, 1, 5))
 # -------------------------------------------------------------------------------------------------------------------- #
 
 # Set the bilinear surface defining points
-P00 = np.asarray([0.00, 0.00, 0.00])
-P01 = np.asarray([1.00, 0.00, 1.00])
-P10 = np.asarray([0.00, 1.00, 1.00])
-P11 = np.asarray([1.00, 1.00, 0.00])
+P00 = nrb.Point(0.00, 0.00, 0.00)
+P01 = nrb.Point(1.00, 0.00, 1.00)
+P10 = nrb.Point(0.00, 1.00, 1.00)
+P11 = nrb.Point(1.00, 1.00, 0.00)
 
 # Create and plot the NURBS surface
 bilinearNurbsSurface = nrb.NurbsSurfaceBilinear(P00, P01, P10, P11).NurbsSurface

@@ -18,18 +18,12 @@ import matplotlib.pyplot as plt
 # Create the first NURBS surface
 # -------------------------------------------------------------------------------------------------------------------- #
 
-# Define the array of control points
+# Define the control points
 n_dim, n, m = 3, 2, 2
-P = np.zeros((n_dim, n, m))
-
-# First row
-P[:, 0, 0] = [0.00, 0.00, 0.00]
-P[:, 1, 0] = [0.00, 1.00, 0.00]
-P[:, 1, 0] = [0.00, 1.00, 0.00]
-
-# Second row
-P[:, 0, 1] = [1.00, 0.00, 0.00]
-P[:, 1, 1] = [1.00, 1.00, 0.00]
+P = [
+    [nrb.Point(0.0, 0.0, 0.0), nrb.Point(1.0, 0.0, 0.0)],
+    [nrb.Point(0.0, 1.0, 0.0), nrb.Point(1.0, 1.0, 0.0)],
+]  # points[u_index][v_index]
 
 # Create and plot the NURBS surface
 nurbsSurface1 = nrb.NurbsSurface(control_points=P)
@@ -39,17 +33,12 @@ nurbsSurface1 = nrb.NurbsSurface(control_points=P)
 # Create the second NURBS surface
 # -------------------------------------------------------------------------------------------------------------------- #
 
-# Define the array of control points
+# Define the control points
 n_dim, n, m = 3, 2, 2
-P = np.zeros((n_dim, n, m))
-
-# First row
-P[:, 0, 0] = [0.00, 1.00, 0.00]
-P[:, 1, 0] = [0.00, 2.00, 0.00]
-
-# Second row
-P[:, 0, 1] = [1.00, 1.00, 0.00]
-P[:, 1, 1] = [1.00, 2.00, 0.00]
+P = [
+    [nrb.Point(0.0, 1.0, 0.0), nrb.Point(1.0, 1.0, 0.0)],
+    [nrb.Point(0.0, 2.0, 0.0), nrb.Point(1.0, 2.0, 0.0)],
+]  # points[u_index][v_index]
 
 # Create and plot the NURBS surface
 nurbsSurface2 = nrb.NurbsSurface(control_points=P)
@@ -59,17 +48,12 @@ nurbsSurface2 = nrb.NurbsSurface(control_points=P)
 # Create the third NURBS surface
 # -------------------------------------------------------------------------------------------------------------------- #
 
-# Define the array of control points
+# Define the control points
 n_dim, n, m = 3, 2, 2
-P = np.zeros((n_dim, n, m))
-
-# First row
-P[:, 0, 0] = [1.00, 0.00, 0.00]
-P[:, 1, 0] = [1.00, 1.00, 0.00]
-
-# Second row
-P[:, 0, 1] = [2.00, 0.00, 0.00]
-P[:, 1, 1] = [2.00, 1.00, 0.00]
+P = [
+    [nrb.Point(1.0, 0.0, 0.0), nrb.Point(2.0, 0.0, 0.0)],
+    [nrb.Point(1.0, 1.0, 0.0), nrb.Point(2.0, 1.0, 0.0)],
+]  # points[u_index][v_index]
 
 # Create and plot the NURBS surface
 nurbsSurface3 = nrb.NurbsSurface(control_points=P)
@@ -105,4 +89,3 @@ nurbsMerged_v.plot(fig, ax, control_points=True, surface_color='red')
 
 # Show the figures
 plt.show()
-

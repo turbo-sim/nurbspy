@@ -14,11 +14,14 @@ import nurbspy.jax as nrb
 # Define control points and build curves
 # -------------------------------------------------------------------------------------------------------------------- #
 
-# Control points (ndim, n+1)
-P = jnp.array([
-    [0.20, 0.40, 0.80, 0.60, 0.40],
-    [0.50, 0.70, 0.60, 0.20, 0.25],
-])
+# Control points in geometric order
+P = [
+    nrb.Point(0.2, 0.5),
+    nrb.Point(0.4, 0.7),
+    nrb.Point(0.8, 0.6),
+    nrb.Point(0.6, 0.2),
+    nrb.Point(0.4, 0.25),
+]
 
 # Weights (n+1,)
 W = jnp.array([1.0, 1.3, 0.8, 1.2, 1.0])  # example non-uniform weights
@@ -29,6 +32,7 @@ p = 4
 
 # Build CPU and JAX curves explicitly as NURBS
 nurbs = nrb.NurbsCurve(control_points=P, weights=W, degree=p)
+P = nurbs.P  # Numerical arrays for the endpoint identities below.
 
 
 # -------------------------------------------------------------------------------------------------------------------- #

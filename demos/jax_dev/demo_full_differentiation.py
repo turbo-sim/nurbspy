@@ -72,10 +72,11 @@ def objective(P_flat):
 print("Test 1: Direct evaluation")
 print("-" * 40)
 
-P_init = jnp.array([
-    [0.20, 0.40, 0.80, 0.60, 0.40],
-    [0.50, 0.70, 0.60, 0.20, 0.20]
-])
+initial_curve = nrb.NurbsCurve([
+    nrb.Point(0.20, 0.50), nrb.Point(0.40, 0.70), nrb.Point(0.80, 0.60),
+    nrb.Point(0.60, 0.20), nrb.Point(0.40, 0.20),
+], degree=3)
+P_init = initial_curve.P  # Coordinate arrays are the numerical design variables.
 P_flat = P_init.flatten()
 
 try:

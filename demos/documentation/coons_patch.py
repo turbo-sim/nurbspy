@@ -6,18 +6,30 @@ import nurbspy as nrb
 nrb.set_plot_options()
 
 # South and north run west to east; west and east run south to north.
-south = nrb.NurbsCurve(np.array([[0., 1., 2., 3.],
-                                 [0., 0., 0., 0.],
-                                 [0., -0.4, -0.4, 0.]]))
-north = nrb.NurbsCurve(np.array([[0., 1., 2., 3.],
-                                 [2., 2., 2., 2.],
-                                 [0.5, 1.4, 1.4, 0.5]]))
-west = nrb.NurbsCurve(np.array([[0., 0., 0., 0.],
-                                [0., 2/3, 4/3, 2.],
-                                [0., 0.8, 1.1, 0.5]]))
-east = nrb.NurbsCurve(np.array([[3., 3., 3., 3.],
-                                [0., 2/3, 4/3, 2.],
-                                [0., -0.3, 0.2, 0.5]]))
+south = nrb.NurbsCurve([
+    nrb.Point(0.0, 0.0, 0.0),
+    nrb.Point(1.0, 0.0, -0.4),
+    nrb.Point(2.0, 0.0, -0.4),
+    nrb.Point(3.0, 0.0, 0.0),
+])
+north = nrb.NurbsCurve([
+    nrb.Point(0.0, 2.0, 0.5),
+    nrb.Point(1.0, 2.0, 1.4),
+    nrb.Point(2.0, 2.0, 1.4),
+    nrb.Point(3.0, 2.0, 0.5),
+])
+west = nrb.NurbsCurve([
+    nrb.Point(0.0, 0.0, 0.0),
+    nrb.Point(0.0, 2 / 3, 0.8),
+    nrb.Point(0.0, 4 / 3, 1.1),
+    nrb.Point(0.0, 2.0, 0.5),
+])
+east = nrb.NurbsCurve([
+    nrb.Point(3.0, 0.0, 0.0),
+    nrb.Point(3.0, 2 / 3, -0.3),
+    nrb.Point(3.0, 4 / 3, 0.2),
+    nrb.Point(3.0, 2.0, 0.5),
+])
 surface = nrb.NurbsSurfaceCoons(
     C_south=south, C_north=north, C_west=west, C_east=east,
 ).NurbsSurface

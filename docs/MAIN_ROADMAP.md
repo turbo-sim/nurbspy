@@ -8,10 +8,10 @@ The aim is to improve the existing numerical library, make geometry construction
 
 - Implement one numbered item at a time when requested, in the order below unless dependencies justify a change.
 - Make one focused commit per item, including its relevant tests, examples, and documentation. If an item proves too broad, agree a subdivision before implementing it; do not quietly combine unrelated changes.
-- Start the implementation branch from the current main. Extract and review relevant changes from the experimental branch; do not cherry-pick its mixed commits wholesale.
+- For this batch (items 1–6 and demo migration), the user explicitly requested implementation and separate commits directly on main. Extract and review relevant changes from the experimental branch; do not cherry-pick its mixed commits wholesale.
 - Before each item, check the current repository state and preserve unrelated work, including the untracked oloid demo. Do not switch branches across conflicting user edits.
 - Run checks appropriate to the item. Record the actual results and any limitations in the completion report, then mark the item complete here with its commit hash.
-- A commit on the implementation branch is not a merge into main or a push. Perform those actions only when requested.
+- Commit on the branch requested by the user. Direct commits on main are authorized for this batch; pushing remains a separate action and has not been requested.
 - Treat the paths below as current reference locations, not an obligation to retain an experimental module structure.
 
 ## Design decisions to preserve
@@ -46,7 +46,7 @@ The order goes from small repairs to larger API additions and interaction work. 
 
 ## 1. Repair shared graphics helpers
 
-**Status:** Complete. **Validation:** 15 graphics helper tests passed. **Suggested commit:** `Fix graphics helpers and optional image export`.
+**Status:** Complete. **Commit:** `36bb6ce`. **Validation:** 15 graphics helper tests passed. **Suggested commit:** `Fix graphics helpers and optional image export`.
 
 **Purpose:** Remove small, verified defects without changing the plotting API.
 
@@ -61,7 +61,7 @@ The order goes from small repairs to larger API additions and interaction work. 
 
 ## 2. Make figure and axes handling consistent
 
-**Status:** Complete. **Validation:** 28 graphics and plot-handle tests passed. **Suggested commit:** `Standardize curve and surface plotting handles`.
+**Status:** Complete. **Commit:** `fb97008`. **Validation:** 28 graphics and plot-handle tests passed. **Suggested commit:** `Standardize curve and surface plotting handles`.
 
 **Purpose:** Make plots compose reliably inside existing figures, subplots, and applications.
 
@@ -77,7 +77,7 @@ The order goes from small repairs to larger API additions and interaction work. 
 
 ## 3. Correct diagnostic plots
 
-**Status:** Complete. **Validation:** 51 graphics and diagnostic-plot tests passed across NumPy and JAX. **Suggested commit:** `Fix curvature and differential-geometry plots`.
+**Status:** Complete. **Commit:** `ca6fa49`. **Validation:** 51 graphics and diagnostic-plot tests passed across NumPy and JAX. **Suggested commit:** `Fix curvature and differential-geometry plots`.
 
 **Purpose:** Ensure plots of geometric quantities are meaningful and stable on ordinary and degenerate cases.
 
@@ -91,7 +91,7 @@ The order goes from small repairs to larger API additions and interaction work. 
 
 ## 4. Share NumPy/JAX plotting implementation
 
-**Status:** Complete. **Validation:** 60 plotting and installation checks passed. **Suggested commit:** `Share host plotting between NumPy and JAX backends`.
+**Status:** Complete. **Commit:** `cde7258`. **Validation:** 60 plotting and installation checks passed. **Suggested commit:** `Share host plotting between NumPy and JAX backends`.
 
 **Purpose:** Remove duplicated visualization code so fixes apply to both backends.
 
@@ -106,7 +106,7 @@ The order goes from small repairs to larger API additions and interaction work. 
 
 ## 5. Add Point input and curve normalization
 
-**Status:** Complete. **Validation:** 98 curve, Point, derivative, and installation checks passed, including JAX JIT/grad and complex-step. **Suggested commit:** `Accept Point sequences in curve constructors`.
+**Status:** Complete. **Commit:** `d3c0e97`. **Validation:** 98 curve, Point, derivative, and installation checks passed, including JAX JIT/grad and complex-step. **Suggested commit:** `Accept Point sequences in curve constructors`.
 
 **Purpose:** Let users construct curves naturally without remembering a matrix transpose.
 
@@ -132,7 +132,7 @@ curve = NurbsCurve(
 
 ## 6. Add Point grids for surfaces and geometric constructors
 
-**Status:** Complete. **Validation:** 156 construction checks passed; the final 82 Point checks also cover integer-coordinate/fractional-weight precision. **Suggested commit:** `Accept Point grids in surface construction`.
+**Status:** Complete. **Commit:** `192a7c1`. **Validation:** 156 construction checks passed; the final 82 Point checks also cover integer-coordinate/fractional-weight precision. **Suggested commit:** `Accept Point grids in surface construction`.
 
 **Purpose:** Extend the readable construction convention consistently to surfaces and applicable geometric helpers.
 
@@ -268,3 +268,14 @@ curve = NurbsCurve(
 - [PyVista mesh/STL writing](https://docs.pyvista.org/api/core/_autosummary/pyvista.polydata.save) and [Trimesh processing and validation](https://trimesh.org/trimesh.html#trimesh.Trimesh.process).
 
 The dependency candidates above were checked against their official documentation during the assessment. Recheck compatibility with nurbspy's supported Python, NumPy, and operating-system versions before adding them.
+
+## Completed demo migration (7 November 2026)
+
+- Items 1–6 are committed directly on main, one commit per item. Items 7–12 remain planned.
+- Updated explicit geometry definitions in all 41 curve/surface/optimization demos to Point sequences, Point grids, or individual Point locations. The three basis-only demos have no geometric Point inputs and remain unchanged.
+- Numerical optimization and derivative calculations still use backend arrays, obtained from the constructed geometry where appropriate. Direction vectors stay numerical.
+- Preserved and migrated the existing oloid demo; this adds no STL exporter or viewer to main.
+- Before/after headless execution: all 44 demos succeeded; 513 recorded geometry arrays and sampled evaluations agreed within numerical tolerance; all 58 rendered figures were pixel-identical. Runtime measurements are naturally variable.
+- Full regression suite with Numba and JAX required: 636 passed, 6 skipped.
+- The package-level minimal example also uses Point inputs and runs headlessly.
+- See [the executive report](MAIN_PORT_REPORT.md) for the scope and verification summary. No push was performed.

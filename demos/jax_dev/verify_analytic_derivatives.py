@@ -14,10 +14,13 @@ import nurbspy.jax as nrb
 # -------------------------------------------------------------------------------------------------------------------- #
 # Define control points and build curves
 # -------------------------------------------------------------------------------------------------------------------- #
-P = jnp.array([
-    [0.20, 0.40, 0.80, 0.60, 0.40],  # x-coordinates
-    [0.50, 0.70, 0.60, 0.20, 0.20],  # y-coordinates
-])
+P = [
+    nrb.Point(0.2, 0.5),
+    nrb.Point(0.4, 0.7),
+    nrb.Point(0.8, 0.6),
+    nrb.Point(0.6, 0.2),
+    nrb.Point(0.4, 0.2),
+]
 
 # Classical and JAX-compatible Bézier curves
 nurbsCurve = nrb.NurbsCurve(control_points=P)

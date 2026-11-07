@@ -5,12 +5,16 @@ import nurbspy as nrb
 
 nrb.set_plot_options()
 
-P1 = np.array([[0., 1.5, 3.],
-               [0., 0., 0.],
-               [0., 1.5, 0.]])
-P2 = np.array([[0., 1.5, 3.],
-               [2., 2., 2.],
-               [1., 0.2, 1.5]])
+P1 = [
+    nrb.Point(0.0, 0.0, 0.0),
+    nrb.Point(1.5, 0.0, 1.5),
+    nrb.Point(3.0, 0.0, 0.0),
+]
+P2 = [
+    nrb.Point(0.0, 2.0, 1.0),
+    nrb.Point(1.5, 2.0, 0.2),
+    nrb.Point(3.0, 2.0, 1.5),
+]
 C1 = nrb.NurbsCurve(control_points=P1)
 C2 = nrb.NurbsCurve(control_points=P2)
 surface = nrb.NurbsSurfaceRuled(C1, C2).NurbsSurface

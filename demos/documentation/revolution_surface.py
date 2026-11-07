@@ -8,14 +8,14 @@ nrb.set_plot_options()
 major_radius, minor_radius = 2., 0.6
 # The generating circle lies in the xz plane, offset from the z axis.
 profile = nrb.CircularArc(
-    O=np.array([major_radius, 0., 0.]),
+    O=nrb.Point(major_radius, 0., 0.),
     X=np.array([1., 0., 0.]),
     Y=np.array([0., 0., 1.]),
     R=minor_radius, theta_start=0., theta_end=2 * np.pi,
 ).NurbsCurve
 surface = nrb.NurbsSurfaceRevolution(
     generatrix=profile,
-    axis_point=np.array([0., 0., 0.]),
+    axis_point=nrb.Point(0., 0., 0.),
     axis_direction=np.array([0., 0., 1.]),
     angle_start=0., angle_end=2 * np.pi,
 ).NurbsSurface

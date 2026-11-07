@@ -5,8 +5,13 @@ import nurbspy as nrb
 
 nrb.set_plot_options()
 
-P = np.array([[0., 1., 2., 3., 4.],
-              [0., 2., -1., 2., 0.]])
+P = [
+    nrb.Point(0.0, 0.0),
+    nrb.Point(1.0, 2.0),
+    nrb.Point(2.0, -1.0),
+    nrb.Point(3.0, 2.0),
+    nrb.Point(4.0, 0.0),
+]
 curve = nrb.NurbsCurve(control_points=P, degree=3)
 
 targets = np.array([[0.5, 3.5, 1.0],
