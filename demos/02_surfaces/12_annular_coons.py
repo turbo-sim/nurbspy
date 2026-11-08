@@ -4,7 +4,7 @@ Define its boundary curves and display the resulting patch with its control
 net and parameter curves.
 
 Open one construction in the editor with a reference grid.
-Additional curves and markers illustrate the initial construction.
+Isocurves follow edits. Other annotations illustrate the initial construction.
 """
 
 import numpy as np
@@ -12,12 +12,6 @@ import nurbspy as nrb
 
 
 def main(show=True):
-    isocurve_display = dict(
-        control_points=False,
-        control_polygon=False,
-        geometry_color="#536d7d",
-        curve_depth_test=False,
-    )
     # Coons surface example: Annulus NURBS surface
 
     # Define the outer circle
@@ -64,21 +58,10 @@ def main(show=True):
             control_points=True,
             control_polygon=True,
             grid=True,
+            isocurves=True,
             geometry_color="#0072bd",
         ),
     )
-    for value in np.linspace(0.08, 0.92, 5):
-        figure.add(
-            coonsNurbsSurface.get_isocurve_u(float(value)),
-            name=f"u={value:.2f}",
-            display=isocurve_display,
-        )
-    for value in np.linspace(0.08, 0.92, 5):
-        figure.add(
-            coonsNurbsSurface.get_isocurve_v(float(value)),
-            name=f"v={value:.2f}",
-            display=isocurve_display,
-        )
     if show:
         figure.edit()
     return figure

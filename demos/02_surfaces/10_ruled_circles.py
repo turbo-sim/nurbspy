@@ -1,7 +1,7 @@
 """Span straight lines between two crossed circular arcs.
 
 Construct and edit one ruled surface with its control net and a reference grid.
-Boundary and parameter curves illustrate the initial construction.
+Boundary curves illustrate the initial construction; isocurves follow edits.
 """
 
 import numpy as np
@@ -13,12 +13,6 @@ def main(show=True):
         geometry_color="#21856a",
         control_points=False,
         control_polygon=False,
-        curve_depth_test=False,
-    )
-    isocurve_display = dict(
-        control_points=False,
-        control_polygon=False,
-        geometry_color="#536d7d",
         curve_depth_test=False,
     )
     # Ruled surface example
@@ -49,21 +43,10 @@ def main(show=True):
             control_points=True,
             control_polygon=True,
             grid=True,
+            isocurves=True,
             geometry_color="#0072bd",
         ),
     )
-    for value in np.linspace(0.08, 0.92, 5):
-        figure.add(
-            ruledNurbsSurface.get_isocurve_u(float(value)),
-            name=f"u={value:.2f}",
-            display=isocurve_display,
-        )
-    for value in np.linspace(0.08, 0.92, 5):
-        figure.add(
-            ruledNurbsSurface.get_isocurve_v(float(value)),
-            name=f"v={value:.2f}",
-            display=isocurve_display,
-        )
     figure.add(
         nurbsCurve1,
         name="First boundary",

@@ -43,8 +43,12 @@ The files are saved in this folder's `output/<script_name>/<script_name>.png`
 and `.html`. Use `--only folder/script_name` to export a single example. See the
 [export instructions](../../docs/EXPORT_DEMO_FIGURES.md).
 
-Related boundary curves, isocurves, normals, and projection markers illustrate
-the initial construction. They are independent snapshots, not constraints that
-follow interactive edits. Curve Frenet frames and surface colour fields update
-with the active edited geometry. Exported HTML supports viewing; use the Python
-script for editing.
+Surface isocurves are linked display overlays: they follow point and weight
+edits, dragging previews, and undo/redo. Toggle **Isocurves** under Display > Geometry.
+The oloid rulings are linked separately to each patch. These lines are not
+independent objects in the editor's Object selector.
+
+Generating boundary curves, manually drawn normals, and projection markers
+illustrate the initial construction as independent snapshots. Curve Frenet frames
+and surface colour fields also update with the active edited geometry. Exported
+HTML supports viewing; use the Python script for editing.

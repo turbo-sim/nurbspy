@@ -1,7 +1,7 @@
 """Extrude a NURBS profile along a fixed direction and edit the surface.
 
 Display one extrusion with its control net and initial generating curve and
-parameter curves. The background grid gives a sense of space.
+live parameter curves. The background grid gives a sense of space.
 """
 
 import numpy as np
@@ -13,12 +13,6 @@ def main(show=True):
         geometry_color="#d97823",
         control_points=False,
         control_polygon=False,
-        curve_depth_test=False,
-    )
-    isocurve_display = dict(
-        control_points=False,
-        control_polygon=False,
-        geometry_color="#536d7d",
         curve_depth_test=False,
     )
     # Extruded surface example:
@@ -50,21 +44,10 @@ def main(show=True):
             control_points=True,
             control_polygon=True,
             grid=True,
+            isocurves=True,
             geometry_color="#0072bd",
         ),
     )
-    for value in np.linspace(0.08, 0.92, 5):
-        figure.add(
-            extrudedNurbsSurface.get_isocurve_u(float(value)),
-            name=f"u={value:.2f}",
-            display=isocurve_display,
-        )
-    for value in np.linspace(0.08, 0.92, 5):
-        figure.add(
-            extrudedNurbsSurface.get_isocurve_v(float(value)),
-            name=f"v={value:.2f}",
-            display=isocurve_display,
-        )
     figure.add(
         nurbsCurve,
         name="Generating curve",

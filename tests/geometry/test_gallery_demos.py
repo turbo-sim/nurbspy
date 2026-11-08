@@ -78,17 +78,19 @@ def test_tutorial_opens_one_editor_with_auto_quality_and_grid(
     assert figure.settings()["control_polygon"] is True
 
 
-def test_isocurves_keep_exact_surface_parameters_and_disable_depth_flicker():
+def test_demo_isocurves_are_linked_overlays_rather_than_editable_copies():
     surface = importlib.import_module("demos.02_surfaces.05_bspline")
     construction = surface.main(show=False)
-    curve = construction.geometry("u=0.08")
-    uv = np.linspace(0, 1, 53)
+    assert construction.settings()["isocurves"] is True
+    assert not any(name.startswith(("u=", "v=")) for name in construction.names)
+    scene = construction._payload()["scenes"][construction.active]
+    curve = scene["diagnostics"]["isocurves"]["curves"][0]
+    uv = np.asarray(scene["sampling"]["full"]["v"])
     np.testing.assert_allclose(
-        curve.get_value(uv),
+        np.asarray(curve["points"]).T,
         construction.geometry().get_value(uv * 0 + 0.08, uv),
         atol=1e-13,
     )
-    assert construction.settings("u=0.08")["curve_depth_test"] is False
     assert any(name.startswith("Normal ") for name in construction.names)
 
 

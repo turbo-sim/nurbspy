@@ -29,26 +29,34 @@ def main(show=True):
         )
         patches.append(nrb.NurbsSurfaceRuled(first, second).NurbsSurface)
         seconds.append(second)
+    # Fixed u parameters for the rulings, which follow edits to each patch.
+    rulings = np.linspace(0.04, 0.96, 13).tolist()
     figure = nrb.Figure(
         patches[0],
         title="Oloid: boundaries and straight rulings",
-        display=dict(grid=True, control_points=True, control_polygon=True),
+        display=dict(
+            grid=True,
+            control_points=True,
+            control_polygon=True,
+            isocurves=True,
+            isocurves_u=rulings,
+            isocurves_v=[],
+        ),
     )
     figure.add(
         patches[1],
         name="Second patch",
-        display=dict(control_points=True, control_polygon=True),
+        display=dict(
+            control_points=True,
+            control_polygon=True,
+            isocurves=True,
+            isocurves_u=rulings,
+            isocurves_v=[],
+        ),
     )
     line_display = dict(
         geometry_color="#536d7d", control_points=False, control_polygon=False
     )
-    for i, patch in enumerate(patches):
-        for j, value in enumerate(np.linspace(0.04, 0.96, 13)):
-            figure.add(
-                patch.get_isocurve_u(float(value)),
-                name=f"Ruling {i+1}.{j+1}",
-                display=line_display,
-            )
     figure.add(first, name="First generating boundary", display=line_display)
     for i, second in enumerate(seconds):
         figure.add(

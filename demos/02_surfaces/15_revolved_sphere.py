@@ -1,7 +1,7 @@
 """Generate a spherical patch by revolving a circular arc.
 
 Check analytical mean and Gaussian curvature before opening the editor.
-Display the control net and initial parameter curves over a reference grid.
+Display the control net and live parameter curves over a reference grid.
 """
 
 import numpy as np
@@ -9,12 +9,6 @@ import nurbspy as nrb
 
 
 def main(show=True):
-    isocurve_display = dict(
-        control_points=False,
-        control_polygon=False,
-        geometry_color="#536d7d",
-        curve_depth_test=False,
-    )
     # Revolution surface example: A sphere
 
     # Create the generatrix NURBS curve
@@ -46,6 +40,9 @@ def main(show=True):
             control_points=True,
             control_polygon=True,
             grid=True,
+            isocurves=True,
+            isocurves_u=np.linspace(0.08, 0.92, 8).tolist(),
+            isocurves_v=np.linspace(0.08, 0.92, 8).tolist(),
             geometry_color="#0072bd",
         ),
     )
@@ -66,18 +63,6 @@ def main(show=True):
         "The two-norm error of the gaussian curvature computation is  :  ", error_gauss
     )
 
-    for value in np.linspace(0.08, 0.92, 8):
-        figure.add(
-            figure.geometry().get_isocurve_u(float(value)),
-            name=f"u={value:.2f}",
-            display=isocurve_display,
-        )
-    for value in np.linspace(0.08, 0.92, 8):
-        figure.add(
-            figure.geometry().get_isocurve_v(float(value)),
-            name=f"v={value:.2f}",
-            display=isocurve_display,
-        )
     figure.update(display=dict(boundary=False))
     if show:
         figure.edit()

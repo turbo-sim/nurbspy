@@ -4,7 +4,7 @@ Construct compatible north, south, east, and west curves, then show the
 interpolating surface with its boundaries, parameter curves, and control net.
 
 Open one construction in the editor with a reference grid.
-Additional curves and markers illustrate the initial construction.
+Isocurves follow edits. Other annotations illustrate the initial construction.
 """
 
 import numpy as np
@@ -16,12 +16,6 @@ def main(show=True):
         geometry_color="#d97823",
         control_points=False,
         control_polygon=False,
-        curve_depth_test=False,
-    )
-    isocurve_display = dict(
-        control_points=False,
-        control_polygon=False,
-        geometry_color="#536d7d",
         curve_depth_test=False,
     )
     # Coons surface example
@@ -74,21 +68,10 @@ def main(show=True):
             control_points=True,
             control_polygon=True,
             grid=True,
+            isocurves=True,
             geometry_color="#0072bd",
         ),
     )
-    for value in np.linspace(0.08, 0.92, 5):
-        figure.add(
-            coonsNurbsSurface.get_isocurve_u(float(value)),
-            name=f"u={value:.2f}",
-            display=isocurve_display,
-        )
-    for value in np.linspace(0.08, 0.92, 5):
-        figure.add(
-            coonsNurbsSurface.get_isocurve_v(float(value)),
-            name=f"v={value:.2f}",
-            display=isocurve_display,
-        )
     figure.add(
         nurbsCurve_south,
         name="South boundary",

@@ -1,6 +1,6 @@
 """Construct and edit one planar bilinear patch from four corner points.
 
-Show the control net and initial parameter curves on a reference grid.
+Show the control net and live parameter curves on a reference grid.
 Drag the four control points to explore the patch shape.
 """
 
@@ -9,12 +9,6 @@ import nurbspy as nrb
 
 
 def main(show=True):
-    isocurve_display = dict(
-        control_points=False,
-        control_polygon=False,
-        geometry_color="#536d7d",
-        curve_depth_test=False,
-    )
     # Bilinear patch example: Plane
 
     # Set the bilinear surface defining points
@@ -32,21 +26,10 @@ def main(show=True):
             control_points=True,
             control_polygon=True,
             grid=True,
+            isocurves=True,
             geometry_color="#0072bd",
         ),
     )
-    for value in np.linspace(0.08, 0.92, 5):
-        figure.add(
-            bilinearNurbsSurface.get_isocurve_u(float(value)),
-            name=f"u={value:.2f}",
-            display=isocurve_display,
-        )
-    for value in np.linspace(0.08, 0.92, 5):
-        figure.add(
-            bilinearNurbsSurface.get_isocurve_v(float(value)),
-            name=f"v={value:.2f}",
-            display=isocurve_display,
-        )
     if show:
         figure.edit()
     return figure
