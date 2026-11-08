@@ -34,6 +34,9 @@ for usage, lifetimes, and tradeoffs.
 See the documentation for the [theory](https://turbo-sim.github.io/nurbspy/theory/index.html) behind these capabilities (Bézier, B-Spline, NURBS, and G² continuity) and the [examples](https://turbo-sim.github.io/nurbspy/examples/index.html) gallery, with complete scripts and their numerical and graphical output.
 
 
+See the [numbered tutorials](demos/README.md) for examples using automatic display
+quality. Display offers Auto, Fast, and Fine; no numerical resolution is needed.
+
 ## Interactive geometry viewing and editing
 
 The primary interactive geometry interface uses the shared `visualization/`
@@ -43,10 +46,8 @@ then run a curve or surface example:
 
 ```powershell
 poetry install
-poetry run python demos/demos_viewer/demo_curve_view.py
-poetry run python demos/demos_viewer/demo_curve_edit.py
-poetry run python demos/demos_viewer/demo_surface_view.py
-poetry run python demos/demos_viewer/demo_surface_edit.py
+poetry run python demos/03_viewer/01_curve.py
+poetry run python demos/03_viewer/02_surface.py
 ```
 
 ```python
@@ -68,7 +69,7 @@ Undo/redo and file dialogs are deliberately omitted.
 
 For a host-owned Dash application, use
 `GeometryView` or `GeometryEditor`. See the [guide](docs/source/visualization.md)
-and [separate runnable examples](demos/demos_viewer/README.md). Existing
+and [separate runnable examples](demos/03_viewer/README.md). Existing
 `.plot()` methods retain their Matplotlib signatures; use `.show()`/`.edit()`
 for the new geometry experience or `show(backend="matplotlib")` explicitly.
 
@@ -305,7 +306,7 @@ closure checks, and the limits of STL precision and solid validation.
 Plot and export an exact NURBS torus and a sampled ruled-surface oloid:
 
 ```bash
-python demos/demos_surfaces/demo_stl_printing.py --quality print
+python demos/02_surfaces/15_stl_printing.py --quality print
 ```
 
 See the [printing walkthrough](docs/source/examples/stl_printing.md) for all

@@ -152,5 +152,5 @@ See [automatic display quality](figures.md#automatic-display-quality).
 
 The complete current behaviour is available as
 {download}`the main behaviour specification <../VIEWER_EDITOR_BEHAVIOR.md>`. Runnable demos
-are indexed in {download}`the demo index <../../demos/demos_viewer/README.md>`. Every current
+are indexed in {download}`the demo index <../../demos/03_viewer/README.md>`. Every current
 script defines geometry/settings directly, without CLI arguments.

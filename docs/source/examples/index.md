@@ -1,5 +1,12 @@
 # Examples
 
+The numbered [checkout tutorials](https://github.com/turbo-sim/nurbspy/blob/main/demos/README.md)
+progress through `00_basis_polynomials`, `01_curves`, `02_surfaces`, and
+`03_viewer`. Each script explains its purpose, defines geometry, and displays
+the relevant graphical features. Geometry examples use the public Three.js
+`Figure` API without image/report generation. See the [Figure guide](../figures.md)
+for saving PNGs or standalone read-only interactive HTML files.
+
 These pages walk through basis polynomials, curve derivatives, circular
 arcs, curvature continuity, surface construction, and point projection
 onto both curves and surfaces, showing the inputs alongside the printed
