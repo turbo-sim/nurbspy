@@ -127,6 +127,7 @@ export class ScientificDisplay {
         if(owner.handleCheck)owner.handleCheck.checked=settings.control_points!==false;
         if(owner.edgeCheck)owner.edgeCheck.checked=settings.boundary!==false;
         owner.axesCheck.checked=Boolean(settings.axes);owner.gridCheck.checked=settings.grid!==false;
+        if(owner.viewCubeCheck)owner.viewCubeCheck.checked=settings.orientation_cube!==false;
         this.syncControls();
     }
 

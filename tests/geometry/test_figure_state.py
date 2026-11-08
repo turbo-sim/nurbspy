@@ -23,7 +23,7 @@ def test_multiple_objects_round_trip_geometry_camera_and_all_display_settings():
     figure = nrb.Figure(curve(), name="curve", resolution=12, background="#fafafa")
     figure.add(surface(), name="surface", display=dict(quantity="mean_curvature",
                colormap="coolwarm", reverse=True, limits=[-2., 2.], control_points=False,
-               control_polygon=False, boundary=False, mesh="display"), visible=False)
+               control_polygon=False, boundary=False, mesh="display", orientation_cube=False), visible=False)
     figure.set_camera(position=[4, -5, 6], target=[0, 0, 0], up=[0, 0, 1], zoom=1.2)
     restored = nrb.Figure.from_yaml(StringIO(figure.to_yaml()))
     assert restored.to_state() == figure.to_state()

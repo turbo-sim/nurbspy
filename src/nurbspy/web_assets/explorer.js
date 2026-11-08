@@ -221,6 +221,7 @@ export class Explorer {
         row(this.configSections.view,'Projection',this.viewModeSelect);
         this.axesCheck=toggle(this.configSections.view,'Axes with ticks',false);
         this.gridCheck=toggle(this.configSections.view,'Reference grid',true);
+        this.viewCubeCheck=toggle(this.configSections.view,'Orientation cube',true);
         this.configSections.view.append(element('small',{},'Ticks are available in the X–Y, Y–Z, and Z–X projections.'));
         if(initial.triangles?.length)this.edgeCheck=toggle(this.configSections.geometry,'Boundary curves',true);
         this.netCheck=toggle(this.configSections.controls,'Control polygon',true);
@@ -246,6 +247,11 @@ export class Explorer {
         this.root.addEventListener('keydown',this.onInspectorKey);
         this.viewModeSelect.addEventListener('change',()=>this.setViewMode(this.viewModeSelect.value));
         this.gridCheck.addEventListener('change',()=>{this.syncDisplay();this.render();});
+        this.viewCubeCheck.addEventListener('change',()=>{
+            if(!this.viewCubeCheck.checked)this.viewCube?.cancel();
+            this.syncDisplay();
+            this.options.onOrientationCubeChange?.(this.viewCubeCheck.checked);
+        });
         this.axesCheck.addEventListener('change',()=>{this.syncDisplay();this.resize();});
         this.edgeCheck?.addEventListener('change',()=>{this.surfaceEdges?.forEach(edge=>edge.visible=this.edgeCheck.checked);this.render();});
         this.netCheck.addEventListener('change',()=>{if(this.net)this.net.visible=this.netCheck.checked;this.render();});
@@ -381,13 +387,14 @@ export class Explorer {
         if(this.viewModeSelect) this.viewModeSelect.value=this.viewMode;
         if(this.navigationLabel) this.navigationLabel.hidden=this.is2D;
         if(this.axesCheck) this.axesCheck.disabled=!this.is2D;
+        if(this.viewCubeCheck)this.viewCubeCheck.disabled=this.is2D;
         this.editing?.syncProjection();
         if(this.references){
             this.references.floor.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1),new THREE.Vector3(...(projectionPlanes[this.viewMode]?.direction || [0,0,1])));
         }
         if(this.references) this.references.floor.visible=Boolean(this.gridCheck?.checked && !(this.is2D&&this.axesCheck?.checked));
         this.surfaceEdges?.forEach(edge=>{edge.material.depthTest=!this.is2D;});
-        if(this.viewCube?.host) this.viewCube.host.hidden=this.is2D;
+        if(this.viewCube?.host) this.viewCube.host.hidden=this.is2D||this.viewCubeCheck?.checked===false;
     }
 
     plotRectangle(width=this.viewport.clientWidth,height=this.viewport.clientHeight) {

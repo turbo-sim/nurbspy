@@ -30,6 +30,7 @@ def display_options(options, surface):
         view="3d",
         axes=False,
         grid=True,
+        orientation_cube=True,
         quantity="solid",
         colormap="viridis",
         geometry_color="#0072bd" if surface else "#000000",
@@ -62,7 +63,7 @@ def display_options(options, surface):
     for name, values in choices.items():
         if defaults[name] not in values:
             raise ValueError(f"Invalid display {name}")
-    for name in ("axes", "grid", "frames", "control_points", "control_polygon", "boundary", "reverse", "curve_depth_test"):
+    for name in ("axes", "grid", "orientation_cube", "frames", "control_points", "control_polygon", "boundary", "reverse", "curve_depth_test"):
         if not isinstance(defaults[name], bool):
             raise ValueError(f"Display {name} must be a boolean")
     limits = defaults["limits"]

@@ -11,6 +11,7 @@ const frame=()=>new Promise(resolve=>requestAnimationFrame(resolve));
 function displayState(owner){
     const s=owner.scientific;
     return {view:owner.viewMode,axes:owner.axesCheck.checked,grid:owner.gridCheck.checked,
+        orientation_cube:owner.viewCubeCheck?.checked??true,
         quantity:s.quantity.value,colormap:s.map.value,geometry_color:s.geometryColor.value,
         opacity:Number(s.opacity?.value??1),
         curve_depth_test:s.curveDepth?.checked??true,
@@ -141,6 +142,11 @@ export async function mountFigure(rootId,payload,options={}){
             readOnly:Boolean(options.readOnly),aspect:state.rendering.width/state.rendering.height,
             inspect:inspect(active),evaluate:options.evaluate?packet=>options.evaluate(active,packet):undefined,
             beforeRender,afterRender:publish,onBusyChange:publish,
+            onOrientationCubeChange:visible=>{
+                for(const owner of Object.values(owners))owner.viewCubeCheck.checked=visible;
+                for(const object of Object.values(state.objects))object.display.orientation_cube=visible;
+                publish();
+            },
             history,historyKey:active,
         });
         owners[active]=core;

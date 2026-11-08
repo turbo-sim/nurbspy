@@ -203,6 +203,7 @@ def test_desktop_and_http_inspection_agree_and_allow_view_only_analysis():
         dict(mesh_u=1000),
         dict(geometry_color="red"),
         dict(extra=True),
+        dict(orientation_cube="yes"),
         dict(frames=True),
     ],
 )
