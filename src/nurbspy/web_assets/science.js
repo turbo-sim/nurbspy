@@ -1,6 +1,6 @@
 /* Scientific values come from Python. This module owns display controls only. */
 import * as THREE from './vendor/three.module.js';
-import {tickLabel,updateLineColors} from './display.js';
+import {tickLabel,updateLineColors,lineGeometry,updateLinePositions,wideLine} from './display.js';
 
 function node(tag,attributes={},text){
     const result=document.createElement(tag);
@@ -60,6 +60,15 @@ export class ScientificDisplay {
             const control=node('input',{type:'number','aria-label':label,min,max,step});control.value=value;return row(label,control);
         };
         const check=(label)=>{const control=node('input',{type:'checkbox','aria-label':label});return row(label,control);};
+        if(this.isSurface){
+            this.isocurves=check('Isocurves');
+            this.isocurveColor=row('Isocurve colour',node('input',{type:'color','aria-label':'Isocurve colour',value:'#536d7d'}));
+            this.isocurves.addEventListener('change',()=>this.refresh());
+            this.isocurveColor.addEventListener('input',()=>{
+                for(const line of this.isocurveLines||[])line.material.color.set(this.isocurveColor.value);
+                owner.render();
+            });
+        }
         this.geometryColor=row(this.isSurface?'Surface colour':'Curve colour',node('input',{type:'color','aria-label':'Geometry colour',value:this.isSurface?'#0072bd':'#000000'}));
         if(!this.isSurface){this.curveDepth=check('Hide behind surfaces');this.curveDepth.addEventListener('change',()=>this.applyColors());}
         this.opacity=number('Opacity',1,0,1,.05);
@@ -114,6 +123,11 @@ export class ScientificDisplay {
         const range=node('div',{class:'nrb-colorbar-range'});this.low=node('span');this.high=node('span');range.append(this.low,this.high);
         this.legend.append(this.legendTitle,this.gradient,range);owner.viewport.append(this.legend);
         const settings=initial.display||{};
+        if(this.isocurves){
+            this.isocurves.checked=Boolean(settings.isocurves);
+            this.isocurveColor.value=settings.isocurves_color||'#536d7d';
+            this.isocurveU=settings.isocurves_u??null;this.isocurveV=settings.isocurves_v??null;
+        }
         this.opacity.value=settings.opacity??1;
         if(this.curveDepth)this.curveDepth.checked=settings.curve_depth_test!==false;
         for(const [key,input] of [['quantity',this.quantity],['colormap',this.map],['geometry_color',this.geometryColor],['control_color',this.controlColor],['selected_color',this.selectedColor],['mesh',this.meshMode],['mesh_u',this.nu],['mesh_v',this.nv],['frame_count',this.frameCount],['frame_scale',this.frameScale]]){
@@ -146,6 +160,7 @@ export class ScientificDisplay {
                 'Display mesh shows the rendering triangles. STL export mesh previews the triangles that will be saved.';
         }
         if(this.frames)for(const control of [this.frameCount,this.frameScale])control.parentElement.hidden=!this.frames.checked;
+        if(this.isocurveColor)this.isocurveColor.parentElement.hidden=!this.isocurves.checked;
     }
 
     applyColors(){
@@ -174,6 +189,8 @@ export class ScientificDisplay {
     }
 
     geometryChanged(){
+        // A response for an older surface must never leave stale curves on the new one.
+        if(this.isocurveGroup)this.isocurveGroup.visible=false;
         this.stl=null;if(this.download)this.download.disabled=true;
         if(this.wire)this.wire.visible=false;if(this.exportFill)this.exportFill.visible=false;
         this.field=null;this.applyColors();this.refresh();
@@ -195,12 +212,15 @@ export class ScientificDisplay {
         const frameEnabled=Boolean(this.frames?.checked);
         if(!frameEnabled)this.clearFrames();
         const exportEnabled=exporting&&!preview;
+        const isocurveEnabled=Boolean(this.isocurves?.checked)&&!exporting;
+        if(!isocurveEnabled&&this.isocurveGroup)this.isocurveGroup.visible=false;
         const request={revision:++this.serial,quality:e.displayQuality||'full',
             control_points:(e.displayModel||e.acceptedModel).control_points,weights:(e.displayModel||e.acceptedModel).weights,
             sampling:e.sampling,draw_quality:e.displayPreset,
+            isocurves:isocurveEnabled,isocurves_u:this.isocurveU??null,isocurves_v:this.isocurveV??null,
             field,frames:frameEnabled,frame_count:Number(this.frameCount?.value||8),frame_scale:Number(this.frameScale?.value||.1),
             export_mesh:exportEnabled,nu:Number(this.nu?.value||40),nv:Number(this.nv?.value||40)};
-        if(field==='solid'&&!frameEnabled&&!exportEnabled){
+        if(field==='solid'&&!frameEnabled&&!exportEnabled&&!isocurveEnabled){
             this.pending=null;this.legend.hidden=true;this.note.textContent=exporting?'Export mesh updates after releasing the point.':'';e.render();return;
         }
         if(!e.options.inspect){this.note.textContent='Scientific display requires the current Python adapter.';return;}
@@ -221,6 +241,7 @@ export class ScientificDisplay {
             this.field=result.field||null;this.applyField();
             if(this.field?.undefined)notes.push(`${this.field.undefined} undefined values shown grey.`);
             if(result.frames){this.updateFrames(result.frames);if(result.frames.omitted)notes.push(`${result.frames.omitted} undefined frames omitted.`);}
+            if(result.isocurves)this.updateIsocurves(result.isocurves);
             if(result.mesh){
                 const mesh=result.mesh;this.updateWire(new Float32Array(mesh.vertices.flat()),mesh.triangles);
                 this.updateExportFill(mesh);this.stl=mesh.stl;this.download.disabled=false;
@@ -301,6 +322,38 @@ export class ScientificDisplay {
         applyOpacity(this);
     }
 
+    updateIsocurves(data){
+        if(!this.isocurveGroup){
+            this.isocurveGroup=new THREE.Group();this.isocurveGroup.name='Surface isocurves';
+            this.isocurveLines=[];this.owner.scene.add(this.isocurveGroup);
+        }
+        while(this.isocurveLines.length>data.curves.length){
+            const line=this.isocurveLines.pop();this.isocurveGroup.remove(line);
+            line.geometry.dispose();line.material.dispose();
+        }
+        data.curves.forEach((curve,index)=>{
+            const positions=new Float32Array(curve.points.flat());
+            let line=this.isocurveLines[index];
+            if(!line){
+                line=wideLine(lineGeometry(positions),{color:this.isocurveColor.value,width:1.5,depthTest:false,order:4});
+                this.isocurveLines.push(line);this.isocurveGroup.add(line);
+            }else if(line.userData.sampleCount!==curve.points.length){
+                line.geometry.dispose();line.geometry=lineGeometry(positions);
+            }else updateLinePositions(line.geometry,positions);
+            line.material.color.set(this.isocurveColor.value);
+            line.userData.sampleCount=curve.points.length;
+            line.userData.isocurve={direction:curve.direction,parameter:curve.parameter};
+        });
+        this.isocurveGroup.visible=Boolean(this.isocurves?.checked)&&this.meshMode?.value!=='export';
+        this.isocurveGroup.userData.quality=this.owner.displayQuality;
+    }
+
+    clearIsocurves(){
+        for(const line of this.isocurveLines||[]){line.geometry.dispose();line.material.dispose();}
+        if(this.isocurveGroup)this.owner.scene.remove(this.isocurveGroup);
+        this.isocurveGroup=null;this.isocurveLines=[];
+    }
+
     clearFrames(){
         if(this.frameGroup){
             this.frameGroup.traverse(object=>{object.material?.dispose();});
@@ -321,7 +374,7 @@ export class ScientificDisplay {
     }
 
     destroy(){
-        this.alive=false;this.serial++;this.pending=null;this.clearFrames();
+        this.alive=false;this.serial++;this.pending=null;this.clearFrames();this.clearIsocurves();
         this.frameLineGeometry?.dispose();this.frameConeGeometry?.dispose();
         this.colorMaterial?.dispose();this.solidMaterial?.dispose();this.legend.remove();
     }

@@ -87,6 +87,32 @@ editing controls are displayed. It preserves camera framing. Each object has its
 own visibility, colours, control net/points, boundaries, diagnostics, frames and
 mesh settings. One camera and one GPU renderer draw all visible objects.
 
+Enable **Isocurves** under Display > Geometry for lines that follow the edited
+surface. The parameter positions and colour belong to that surface's saved
+appearance, so updates, undo/redo, YAML, PNG, and HTML use the same settings:
+
+```python
+fig = nrb.Figure(surface, display={"isocurves": True})
+# Optional fixed native parameter values; an empty list disables one direction.
+fig.update(display={"isocurves_u": [0.2, 0.5, 0.8], "isocurves_v": [],
+                    "isocurves_color": "#536d7d"})
+```
+
+By default, five interior lines in each direction span 8% to 92% of the surface's
+parameter domain. A $u$-isocurve fixes $u$ and varies $v$, matching
+`surface.get_isocurve_u(u0)`. Explicit lists accept up to 30 increasing parameters
+per direction within that direction's native knot domain. Isocurves use the
+surface's current preview/full sampling axes and update after point and weight
+edits. They are display overlays and have no independent editable control points.
+They are drawn over the surface to avoid depth flicker. Standalone HTML retains
+precomputed lines with working visibility, colour, and quality choices.
+
+For independent curve annotations lying on a surface, set
+`display={"curve_depth_test": False}` to draw them clearly over the surface.
+This is the curve's **Hide behind surfaces** checkbox in Display. Normal occlusion
+remains enabled by default. Adding a curve with `fig.add(surface.get_isocurve_u(...))`
+still creates an independent snapshot; use the surface display option for live lines.
+
 For fitting comparisons, use `display={"opacity": 0.25}` for a translucent
 reference and add read-only measurement points:
 

@@ -21,6 +21,8 @@ function displayState(owner){
         frames:Boolean(s.frames?.checked),frame_count:Number(s.frameCount?.value||8),frame_scale:Number(s.frameScale?.value||.1),
         reverse:s.reverse.checked,limits:s.auto.checked?null:[Number(s.minimum.value),Number(s.maximum.value)],
         boundary:owner.edgeCheck?.checked??true,control_polygon:owner.netCheck.checked,
+        isocurves:Boolean(s.isocurves?.checked),isocurves_u:s.isocurveU??null,isocurves_v:s.isocurveV??null,
+        isocurves_color:s.isocurveColor?.value||'#536d7d',
         control_points:owner.handleCheck?.checked??true};
 }
 

@@ -114,6 +114,13 @@ class _GeometryModel:
             model.update(degree=int(geometry.p), knots=np.asarray(geometry.U).tolist())
         self._initial = deepcopy(model)
         self._validated_arrays(model)
+        if self.surface:
+            from .analysis import isocurve_parameters
+
+            for direction in ("u", "v"):
+                isocurve_parameters(
+                    geometry, direction, self.display["isocurves_" + direction]
+                )
         if resolution is None:
             self._sampling, self._description = self._choose_sampling(
                 self.geometry_from_state(), self.quality
@@ -222,6 +229,7 @@ class _GeometryModel:
             frenet_frames,
             export_preview,
             control_point_normal,
+            surface_isocurves,
         )
 
         allowed = {
@@ -240,6 +248,9 @@ class _GeometryModel:
             "sampling",
             "draw_quality",
             "tessellate",
+            "isocurves",
+            "isocurves_u",
+            "isocurves_v",
         }
         if not isinstance(request, dict) or set(request) - allowed:
             raise ValueError("Unknown inspection fields")
@@ -270,6 +281,19 @@ class _GeometryModel:
         sampling, _ = self._request_sampling(geometry, request)
         u, v, _ = sampling[quality]
         result = {"revision": revision, "quality": quality}
+        enabled = request.get("isocurves", False)
+        if not isinstance(enabled, bool):
+            raise ValueError("Inspection isocurves must be a boolean")
+        if enabled:
+            if not self.surface:
+                raise ValueError("Isocurves require a surface")
+            result["isocurves"] = surface_isocurves(
+                geometry,
+                u,
+                v,
+                fixed_u=request.get("isocurves_u", self.display["isocurves_u"]),
+                fixed_v=request.get("isocurves_v", self.display["isocurves_v"]),
+            )
         if "normal_index" in request:
             result["normal"] = control_point_normal(geometry, request["normal_index"])
         if request.get("field", "solid") != "solid":

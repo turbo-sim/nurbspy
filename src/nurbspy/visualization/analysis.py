@@ -48,6 +48,10 @@ def display_options(options, surface):
         control_points=True,
         control_polygon=True,
         boundary=True,
+        isocurves=False,
+        isocurves_u=None,
+        isocurves_v=None,
+        isocurves_color="#536d7d",
         reverse=False,
         limits=None,
     )
@@ -65,7 +69,7 @@ def display_options(options, surface):
     for name, values in choices.items():
         if defaults[name] not in values:
             raise ValueError(f"Invalid display {name}")
-    for name in ("axes", "grid", "orientation_cube", "frames", "control_points", "control_polygon", "boundary", "reverse", "curve_depth_test"):
+    for name in ("axes", "grid", "orientation_cube", "frames", "control_points", "control_polygon", "boundary", "isocurves", "reverse", "curve_depth_test"):
         if not isinstance(defaults[name], bool):
             raise ValueError(f"Display {name} must be a boolean")
     limits = defaults["limits"]
@@ -80,7 +84,11 @@ def display_options(options, surface):
         defaults["limits"] = list(limits)
     if surface and defaults["frames"]:
         raise ValueError("Frenet frames require a curve")
-    for name in ("geometry_color", "control_color", "selected_color"):
+    for name in ("isocurves_u", "isocurves_v"):
+        defaults[name] = _isocurve_values(defaults[name], name)
+    if not surface and (defaults["isocurves"] or defaults["isocurves_u"] or defaults["isocurves_v"]):
+        raise ValueError("Isocurves require a surface")
+    for name in ("geometry_color", "control_color", "selected_color", "isocurves_color"):
         if not isinstance(defaults[name], str) or not re.fullmatch(
             r"#[0-9a-fA-F]{6}", defaults[name]
         ):
@@ -106,6 +114,59 @@ def display_options(options, surface):
     ):
         raise ValueError("Display frame_scale must be from 0.005 to 0.5")
     return defaults
+
+
+def _isocurve_values(values, name):
+    if values is None:
+        return None
+    if (not isinstance(values, (list, tuple)) or len(values) > 30
+            or any(isinstance(x, bool) or not isinstance(x, (int, float))
+                   or not np.isfinite(x) for x in values)
+            or any(a >= b for a, b in zip(values[:-1], values[1:]))):
+        raise ValueError(f"Display {name} must be up to 30 finite increasing parameters or None")
+    return [float(x) for x in values]
+
+
+def isocurve_parameters(geometry, direction, values):
+    """Resolve fixed native parameters; None chooses five interior isocurves."""
+    values = _isocurve_values(values, "isocurves_" + direction)
+    knots, degree = (geometry.U, geometry.p) if direction == "u" else (geometry.V, geometry.q)
+    low, high = float(knots[degree]), float(knots[-degree - 1])
+    if values is None:
+        return low + (high - low) * np.linspace(0.08, 0.92, 5)
+    if any(x < low or x > high for x in values):
+        raise ValueError(f"Isocurve {direction} parameters must lie in [{low}, {high}]")
+    return np.asarray(values, dtype=float)
+
+
+def surface_isocurves(geometry, u, v, *, fixed_u=None, fixed_v=None):
+    """Sample exact parameter curves together using the surface's current grid.
+
+    A u-isocurve fixes u and varies v, matching get_isocurve_u(). The existing
+    preview/full axes bound the work and retain knot samples without introducing
+    independently editable curve snapshots.
+    """
+    lines, us, vs = [], [], []
+    for direction, values, axis in (
+        ("u", fixed_u, np.unique(v)), ("v", fixed_v, np.unique(u))
+    ):
+        for value in isocurve_parameters(geometry, direction, values):
+            lines.append(dict(direction=direction, parameter=float(value), count=len(axis)))
+            constant = np.full(len(axis), value)
+            us.append(constant if direction == "u" else axis)
+            vs.append(axis if direction == "u" else constant)
+    if not lines:
+        return {"curves": []}
+    points = np.asarray(geometry.get_value(np.concatenate(us), np.concatenate(vs)))
+    if np.iscomplexobj(points) or not np.all(np.isfinite(points)):
+        raise ValueError("Isocurves did not evaluate to finite real coordinates")
+    points = np.pad(points, ((0, 3 - points.shape[0]), (0, 0))).T
+    offset = 0
+    for line in lines:
+        count = line.pop("count")
+        line["points"] = points[offset:offset + count].tolist()
+        offset += count
+    return {"curves": lines}
 
 
 @lru_cache(maxsize=1)

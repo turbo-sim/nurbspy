@@ -312,6 +312,8 @@ class Figure:
             request = dict(revision=0, quality="full", **model.initial_state)
             request = {key: request[key] for key in ("revision", "quality", "control_points", "weights")}
             request.update(field=settings["quantity"], frames=settings["frames"],
+                           isocurves=model.surface, isocurves_u=settings["isocurves_u"],
+                           isocurves_v=settings["isocurves_v"],
                            frame_count=settings["frame_count"], frame_scale=settings["frame_scale"],
                            export_mesh=settings["mesh"] == "export", nu=settings["mesh_u"], nv=settings["mesh_v"])
             scene["diagnostics"] = model.inspect(request)
