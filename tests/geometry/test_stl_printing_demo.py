@@ -10,16 +10,24 @@ import numpy as np
 import pytest
 import trimesh
 
-SCRIPT = (
-    Path(__file__).resolve().parents[2] / "demos" / "02_surfaces" / "15_stl_printing.py"
-)
-spec = importlib.util.spec_from_file_location("stl_printing_demo", SCRIPT)
-demo = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(demo)
+SCRIPTS = {
+    name: Path(__file__).resolve().parents[2] / "demos" / "02_surfaces" / filename
+    for name, filename in [("torus", "21_stl_torus.py"), ("oloid", "22_stl_oloid.py")]
+}
+
+
+def load_demo(name):
+    spec = importlib.util.spec_from_file_location(name + "_stl_demo", SCRIPTS[name])
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+torus_demo, oloid_demo = load_demo("torus"), load_demo("oloid")
 
 
 def test_torus_is_exact_and_periodic():
-    torus = demo.make_torus(30, 10)
+    torus = torus_demo.make_torus(30, 10)
     u, v = np.linspace(0, 1, 53), np.linspace(0, 1, 53) ** 1.3
     x, y, z = torus.get_value(u, v)
     np.testing.assert_allclose((np.hypot(x, y) - 30) ** 2 + z**2, 100, atol=1e-11)
@@ -33,7 +41,7 @@ def test_torus_is_exact_and_periodic():
 
 def test_oloid_contacts_are_on_circles_and_rulings_have_correct_length():
     radius = 20
-    patches = demo.make_oloid(radius, 61)
+    patches = oloid_demo.make_oloid(radius, 61)
     assert len(patches) == 2
     for patch in patches:
         first, second = patch.P[:, :, 0], patch.P[:, :, 1]
@@ -49,11 +57,11 @@ def test_oloid_contacts_are_on_circles_and_rulings_have_correct_length():
 
 
 def test_torus_mesh_refinement_improves_analytic_volume(tmp_path):
-    torus = demo.make_torus()
+    torus = torus_demo.make_torus()
     exact = 2 * np.pi**2 * 30 * 10**2
     errors = []
     for quality in ("preview", "print"):
-        nu, nv = demo.QUALITY[quality]["torus"]
+        nu, nv = torus_demo.QUALITY[quality]
         path = torus.export(
             tmp_path / f"{quality}.stl", nu=nu, nv=nv, require_closed=True
         )
@@ -66,20 +74,26 @@ def test_torus_mesh_refinement_improves_analytic_volume(tmp_path):
 @pytest.mark.parametrize("major,minor", [(10, 10), (5, 10), (30, -1), (np.inf, 10)])
 def test_only_ring_tori_are_constructed(major, minor):
     with pytest.raises(ValueError):
-        demo.make_torus(major, minor)
+        torus_demo.make_torus(major, minor)
 
 
 @pytest.mark.parametrize("count", [3, 20, True])
 def test_invalid_oloid_boundary_sampling_is_rejected(count):
     with pytest.raises(ValueError, match="odd integer"):
-        demo.make_oloid(boundary_points=count)
+        oloid_demo.make_oloid(boundary_points=count)
 
 
-def test_complete_cli_creates_closed_stls_without_window(tmp_path):
+@pytest.mark.parametrize(
+    "name,dimensions,count",
+    [("torus", [80, 80, 20], 1024), ("oloid", [60, 40, 40], 480)],
+)
+def test_complete_cli_exports_one_closed_stl_without_window(
+    tmp_path, name, dimensions, count
+):
     result = subprocess.run(
         [
             sys.executable,
-            str(SCRIPT),
+            str(SCRIPTS[name]),
             "--quality",
             "preview",
             "--no-show",
@@ -95,18 +109,12 @@ def test_complete_cli_creates_closed_stls_without_window(tmp_path):
     assert result.returncode == 0, result.stdout + result.stderr
     assert "STL has no units" in result.stdout
     assert "Tight layout" not in result.stderr
-    for name, dimensions, count in (
-        ("torus", [80, 80, 20], 1024),
-        ("oloid", [60, 40, 40], 480),
-    ):
-        mesh = trimesh.load_mesh(tmp_path / f"{name}_preview.stl")
-        assert mesh.is_watertight and mesh.is_volume
-        assert len(mesh.faces) == count
-        # The sampled oloid can be slightly undersized; the rational torus is exact.
-        tolerance = 0.01 if name == "oloid" else 1e-5
-        np.testing.assert_allclose(
-            np.ptp(mesh.bounds, axis=0), dimensions, atol=tolerance
-        )
+    assert len(list(tmp_path.glob("*.stl"))) == 1
+    mesh = trimesh.load_mesh(tmp_path / f"{name}_preview.stl")
+    assert mesh.is_watertight and mesh.is_volume
+    assert len(mesh.faces) == count
+    tolerance = 0.01 if name == "oloid" else 1e-5
+    np.testing.assert_allclose(np.ptp(mesh.bounds, axis=0), dimensions, atol=tolerance)
     assert not list(tmp_path.glob("*.png"))
     assert not list(tmp_path.glob("*.yaml"))
     assert not (tmp_path / "manifest.json").exists()

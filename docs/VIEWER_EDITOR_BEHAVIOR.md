@@ -397,8 +397,10 @@ for the current examples.
 `_embedded_app.py` is support code, not a launcher. Duplicate desktop/combined
 embedded launchers were removed. Older Plotly curve/surface examples live in
 the experimental checkout and were not ported. The existing main
-`demos/demos_surfaces/demo_stl_printing.py` remains the torus/oloid multi-patch
-export example using the external exporter.
+`demos/02_surfaces/21_stl_torus.py` and `22_stl_oloid.py` each export one
+construction using the external exporter, then open one editor with the grid.
+`docs/export_demo_figures.py` exports matching PNG and offline HTML files under
+each example folder in `output/<script_name>/`.
 
 
 ## Scope and validation

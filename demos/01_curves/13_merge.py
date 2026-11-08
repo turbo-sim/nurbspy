@@ -1,7 +1,7 @@
-"""Join compatible NURBS curve segments into one curve.
+"""Join three compatible NURBS segments and edit the resulting curve.
 
-Define three connected segments, merge them, and compare the input segments
-and joined curve with their respective control polygons.
+Define the connected segments and merge them into one curve. Display only the
+joined curve and its control polygon on a reference grid.
 """
 
 import numpy as np
@@ -9,7 +9,6 @@ import nurbspy as nrb
 
 
 def main(show=True):
-    figures = {}
     # Create the first NURBS curve
 
     # Define the control points
@@ -30,7 +29,7 @@ def main(show=True):
     # Highest index of the control points (counting from zero)
     n = len(P) - 1
 
-    # Define the order of the basis polynomials
+    # Define the degree of the basis polynomials
     p = 3
 
     # Define the knot vector (clamped spline)
@@ -56,7 +55,7 @@ def main(show=True):
     # Highest index of the control points (counting from zero)
     n = len(P) - 1
 
-    # Define the order of the basis polynomials
+    # Define the degree of the basis polynomials
     p = 3
 
     # Define the knot vector (clamped spline)
@@ -83,7 +82,7 @@ def main(show=True):
     # Highest index of the control points (counting from zero)
     n = len(P) - 1
 
-    # Define the order of the basis polynomials
+    # Define the degree of the basis polynomials
     p = 3
 
     # Define the knot vector (clamped spline)
@@ -96,56 +95,20 @@ def main(show=True):
     # Merge the NURBS curves
 
     nurbsMerged = nrb.merge_nurbs_curves([nurbs1, nurbs2, nurbs3])
-    figures["segments"] = nrb.Figure(
-        nurbs1,
-        title="Three compatible curve segments",
-        display=dict(
-            view="xy",
-            control_points=True,
-            control_polygon=True,
-            grid=False,
-            geometry_color="#0072bd",
-        ),
-    )
-    figures["segments"].add(
-        nurbs2,
-        name="Second segment",
-        display=dict(
-            geometry_color="#d97823",
-            control_points=False,
-            control_polygon=False,
-            curve_depth_test=False,
-        ),
-    )
-    figures["segments"].add(
-        nurbs3,
-        name="Third segment",
-        display=dict(
-            geometry_color="#21856a",
-            control_points=False,
-            control_polygon=False,
-            curve_depth_test=False,
-        ),
-    )
-    for name in figures["segments"].names:
-        figures["segments"].update(
-            name, display=dict(control_points=True, control_polygon=True)
-        )
-    figures["merged"] = nrb.Figure(
+    figure = nrb.Figure(
         nurbsMerged,
         title="Merged NURBS curve",
         display=dict(
             view="xy",
             control_points=True,
             control_polygon=True,
-            grid=False,
+            grid=True,
             geometry_color="#0072bd",
         ),
     )
     if show:
-        for figure in figures.values():
-            figure.show()
-    return figures
+        figure.edit()
+    return figure
 
 
 if __name__ == "__main__":

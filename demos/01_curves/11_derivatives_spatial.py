@@ -2,6 +2,8 @@
 
 Compute first and second derivatives of a weighted spatial curve, report their
 errors, and display the curve with its control polygon and Frenet-Serret frames.
+
+The editor opens one example with its background grid enabled.
 """
 
 import numpy as np
@@ -9,7 +11,6 @@ import nurbspy as nrb
 
 
 def main(show=True):
-    figures = {}
     # 3D NURBS curve example
 
     # Define the control points
@@ -27,7 +28,7 @@ def main(show=True):
     # Define the array of control point weights
     W = np.asarray([1, 1, 3, 1, 1])
 
-    # Define the order of the basis polynomials
+    # Define the degree of the basis polynomials
     p = 3
 
     # Define the knot vector (clamped spline)
@@ -35,7 +36,7 @@ def main(show=True):
     U = np.concatenate((np.zeros(p), np.linspace(0, 1, n - p + 2), np.ones(p)))
 
     my_nurbs = nrb.NurbsCurve(control_points=P, weights=W, degree=p, knots=U)
-    figures["curve"] = nrb.Figure(
+    figure = nrb.Figure(
         my_nurbs,
         title="Native derivative verification",
         display=dict(
@@ -90,9 +91,8 @@ def main(show=True):
         np.sum((dddC_fd - dddC_exact) ** 2) ** (1 / 2) / len(u),
     )
     if show:
-        for figure in figures.values():
-            figure.show()
-    return figures
+        figure.edit()
+    return figure
 
 
 if __name__ == "__main__":

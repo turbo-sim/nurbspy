@@ -2,6 +2,9 @@
 
 Compare first, second, and mixed partial derivatives on a weighted surface
 and display the patch with its control net.
+
+Open one construction in the editor with a reference grid.
+Additional curves and markers illustrate the initial construction.
 """
 
 import numpy as np
@@ -9,7 +12,6 @@ import nurbspy as nrb
 
 
 def main(show=True):
-    figures = {}
     # NURBS surface example
 
     # Define the control points
@@ -58,7 +60,7 @@ def main(show=True):
     n = len(P) - 1
     m = len(P[0]) - 1
 
-    # Define the order of the basis polynomials
+    # Define the degree of the basis polynomials
     # Linear (p = 1), Quadratic (p = 2), Cubic (p = 3), etc.
     # Set p = n (number of control points minus one) to obtain a Bezier
     p = 3
@@ -73,7 +75,7 @@ def main(show=True):
     nurbsSurface = nrb.NurbsSurface(
         control_points=P, weights=W, u_degree=p, v_degree=q, u_knots=U, v_knots=V
     )
-    figures["surface"] = nrb.Figure(
+    figure = nrb.Figure(
         nurbsSurface,
         title="Native derivative verification",
         display=dict(
@@ -150,9 +152,8 @@ def main(show=True):
         np.real(np.sum((dS_exact - dS_CFD) ** 2) ** (1 / 2) / (Nu * Nv)),
     )
     if show:
-        for figure in figures.values():
-            figure.show()
-    return figures
+        figure.edit()
+    return figure
 
 
 if __name__ == "__main__":

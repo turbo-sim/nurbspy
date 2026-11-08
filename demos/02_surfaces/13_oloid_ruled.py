@@ -2,6 +2,8 @@
 
 Sample the generating boundaries and display both surface patches with straight
 rulings, illustrating how moving a line between the circles generates the shape.
+
+Open one construction in the editor with a reference grid.
 """
 
 import numpy as np
@@ -30,12 +32,12 @@ def main(show=True):
     figure = nrb.Figure(
         patches[0],
         title="Oloid: boundaries and straight rulings",
-        display=dict(grid=True, control_points=False, control_polygon=False),
+        display=dict(grid=True, control_points=True, control_polygon=True),
     )
     figure.add(
         patches[1],
         name="Second patch",
-        display=dict(control_points=False, control_polygon=False),
+        display=dict(control_points=True, control_polygon=True),
     )
     line_display = dict(
         geometry_color="#536d7d", control_points=False, control_polygon=False
@@ -53,8 +55,8 @@ def main(show=True):
             second, name=f"Second generating boundary {i+1}", display=line_display
         )
     if show:
-        figure.show()
-    return {"oloid": figure}
+        figure.edit()
+    return figure
 
 
 if __name__ == "__main__":

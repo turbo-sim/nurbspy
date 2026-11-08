@@ -2,6 +2,9 @@
 
 Project the point onto the curve and display both points and their connecting
 segment together with the control polygon.
+
+The editor opens one example with its background grid enabled.
+The projection markers describe the initial curve; they are construction snapshots.
 """
 
 import numpy as np
@@ -9,7 +12,6 @@ import nurbspy as nrb
 
 
 def main(show=True):
-    figures = {}
     # 2D NURBS curve example
 
     # Define the control points
@@ -30,34 +32,32 @@ def main(show=True):
     u0 = nurbs2D.project_point_to_curve(P0)
     C0 = nurbs2D.get_value(u0)
 
-    figures["planar"] = nrb.Figure(
+    figure = nrb.Figure(
         nurbs2D,
         title="Closest point on a NURBS curve",
         display=dict(
             view="xy",
             control_points=True,
             control_polygon=True,
-            grid=False,
+            grid=True,
             geometry_color="#0072bd",
         ),
     )
     # Original and closest points, with their projection segment.
-    for fig in figures.values():
-        fig.add(
-            nrb.NurbsCurve(np.column_stack((P0, C0)), degree=1),
-            name="Projection segment",
-            display=dict(
-                geometry_color="#d97823",
-                control_points=False,
-                control_polygon=False,
-                curve_depth_test=False,
-            ),
-        )
-        fig.scatter(np.column_stack((P0, C0)), color="#d97823", size=7)
+    figure.add(
+        nrb.NurbsCurve(np.column_stack((P0, C0)), degree=1),
+        name="Projection segment",
+        display=dict(
+            geometry_color="#d97823",
+            control_points=False,
+            control_polygon=False,
+            curve_depth_test=False,
+        ),
+    )
+    figure.scatter(np.column_stack((P0, C0)), color="#d97823", size=7)
     if show:
-        for figure in figures.values():
-            figure.show()
-    return figures
+        figure.edit()
+    return figure
 
 
 if __name__ == "__main__":

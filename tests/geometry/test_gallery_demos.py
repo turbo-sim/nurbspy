@@ -16,7 +16,6 @@ TUTORIALS = [
     f"demos.{folder}.{path.stem}"
     for folder in ("01_curves", "02_surfaces")
     for path in sorted((ROOT / "demos" / folder).glob("[0-9]*.py"))
-    if path.stem != "15_stl_printing"
 ]
 
 
@@ -24,8 +23,8 @@ TUTORIALS = [
     "relative",
     [
         "00_basis_polynomials/01_basis_polynomials.py",
-        "01_curves/01_bezier.py",
-        "02_surfaces/01_bilinear.py",
+        "01_curves/01_bezier_planar.py",
+        "02_surfaces/01_bilinear_planar.py",
     ],
 )
 def test_demo_runs_as_standalone_file_outside_checkout(relative, tmp_path):
@@ -49,27 +48,39 @@ def test_demo_runs_as_standalone_file_outside_checkout(relative, tmp_path):
 
 
 @pytest.mark.parametrize("name", TUTORIALS)
-def test_tutorial_preserves_geometry_in_framed_threejs_scenes(name, monkeypatch):
+def test_tutorial_opens_one_editor_with_auto_quality_and_grid(
+    name, monkeypatch, tmp_path
+):
     module = importlib.import_module(name)
-    figures = module.main(show=False)
+    if hasattr(module, "OUTPUT"):
+        monkeypatch.setattr(module, "OUTPUT", tmp_path)
+    opened = []
+    monkeypatch.setattr(nrb.Figure, "edit", lambda figure: opened.append(figure))
+    monkeypatch.setattr(
+        nrb.Figure, "show", lambda figure: pytest.fail("Demo opened a viewer")
+    )
+    figure = module.main()
     source = Path(module.__file__).read_text(encoding="utf-8")
     assert "matplotlib" not in source and "sys.path" not in source
-    assert figures
+    assert isinstance(figure, nrb.Figure)
+    assert opened == [figure]
+    assert figure.resolution is None
     assert "gallery" not in source and "EXPORT_FIGURES" not in source
+    assert ".savefig(" not in source and ".to_html(" not in source
     assert len(module.__doc__.splitlines()) >= 3
-    for figure in figures.values():
-        assert isinstance(figure, nrb.Figure)
-        restored = nrb.Figure.from_state(figure.to_state())
-        assert restored.to_state() == figure.to_state()
-        for object_name in figure.names:
-            assert np.isfinite(figure.geometry(object_name).P).all()
-        assert figure.settings()["grid"] == (figure.settings()["view"] == "3d")
+    restored = nrb.Figure.from_state(figure.to_state())
+    assert restored.to_state() == figure.to_state()
+    for object_name in figure.names:
+        assert np.isfinite(figure.geometry(object_name).P).all()
+        assert figure.settings(object_name)["grid"] is True
+        assert figure.settings(object_name)["quality"] == "auto"
+    assert figure.settings()["control_points"] is True
+    assert figure.settings()["control_polygon"] is True
 
 
 def test_isocurves_keep_exact_surface_parameters_and_disable_depth_flicker():
-    surface = importlib.import_module("demos.02_surfaces.04_bspline")
-    figures = surface.main(show=False)
-    construction = figures["surface"]
+    surface = importlib.import_module("demos.02_surfaces.05_bspline")
+    construction = surface.main(show=False)
     curve = construction.geometry("u=0.08")
     uv = np.linspace(0, 1, 53)
     np.testing.assert_allclose(

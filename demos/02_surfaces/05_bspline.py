@@ -2,6 +2,9 @@
 
 Display its control net, exact parameter curves, and surface normals, while
 colouring the patch by mean curvature.
+
+Open one construction in the editor with a reference grid.
+Additional curves and markers illustrate the initial construction.
 """
 
 import numpy as np
@@ -9,7 +12,6 @@ import nurbspy as nrb
 
 
 def main(show=True):
-    figures = {}
     isocurve_display = dict(
         control_points=False,
         control_polygon=False,
@@ -57,7 +59,7 @@ def main(show=True):
     n = len(P) - 1
     m = len(P[0]) - 1
 
-    # Define the order of the basis polynomials
+    # Define the degree of the basis polynomials
     # Linear (p = 1), Quadratic (p = 2), Cubic (p = 3), etc.
     # Set p = n (number of control points minus one) to obtain a Bezier
     p = 3
@@ -72,7 +74,7 @@ def main(show=True):
     bsplineSurface = nrb.NurbsSurface(
         control_points=P, u_degree=p, v_degree=q, u_knots=U, v_knots=V
     )
-    figures["surface"] = nrb.Figure(
+    figure = nrb.Figure(
         bsplineSurface,
         title="B-spline surface: mean curvature",
         display=dict(
@@ -83,20 +85,18 @@ def main(show=True):
         ),
     )
     for value in np.linspace(0.08, 0.92, 5):
-        figures["surface"].add(
+        figure.add(
             bsplineSurface.get_isocurve_u(float(value)),
             name=f"u={value:.2f}",
             display=isocurve_display,
         )
     for value in np.linspace(0.08, 0.92, 5):
-        figures["surface"].add(
+        figure.add(
             bsplineSurface.get_isocurve_v(float(value)),
             name=f"v={value:.2f}",
             display=isocurve_display,
         )
-    figures["surface"].update(
-        display=dict(quantity="mean_curvature", colormap="viridis")
-    )
+    figure.update(display=dict(quantity="mean_curvature", colormap="viridis"))
     # Draw short line segments in the surface-normal directions.
     u, v = np.meshgrid(np.linspace(0.15, 0.85, 3), np.linspace(0.15, 0.85, 3))
     points = bsplineSurface.get_value(u.ravel(), v.ravel())
@@ -105,7 +105,7 @@ def main(show=True):
         segment = nrb.NurbsCurve(
             np.column_stack((point, point + 0.4 * normal)), degree=1
         )
-        figures["surface"].add(
+        figure.add(
             segment,
             name=f"Normal {index}",
             display=dict(
@@ -116,9 +116,8 @@ def main(show=True):
             ),
         )
     if show:
-        for figure in figures.values():
-            figure.show()
-    return figures
+        figure.edit()
+    return figure
 
 
 if __name__ == "__main__":

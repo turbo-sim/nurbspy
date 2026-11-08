@@ -1,14 +1,15 @@
-"""Construct a bicubic Bezier surface from a grid of control points.
+"""Construct a polynomial Bezier surface from a grid of control points.
 
 Display the patch and control net to illustrate how the control points shape
 the surface between its boundaries.
+
+Open one construction in the editor with a reference grid.
 """
 
 import nurbspy as nrb
 
 
 def main(show=True):
-    figures = {}
     # Polynomial Bezier surface example
 
     # Define the control points
@@ -47,7 +48,7 @@ def main(show=True):
     ]  # points[u_index][v_index]
 
     bezierSurface = nrb.NurbsSurface(control_points=P)
-    figures["surface"] = nrb.Figure(
+    figure = nrb.Figure(
         bezierSurface,
         title="Bézier surface",
         display=dict(
@@ -58,9 +59,8 @@ def main(show=True):
         ),
     )
     if show:
-        for figure in figures.values():
-            figure.show()
-    return figures
+        figure.edit()
+    return figure
 
 
 if __name__ == "__main__":

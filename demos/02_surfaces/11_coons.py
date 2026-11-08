@@ -2,6 +2,9 @@
 
 Construct compatible north, south, east, and west curves, then show the
 interpolating surface with its boundaries, parameter curves, and control net.
+
+Open one construction in the editor with a reference grid.
+Additional curves and markers illustrate the initial construction.
 """
 
 import numpy as np
@@ -9,7 +12,6 @@ import nurbspy as nrb
 
 
 def main(show=True):
-    figures = {}
     boundary_display = dict(
         geometry_color="#d97823",
         control_points=False,
@@ -65,7 +67,7 @@ def main(show=True):
     coonsNurbsSurface = nrb.NurbsSurfaceCoons(
         nurbsCurve_south, nurbsCurve_north, nurbsCurve_west, nurbsCurve_east
     ).NurbsSurface
-    figures["coons_patch"] = nrb.Figure(
+    figure = nrb.Figure(
         coonsNurbsSurface,
         title="Coons patch interpolating four boundary curves",
         display=dict(
@@ -76,41 +78,40 @@ def main(show=True):
         ),
     )
     for value in np.linspace(0.08, 0.92, 5):
-        figures["coons_patch"].add(
+        figure.add(
             coonsNurbsSurface.get_isocurve_u(float(value)),
             name=f"u={value:.2f}",
             display=isocurve_display,
         )
     for value in np.linspace(0.08, 0.92, 5):
-        figures["coons_patch"].add(
+        figure.add(
             coonsNurbsSurface.get_isocurve_v(float(value)),
             name=f"v={value:.2f}",
             display=isocurve_display,
         )
-    figures["coons_patch"].add(
+    figure.add(
         nurbsCurve_south,
         name="South boundary",
         display=boundary_display,
     )
-    figures["coons_patch"].add(
+    figure.add(
         nurbsCurve_north,
         name="North boundary",
         display=boundary_display,
     )
-    figures["coons_patch"].add(
+    figure.add(
         nurbsCurve_west,
         name="West boundary",
         display=boundary_display,
     )
-    figures["coons_patch"].add(
+    figure.add(
         nurbsCurve_east,
         name="East boundary",
         display=boundary_display,
     )
     if show:
-        for figure in figures.values():
-            figure.show()
-    return figures
+        figure.edit()
+    return figure
 
 
 if __name__ == "__main__":

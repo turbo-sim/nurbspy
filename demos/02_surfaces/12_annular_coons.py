@@ -2,6 +2,9 @@
 
 Define its boundary curves and display the resulting patch with its control
 net and parameter curves.
+
+Open one construction in the editor with a reference grid.
+Additional curves and markers illustrate the initial construction.
 """
 
 import numpy as np
@@ -9,7 +12,6 @@ import nurbspy as nrb
 
 
 def main(show=True):
-    figures = {}
     isocurve_display = dict(
         control_points=False,
         control_polygon=False,
@@ -55,7 +57,7 @@ def main(show=True):
     ).NurbsSurface
     # coonsNurbsSurface = nrb.NurbsSurfaceRuled(nurbsOuter, nurbsInner).NurbsSurface
 
-    figures["annulus"] = nrb.Figure(
+    figure = nrb.Figure(
         coonsNurbsSurface,
         title="Annular Coons patch interpolating four boundary curves",
         display=dict(
@@ -66,21 +68,20 @@ def main(show=True):
         ),
     )
     for value in np.linspace(0.08, 0.92, 5):
-        figures["annulus"].add(
+        figure.add(
             coonsNurbsSurface.get_isocurve_u(float(value)),
             name=f"u={value:.2f}",
             display=isocurve_display,
         )
     for value in np.linspace(0.08, 0.92, 5):
-        figures["annulus"].add(
+        figure.add(
             coonsNurbsSurface.get_isocurve_v(float(value)),
             name=f"v={value:.2f}",
             display=isocurve_display,
         )
     if show:
-        for figure in figures.values():
-            figure.show()
-    return figures
+        figure.edit()
+    return figure
 
 
 if __name__ == "__main__":

@@ -34,8 +34,26 @@ for usage, lifetimes, and tradeoffs.
 See the documentation for the [theory](https://turbo-sim.github.io/nurbspy/theory/index.html) behind these capabilities (Bézier, B-Spline, NURBS, and G² continuity) and the [examples](https://turbo-sim.github.io/nurbspy/examples/index.html) gallery, with complete scripts and their numerical and graphical output.
 
 
-See the [numbered tutorials](demos/README.md) for examples using automatic display
-quality. Display offers Auto, Fast, and Fine; no numerical resolution is needed.
+## Numbered tutorials
+
+Start with [basis functions, curves, and surfaces](demos/README.md), ordered from
+simple geometry to construction, derivatives, projection, merging, and STL export.
+The scripts focus on the public APIs and display the relevant graphical features
+in one editor per script. Planar and spatial examples are separate, and every
+example retains a background grid. Display quality uses Auto by default, without
+a numerical resolution setting.
+
+```powershell
+poetry run python demos/01_curves/01_bezier_planar.py
+poetry run python demos/02_surfaces/01_bilinear_planar.py
+```
+
+The teaching scripts do not generate images, reports, or variable archives.
+Use `main(show=False)` to reuse their figures from other Python code. STL files
+are written only by the STL export example. See the [Figure guide](docs/source/figures.md)
+for PNG export and self-contained read-only interactive HTML with `fig.to_html()`.
+To export matching PNG/HTML files for all curve and surface demos, run
+`python docs/export_demo_figures.py`; outputs stay beside the corresponding demo folders.
 
 ## Interactive geometry viewing and editing
 
@@ -49,6 +67,9 @@ poetry install
 poetry run python demos/03_viewer/01_curve.py
 poetry run python demos/03_viewer/02_surface.py
 ```
+
+Set `EDITABLE = True` in either script for editing, or `False` for read-only
+viewing. `DISPLAY` controls appearance, and display quality defaults to Auto.
 
 ```python
 import nurbspy as nrb
@@ -65,7 +86,8 @@ ViewCube, solid-colour defaults, diagnostics, and optional STL mesh display.
 Editors add direct X/Y/Z coordinates, constrained dragging, positive weights,
 and Reset. Original inputs are unchanged; Apply returns a new NumPy geometry,
 including for JAX inputs. YAML can restore that geometry through either backend.
-Undo/redo and file dialogs are deliberately omitted.
+Editors support Shift-click/Shift-drag multi-selection, group dragging, and
+Undo/Redo for geometry edits. File dialogs are omitted.
 
 For a host-owned Dash application, use
 `GeometryView` or `GeometryEditor`. See the [guide](docs/source/visualization.md)
@@ -306,7 +328,8 @@ closure checks, and the limits of STL precision and solid validation.
 Plot and export an exact NURBS torus and a sampled ruled-surface oloid:
 
 ```bash
-python demos/02_surfaces/15_stl_printing.py --quality print
+python demos/02_surfaces/21_stl_torus.py --quality print
+python demos/02_surfaces/22_stl_oloid.py --quality print
 ```
 
 See the [printing walkthrough](docs/source/examples/stl_printing.md) for all

@@ -8,8 +8,8 @@ After installing nurbspy, run a script directly from your IDE or terminal:
 
 ```powershell
 poetry run python demos/00_basis_polynomials/01_basis_polynomials.py
-poetry run python demos/01_curves/01_bezier.py
-poetry run python demos/02_surfaces/01_bilinear.py
+poetry run python demos/01_curves/01_bezier_planar.py
+poetry run python demos/02_surfaces/01_bilinear_planar.py
 ```
 
 | Folder | Topics |
@@ -19,17 +19,21 @@ poetry run python demos/02_surfaces/01_bilinear.py
 | [02_surfaces](02_surfaces/README.md) | Patches, extrusion, ruling, Coons patches, revolution, derivatives, projection, STL |
 | [03_viewer](03_viewer/README.md) | Editing, embedded viewers, and saving Figure state |
 
-Curve and surface examples use `nrb.Figure`. Each geometry case has one view
-with the relevant control points, polygons/nets, frames, boundaries, or parameter
-curves. Spatial views include a reference grid. Display sampling uses the default
-**Auto** quality, so the scripts do not specify resolution values. Use Display's
-**Fast** or **Fine** setting if you want to change the detail/speed tradeoff.
+Curve and surface scripts use `nrb.Figure` and open one **editor** each. Planar
+and spatial examples are separate scripts. Every example has a background grid
+and the relevant control points, polygons/nets, frames, or boundaries. Display
+sampling uses the default **Auto** quality, so no resolution value is needed.
 
-`main(show=False)` builds and returns the figures without opening windows, so
-other Python code can reuse them. The examples do not automatically generate
-images, reports, or data archives. The STL tutorial writes STL files because
-exporting a printable mesh is the capability it teaches.
+`main(show=False)` returns one figure without opening a window. Teaching scripts
+do not automatically generate images or HTML. The two STL examples write the
+STL files they demonstrate.
 
-Interactive HTML and image export are described in the
-[Figure guide](../docs/source/figures.md). Presentation and publication tooling
-belongs outside these teaching scripts.
+Export all curve and surface examples as matching PNG and standalone HTML:
+
+```powershell
+python docs/export_demo_figures.py
+```
+
+Each pair goes under the example folder's `output/<script_name>/` directory.
+See the [export instructions](../docs/EXPORT_DEMO_FIGURES.md). Gallery generation
+stays separate from the teaching scripts.
