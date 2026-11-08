@@ -28,7 +28,7 @@ export async function mountFigure(rootId,payload,options={}){
     if(!root)throw new Error('Figure container is missing.');
     let state=clone(payload.state),owners=Object.create(null),core,selector,visibility,timer,disposed=false,lastPublished='';
     const originals=Object.fromEntries(Object.entries(payload.scenes).map(([name,scene])=>[name,clone(scene.model)]));
-    let building=true;
+    let building=true,markerObjects=[],markersVisible=true;
     const selections=Object.create(null);
     const geometryBusy=()=>Object.values(owners).some(e=>e.pending||e.inFlight||e.drag||e.editing?.box||e.cameraAnimating);
     const history=options.readOnly?null:new EditHistory({
@@ -134,6 +134,7 @@ export async function mountFigure(rootId,payload,options={}){
     }
     function build(saved){
         building=true;
+        markerObjects=[];
         const active=state.active;
         const sceneFor=name=>({...clone(payload.scenes[name]),title:name===active?state.title:name,display:state.objects[name].display});
         core=new Explorer(root,sceneFor(active),{
@@ -162,7 +163,7 @@ export async function mountFigure(rootId,payload,options={}){
             material.onBeforeCompile=shader=>{shader.fragmentShader=shader.fragmentShader.replace('void main() {',
                 'void main() { if (length(gl_PointCoord-vec2(0.5))>0.5) discard;');};
             const points=new THREE.Points(geometry,material);points.renderOrder=40;points.frustumCulled=false;
-            core.scene.add(points);
+            points.visible=markersVisible;markerObjects.push(points);core.scene.add(points);
         }
         core.renderer.setClearColor(state.rendering.background,1);
         for(const record of state.meshes||[]){
@@ -210,6 +211,13 @@ export async function mountFigure(rootId,payload,options={}){
             e.scientific.frameLegend.style.bottom=`${12+legendIndex*25}px`;
             if(state.objects[name].visible&&e.scientific.quantity.value!=='solid')legendIndex++;
         }
+        if(options.offline){
+            for(const owner of Object.values(owners)){
+                const s=owner.scientific;
+                for(const control of [s.quantity,s.frames,s.frameCount,s.frameScale,s.nu,s.nv,s.download])if(control)control.disabled=true;
+                if(s.meshMode){s.meshMode.querySelector('option[value="export"]')?.remove();}
+            }
+        }
         if(options.export){
             core.renderer.setPixelRatio(window.devicePixelRatio||1);
             root.classList.add('nrb-figure-export');
@@ -239,7 +247,7 @@ export async function mountFigure(rootId,payload,options={}){
         throw new Error('Figure did not finish rendering.');
     }
     async function updateFrame(next){
-        if(!options.export)throw new Error('Batch frame updates require an export renderer.');
+        if(!options.export&&!options.offline)throw new Error('Scene updates require an export or offline renderer.');
         await ready();
         const changed=Object.keys(next.scenes);
         if(next.patch)next.scenes=Object.fromEntries(Object.keys(next.state.objects).map(name=>[name,next.scenes[name]||payload.scenes[name]]));
@@ -261,6 +269,7 @@ export async function mountFigure(rootId,payload,options={}){
         await ready();
     }
     const controller={snapshot:capture,ready,update:updateFrame,
+        setMarkersVisible(value){markersVisible=Boolean(value);markerObjects.forEach(o=>o.visible=markersVisible);core.render();},
         dispose(){disposed=true;clearTimeout(timer);clear();mounted.delete(rootId);},
     };
     build(state.camera);mounted.set(rootId,controller);await ready();publish();

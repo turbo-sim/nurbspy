@@ -338,6 +338,16 @@ class Figure:
             self.camera = _camera(state["camera"])
         return result
 
+    def to_html(self, destination=None, *, variants=None):
+        """Export a standalone, read-only interactive HTML without a Python server.
+
+        Optional ``variants`` maps labels to Figures. Switching variants retains
+        camera and display choices. Geometry/scientific calculations are frozen
+        at export; navigation, appearance and layer visibility remain interactive.
+        """
+        from .html import export_html
+        return export_html(self, destination, variants=variants)
+
     def _image_size(self, width, height):
         if width is None and height is None:
             width, height = self.rendering["width"], self.rendering["height"]
