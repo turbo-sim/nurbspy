@@ -5,6 +5,43 @@ object appearance and diagnostics, and a fixed figure aspect ratio. Desktop,
 embedded Dash, and PNG output use the same Three.js renderer and Python geometry
 evaluation. Matplotlib `.plot()` retains its existing interface.
 
+## Automatic display quality
+
+`Figure`, geometry `show()`/`edit()`, and embedded viewers choose display sampling
+automatically. No resolution value is needed:
+
+```python
+fig = nrb.Figure(surface)                 # Auto balances detail and speed.
+fig = nrb.Figure(surface, quality="fine") # Optional initial preference.
+fig.update(display={"quality": "fast"}) # Change an existing object's quality.
+```
+
+Display > View > Display quality offers **Auto**, **Fast**, and **Fine**. The
+preference belongs to the active object and is retained in Figure/YAML state.
+It changes only the display approximation, leaving the NURBS geometry and STL
+export settings unchanged.
+
+The sampler includes knot boundaries within its sampling budget and probes chord
+deviation and changes of direction. Surface sampling can differ along $u$ and
+$v$; a twisted patch is also checked even when its parameter curves are straight.
+Refinement is bounded to five passes and at most 128 samples per direction
+(16,384 surface vertices). These are visual quality heuristics, not certified
+geometric error bounds. Very complex geometry can reach the sampling limit.
+
+Point and weight dragging reuse a coarse grid, capped at 20 samples per direction.
+Only a completed edit reassesses the object's full sampling. Camera movement
+reuses the existing GPU mesh and performs no Python geometry evaluation. A bounded
+cache reuses sampling for recent edits and quality changes; shared hosts keep
+accepted geometry separate for each browser.
+
+Standalone HTML includes precomputed quality choices, so its Auto/Fast/Fine
+selector works offline. This increases export preparation and file size, without
+requiring a Python server while viewing. PNG output uses the selected quality.
+
+An explicit `resolution=...` remains an advanced override for older scripts and
+saved views. It retains the previous fixed-grid behavior and disables the quality
+selector. Existing numeric-resolution YAML files continue to load.
+
 ## Save and restore an interactive view
 
 ```python

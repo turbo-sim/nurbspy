@@ -9,6 +9,7 @@ import numpy as np
 import yaml
 
 from .analysis import display_options
+from .sampling import validate_quality
 from .model import _GeometryModel
 from ..serialization import _geometry_record
 
@@ -68,9 +69,10 @@ class Figure:
     """
 
     def __init__(self, geometry=None, *, name="geometry", title="NURBS figure",
-                 resolution=40, preview_resolution=None, display=None,
+                 resolution=None, preview_resolution=None, quality="auto", display=None,
                  width=1000, height=750, background="#ffffff"):
         self.title = str(title)
+        self.quality = validate_quality(quality)
         self.resolution = resolution
         self.preview_resolution = preview_resolution
         self.rendering = dict(width=_size(width, "width"), height=_size(height, "height"),
@@ -85,16 +87,32 @@ class Figure:
         self._validate_rendering()
 
     def _validate_rendering(self):
+        validate_quality(self.quality)
         if not isinstance(self.rendering, dict) or set(self.rendering) != {"width", "height", "background"}:
             raise ValueError("Invalid rendering settings")
         for key in ("width", "height"):
             _size(self.rendering[key], key)
         if not isinstance(self.rendering["background"], str) or not re.fullmatch(r"#[0-9a-fA-F]{6}", self.rendering["background"]):
             raise ValueError("Background must be a six-digit hex colour")
-        if isinstance(self.resolution, bool) or not isinstance(self.resolution, int) or not 8 <= self.resolution <= 100:
+        if self.resolution is not None and (isinstance(self.resolution, bool) or not isinstance(self.resolution, int) or not 8 <= self.resolution <= 100):
             raise ValueError("resolution must be an integer between 8 and 100")
-        if self.preview_resolution is not None and (type(self.preview_resolution) is not int or not 8 <= self.preview_resolution <= self.resolution):
+        if self.preview_resolution is not None and (type(self.preview_resolution) is not int or not 8 <= self.preview_resolution <= (self.resolution or 128)):
             raise ValueError("preview_resolution must be between 8 and resolution")
+
+    @property
+    def quality(self):
+        """Display preset of the active object, or the initial preset if empty."""
+        objects = getattr(self, "_objects", {})
+        active = getattr(self, "active", None)
+        return objects[active]["display"]["quality"] if active in objects else self._default_quality
+
+    @quality.setter
+    def quality(self, value):
+        self._default_quality = validate_quality(value)
+        objects = getattr(self, "_objects", {})
+        active = getattr(self, "active", None)
+        if active in objects:
+            objects[active]["display"]["quality"] = value
 
     @property
     def names(self):
@@ -107,7 +125,7 @@ class Figure:
         if type(visible) is not bool:
             raise ValueError("visible must be a boolean")
         model = _GeometryModel(geometry, id="validation", resolution=self.resolution,
-                               preview_resolution=self.preview_resolution, display=display)
+                               preview_resolution=self.preview_resolution, quality=self.quality, display=display)
         self._objects[name] = dict(geometry=_geometry_record(geometry),
                                    display=model.display, visible=visible)
         self.active = self.active or name
@@ -172,7 +190,7 @@ class Figure:
         merged = {**old["display"], **(display or {})}
         geometry = self.geometry(name) if geometry is None else geometry
         model = _GeometryModel(geometry, id="validation", resolution=self.resolution,
-                               preview_resolution=self.preview_resolution, display=merged)
+                               preview_resolution=self.preview_resolution, quality=self.quality, display=merged)
         visible = old["visible"] if visible is None else visible
         if type(visible) is not bool:
             raise ValueError("visible must be a boolean")
@@ -212,7 +230,7 @@ class Figure:
         if not self._objects or self.active not in self._objects:
             raise ValueError("A figure requires at least one object and a valid active name")
         state = deepcopy(dict(format="nurbspy-figure", version=1, title=self.title,
-                             resolution=self.resolution, preview_resolution=self.preview_resolution,
+                             resolution=self.resolution, preview_resolution=self.preview_resolution, quality=self.quality,
                              rendering=self.rendering, camera=_camera(self.camera), active=self.active,
                              objects=self._objects))
         if self._markers:
@@ -223,7 +241,7 @@ class Figure:
 
     @classmethod
     def from_state(cls, state):
-        if not isinstance(state, dict) or set(state)-{"markers", "meshes"} != {"format", "version", "title", "resolution", "preview_resolution", "rendering", "camera", "active", "objects"}:
+        if not isinstance(state, dict) or set(state)-{"markers", "meshes", "quality"} != {"format", "version", "title", "resolution", "preview_resolution", "rendering", "camera", "active", "objects"}:
             raise ValueError("Expected a versioned nurbspy figure document")
         if state["format"] != "nurbspy-figure" or type(state["version"]) is not int or state["version"] != 1:
             raise ValueError("Unsupported figure format or version")
@@ -231,7 +249,7 @@ class Figure:
         if not isinstance(rendering, dict) or set(rendering) != {"width", "height", "background"}:
             raise ValueError("Invalid rendering settings")
         figure = cls(title=state["title"], resolution=state["resolution"],
-                     preview_resolution=state["preview_resolution"], **rendering)
+                     preview_resolution=state["preview_resolution"], quality=state.get("quality", "auto"), **rendering)
         if not isinstance(state["objects"], dict):
             raise ValueError("Figure objects must be a mapping")
         for name, item in state["objects"].items():
@@ -282,10 +300,10 @@ class Figure:
         self.to_state()
         return {name: _GeometryModel(self.geometry(name), id=f"object{i}", title=name,
                                      resolution=self.resolution, preview_resolution=self.preview_resolution,
-                                     display=item["display"])
+                                     quality=self.quality, display=item["display"])
                 for i, (name, item) in enumerate(self._objects.items()) if names is None or name in names}
 
-    def _payload(self, names=None):
+    def _payload(self, names=None, *, quality_levels=False):
         models = self._models(names)
         scenes = {}
         for name, model in models.items():
@@ -298,7 +316,15 @@ class Figure:
                            export_mesh=settings["mesh"] == "export", nu=settings["mesh_u"], nv=settings["mesh_v"])
             scene["diagnostics"] = model.inspect(request)
             scenes[name] = scene
-        return dict(state=self.to_state(), scenes=scenes)
+        result = dict(state=self.to_state(), scenes=scenes)
+        if quality_levels and self.resolution is None:
+            result["quality_scenes"] = {}
+            for preset in ("auto", "fast", "fine"):
+                variant = self.copy()
+                for name in variant.names:
+                    variant._objects[name]["display"]["quality"] = preset
+                result["quality_scenes"][preset] = variant._payload()["scenes"]
+        return result
 
     def _accept(self, state):
         accepted = self.from_state(state)

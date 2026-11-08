@@ -98,8 +98,7 @@ class _FigureBridge:
         try:
             if self._read_only or self._closed:
                 raise ValueError("Figure is not accepting edits")
-            positions, _, quality, revision = self._models[name]._render_update(packet)
-            return dict(vertices=base64.b64encode(positions.tobytes()).decode(), quality=quality, revision=revision)
+            return self._models[name].render_packet(packet)
         except (ValueError, TypeError, KeyError, OverflowError) as error:
             return dict(error=str(error))
 
@@ -283,7 +282,7 @@ def render_frames(frames, directory, width, height, *, prefix, progress, timeout
                     raise ValueError("All frames must have the same logical figure dimensions")
                 if paths:
                     state = current.to_state()
-                    resampled = any(state[key] != previous[key] for key in ('resolution', 'preview_resolution'))
+                    resampled = any(state[key] != previous[key] for key in ('resolution', 'preview_resolution', 'quality'))
                     changed = [name for name, item in state['objects'].items()
                                if resampled or name not in previous['objects']
                                or any(item[key] != previous['objects'][name][key] for key in ('geometry', 'display'))]
@@ -367,6 +366,8 @@ def register_figure(component, app):
     def evaluate():
         try:
             model, packet = unpack()
+            if model.resolution is None:
+                return jsonify(model.render_packet(packet))
             positions, _, quality, revision = model._render_update(packet)
             return Response(positions.tobytes(), mimetype='application/octet-stream', headers={
                 'X-Nurbspy-Revision':str(revision), 'X-Nurbspy-Quality':quality, 'Cache-Control':'no-store'})
@@ -392,7 +393,12 @@ def register_figure(component, app):
         options.inspect=async(name,packet)=>(await post('inspect',{name,packet})).json();
         options.scenes=async state=>(await post('scenes',state)).json();
         if(!options.readOnly)options.evaluate=async(name,packet)=>{
-            const r=await post('edit',{name,packet});return {revision:Number(r.headers.get('X-Nurbspy-Revision')),
+            const r=await post('edit',{name,packet});
+            if(r.headers.get('Content-Type')?.includes('application/json')){
+                const data=await r.json(),bytes=Uint8Array.from(atob(data.vertices),c=>c.charCodeAt(0));
+                return {...data,positions:new Float32Array(bytes.buffer)};
+            }
+            return {revision:Number(r.headers.get('X-Nurbspy-Revision')),
                 quality:r.headers.get('X-Nurbspy-Quality'),positions:new Float32Array(await r.arrayBuffer())};
         };
         options.onState=state=>window.dash_clientside.set_props(options.stateStore,{data:state});

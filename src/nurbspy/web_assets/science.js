@@ -197,6 +197,7 @@ export class ScientificDisplay {
         const exportEnabled=exporting&&!preview;
         const request={revision:++this.serial,quality:e.displayQuality||'full',
             control_points:(e.displayModel||e.acceptedModel).control_points,weights:(e.displayModel||e.acceptedModel).weights,
+            sampling:e.sampling,draw_quality:e.displayPreset,
             field,frames:frameEnabled,frame_count:Number(this.frameCount?.value||8),frame_scale:Number(this.frameScale?.value||.1),
             export_mesh:exportEnabled,nu:Number(this.nu?.value||40),nv:Number(this.nv?.value||40)};
         if(field==='solid'&&!frameEnabled&&!exportEnabled){

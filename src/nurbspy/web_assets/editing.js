@@ -14,7 +14,7 @@ export class EditingControls {
     constructor(owner){
         this.owner=owner;this.panel=createInspector(owner,'edit','Edit','editing controls');
         this.history=owner.options?.history||new EditHistory({
-            busy:()=>Boolean(owner.pending||owner.inFlight||owner.drag||this.box),
+            busy:()=>Boolean(owner.pending||owner.inFlight||owner.drag||owner.resampling||this.box),
             restore:(_,model,selection)=>this.restore(model,selection),changed:()=>this.updateHistory(),
         });
         this.historyKey=owner.options?.historyKey||owner.root.id;
@@ -76,7 +76,7 @@ export class EditingControls {
         const e=this.owner,history=this.history;
         if(e.undoButton)e.undoButton.disabled=!history?.canUndo;
         if(e.redoButton)e.redoButton.disabled=!history?.canRedo;
-        const locked=Boolean(history?.restoring||history?.transaction?.committing||e.drag||this.box||
+        const locked=Boolean(history?.restoring||history?.transaction?.committing||e.drag||e.resampling||this.box||
             ((e.pending||e.inFlight)&&!history?.transaction));
         if(this.pointSelect)this.pointSelect.disabled=locked;
         for(const input of [...(this.coordinates||[]),this.weight,this.weightSlider])
@@ -88,7 +88,7 @@ export class EditingControls {
         const e=this.owner;if(!this.history)return true;
         const transaction=this.history.transaction;
         if(transaction)return transaction.object===this.historyKey&&!transaction.committing&&transaction.kind===kind;
-        if(e.pending||e.inFlight)return false;
+        if(e.pending||e.inFlight||e.resampling)return false;
         if(!this.history.begin(this.historyKey,e.model,this.selection()))return false;
         this.history.transaction.kind=kind;return true;
     }

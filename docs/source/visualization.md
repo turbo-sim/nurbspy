@@ -48,7 +48,7 @@ Equivalent function-oriented entry points are available:
 
 ```python
 from nurbspy.visualization import show, edit, plot
-show(curve, resolution=45, display=dict(view="xy", axes=True))
+show(curve, display=dict(view="xy", axes=True))
 edited = edit(curve)
 figure, axes = plot(curve)                 # Optional static Matplotlib figure
 show(curve, backend="matplotlib")          # Explicit static window
@@ -67,7 +67,7 @@ poetry install
 from dash import Dash, html
 from nurbspy.visualization import GeometryEditor
 
-editor = GeometryEditor(curve, id="blade", resolution=45)
+editor = GeometryEditor(curve, id="blade")
 app = Dash(__name__)
 app.layout = html.Main([editor.layout])
 editor.register(app)
@@ -145,10 +145,10 @@ constraints across several patches are outside this integration's scope.
 
 ## Options and examples
 
-`resolution` is 8–100, with five times as many curve samples and a square surface
-grid. Default `preview_resolution` is the smaller of full resolution and 40 for
-curves or 20 for surfaces. Desktop dimensions must be integers of at least 400
-pixels; embedded height accepts pixels or a CSS length.
+Display quality defaults to **Auto**, with **Fast** and **Fine** alternatives in
+Display. Geometry-aware sampling is cached during interaction and reassessed on
+edit release. Numeric `resolution` remains an advanced fixed-sampling override.
+See [automatic display quality](figures.md#automatic-display-quality).
 
 The complete current behaviour is available as
 {download}`the main behaviour specification <../VIEWER_EDITOR_BEHAVIOR.md>`. Runnable demos

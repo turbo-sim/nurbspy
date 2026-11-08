@@ -20,12 +20,12 @@ class GeometryView(_GeometryModel):
         self._figure = geometry.copy() if isinstance(geometry, Figure) else None
         if self._figure is not None:
             figure = self._figure
-            for key in ('title', 'resolution', 'preview_resolution'):
+            for key in ('title', 'resolution', 'preview_resolution', 'quality'):
                 if key in options:
                     setattr(figure, key, options.pop(key))
             if 'display' in options:
                 figure.update(display=options.pop('display'))
-            options.update(title=figure.title, resolution=figure.resolution,
+            options.update(title=figure.title, resolution=figure.resolution, quality=figure.quality,
                            preview_resolution=figure.preview_resolution, display=figure.settings())
             geometry = figure.geometry()
         super().__init__(geometry, **options)
@@ -112,9 +112,10 @@ class GeometryView(_GeometryModel):
 
             def render_edit():
                 try:
-                    positions, _, quality, revision = self._render_update(
-                        request.get_json(silent=True)
-                    )
+                    packet = request.get_json(silent=True)
+                    if self.resolution is None:
+                        return jsonify(self.render_packet(packet))
+                    positions, _, quality, revision = self._render_update(packet)
                 except (ValueError, TypeError, KeyError, OverflowError) as error:
                     return jsonify(error=str(error)), 422
                 return Response(

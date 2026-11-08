@@ -19,7 +19,7 @@ def export_html(figure, destination=None, *, variants=None):
         if not isinstance(current, type(figure)):
             raise TypeError("Every variant must be a Figure")
         print(f"Preparing HTML scene: {name}", flush=True)
-        payloads[name] = current._payload()
+        payloads[name] = current._payload(quality_levels=True)
     # Intern repeated arrays and scene metadata before compression. This keeps
     # long optimization histories from duplicating reference meshes/point clouds.
     pool = []

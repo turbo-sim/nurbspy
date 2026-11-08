@@ -11,6 +11,7 @@ const frame=()=>new Promise(resolve=>requestAnimationFrame(resolve));
 function displayState(owner){
     const s=owner.scientific;
     return {view:owner.viewMode,axes:owner.axesCheck.checked,grid:owner.gridCheck.checked,
+        quality:owner.displayPreset||'auto',
         orientation_cube:owner.viewCubeCheck?.checked??true,
         quantity:s.quantity.value,colormap:s.map.value,geometry_color:s.geometryColor.value,
         opacity:Number(s.opacity?.value??1),
@@ -31,7 +32,7 @@ export async function mountFigure(rootId,payload,options={}){
     const originals=Object.fromEntries(Object.entries(payload.scenes).map(([name,scene])=>[name,clone(scene.model)]));
     let building=true,markerObjects=[],markersVisible=true;
     const selections=Object.create(null);
-    const geometryBusy=()=>Object.values(owners).some(e=>e.pending||e.inFlight||e.drag||e.editing?.box||e.cameraAnimating);
+    const geometryBusy=()=>Object.values(owners).some(e=>e.pending||e.inFlight||e.drag||e.resampling||e.editing?.box||e.cameraAnimating);
     const history=options.readOnly?null:new EditHistory({
         busy:()=>building||geometryBusy(),
         changed:()=>{core?.editing?.updateHistory();publish();},
@@ -61,6 +62,7 @@ export async function mountFigure(rootId,payload,options={}){
             zoom:camera.zoom,fov:camera.fov||state.camera?.fov||38,near:camera.near,far:camera.far,
             ortho_half:core.orthoHalf||3};
         result.active=state.active;
+        result.quality=core.displayPreset||'auto';
         return result;
     }
     function publish(){
@@ -147,6 +149,11 @@ export async function mountFigure(rootId,payload,options={}){
                 for(const object of Object.values(state.objects))object.display.orientation_cube=visible;
                 publish();
             },
+            sample:options.offline?async request=>{
+                const scene=payload.quality_scenes?.[request.draw_quality]?.[active];
+                if(!scene)throw new Error('This file has no alternative display sampling.');
+                payload.scenes[active]=clone(scene);return clone(scene);
+            }:undefined,
             history,historyKey:active,
         });
         owners[active]=core;
@@ -219,6 +226,7 @@ export async function mountFigure(rootId,payload,options={}){
         if(options.offline){
             for(const owner of Object.values(owners)){
                 const s=owner.scientific;
+                owner.displayQualitySelect.disabled=!payload.quality_scenes;
                 for(const control of [s.quantity,s.frames,s.frameCount,s.frameScale,s.nu,s.nv,s.download])if(control)control.disabled=true;
                 if(s.meshMode){s.meshMode.querySelector('option[value="export"]')?.remove();}
             }

@@ -28,6 +28,7 @@ def display_options(options, surface):
     """Validate optional initial UI settings; they never alter model geometry."""
     defaults = dict(
         view="3d",
+        quality="auto",
         axes=False,
         grid=True,
         orientation_cube=True,
@@ -56,6 +57,7 @@ def display_options(options, surface):
         defaults.update(options)
     choices = dict(
         view=("3d", "xy", "yz", "zx"),
+        quality=("auto", "fast", "fine"),
         quantity=("solid", *(SURFACE_FIELDS if surface else CURVE_FIELDS)),
         colormap=tuple(colormap_tables()),
         mesh=("off", "display", "export") if surface else ("off",),

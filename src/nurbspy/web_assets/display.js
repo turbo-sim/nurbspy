@@ -40,13 +40,11 @@ export function wideLine(geometry,{color='#000000',width=2.6,depthTest=true,orde
     return line;
 }
 
-export function boundaryIndices(sampleCount) {
-    const side=Math.round(Math.sqrt(sampleCount));
-    if(side<2 || side*side!==sampleCount) throw new Error('Expected a square surface sampling grid.');
-    const indices=Array.from({length:side},(_,i)=>i);
-    // These reference the native Python sampling grid; no curve is evaluated here.
-    return [indices,indices.map(i=>(side-1)*side+i),
-            indices.map(i=>i*side),indices.map(i=>i*side+side-1)];
+export function boundaryIndices(sampleCount, shape) {
+    const rows=shape?.[0]||Math.round(Math.sqrt(sampleCount)),columns=shape?.[1]||rows;
+    if(rows<2||columns<2||rows*columns!==sampleCount)throw new Error(shape?'Expected a rectangular surface sampling grid.':'Expected a square surface sampling grid.');
+    return [Array.from({length:columns},(_,i)=>i),Array.from({length:columns},(_,i)=>(rows-1)*columns+i),
+        Array.from({length:rows},(_,i)=>i*columns),Array.from({length:rows},(_,i)=>i*columns+columns-1)];
 }
 
 export function referenceLayers(initialPlanar=false) {

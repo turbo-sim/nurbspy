@@ -149,7 +149,7 @@ async function mount(){
             evaluate:async packet=>{
                 const result=await window.pywebview.api.evaluate(packet);
                 if(result.error) throw new Error(result.error);
-                return {revision:result.revision,quality:result.quality,positions:decode(result.vertices)};
+                return {...result,positions:decode(result.vertices)};
             },
             onBusyChange:busy=>{apply.disabled=busy;},
         });
@@ -192,12 +192,7 @@ class _DesktopBridge:
         try:
             if self._read_only or self._closed:
                 raise ValueError("This window is not accepting edits")
-            vertices, _, quality, revision = self._model._render_update(packet)
-            return {
-                "revision": revision,
-                "quality": quality,
-                "vertices": base64.b64encode(vertices.tobytes()).decode("ascii"),
-            }
+            return self._model.render_packet(packet)
         except (ValueError, TypeError, KeyError, OverflowError) as error:
             return {"error": str(error)}
 
@@ -252,7 +247,8 @@ def _open(
     *,
     read_only,
     title=None,
-    resolution=40,
+    resolution=None,
+    quality="auto",
     preview_resolution=None,
     width=1100,
     height=780,
@@ -276,7 +272,7 @@ def _open(
         figure = geometry
     else:
         figure = Figure(geometry, title=title or "NURBS geometry",
-                        resolution=resolution, preview_resolution=preview_resolution,
+                        resolution=resolution, preview_resolution=preview_resolution, quality=quality,
                         display=display)
     return open_figure(figure, read_only=read_only, width=width, height=height)
 
@@ -284,7 +280,8 @@ def _open(
 def show(geometry, **kwargs):
     """Block while inspecting geometry in a desktop window; return None.
 
-    Accepts title, resolution (8–100), preview_resolution, width, and height.
+    Accepts title, quality (auto/fast/fine), width, and height.
+    Numeric resolution and preview_resolution remain advanced overrides.
     Does not edit the input. Requires pywebview and the platform's webview runtime.
     """
     _open(geometry, read_only=True, **kwargs)

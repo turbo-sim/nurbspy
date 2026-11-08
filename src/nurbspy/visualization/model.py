@@ -6,6 +6,17 @@ The same native Python evaluation path serves desktop and embedded editors.
 
 from copy import deepcopy
 import re
+import base64
+import hashlib
+from threading import RLock
+from collections import OrderedDict
+from .sampling import (
+    validate_quality,
+    automatic_axes,
+    descriptor,
+    sampling_from_descriptor,
+    topologies,
+)
 import numpy as np
 
 
@@ -18,7 +29,8 @@ class _GeometryModel:
         *,
         id,
         title=None,
-        resolution=40,
+        resolution=None,
+        quality="auto",
         height="520px",
         preview_resolution=None,
         display=None,
@@ -27,12 +39,12 @@ class _GeometryModel:
             raise ValueError(
                 "id must start with a letter and contain letters, digits, '_' or '-'"
             )
-        if (
+        if resolution is not None and (
             isinstance(resolution, bool)
             or not isinstance(resolution, (int, np.integer))
             or not 8 <= resolution <= 100
         ):
-            raise ValueError("resolution must be an integer between 8 and 100")
+            raise ValueError("resolution must be None or an integer between 8 and 100")
         if isinstance(height, (int, float)) and not isinstance(height, bool):
             if not np.isfinite(height) or height <= 0:
                 raise ValueError("height must be positive")
@@ -49,12 +61,12 @@ class _GeometryModel:
             raise ValueError(
                 "The explorer requires a curve or surface in two or three dimensions"
             )
-        if preview_resolution is None:
+        if preview_resolution is None and resolution is not None:
             preview_resolution = min(resolution, 20 if points.ndim == 3 else 40)
-        if (
+        if preview_resolution is not None and (
             isinstance(preview_resolution, bool)
             or not isinstance(preview_resolution, (int, np.integer))
-            or not 8 <= preview_resolution <= resolution
+            or not 8 <= preview_resolution <= (resolution or 128)
         ):
             raise ValueError(
                 "preview_resolution must be an integer from 8 to resolution"
@@ -63,12 +75,18 @@ class _GeometryModel:
         points = np.pad(
             points, ((0, 3 - points.shape[0]), *((0, 0),) * (points.ndim - 1))
         )
-        self.preview_resolution = int(preview_resolution)
-        self.id, self.resolution, self.height = id, int(resolution), height
+        self.preview_resolution = preview_resolution
+        self.id, self.resolution, self.height = id, resolution, height
+        self.quality = validate_quality(quality)
+        self._sample_cache = OrderedDict()
+        self._sample_lock = RLock()
         self.surface = points.ndim == 3
         from .analysis import display_options
 
         self.display = display_options(display, self.surface)
+        if display is None or "quality" not in display:
+            self.display["quality"] = self.quality
+        self.quality = self.display["quality"]
         self.dimension = points.shape[0]
         self.title = str(
             title or ("Surface explorer" if self.surface else "Curve explorer")
@@ -96,15 +114,89 @@ class _GeometryModel:
             model.update(degree=int(geometry.p), knots=np.asarray(geometry.U).tolist())
         self._initial = deepcopy(model)
         self._validated_arrays(model)
-        self._sampling = {
-            quality: self._make_sampling(model, count)
-            for quality, count in (
-                ("full", self.resolution),
-                ("preview", self.preview_resolution),
+        if resolution is None:
+            self._sampling, self._description = self._choose_sampling(
+                self.geometry_from_state(), self.quality
             )
-        }
+        else:
+            self._description = None
+            self._sampling = {
+                level: self._make_sampling(model, count)
+                for level, count in (
+                    ("full", resolution),
+                    ("preview", self.preview_resolution),
+                )
+            }
         # Evaluate once now so invalid input fails at construction, not in a callback.
         self._initial_scene = self.evaluate_scene(model)
+
+    def _choose_sampling(self, geometry, quality):
+        quality = validate_quality(quality)
+        key = (
+            quality,
+            hashlib.sha256(
+                np.asarray(geometry.P).tobytes() + np.asarray(geometry.W).tobytes()
+            ).digest(),
+        )
+        with self._sample_lock:
+            cached = self._sample_cache.get(key)
+        if cached is None:
+            u, v, capped = automatic_axes(geometry, quality)
+            description = descriptor(u, v, capped)
+            if self.preview_resolution is not None:
+                from .sampling import preview_axes
+
+                pu, pv = preview_axes(u, v, self.preview_resolution)
+                description["preview"] = {
+                    "u": pu.tolist(),
+                    "v": pv.tolist() if pv is not None else None,
+                }
+            cached = sampling_from_descriptor(description, geometry), description
+        with self._sample_lock:
+            self._sample_cache[key] = cached
+            self._sample_cache.move_to_end(key)
+            if len(self._sample_cache) > 6:
+                self._sample_cache.popitem(last=False)
+        sampling, description = cached
+        return sampling, deepcopy(description)
+
+    def _request_sampling(self, geometry, request, refine=False):
+        if self.resolution is not None:
+            return self._sampling, None
+        if refine:
+            return self._choose_sampling(
+                geometry, request.get("draw_quality", self.quality)
+            )
+        description = request.get("sampling")
+        if description is None:
+            return self._sampling, deepcopy(self._description)
+        if not isinstance(description, dict):
+            raise ValueError("Invalid display sampling descriptor")
+        with self._sample_lock:
+            cached = tuple(self._sample_cache.values())
+        for sampling, previous in cached:
+            if (
+                description.get("full") == previous["full"]
+                and description.get("preview") == previous["preview"]
+            ):
+                return sampling, deepcopy(description)
+        return sampling_from_descriptor(description, geometry), deepcopy(description)
+
+    def render_packet(self, request):
+        """Compact IPC packet, including new topology after automatic refinement."""
+        positions, model, quality, revision, description = self._render_result(request)
+        result = dict(
+            revision=revision,
+            quality=quality,
+            vertices=base64.b64encode(positions.tobytes()).decode("ascii"),
+        )
+        if description is not None and quality == "full":
+            result.update(
+                sampling=description,
+                topologies=topologies(description),
+                draw_quality=request.get("draw_quality", self.quality),
+            )
+        return result
 
     @property
     def fields(self):
@@ -145,6 +237,9 @@ class _GeometryModel:
             "nu",
             "nv",
             "normal_index",
+            "sampling",
+            "draw_quality",
+            "tessellate",
         }
         if not isinstance(request, dict) or set(request) - allowed:
             raise ValueError("Unknown inspection fields")
@@ -159,7 +254,21 @@ class _GeometryModel:
             "control_points"
         ), request.get("weights")
         geometry = self.geometry_from_state(model)
-        u, v, _ = self._sampling[quality]
+        if request.get("tessellate"):
+            result = self.render_packet(
+                dict(
+                    revision=max(revision, 1),
+                    quality="full",
+                    action="edit",
+                    control_points=model["control_points"],
+                    weights=model["weights"],
+                    draw_quality=request.get("draw_quality", self.quality),
+                )
+            )
+            result["revision"] = revision
+            return result
+        sampling, _ = self._request_sampling(geometry, request)
+        u, v, _ = sampling[quality]
         result = {"revision": revision, "quality": quality}
         if "normal_index" in request:
             result["normal"] = control_point_normal(geometry, request["normal_index"])
@@ -246,7 +355,8 @@ class _GeometryModel:
         """Evaluate a model in Python and return rendering-only browser data."""
         model = self._initial if model is None else model
         geometry = self.geometry_from_state(model)
-        u, v, triangles = self._sampling["full"]
+        sampling, description = self._request_sampling(geometry, {}, refine=True)
+        u, v, triangles = sampling["full"]
         samples = geometry.get_value(u, v) if self.surface else geometry.get_value(u)
         if self.surface:
             control = np.arange(geometry.W.size).reshape(geometry.W.shape)
@@ -273,10 +383,17 @@ class _GeometryModel:
             "points": display(samples),
             "triangles": deepcopy(triangles),
             "quality": "full",
-            "topologies": {
-                quality: {"triangles": deepcopy(grid[2]), "count": int(grid[0].size)}
-                for quality, grid in self._sampling.items()
-            },
+            "topologies": (
+                topologies(description)
+                if description is not None
+                else {
+                    quality: {
+                        "triangles": deepcopy(grid[2]),
+                        "count": int(grid[0].size),
+                    }
+                    for quality, grid in sampling.items()
+                }
+            ),
             "control_lines": control_lines,
             "dimension": self.dimension,
             "error": error,
@@ -285,6 +402,9 @@ class _GeometryModel:
             "colormaps": self.colormaps,
             "fields": self.fields,
             "display": deepcopy(self.display),
+            "sampling": description,
+            "automatic": self.resolution is None,
+            "draw_quality": self.quality,
         }
 
     def _make_sampling(self, model, resolution):
@@ -314,7 +434,7 @@ class _GeometryModel:
         u.setflags(write=False)
         return u, v, triangles
 
-    def _render_update(self, request):
+    def _render_result(self, request):
         """Validate a stateless compact request and evaluate display vertices in Python.
 
         All scientific evaluation uses the native NumPy geometry. Float32 is
@@ -329,6 +449,8 @@ class _GeometryModel:
             "quality",
             "control_points",
             "weights",
+            "sampling",
+            "draw_quality",
         }:
             raise ValueError("Unknown edit fields; topology and knots cannot be edited")
         revision = request.get("revision")
@@ -349,7 +471,10 @@ class _GeometryModel:
         elif action != "reset":
             raise ValueError("Unknown editor action")
         geometry = self.geometry_from_state(model)
-        u, v, _ = self._sampling[quality]
+        sampling, description = self._request_sampling(
+            geometry, request, refine=quality == "full"
+        )
+        u, v, _ = sampling[quality]
         samples = np.asarray(
             geometry.get_value(u, v) if self.surface else geometry.get_value(u)
         )
@@ -363,7 +488,10 @@ class _GeometryModel:
             )
         if not np.all(np.isfinite(positions)):
             raise ValueError("Coordinates exceed the browser display range")
-        return positions, model, quality, revision
+        return positions, model, quality, revision, description
+
+    def _render_update(self, request):
+        return self._render_result(request)[:4]
 
     def process_edit(self, request, current_state=None):
         """Validate and evaluate an atomic browser request without shared state.

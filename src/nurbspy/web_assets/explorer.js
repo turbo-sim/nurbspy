@@ -26,10 +26,18 @@ export function httpEvaluator(endpoint) {
         if (!response.ok) {
             const error=await response.json(); throw new Error(error.error || 'Python rejected the edit.');
         }
+        if(response.headers.get('Content-Type')?.includes('application/json')){
+            const result=await response.json();
+            return {...result,positions:decodeSamples(result.vertices)};
+        }
         return {revision:Number(response.headers.get('X-Nurbspy-Revision')),
             quality:response.headers.get('X-Nurbspy-Quality'),
             positions:new Float32Array(await response.arrayBuffer())};
     };
+}
+function decodeSamples(value){
+    const bytes=Uint8Array.from(atob(value),character=>character.charCodeAt(0));
+    return new Float32Array(bytes.buffer);
 }
 const css = `
 :root{--nrb-accent:#0072bd;--nrb-selected:#2ca02c}
@@ -219,6 +227,11 @@ export class Explorer {
         this.viewModeSelect=element('select',{'aria-label':'Projection'});
         for(const [value,label] of [['3d','3D perspective'],['xy','X–Y'],['yz','Y–Z'],['zx','Z–X']])this.viewModeSelect.append(element('option',{value},label));
         row(this.configSections.view,'Projection',this.viewModeSelect);
+        this.displayQualitySelect=element('select',{'aria-label':'Display quality'});
+        for(const [value,label] of [['auto','Auto'],['fast','Fast'],['fine','Fine']])this.displayQualitySelect.append(element('option',{value},label));
+        this.displayPreset=initial.draw_quality||'auto';this.displayQualitySelect.value=this.displayPreset;
+        this.displayQualitySelect.disabled=initial.automatic!==true;
+        row(this.configSections.view,'Display quality',this.displayQualitySelect);
         this.axesCheck=toggle(this.configSections.view,'Axes with ticks',false);
         this.gridCheck=toggle(this.configSections.view,'Reference grid',true);
         this.viewCubeCheck=toggle(this.configSections.view,'Orientation cube',true);
@@ -245,6 +258,7 @@ export class Explorer {
             const panel=this.panels[this.activePanel];this.setPanelOpen(false,panel.kind);panel.toggle.focus();
         };
         this.root.addEventListener('keydown',this.onInspectorKey);
+        this.displayQualitySelect.addEventListener('change',()=>this.setDisplayQuality(this.displayQualitySelect.value));
         this.viewModeSelect.addEventListener('change',()=>this.setViewMode(this.viewModeSelect.value));
         this.gridCheck.addEventListener('change',()=>{this.syncDisplay();this.render();});
         this.viewCubeCheck.addEventListener('change',()=>{
@@ -260,6 +274,32 @@ export class Explorer {
         this.resetButton?.addEventListener('click',()=>this.editing.reset());
         this.undoButton?.addEventListener('click',()=>this.editing.travel());
         this.redoButton?.addEventListener('click',()=>this.editing.travel(true));
+    }
+
+    async setDisplayQuality(value){
+        if(this.resampling||this.drag||this.pending||this.inFlight){this.displayQualitySelect.value=this.displayPreset;return;}
+        const previous=this.displayPreset;
+        let timeout;
+        this.resampling=true;this.displayQualitySelect.disabled=true;this.editing?.updateHistory();
+        this.root.classList.add('nrb-updating');this.options.onBusyChange?.(true);
+        try{
+            const request={revision:this.nextRevision+1,quality:'full',tessellate:true,draw_quality:value,
+                control_points:this.acceptedModel.control_points,weights:this.acceptedModel.weights};
+            const result=await Promise.race([(this.options.sample||this.options.inspect)(request),
+                new Promise((_,reject)=>{timeout=setTimeout(()=>reject(new Error('Display quality update timed out.')),30000);})]);
+            if(this.disposed)return;
+            if(result.error)throw new Error(result.error);
+            this.displayPreset=value;
+            this.apply({...result,revision:++this.nextRevision,model:this.acceptedModel,
+                positions:result.positions|| (result.vertices?decodeSamples(result.vertices):new Float32Array(result.points.flat()))});
+        }catch(error){this.displayPreset=previous;this.setStatus(error.message,true);}
+        finally{
+            clearTimeout(timeout);
+            this.resampling=false;this.displayQualitySelect.disabled=false;this.displayQualitySelect.value=this.displayPreset;
+            if(!this.status.classList.contains('nrb-error'))this.setStatus('');
+            this.root.classList.remove('nrb-updating');this.editing?.updateHistory();
+            this.options.onBusyChange?.(false);this.render();
+        }
     }
 
     setPanelOpen(open,kind='display') {
@@ -458,6 +498,14 @@ export class Explorer {
     apply(data) {
         if (this.disposed || data.revision < this.lastRevision) return;
         const first = this.lastRevision === -1;
+        if(data.topologies&&JSON.stringify(data.topologies)!==JSON.stringify(this.topologies)){
+            this.geometryCache.forEach(geometry=>geometry.dispose());this.geometryCache.clear();
+            this.edgeCache?.forEach(edges=>edges.forEach(edge=>edge.geometry?.dispose()));this.edgeCache?.clear();
+            this.topologies=data.topologies;
+        }
+        if(data.sampling)this.sampling=data.sampling;
+        if(data.draw_quality){this.displayPreset=data.draw_quality;if(this.displayQualitySelect)this.displayQualitySelect.value=data.draw_quality;}
+
         const flight = this.inFlight;
         const acknowledged = flight && data.revision === flight.revision;
         const newerLocal = acknowledged && this.localGeneration > flight.generation;
@@ -481,7 +529,7 @@ export class Explorer {
         this.scientific?.applyColors();
         if(data.error&&this.editing)this.editing.normalKey=null;
         this.updateSelection();
-        const working = this.pending || this.inFlight || this.drag;
+        const working = this.pending || this.inFlight || this.drag || this.resampling;
         this.setStatus(data.error || (working ? 'Updating in Python…' : ''), Boolean(data.error));
         this.root.classList?.toggle('nrb-updating',Boolean(working));
         if (first) {this.resize(); this.fit();}
@@ -554,6 +602,7 @@ export class Explorer {
     updateGeometry(data) {
         const quality = data.quality || 'full';
         const positions = data.positions || new Float32Array(data.points.flat());
+        if(this.root?.dataset)this.root.dataset.sampleCount=String(positions.length/3);
         const topology = this.topologies[quality] || this.topologies.full;
         const isSurface=Boolean(topology.triangles?.length);
         let geometry = this.geometryCache.get(quality);
@@ -593,7 +642,7 @@ export class Explorer {
         if(!this.edgeCache) this.edgeCache=new Map();
         let cached=this.edgeCache.get(quality);
         if(!cached){
-            cached=boundaryIndices(count).map(indices=>({indices,positions:new Float32Array(indices.length*3)}));
+            cached=boundaryIndices(count,this.topologies?.[quality]?.shape).map(indices=>({indices,positions:new Float32Array(indices.length*3)}));
             this.edgeCache.set(quality,cached);
         }
         cached.forEach((edge,index)=>{
@@ -731,7 +780,7 @@ export class Explorer {
         const timeout = setTimeout(() => controller.abort(), 30000);
         try {
             const packet={revision:request.revision,action:request.action,quality:request.quality,
-                control_points:request.model.control_points,weights:request.model.weights};
+                control_points:request.model.control_points,weights:request.model.weights,sampling:this.sampling,draw_quality:this.displayPreset};
             // A bridge cannot necessarily cancel Python work, so race a timeout
             // as well as providing the HTTP adapter with an AbortSignal.
             const aborted=new Promise((_,reject)=>{
@@ -743,8 +792,8 @@ export class Explorer {
             if (!this.topologies[quality]) throw new Error('Unexpected display quality.');
             const positions = result.positions;
             if (!(positions instanceof Float32Array)) throw new Error('Invalid display data.');
-            if (positions.length !== 3*this.topologies[quality].count) throw new Error('Incomplete display data.');
-            if (!this.disposed) this.apply({revision:request.revision,model:request.model,quality,positions,error:null});
+            if (positions.length !== 3*(result.topologies||this.topologies)[quality].count) throw new Error('Incomplete display data.');
+            if (!this.disposed) this.apply({...result,revision:request.revision,model:request.model,quality,positions,error:null});
         } catch(error) {
             if (!this.disposed) this.apply({revision:request.revision,model:this.acceptedModel,error:error.message || 'Python is unavailable.'});
         } finally {
@@ -842,7 +891,7 @@ export function update(rootId, scene, options = {}) {
 export function editorState(rootId) {
     const viewer=viewers.get(rootId);
     if (!viewer) throw new Error('The editor is not mounted.');
-    return {model:clone(viewer.acceptedModel),busy:Boolean(viewer.pending || viewer.inFlight || viewer.drag)};
+    return {model:clone(viewer.acceptedModel),busy:Boolean(viewer.pending || viewer.inFlight || viewer.drag || viewer.resampling)};
 }
 
 export function destroy(rootId) {
