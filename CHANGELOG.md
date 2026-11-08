@@ -7,6 +7,40 @@ README-only edits are omitted.
 
 ## Unreleased
 
+## [1.6.1] - 2026-11-08
+
+### Interactive viewing and editing
+
+- Share one interactive renderer across desktop viewing/editing and host-owned
+  Dash components. Keep existing static Matplotlib plotting available.
+- Add multi-point selection, group dragging and session-local transactional
+  undo/redo. Keep camera framing and pointer coordinates stable during edits.
+- Choose bounded display sampling automatically with Auto, Fast and Fine
+  presets, cached drag previews and refinement after completed edits.
+- Add `preview_quality="full"` to retain the final display grid while dragging;
+  `"coarse"` remains the default. The option works with geometry methods,
+  Figures and embedded components and is retained in Figure YAML.
+- Support persistent surface isocurves and configurable annotation occlusion;
+  simplify frame legends and expose the orientation-cube visibility setting.
+
+### Reproducible figures and geometry exchange
+
+- Add named multi-object Figures with saved camera/display settings, markers
+  and read-only triangle mesh overlays, PNG export and scripted frame output.
+- Export self-contained, read-only interactive HTML with offline display
+  quality choices and optional named views.
+- Accept Point sequences/grids in curve/surface constructors and share native
+  YAML geometry exchange across NumPy and JAX.
+- Add backend-neutral surface tessellation and mesh-library-backed STL export,
+  including in-memory STL bytes. Refresh tutorials and plotting diagnostics.
+
+### Installation
+
+Desktop visualization, Dash embedding, Playwright and the external mesh
+processing libraries are standard dependencies. Desktop windows still require
+a supported native webview runtime; the NumPy/JAX numerical interfaces remain
+independent of the interactive display approximation.
+
 ## [1.6.0] - 2026-10-27
 
 ### Compatibility and migration

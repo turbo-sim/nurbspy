@@ -9,6 +9,6 @@ authors:
 - family-names: Agromayor
   given-names: Roberto
   orcid: https://orcid.org/0009-0009-9289-1130
-version: 1.6.0
+version: 1.6.1
 repository-code: https://github.com/turbo-sim/nurbspy
 url: https://github.com/turbo-sim/nurbspy
