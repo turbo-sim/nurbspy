@@ -250,6 +250,7 @@ def _open(
     resolution=None,
     quality="auto",
     preview_resolution=None,
+    preview_quality=None,
     width=1100,
     height=780,
     display=None
@@ -267,20 +268,30 @@ def _open(
         )
     from .figure import Figure
     from .figure_hosts import open_figure
+    from .sampling import validate_preview_quality
 
     if isinstance(geometry, Figure):
-        figure = geometry
+        figure = geometry if preview_quality is None else geometry.copy()
+        if preview_quality is not None:
+            figure.preview_quality = validate_preview_quality(preview_quality, figure.preview_resolution)
     else:
         figure = Figure(geometry, title=title or "NURBS geometry",
-                        resolution=resolution, preview_resolution=preview_resolution, quality=quality,
+                        resolution=resolution, preview_resolution=preview_resolution,
+                        preview_quality="coarse" if preview_quality is None else preview_quality,
+                        quality=quality,
                         display=display)
-    return open_figure(figure, read_only=read_only, width=width, height=height)
+    result = open_figure(figure, read_only=read_only, width=width, height=height)
+    if isinstance(geometry, Figure) and figure is not geometry and (read_only or result is not None):
+        geometry._accept(figure.to_state())
+    return result
 
 
 def show(geometry, **kwargs):
     """Block while inspecting geometry in a desktop window; return None.
 
     Accepts title, quality (auto/fast/fine), width, and height.
+    preview_quality='full' keeps the final display's sampling while dragging;
+    the default 'coarse' uses a reduced grid for responsive editing.
     Numeric resolution and preview_resolution remain advanced overrides.
     Does not edit the input. Requires pywebview and the platform's webview runtime.
     """

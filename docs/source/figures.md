@@ -34,6 +34,22 @@ reuses the existing GPU mesh and performs no Python geometry evaluation. A bound
 cache reuses sampling for recent edits and quality changes; shared hosts keep
 accepted geometry separate for each browser.
 
+For small curves where a coarse outline is distracting, keep the full display
+grid during dragging:
+
+```python
+fig = nrb.Figure(curve, quality="fine", preview_quality="full")
+edited = curve.edit(quality="fine", preview_quality="full")
+```
+
+`preview_quality="coarse"` remains the default. `"full"` reuses the last full
+sampling grid without thinning it; a completed edit can still refine that grid.
+The same option is available on `show()`, `Figure.show()`/`edit()`, `GeometryView`,
+and `GeometryEditor`, and is retained in Figure/YAML state. It also works with
+explicit numeric `resolution`. Use `preview_resolution` only with coarse previews;
+combining it with `preview_quality="full"` raises an error. These options change
+display approximation only, leaving control points and exported geometry intact.
+
 Standalone HTML includes precomputed quality choices, so its Auto/Fast/Fine
 selector works offline. This increases export preparation and file size, without
 requiring a Python server while viewing. PNG output uses the selected quality.

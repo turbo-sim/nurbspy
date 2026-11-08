@@ -9,7 +9,7 @@ import numpy as np
 import yaml
 
 from .analysis import display_options
-from .sampling import validate_quality
+from .sampling import validate_quality, validate_preview_quality
 from .model import _GeometryModel
 from ..serialization import _geometry_record
 
@@ -69,12 +69,13 @@ class Figure:
     """
 
     def __init__(self, geometry=None, *, name="geometry", title="NURBS figure",
-                 resolution=None, preview_resolution=None, quality="auto", display=None,
+                 resolution=None, preview_resolution=None, quality="auto", preview_quality="coarse", display=None,
                  width=1000, height=750, background="#ffffff"):
         self.title = str(title)
         self.quality = validate_quality(quality)
         self.resolution = resolution
         self.preview_resolution = preview_resolution
+        self.preview_quality = preview_quality
         self.rendering = dict(width=_size(width, "width"), height=_size(height, "height"),
                               background=background)
         self.camera = None
@@ -88,6 +89,7 @@ class Figure:
 
     def _validate_rendering(self):
         validate_quality(self.quality)
+        validate_preview_quality(self.preview_quality, self.preview_resolution)
         if not isinstance(self.rendering, dict) or set(self.rendering) != {"width", "height", "background"}:
             raise ValueError("Invalid rendering settings")
         for key in ("width", "height"):
@@ -125,7 +127,8 @@ class Figure:
         if type(visible) is not bool:
             raise ValueError("visible must be a boolean")
         model = _GeometryModel(geometry, id="validation", resolution=self.resolution,
-                               preview_resolution=self.preview_resolution, quality=self.quality, display=display)
+                               preview_resolution=self.preview_resolution, preview_quality=self.preview_quality,
+                               quality=self.quality, display=display)
         self._objects[name] = dict(geometry=_geometry_record(geometry),
                                    display=model.display, visible=visible)
         self.active = self.active or name
@@ -190,7 +193,8 @@ class Figure:
         merged = {**old["display"], **(display or {})}
         geometry = self.geometry(name) if geometry is None else geometry
         model = _GeometryModel(geometry, id="validation", resolution=self.resolution,
-                               preview_resolution=self.preview_resolution, quality=self.quality, display=merged)
+                               preview_resolution=self.preview_resolution, preview_quality=self.preview_quality,
+                               quality=self.quality, display=merged)
         visible = old["visible"] if visible is None else visible
         if type(visible) is not bool:
             raise ValueError("visible must be a boolean")
@@ -230,7 +234,8 @@ class Figure:
         if not self._objects or self.active not in self._objects:
             raise ValueError("A figure requires at least one object and a valid active name")
         state = deepcopy(dict(format="nurbspy-figure", version=1, title=self.title,
-                             resolution=self.resolution, preview_resolution=self.preview_resolution, quality=self.quality,
+                             resolution=self.resolution, preview_resolution=self.preview_resolution,
+                             preview_quality=self.preview_quality, quality=self.quality,
                              rendering=self.rendering, camera=_camera(self.camera), active=self.active,
                              objects=self._objects))
         if self._markers:
@@ -241,7 +246,7 @@ class Figure:
 
     @classmethod
     def from_state(cls, state):
-        if not isinstance(state, dict) or set(state)-{"markers", "meshes", "quality"} != {"format", "version", "title", "resolution", "preview_resolution", "rendering", "camera", "active", "objects"}:
+        if not isinstance(state, dict) or set(state)-{"markers", "meshes", "quality", "preview_quality"} != {"format", "version", "title", "resolution", "preview_resolution", "rendering", "camera", "active", "objects"}:
             raise ValueError("Expected a versioned nurbspy figure document")
         if state["format"] != "nurbspy-figure" or type(state["version"]) is not int or state["version"] != 1:
             raise ValueError("Unsupported figure format or version")
@@ -249,7 +254,8 @@ class Figure:
         if not isinstance(rendering, dict) or set(rendering) != {"width", "height", "background"}:
             raise ValueError("Invalid rendering settings")
         figure = cls(title=state["title"], resolution=state["resolution"],
-                     preview_resolution=state["preview_resolution"], quality=state.get("quality", "auto"), **rendering)
+                     preview_resolution=state["preview_resolution"], preview_quality=state.get("preview_quality", "coarse"),
+                     quality=state.get("quality", "auto"), **rendering)
         if not isinstance(state["objects"], dict):
             raise ValueError("Figure objects must be a mapping")
         for name, item in state["objects"].items():
@@ -300,6 +306,7 @@ class Figure:
         self.to_state()
         return {name: _GeometryModel(self.geometry(name), id=f"object{i}", title=name,
                                      resolution=self.resolution, preview_resolution=self.preview_resolution,
+                                     preview_quality=self.preview_quality,
                                      quality=self.quality, display=item["display"])
                 for i, (name, item) in enumerate(self._objects.items()) if names is None or name in names}
 
@@ -332,18 +339,18 @@ class Figure:
         accepted = self.from_state(state)
         self.__dict__.update(accepted.__dict__)
 
-    def show(self, *, width=1100, height=780):
+    def show(self, *, width=1100, height=780, preview_quality=None):
         """Open a blocking native viewer; retain camera and display changes on close."""
-        from .figure_hosts import open_figure
-        open_figure(self, read_only=True, width=width, height=height)
+        from .desktop import _open
+        _open(self, read_only=True, width=width, height=height, preview_quality=preview_quality)
 
-    def edit(self, *, width=1100, height=780):
+    def edit(self, *, width=1100, height=780, preview_quality=None):
         """Apply commits the figure and returns geometry (a name mapping for several objects).
 
         Cancel and the window close button leave this figure unchanged.
         """
-        from .figure_hosts import open_figure
-        return open_figure(self, read_only=False, width=width, height=height)
+        from .desktop import _open
+        return _open(self, read_only=False, width=width, height=height, preview_quality=preview_quality)
 
     def savefig(self, destination, *, width=None, height=None, timeout=60):
         """Render a PNG without a visible window, with the saved framing and overlays.

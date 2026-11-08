@@ -122,6 +122,75 @@ def test_drag_preview_reuses_client_sampling_and_full_edit_refines(monkeypatch):
     assert len(base64.b64decode(untouched["vertices"])) == 64 * 3 * 4
 
 
+@pytest.mark.parametrize("geometry", [circle, plane])
+@pytest.mark.parametrize("resolution", [None, 32])
+def test_full_previews_keep_the_final_sampling_without_refining(geometry, resolution, monkeypatch):
+    model = _GeometryModel(geometry(), id="full-preview", resolution=resolution,
+                           quality="fine", preview_quality="full")
+    scene = model._initial_scene
+    assert scene["topologies"]["preview"] == scene["topologies"]["full"]
+    if scene["sampling"] is not None:
+        assert scene["sampling"]["preview"] == scene["sampling"]["full"]
+    monkeypatch.setattr(model, "_choose_sampling", lambda *args: pytest.fail("Preview refined the grid"))
+    preview = model.render_packet(packet(model, "preview", sampling=scene["sampling"]))
+    assert len(base64.b64decode(preview["vertices"])) == scene["topologies"]["full"]["count"] * 12
+
+
+@pytest.mark.parametrize("quality", ["fine", "bad", None, 5, True, []])
+def test_invalid_preview_settings_are_rejected(quality):
+    with pytest.raises(ValueError, match="preview_quality"):
+        nrb.Figure(circle(), preview_quality=quality)
+
+
+def test_full_preview_policy_round_trips_and_legacy_views_keep_coarse_previews():
+    figure = nrb.Figure(circle(), quality="fine", preview_quality="full")
+    restored = nrb.Figure.from_yaml(StringIO(figure.to_yaml()))
+    assert restored.preview_quality == "full"
+    assert restored.to_state() == figure.to_state()
+    state = figure.to_state()
+    state.pop("preview_quality")
+    legacy = nrb.Figure.from_state(state)
+    assert legacy.preview_quality == "coarse"
+    scene = legacy._models()[legacy.active]._initial_scene
+    assert scene["topologies"]["preview"]["count"] < scene["topologies"]["full"]["count"]
+    with pytest.raises(ValueError, match="preview_resolution"):
+        nrb.Figure(circle(), preview_quality="full", preview_resolution=20)
+
+
+@pytest.mark.parametrize("read_only", [False, True])
+def test_embedded_figure_propagates_full_preview_policy(read_only):
+    from nurbspy.visualization import GeometryView, GeometryEditor
+
+    figure = nrb.Figure(circle(), quality="fine")
+    component = (GeometryView if read_only else GeometryEditor)(
+        figure, id="full-preview", preview_quality="full")
+    assert component.preview_quality == component._figure.preview_quality == "full"
+    assert figure.preview_quality == "coarse"
+    scene = component._initial_scene
+    assert scene["topologies"]["preview"] == scene["topologies"]["full"]
+
+
+@pytest.mark.parametrize("method", ["show", "edit"])
+@pytest.mark.parametrize("use_figure", [False, True])
+def test_viewing_and_editing_functions_accept_preview_policy(method, use_figure, monkeypatch):
+    from nurbspy.visualization import figure_hosts
+
+    calls = []
+    def open_figure(figure, **options):
+        calls.append((figure.preview_quality, figure.quality, options["read_only"]))
+        return None
+    monkeypatch.setattr(figure_hosts, "open_figure", open_figure)
+    geometry = nrb.Figure(circle(), quality="fine") if use_figure else circle()
+    options = {"preview_quality": "full"}
+    if not use_figure:
+        options["quality"] = "fine"
+    getattr(geometry, method)(**options)
+    assert calls == [("full", "fine", method == "show")]
+    if use_figure:
+        # Cancelling an edit preserves the original figure's preview setting.
+        assert geometry.preview_quality == ("full" if method == "show" else "coarse")
+
+
 @pytest.mark.parametrize("quality", ["bad", None, 5, True])
 def test_invalid_presets_are_rejected(quality):
     with pytest.raises(ValueError, match="quality"):

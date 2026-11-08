@@ -282,7 +282,8 @@ def render_frames(frames, directory, width, height, *, prefix, progress, timeout
                     raise ValueError("All frames must have the same logical figure dimensions")
                 if paths:
                     state = current.to_state()
-                    resampled = any(state[key] != previous[key] for key in ('resolution', 'preview_resolution', 'quality'))
+                    resampled = any(state[key] != previous[key] for key in
+                                    ('resolution', 'preview_resolution', 'preview_quality', 'quality'))
                     changed = [name for name, item in state['objects'].items()
                                if resampled or name not in previous['objects']
                                or any(item[key] != previous['objects'][name][key] for key in ('geometry', 'display'))]

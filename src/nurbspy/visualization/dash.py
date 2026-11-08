@@ -20,13 +20,14 @@ class GeometryView(_GeometryModel):
         self._figure = geometry.copy() if isinstance(geometry, Figure) else None
         if self._figure is not None:
             figure = self._figure
-            for key in ('title', 'resolution', 'preview_resolution', 'quality'):
+            for key in ('title', 'resolution', 'preview_resolution', 'preview_quality', 'quality'):
                 if key in options:
                     setattr(figure, key, options.pop(key))
             if 'display' in options:
                 figure.update(display=options.pop('display'))
             options.update(title=figure.title, resolution=figure.resolution, quality=figure.quality,
-                           preview_resolution=figure.preview_resolution, display=figure.settings())
+                           preview_resolution=figure.preview_resolution, preview_quality=figure.preview_quality,
+                           display=figure.settings())
             geometry = figure.geometry()
         super().__init__(geometry, **options)
 

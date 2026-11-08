@@ -54,6 +54,12 @@ figure, axes = plot(curve)                 # Optional static Matplotlib figure
 show(curve, backend="matplotlib")          # Explicit static window
 ```
 
+Interactive `show()` and `edit()` accept `quality="fine", preview_quality="full"`
+to retain the fine display grid while dragging. The default `preview_quality="coarse"`
+keeps the reduced drag preview for larger geometries. The option also applies to
+`Figure` and embedded `GeometryView`/`GeometryEditor` components; see
+[automatic display quality](figures.md#automatic-display-quality).
+
 Existing `.plot()` signatures and diagnostic plots remain available. The primary
 interactive geometry examples use `.show()` and `.edit()`.
 

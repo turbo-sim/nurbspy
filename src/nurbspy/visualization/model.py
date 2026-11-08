@@ -12,6 +12,7 @@ from threading import RLock
 from collections import OrderedDict
 from .sampling import (
     validate_quality,
+    validate_preview_quality,
     automatic_axes,
     descriptor,
     sampling_from_descriptor,
@@ -33,6 +34,7 @@ class _GeometryModel:
         quality="auto",
         height="520px",
         preview_resolution=None,
+        preview_quality="coarse",
         display=None,
     ):
         if not isinstance(id, str) or not re.fullmatch(r"[A-Za-z][A-Za-z0-9_-]*", id):
@@ -61,8 +63,10 @@ class _GeometryModel:
             raise ValueError(
                 "The explorer requires a curve or surface in two or three dimensions"
             )
+        self.preview_quality = validate_preview_quality(preview_quality, preview_resolution)
         if preview_resolution is None and resolution is not None:
-            preview_resolution = min(resolution, 20 if points.ndim == 3 else 40)
+            preview_resolution = (resolution if preview_quality == "full" else
+                                  min(resolution, 20 if points.ndim == 3 else 40))
         if preview_resolution is not None and (
             isinstance(preview_resolution, bool)
             or not isinstance(preview_resolution, (int, np.integer))
@@ -141,6 +145,8 @@ class _GeometryModel:
         quality = validate_quality(quality)
         key = (
             quality,
+            self.preview_quality,
+            self.preview_resolution,
             hashlib.sha256(
                 np.asarray(geometry.P).tobytes() + np.asarray(geometry.W).tobytes()
             ).digest(),
@@ -150,7 +156,9 @@ class _GeometryModel:
         if cached is None:
             u, v, capped = automatic_axes(geometry, quality)
             description = descriptor(u, v, capped)
-            if self.preview_resolution is not None:
+            if self.preview_quality == "full":
+                description["preview"] = deepcopy(description["full"])
+            elif self.preview_resolution is not None:
                 from .sampling import preview_axes
 
                 pu, pv = preview_axes(u, v, self.preview_resolution)
@@ -179,6 +187,9 @@ class _GeometryModel:
             return self._sampling, deepcopy(self._description)
         if not isinstance(description, dict):
             raise ValueError("Invalid display sampling descriptor")
+        if self.preview_quality == "full":
+            description = deepcopy(description)
+            description["preview"] = deepcopy(description["full"])
         with self._sample_lock:
             cached = tuple(self._sample_cache.values())
         for sampling, previous in cached:

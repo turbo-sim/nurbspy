@@ -17,6 +17,14 @@ def validate_quality(quality):
     return quality
 
 
+def validate_preview_quality(quality, preview_resolution=None):
+    if not isinstance(quality, str) or quality not in ("coarse", "full"):
+        raise ValueError("preview_quality must be 'coarse' or 'full'")
+    if quality == "full" and preview_resolution is not None:
+        raise ValueError("preview_resolution cannot be combined with preview_quality='full'")
+    return quality
+
+
 def _axis(knots, degree, minimum=8):
     lo, hi = knots[degree], knots[-degree - 1]
     values = np.unique(
