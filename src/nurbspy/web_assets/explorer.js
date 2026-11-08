@@ -73,7 +73,6 @@ const css = `
 .nrb-web .nrb-science-note{display:block;margin-top:12px}.nrb-web .nrb-colour-reset{margin-top:12px;width:100%;font-size:12px}
 .nrb-web .nrb-colorbar{position:absolute;right:14px;top:17px;z-index:2;width:174px;background:#fffffff2;border:1px solid #e0e6eb;border-radius:6px;padding:9px;pointer-events:none;font:11px/1.4 system-ui,sans-serif;color:#36434c}
 .nrb-web .nrb-colorbar-gradient{height:10px;margin:5px 0}.nrb-web .nrb-colorbar-range{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
-.nrb-web .nrb-frame-legend{position:absolute;right:14px;bottom:12px;z-index:2;background:#ffffffdb;padding:3px 7px;border-radius:4px;font-size:11px;pointer-events:none}
 .nrb-web .nrb-planar-axes{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;display:none;overflow:visible}
 .nrb-web .nrb-planar-axes path,.nrb-web .nrb-planar-axes rect{stroke:#4f5c66;stroke-width:1;fill:none}
 .nrb-web .nrb-planar-axes text{font:11px system-ui,sans-serif;fill:#36434c;stroke:none;font-variant-numeric:tabular-nums}

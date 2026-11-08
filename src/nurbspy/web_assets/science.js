@@ -113,7 +113,6 @@ export class ScientificDisplay {
         this.legendTitle=node('div');this.gradient=node('div',{class:'nrb-colorbar-gradient'});
         const range=node('div',{class:'nrb-colorbar-range'});this.low=node('span');this.high=node('span');range.append(this.low,this.high);
         this.legend.append(this.legendTitle,this.gradient,range);owner.viewport.append(this.legend);
-        this.frameLegend=node('div',{class:'nrb-frame-legend',hidden:''});owner.viewport.append(this.frameLegend);
         const settings=initial.display||{};
         this.opacity.value=settings.opacity??1;
         if(this.curveDepth)this.curveDepth.checked=settings.curve_depth_test!==false;
@@ -305,7 +304,6 @@ export class ScientificDisplay {
             this.frameGroup.traverse(object=>{object.material?.dispose();});
             this.owner.scene.remove(this.frameGroup);this.frameGroup=null;
         }
-        this.frameLegend.hidden=true;
     }
 
     updateFrames(data){
@@ -318,13 +316,11 @@ export class ScientificDisplay {
             this.frameGroup.add(arrow);
         }
         this.owner.scene.add(this.frameGroup);
-        this.frameLegend.innerHTML='<span style="color:#c73d3d">T</span> · <span style="color:#2ca02c">N</span> · <span style="color:#0072bd">B</span>';
-        this.frameLegend.hidden=!data.frames.length;
     }
 
     destroy(){
         this.alive=false;this.serial++;this.pending=null;this.clearFrames();
         this.frameLineGeometry?.dispose();this.frameConeGeometry?.dispose();
-        this.colorMaterial?.dispose();this.solidMaterial?.dispose();this.legend.remove();this.frameLegend.remove();
+        this.colorMaterial?.dispose();this.solidMaterial?.dispose();this.legend.remove();
     }
 }

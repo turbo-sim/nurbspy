@@ -85,7 +85,7 @@ export async function mountFigure(rootId,payload,options={}){
     function beforeRender(){
         for(const [name,e] of Object.entries(owners)){
             const visible=state.objects[name].visible;
-            e.scientific.legend.style.display=e.scientific.frameLegend.style.display=visible?'':'none';
+            e.scientific.legend.style.display=visible?'':'none';
             if(e===core){
                 if(e.geometryObject)e.geometryObject.visible=visible&&e.scientific.meshMode?.value!=='export';
                 if(e.net)e.net.visible=visible&&e.netCheck.checked;
@@ -151,7 +151,7 @@ export async function mountFigure(rootId,payload,options={}){
             const owner=new Explorer(hidden,sceneFor(name),{readOnly:true,shared:core,inspect:inspect(name)});
             owners[name]=owner;core.scene.add(owner.scene);
             // Legends belong to the figure, not to the hidden object's inspector.
-            core.viewport.append(owner.scientific.legend,owner.scientific.frameLegend);
+            core.viewport.append(owner.scientific.legend);
         }
         core.options.bounds=bounds;
         for(const marker of state.markers||[]){
@@ -208,7 +208,6 @@ export async function mountFigure(rootId,payload,options={}){
         let legendIndex=0;
         for(const [name,e] of Object.entries(owners)){
             e.scientific.legend.style.top=`${17+legendIndex*84}px`;
-            e.scientific.frameLegend.style.bottom=`${12+legendIndex*25}px`;
             if(state.objects[name].visible&&e.scientific.quantity.value!=='solid')legendIndex++;
         }
         if(options.offline){
