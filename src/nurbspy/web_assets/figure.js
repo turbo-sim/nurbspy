@@ -13,6 +13,7 @@ function displayState(owner){
     return {view:owner.viewMode,axes:owner.axesCheck.checked,grid:owner.gridCheck.checked,
         quantity:s.quantity.value,colormap:s.map.value,geometry_color:s.geometryColor.value,
         opacity:Number(s.opacity?.value??1),
+        curve_depth_test:s.curveDepth?.checked??true,
         control_color:s.controlColor.value,selected_color:s.selectedColor?.value||'#2ca02c',
         mesh:s.meshMode?.value||'off',mesh_u:Number(s.nu?.value||40),mesh_v:Number(s.nv?.value||40),
         frames:Boolean(s.frames?.checked),frame_count:Number(s.frameCount?.value||8),frame_scale:Number(s.frameScale?.value||.1),

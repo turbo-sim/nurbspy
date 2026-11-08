@@ -61,6 +61,7 @@ export class ScientificDisplay {
         };
         const check=(label)=>{const control=node('input',{type:'checkbox','aria-label':label});return row(label,control);};
         this.geometryColor=row(this.isSurface?'Surface colour':'Curve colour',node('input',{type:'color','aria-label':'Geometry colour',value:this.isSurface?'#0072bd':'#000000'}));
+        if(!this.isSurface){this.curveDepth=check('Hide behind surfaces');this.curveDepth.addEventListener('change',()=>this.applyColors());}
         this.opacity=number('Opacity',1,0,1,.05);
         this.opacity.addEventListener('input',()=>this.applyColors());
         target=sections.controls;
@@ -115,6 +116,7 @@ export class ScientificDisplay {
         this.frameLegend=node('div',{class:'nrb-frame-legend',hidden:''});owner.viewport.append(this.frameLegend);
         const settings=initial.display||{};
         this.opacity.value=settings.opacity??1;
+        if(this.curveDepth)this.curveDepth.checked=settings.curve_depth_test!==false;
         for(const [key,input] of [['quantity',this.quantity],['colormap',this.map],['geometry_color',this.geometryColor],['control_color',this.controlColor],['selected_color',this.selectedColor],['mesh',this.meshMode],['mesh_u',this.nu],['mesh_v',this.nv],['frame_count',this.frameCount],['frame_scale',this.frameScale]]){
             if(input && settings[key]!==undefined)input.value=settings[key];
         }
@@ -148,6 +150,10 @@ export class ScientificDisplay {
 
     applyColors(){
         const e=this.owner,control=this.controlColor.value,selected=this.selectedColor?.value||control;
+        if(!this.isSurface&&e.geometryObject&&this.curveDepth){
+            e.geometryObject.material.depthTest=this.curveDepth.checked;
+            e.geometryObject.renderOrder=this.curveDepth.checked?0:10;
+        }
         e.net?.material.color.set(control);
         if(e.is2D){e.outlineMaterial?.color.set(control);e.selectedOutlineMaterial?.color.set(selected);}
         else{e.pointMaterial?.color.set(control);e.selectedMaterial?.color.set(selected);e.selectedMaterial?.emissive.set(selected);}

@@ -36,6 +36,7 @@ def display_options(options, surface):
         control_color="#ff7f0e",
         selected_color="#2ca02c",
         opacity=1.0,
+        curve_depth_test=True,
         mesh="off",
         mesh_u=40,
         mesh_v=40,
@@ -61,7 +62,7 @@ def display_options(options, surface):
     for name, values in choices.items():
         if defaults[name] not in values:
             raise ValueError(f"Invalid display {name}")
-    for name in ("axes", "grid", "frames", "control_points", "control_polygon", "boundary", "reverse"):
+    for name in ("axes", "grid", "frames", "control_points", "control_polygon", "boundary", "reverse", "curve_depth_test"):
         if not isinstance(defaults[name], bool):
             raise ValueError(f"Display {name} must be a boolean")
     limits = defaults["limits"]
