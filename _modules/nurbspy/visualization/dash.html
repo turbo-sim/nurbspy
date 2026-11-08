@@ -1,0 +1,629 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nurbspy.visualization.dash &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2572fa48"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/nurbspy/visualization/dash';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/_modules/nurbspy/visualization/dash.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/point_projection.html">Point projection onto curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../figures.html">Reproducible figures and PNG frames</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2F_modules/nurbspy/visualization/dash.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for nurbspy.visualization.dash</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Host-owned Dash adapters for the shared geometry viewport and optional editor.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">_GeometryModel</span>
+
+
+<div class="viewcode-block" id="GeometryView">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.dash.html#nurbspy.visualization.GeometryView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GeometryView</span><span class="p">(</span><span class="n">_GeometryModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read-only component with navigation, display options, and diagnostics.</span>
+
+<span class="sd">    The host owns its app and server. GeometryEditor adds editing to this same</span>
+<span class="sd">    component; both use the desktop renderer and Python geometry model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_editable</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.figure</span><span class="w"> </span><span class="kn">import</span> <span class="n">Figure</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_figure</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">Figure</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_figure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">figure</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_figure</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;resolution&#39;</span><span class="p">,</span> <span class="s1">&#39;preview_resolution&#39;</span><span class="p">,</span> <span class="s1">&#39;preview_quality&#39;</span><span class="p">,</span> <span class="s1">&#39;quality&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+            <span class="k">if</span> <span class="s1">&#39;display&#39;</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
+                <span class="n">figure</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">display</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;display&#39;</span><span class="p">))</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">figure</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="n">figure</span><span class="o">.</span><span class="n">resolution</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="n">figure</span><span class="o">.</span><span class="n">quality</span><span class="p">,</span>
+                           <span class="n">preview_resolution</span><span class="o">=</span><span class="n">figure</span><span class="o">.</span><span class="n">preview_resolution</span><span class="p">,</span> <span class="n">preview_quality</span><span class="o">=</span><span class="n">figure</span><span class="o">.</span><span class="n">preview_quality</span><span class="p">,</span>
+                           <span class="n">display</span><span class="o">=</span><span class="n">figure</span><span class="o">.</span><span class="n">settings</span><span class="p">())</span>
+            <span class="n">geometry</span> <span class="o">=</span> <span class="n">figure</span><span class="o">.</span><span class="n">geometry</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GeometryView.figure_from_state">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.dash.html#nurbspy.visualization.GeometryView.figure_from_state">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">figure_from_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore a per-browser figure Store without mutating shared server state.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.figure</span><span class="w"> </span><span class="kn">import</span> <span class="n">Figure</span>
+        <span class="k">return</span> <span class="n">Figure</span><span class="o">.</span><span class="n">from_state</span><span class="p">(</span><span class="n">state</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_only</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_editable</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">layout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mount only stores/capabilities required by this component mode.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_figure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.figure_hosts</span><span class="w"> </span><span class="kn">import</span> <span class="n">figure_layout</span>
+            <span class="k">return</span> <span class="n">figure_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">dash</span><span class="w"> </span><span class="kn">import</span> <span class="n">dcc</span><span class="p">,</span> <span class="n">html</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">&quot;Dash is required for application embedding. &quot;</span>
+                <span class="s2">&quot;Install nurbspy&#39;s dependencies with pip install nurbspy or poetry install.&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">error</span>
+        <span class="n">scene</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_initial_scene</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_only</span><span class="p">:</span>
+            <span class="n">scene</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;edit_store&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">children</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">viewport_id</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="s2">&quot;minWidth&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_only</span><span class="p">:</span>
+            <span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Store</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">edit_id</span><span class="p">))</span>
+        <span class="n">children</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">dcc</span><span class="o">.</span><span class="n">Store</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scene_id</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">scene</span><span class="p">),</span>
+                <span class="n">dcc</span><span class="o">.</span><span class="n">Store</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">state_id</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_state</span><span class="p">),</span>
+                <span class="n">dcc</span><span class="o">.</span><span class="n">Store</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ready_id</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">children</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;minWidth&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;100%&quot;</span><span class="p">})</span>
+
+<div class="viewcode-block" id="GeometryView.register">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.dash.html#nurbspy.visualization.GeometryView.register">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attach the shared viewer and only the endpoints allowed by its mode.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_figure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.figure_hosts</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_figure</span>
+            <span class="k">return</span> <span class="n">register_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">dash</span><span class="w"> </span><span class="kn">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">,</span> <span class="n">State</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">dash.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">PreventUpdate</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">send_from_directory</span>
+
+        <span class="n">registered</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s2">&quot;_nurbspy_explorer_ids&quot;</span><span class="p">,</span> <span class="nb">set</span><span class="p">())</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="n">registered</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;An explorer with id </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">!r}</span><span class="s2"> is already registered&quot;</span><span class="p">)</span>
+        <span class="n">route_prefix</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">routes_pathname_prefix</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">registered</span><span class="p">:</span>
+            <span class="n">assets</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="s2">&quot;web_assets&quot;</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span>
+                <span class="n">route_prefix</span> <span class="o">+</span> <span class="s2">&quot;/_nurbspy_web/&lt;path:filename&gt;&quot;</span><span class="p">,</span>
+                <span class="n">endpoint</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;nurbspy_web_assets_</span><span class="si">{</span><span class="nb">id</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">view_func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">filename</span><span class="p">:</span> <span class="n">send_from_directory</span><span class="p">(</span><span class="n">assets</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="n">inspect_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/_nurbspy_web/inspect/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">inspect_geometry</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">(</span><span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)))</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">OverflowError</span><span class="p">)</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">)),</span> <span class="mi">422</span>
+
+        <span class="n">app</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span>
+            <span class="n">route_prefix</span> <span class="o">+</span> <span class="n">inspect_path</span><span class="p">,</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;nurbspy_inspect_</span><span class="si">{</span><span class="nb">id</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">view_func</span><span class="o">=</span><span class="n">inspect_geometry</span><span class="p">,</span>
+            <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;readOnly&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_only</span><span class="p">,</span>
+            <span class="s2">&quot;inspectEndpoint&quot;</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">get_relative_path</span><span class="p">(</span><span class="n">inspect_path</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_only</span><span class="p">:</span>
+            <span class="n">edit_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/_nurbspy_web/edit/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="k">def</span><span class="w"> </span><span class="nf">render_edit</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">packet</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">(</span><span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">render_packet</span><span class="p">(</span><span class="n">packet</span><span class="p">))</span>
+                    <span class="n">positions</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">quality</span><span class="p">,</span> <span class="n">revision</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_render_update</span><span class="p">(</span><span class="n">packet</span><span class="p">)</span>
+                <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">OverflowError</span><span class="p">)</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">)),</span> <span class="mi">422</span>
+                <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                    <span class="n">positions</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span>
+                    <span class="n">mimetype</span><span class="o">=</span><span class="s2">&quot;application/octet-stream&quot;</span><span class="p">,</span>
+                    <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s2">&quot;X-Nurbspy-Revision&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">revision</span><span class="p">),</span>
+                        <span class="s2">&quot;X-Nurbspy-Quality&quot;</span><span class="p">:</span> <span class="n">quality</span><span class="p">,</span>
+                        <span class="s2">&quot;Cache-Control&quot;</span><span class="p">:</span> <span class="s2">&quot;no-store&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">)</span>
+
+            <span class="n">app</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span>
+                <span class="n">route_prefix</span> <span class="o">+</span> <span class="n">edit_path</span><span class="p">,</span>
+                <span class="n">endpoint</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;nurbspy_edit_</span><span class="si">{</span><span class="nb">id</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">view_func</span><span class="o">=</span><span class="n">render_edit</span><span class="p">,</span>
+                <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">endpoint</span><span class="o">=</span><span class="n">app</span><span class="o">.</span><span class="n">get_relative_path</span><span class="p">(</span><span class="n">edit_path</span><span class="p">),</span> <span class="n">stateStore</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">state_id</span>
+            <span class="p">)</span>
+
+            <span class="nd">@app</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+                <span class="n">Output</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scene_id</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">),</span>
+                <span class="n">Output</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_id</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">),</span>
+                <span class="n">Input</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edit_id</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">),</span>
+                <span class="n">State</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_id</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">),</span>
+                <span class="n">prevent_initial_call</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">accept_edit</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">current_state</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">request</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">PreventUpdate</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_edit</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">current_state</span><span class="p">)</span>
+
+        <span class="n">app</span><span class="o">.</span><span class="n">_nurbspy_explorer_ids</span> <span class="o">=</span> <span class="n">registered</span> <span class="o">|</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">}</span>
+        <span class="n">module_url</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">get_relative_path</span><span class="p">(</span><span class="s2">&quot;/_nurbspy_web/explorer.js&quot;</span><span class="p">)</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">clientside_callback</span><span class="p">(</span>
+            <span class="s2">&quot;async function(scene) {&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;const viewer = await import(</span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">module_url</span><span class="p">)</span><span class="si">}</span><span class="s2">);&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;return viewer.update(</span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">viewport_id</span><span class="p">)</span><span class="si">}</span><span class="s2">, scene, </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">options</span><span class="p">)</span><span class="si">}</span><span class="s2">);&quot;</span>
+            <span class="s2">&quot;}&quot;</span><span class="p">,</span>
+            <span class="n">Output</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ready_id</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">),</span>
+            <span class="n">Input</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scene_id</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="GeometryEditor">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.dash.html#nurbspy.visualization.GeometryEditor">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GeometryEditor</span><span class="p">(</span><span class="n">GeometryView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The shared viewer plus edit controls, drag/weight edits, and accepted state.</span>
+
+<span class="sd">    Add editor.layout to the app, call editor.register(app), and subscribe to</span>
+<span class="sd">    editor.state_id for full accepted models. Input geometry remains unchanged.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_editable</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

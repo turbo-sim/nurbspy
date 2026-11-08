@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=9e8e7855"></script>
+    <script src="_static/documentation_options.js?v=2572fa48"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -169,6 +169,7 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/curvature_continuity.html">Curvature continuity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/point_projection_curve.html">Point projection onto a curve</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -200,11 +201,30 @@
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="figures.html">Reproducible figures and PNG frames</a></li>
 </ul>
 
     </div>
@@ -363,8 +383,10 @@
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
@@ -373,29 +395,40 @@
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
+ | <a href="#X"><strong>X</strong></a>
+ | <a href="#Y"><strong>Y</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
  
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.add">add() (nurbspy.visualization.Figure method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.add">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthInfo">ArcLengthInfo (class in nurbspy.jax.arclength)</a>
 </li>
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthMap">ArcLengthMap (class in nurbspy.jax.arclength)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.attach_nurbs_udir">attach_nurbs_udir() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 
       <ul>
         <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.attach_nurbs_udir">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.attach_nurbs_vdir">attach_nurbs_vdir() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 
       <ul>
         <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.attach_nurbs_vdir">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
+      <li><a href="api/nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.automatic_axes">automatic_axes() (in module nurbspy.visualization.sampling)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -432,6 +465,8 @@
       </ul></li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.close_3d_box">close_3d_box() (in module nurbspy.graphics)</a>
 </li>
+      <li><a href="api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.colormap_tables">colormap_tables() (in module nurbspy.visualization.analysis)</a>
+</li>
       <li><a href="api/nurbspy.jax.nurbs_basis_functions.html#nurbspy.jax.nurbs_basis_functions.compute_all_basis_polynomials_derivatives">compute_all_basis_polynomials_derivatives() (in module nurbspy.jax.nurbs_basis_functions)</a>
 </li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.compute_all_bspline_derivatives">compute_all_bspline_derivatives() (in module nurbspy.jax.nurbs_curve)</a>
@@ -462,8 +497,6 @@
         <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_bspline_coordinates">(nurbspy.numpy.nurbs_surface.NurbsSurface static method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.compute_bspline_derivatives">compute_bspline_derivatives() (nurbspy.jax.nurbs_surface.NurbsSurface static method)</a>
 
       <ul>
@@ -482,6 +515,8 @@
         <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_nurbs_coordinates">(nurbspy.numpy.nurbs_surface.NurbsSurface static method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.compute_nurbs_derivatives">compute_nurbs_derivatives() (nurbspy.jax.nurbs_surface.NurbsSurface static method)</a>
 
       <ul>
@@ -490,11 +525,33 @@
         <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_nurbs_derivatives">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
+      <li><a href="api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.control_point_normal">control_point_normal() (in module nurbspy.visualization.analysis)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.copy">copy() (nurbspy.visualization.Figure method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.copy">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.create_gif">create_gif() (in module nurbspy.graphics)</a>
 </li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.create_mp4">create_mp4() (in module nurbspy.graphics)</a>
 </li>
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthMap.cumulative">cumulative (nurbspy.jax.arclength.ArcLengthMap attribute)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.curve_plot">curve_plot() (in module nurbspy.visualization.plotting)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.curve_plot_control_points">curve_plot_control_points() (in module nurbspy.visualization.plotting)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.curve_plot_curvature">curve_plot_curvature() (in module nurbspy.visualization.plotting)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.curve_plot_curve">curve_plot_curve() (in module nurbspy.visualization.plotting)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.curve_plot_frenet_serret">curve_plot_frenet_serret() (in module nurbspy.visualization.plotting)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.curve_plot_torsion">curve_plot_torsion() (in module nurbspy.visualization.plotting)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.curve_rescale_plot">curve_rescale_plot() (in module nurbspy.visualization.plotting)</a>
 </li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.curve_type">curve_type (nurbspy.jax.nurbs_curve.NurbsCurve attribute)</a>
 </li>
@@ -506,11 +563,15 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.degree">degree (nurbspy.jax.prepared.PreparedCurveBasis attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.degree_u">degree_u (nurbspy.jax.prepared.PreparedSurfaceBasis attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.degree_v">degree_v (nurbspy.jax.prepared.PreparedSurfaceBasis attribute)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.descriptor">descriptor() (in module nurbspy.visualization.sampling)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.display_options">display_options() (in module nurbspy.visualization.analysis)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -518,21 +579,71 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.edit">edit() (in module nurbspy.visualization)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.desktop.html#nurbspy.visualization.desktop.edit">(in module nurbspy.visualization.desktop)</a>
+</li>
+        <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.edit">(nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
+</li>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.edit">(nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.edit">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.edit">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
+</li>
+        <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.edit">(nurbspy.visualization.Figure method)</a>
+</li>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.edit">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthMap.end_values">end_values (nurbspy.jax.arclength.ArcLengthMap attribute)</a>
 </li>
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthInfo.error_estimate">error_estimate (nurbspy.jax.arclength.ArcLengthInfo attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthMap.evaluate">evaluate() (nurbspy.jax.arclength.ArcLengthMap method)</a>
 </li>
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthInfo.evaluations">evaluations (nurbspy.jax.arclength.ArcLengthInfo attribute)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.html.html#nurbspy.visualization.html.export_html">export_html() (in module nurbspy.visualization.html)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.export_preview">export_preview() (in module nurbspy.visualization.analysis)</a>
+</li>
+      <li><a href="api/nurbspy.mesh.html#nurbspy.mesh.export_stl">export_stl() (in module nurbspy.mesh)</a>
+</li>
+      <li><a href="api/nurbspy.mesh.html#nurbspy.mesh.export_stl_bytes">export_stl_bytes() (in module nurbspy.mesh)</a>
 </li>
   </ul></td>
 </tr></table>
 
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure">Figure (class in nurbspy.visualization)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure">(class in nurbspy.visualization.figure)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.visualization.dash.html#nurbspy.visualization.dash.GeometryView.figure_from_state">figure_from_state() (nurbspy.visualization.dash.GeometryView method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.GeometryView.figure_from_state">(nurbspy.visualization.GeometryView method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.figure_html">figure_html() (in module nurbspy.visualization.figure_hosts)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.figure_layout">figure_layout() (in module nurbspy.visualization.figure_hosts)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.fit">fit() (nurbspy.visualization.Figure method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.fit">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.fitness">fitness() (nurbspy.jax.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem method)</a>
 
@@ -542,12 +653,48 @@
         <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.fitness">(nurbspy.numpy.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem method)</a>
 </li>
       </ul></li>
+      <li><a href="api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.frenet_frames">frenet_frames() (in module nurbspy.visualization.analysis)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.from_state">from_state() (nurbspy.visualization.Figure class method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.from_state">(nurbspy.visualization.figure.Figure class method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.serialization.html#nurbspy.serialization.GeometryYamlMixin.from_yaml">from_yaml() (nurbspy.serialization.GeometryYamlMixin class method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.from_yaml">(nurbspy.visualization.Figure class method)</a>
+</li>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.from_yaml">(nurbspy.visualization.figure.Figure class method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.geometry">geometry() (nurbspy.visualization.Figure method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.geometry">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.GeometryEditor">GeometryEditor (class in nurbspy.visualization)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.dash.html#nurbspy.visualization.dash.GeometryEditor">(class in nurbspy.visualization.dash)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.GeometryView">GeometryView (class in nurbspy.visualization)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.dash.html#nurbspy.visualization.dash.GeometryView">(class in nurbspy.visualization.dash)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.serialization.html#nurbspy.serialization.GeometryYamlMixin">GeometryYamlMixin (class in nurbspy.serialization)</a>
+</li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.get_arclength">get_arclength() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 
       <ul>
@@ -602,14 +749,14 @@
         <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.get_derivative">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedCurveBasis.get_derivatives">get_derivatives() (nurbspy.jax.prepared.PreparedCurveBasis method)</a>
 
       <ul>
         <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.get_derivatives">(nurbspy.jax.prepared.PreparedSurfaceBasis method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.get_isocurve_u">get_isocurve_u() (nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
 
       <ul>
@@ -676,6 +823,8 @@
       </ul></li>
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.grid">grid (nurbspy.jax.prepared.PreparedSurfaceBasis attribute)</a>
 </li>
+      <li><a href="api/nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.grid">grid() (in module nurbspy.visualization.sampling)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -696,6 +845,20 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthInfo.intervals">intervals (nurbspy.jax.arclength.ArcLengthInfo attribute)</a>
 </li>
+      <li><a href="api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.isocurve_parameters">isocurve_parameters() (in module nurbspy.visualization.analysis)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.visualization.dash.html#nurbspy.visualization.dash.GeometryView.layout">layout (nurbspy.visualization.dash.GeometryView property)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.GeometryView.layout">(nurbspy.visualization.GeometryView property)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -752,6 +915,12 @@
         <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.merge_nurbs_curves">(in module nurbspy.numpy.nurbs_curve)</a>
 </li>
       </ul></li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.mesh">mesh() (nurbspy.visualization.Figure method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.mesh">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
       <li><a href="api/nurbspy.html#nurbspy.minimal_example">minimal_example() (in module nurbspy)</a>
 </li>
       <li>
@@ -788,6 +957,8 @@
 </li>
         <li><a href="api/nurbspy.jax.prepared_projection.html#module-nurbspy.jax.prepared_projection">nurbspy.jax.prepared_projection</a>
 </li>
+        <li><a href="api/nurbspy.mesh.html#module-nurbspy.mesh">nurbspy.mesh</a>
+</li>
         <li><a href="api/nurbspy.numpy.html#module-nurbspy.numpy">nurbspy.numpy</a>
 </li>
         <li><a href="api/nurbspy.numpy.nurbs_basis_functions.html#module-nurbspy.numpy.nurbs_basis_functions">nurbspy.numpy.nurbs_basis_functions</a>
@@ -808,6 +979,32 @@
 </li>
         <li><a href="api/nurbspy.numpy.nurbs_surface_ruled.html#module-nurbspy.numpy.nurbs_surface_ruled">nurbspy.numpy.nurbs_surface_ruled</a>
 </li>
+        <li><a href="api/nurbspy.point.html#module-nurbspy.point">nurbspy.point</a>
+</li>
+        <li><a href="api/nurbspy.serialization.html#module-nurbspy.serialization">nurbspy.serialization</a>
+</li>
+        <li><a href="api/nurbspy.visualization.html#module-nurbspy.visualization">nurbspy.visualization</a>
+</li>
+        <li><a href="api/nurbspy.visualization.analysis.html#module-nurbspy.visualization.analysis">nurbspy.visualization.analysis</a>
+</li>
+        <li><a href="api/nurbspy.visualization.dash.html#module-nurbspy.visualization.dash">nurbspy.visualization.dash</a>
+</li>
+        <li><a href="api/nurbspy.visualization.desktop.html#module-nurbspy.visualization.desktop">nurbspy.visualization.desktop</a>
+</li>
+        <li><a href="api/nurbspy.visualization.figure.html#module-nurbspy.visualization.figure">nurbspy.visualization.figure</a>
+</li>
+        <li><a href="api/nurbspy.visualization.figure_hosts.html#module-nurbspy.visualization.figure_hosts">nurbspy.visualization.figure_hosts</a>
+</li>
+        <li><a href="api/nurbspy.visualization.html.html#module-nurbspy.visualization.html">nurbspy.visualization.html</a>
+</li>
+        <li><a href="api/nurbspy.visualization.model.html#module-nurbspy.visualization.model">nurbspy.visualization.model</a>
+</li>
+        <li><a href="api/nurbspy.visualization.plotting.html#module-nurbspy.visualization.plotting">nurbspy.visualization.plotting</a>
+</li>
+        <li><a href="api/nurbspy.visualization.sampling.html#module-nurbspy.visualization.sampling">nurbspy.visualization.sampling</a>
+</li>
+        <li><a href="api/nurbspy.web_explorer.html#module-nurbspy.web_explorer">nurbspy.web_explorer</a>
+</li>
       </ul></li>
   </ul></td>
 </tr></table>
@@ -821,6 +1018,12 @@
 </li>
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.n_control_v">n_control_v (nurbspy.jax.prepared.PreparedSurfaceBasis attribute)</a>
 </li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.names">names (nurbspy.visualization.Figure property)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.names">(nurbspy.visualization.figure.Figure property)</a>
+</li>
+      </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.ndim">ndim (nurbspy.jax.nurbs_curve.NurbsCurve attribute)</a>
 
       <ul>
@@ -834,6 +1037,8 @@
 </li>
       </ul></li>
       <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.PointToCurveProjectionProblem">NurbsCurve.PointToCurveProjectionProblem (class in nurbspy.numpy.nurbs_curve)</a>
+</li>
+      <li><a href="api/nurbspy.web_explorer.html#nurbspy.web_explorer.NurbsExplorer">NurbsExplorer (in module nurbspy.web_explorer)</a>
 </li>
       <li>
     nurbspy
@@ -933,13 +1138,18 @@
         <li><a href="api/nurbspy.jax.prepared.html#module-nurbspy.jax.prepared">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     nurbspy.jax.prepared_projection
 
       <ul>
         <li><a href="api/nurbspy.jax.prepared_projection.html#module-nurbspy.jax.prepared_projection">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.mesh
+
+      <ul>
+        <li><a href="api/nurbspy.mesh.html#module-nurbspy.mesh">module</a>
 </li>
       </ul></li>
       <li>
@@ -970,6 +1180,8 @@
         <li><a href="api/nurbspy.numpy.nurbs_curve_circular_arc.html#module-nurbspy.numpy.nurbs_curve_circular_arc">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     nurbspy.numpy.nurbs_surface
 
@@ -1010,6 +1222,97 @@
 
       <ul>
         <li><a href="api/nurbspy.numpy.nurbs_surface_ruled.html#module-nurbspy.numpy.nurbs_surface_ruled">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.point
+
+      <ul>
+        <li><a href="api/nurbspy.point.html#module-nurbspy.point">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.serialization
+
+      <ul>
+        <li><a href="api/nurbspy.serialization.html#module-nurbspy.serialization">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.visualization
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.html#module-nurbspy.visualization">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.visualization.analysis
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.analysis.html#module-nurbspy.visualization.analysis">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.visualization.dash
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.dash.html#module-nurbspy.visualization.dash">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.visualization.desktop
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.desktop.html#module-nurbspy.visualization.desktop">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.visualization.figure
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#module-nurbspy.visualization.figure">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.visualization.figure_hosts
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure_hosts.html#module-nurbspy.visualization.figure_hosts">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.visualization.html
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.html.html#module-nurbspy.visualization.html">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.visualization.model
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.model.html#module-nurbspy.visualization.model">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.visualization.plotting
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.plotting.html#module-nurbspy.visualization.plotting">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.visualization.sampling
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.sampling.html#module-nurbspy.visualization.sampling">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.web_explorer
+
+      <ul>
+        <li><a href="api/nurbspy.web_explorer.html#module-nurbspy.web_explorer">module</a>
 </li>
       </ul></li>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface">NurbsSurface (class in nurbspy.jax.nurbs_surface)</a>
@@ -1057,6 +1360,14 @@
   </ul></td>
 </tr></table>
 
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.open_figure">open_figure() (in module nurbspy.visualization.figure_hosts)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -1068,9 +1379,13 @@
 </li>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.p">p (nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
 </li>
-      <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot">plot() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.plot">plot() (in module nurbspy.visualization)</a>
 
       <ul>
+        <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.plot">(in module nurbspy.visualization.plotting)</a>
+</li>
+        <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot">(nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
+</li>
         <li><a href="api/nurbspy.jax.nurbs_curve_circular_arc.html#nurbspy.jax.nurbs_curve_circular_arc.CircularArc.plot">(nurbspy.jax.nurbs_curve_circular_arc.CircularArc method)</a>
 </li>
         <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot">(nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
@@ -1152,6 +1467,8 @@
         <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.plot_torsion">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
 </li>
       </ul></li>
+      <li><a href="api/nurbspy.point.html#nurbspy.point.Point">Point (class in nurbspy.point)</a>
+</li>
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.prepare_arclength">prepare_arclength() (in module nurbspy.jax.arclength)</a>
 </li>
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.prepare_curve">prepare_curve() (in module nurbspy.jax.prepared)</a>
@@ -1167,6 +1484,8 @@
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis">PreparedSurfaceBasis (class in nurbspy.jax.prepared)</a>
 </li>
       <li><a href="api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection">PreparedSurfaceProjection (class in nurbspy.jax.prepared_projection)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.preview_axes">preview_axes() (in module nurbspy.visualization.sampling)</a>
 </li>
       <li><a href="api/nurbspy.html#nurbspy.print_banner">print_banner() (in module nurbspy)</a>
 </li>
@@ -1209,11 +1528,45 @@
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.q">q (nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.quality">quality (nurbspy.visualization.Figure property)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.quality">(nurbspy.visualization.figure.Figure property)</a>
+</li>
+      </ul></li>
+  </ul></td>
 </tr></table>
 
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.visualization.dash.html#nurbspy.visualization.dash.GeometryView.read_only">read_only (nurbspy.visualization.dash.GeometryView property)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.GeometryView.read_only">(nurbspy.visualization.GeometryView property)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.visualization.dash.html#nurbspy.visualization.dash.GeometryView.register">register() (nurbspy.visualization.dash.GeometryView method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.GeometryView.register">(nurbspy.visualization.GeometryView method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.register_figure">register_figure() (in module nurbspy.visualization.figure_hosts)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.remove">remove() (nurbspy.visualization.Figure method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.remove">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.render_frames">render_frames() (in module nurbspy.visualization.figure_hosts)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.render_png">render_png() (in module nurbspy.visualization.figure_hosts)</a>
+</li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_arclength">reparametrize_by_arclength() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
 </li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_coordinate">reparametrize_by_coordinate() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
@@ -1240,16 +1593,68 @@
 </li>
       <li><a href="api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.samples_per_span">samples_per_span (nurbspy.jax.prepared_projection.PreparedSurfaceProjection attribute)</a>
 </li>
+      <li><a href="api/nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.sampling_from_descriptor">sampling_from_descriptor() (in module nurbspy.visualization.sampling)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.savefig">savefig() (nurbspy.visualization.Figure method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.savefig">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.savefig_in_formats">savefig_in_formats() (in module nurbspy.graphics)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.saveframes">saveframes() (nurbspy.visualization.Figure method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.saveframes">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.scalar_field">scalar_field() (in module nurbspy.visualization.analysis)</a>
 </li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.scale_graphics_x">scale_graphics_x() (in module nurbspy.graphics)</a>
 </li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.scale_graphics_y">scale_graphics_y() (in module nurbspy.graphics)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.scatter">scatter() (nurbspy.visualization.Figure method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.scatter">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.set_camera">set_camera() (nurbspy.visualization.Figure method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.set_camera">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.set_plot_options">set_plot_options() (in module nurbspy.graphics)</a>
 </li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.settings">settings() (nurbspy.visualization.Figure method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.settings">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.show">show() (in module nurbspy.visualization)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.desktop.html#nurbspy.visualization.desktop.show">(in module nurbspy.visualization.desktop)</a>
+</li>
+        <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.show">(nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
+</li>
+        <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.show">(nurbspy.jax.nurbs_surface.NurbsSurface method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.show">(nurbspy.numpy.nurbs_curve.NurbsCurve method)</a>
+</li>
+        <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.show">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
+</li>
+        <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.show">(nurbspy.visualization.Figure method)</a>
+</li>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.show">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthMap.solutions">solutions (nurbspy.jax.arclength.ArcLengthMap attribute)</a>
 </li>
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthInfo.status">status (nurbspy.jax.arclength.ArcLengthInfo attribute)</a>
@@ -1257,6 +1662,26 @@
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.style_3d_axes">style_3d_axes() (in module nurbspy.graphics)</a>
 </li>
       <li><a href="api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.surface">surface (nurbspy.jax.prepared_projection.PreparedSurfaceProjection attribute)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.surface_isocurves">surface_isocurves() (in module nurbspy.visualization.analysis)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot">surface_plot() (in module nurbspy.visualization.plotting)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot_boundary">surface_plot_boundary() (in module nurbspy.visualization.plotting)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot_control_points">surface_plot_control_points() (in module nurbspy.visualization.plotting)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot_curvature">surface_plot_curvature() (in module nurbspy.visualization.plotting)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot_isocurve_u">surface_plot_isocurve_u() (in module nurbspy.visualization.plotting)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot_isocurve_v">surface_plot_isocurve_v() (in module nurbspy.visualization.plotting)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot_normals">surface_plot_normals() (in module nurbspy.visualization.plotting)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot_surface">surface_plot_surface() (in module nurbspy.visualization.plotting)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_rescale_plot">surface_rescale_plot() (in module nurbspy.visualization.plotting)</a>
 </li>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.surface_type">surface_type (nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
 </li>
@@ -1266,6 +1691,32 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.mesh.html#nurbspy.mesh.tessellate_surfaces">tessellate_surfaces() (in module nurbspy.mesh)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.to_html">to_html() (nurbspy.visualization.Figure method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.to_html">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.to_state">to_state() (nurbspy.visualization.Figure method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.to_state">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.serialization.html#nurbspy.serialization.GeometryYamlMixin.to_yaml">to_yaml() (nurbspy.serialization.GeometryYamlMixin method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.to_yaml">(nurbspy.visualization.Figure method)</a>
+</li>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.to_yaml">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.topologies">topologies() (in module nurbspy.visualization.sampling)</a>
+</li>
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthMap.total_length">total_length (nurbspy.jax.arclength.ArcLengthMap property)</a>
 </li>
   </ul></td>
@@ -1280,12 +1731,18 @@
         <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.U">(nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.U_mults">U_mults (nurbspy.jax.nurbs_surface.NurbsSurface property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.U_values">U_values (nurbspy.jax.nurbs_surface.NurbsSurface property)</a>
 </li>
+      <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.update">update() (nurbspy.visualization.Figure method)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.update">(nurbspy.visualization.figure.Figure method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -1296,9 +1753,13 @@
 </li>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.V_mults">V_mults (nurbspy.jax.nurbs_surface.NurbsSurface property)</a>
 </li>
+      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.V_values">V_values (nurbspy.jax.nurbs_surface.NurbsSurface property)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.V_values">V_values (nurbspy.jax.nurbs_surface.NurbsSurface property)</a>
+      <li><a href="api/nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.validate_preview_quality">validate_preview_quality() (in module nurbspy.visualization.sampling)</a>
+</li>
+      <li><a href="api/nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.validate_quality">validate_quality() (in module nurbspy.visualization.sampling)</a>
 </li>
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthInfo.value">value (nurbspy.jax.arclength.ArcLengthInfo attribute)</a>
 </li>
@@ -1319,6 +1780,30 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.PreparedArcLength.weights">weights (nurbspy.jax.arclength.PreparedArcLength attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="X">X</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.point.html#nurbspy.point.Point.x">x (nurbspy.point.Point property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Y">Y</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.point.html#nurbspy.point.Point.y">y (nurbspy.point.Point property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.point.html#nurbspy.point.Point.z">z (nurbspy.point.Point property)</a>
 </li>
   </ul></td>
 </tr></table>

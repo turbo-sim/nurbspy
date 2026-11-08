@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=9e8e7855"></script>
+    <script src="../_static/documentation_options.js?v=2572fa48"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -170,6 +170,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/curvature_continuity.html">Curvature continuity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_curve.html">Point projection onto a curve</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -201,11 +202,30 @@
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../figures.html">Reproducible figures and PNG frames</a></li>
 </ul>
 
     </div>
@@ -453,6 +473,7 @@ backend does not require or initialize JAX.</p>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.compute_bspline_derivatives"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.compute_bspline_derivatives()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.compute_nurbs_coordinates"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.compute_nurbs_coordinates()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.compute_nurbs_derivatives"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.compute_nurbs_derivatives()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.edit"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.edit()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.get_arclength"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_arclength()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.get_binormal"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_binormal()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.get_curvature"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.get_curvature()</span></code></a></li>
@@ -470,6 +491,7 @@ backend does not require or initialize JAX.</p>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.plot_torsion"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.plot_torsion()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.project_point_to_curve"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.project_point_to_curve()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.rescale_plot"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.rescale_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.NurbsCurve.show"><code class="docutils literal notranslate"><span class="pre">NurbsCurve.show()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="nurbspy.numpy.nurbs_curve.html#nurbspy.numpy.nurbs_curve.merge_nurbs_curves"><code class="docutils literal notranslate"><span class="pre">merge_nurbs_curves()</span></code></a></li>
@@ -498,6 +520,7 @@ backend does not require or initialize JAX.</p>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_bspline_derivatives"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.compute_bspline_derivatives()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_nurbs_coordinates"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.compute_nurbs_coordinates()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_nurbs_derivatives"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.compute_nurbs_derivatives()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.edit"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.edit()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.get_curvature"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_curvature()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.get_derivative"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_derivative()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.get_isocurve_u"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_isocurve_u()</span></code></a></li>
@@ -514,6 +537,7 @@ backend does not require or initialize JAX.</p>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_surface"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.plot_surface()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.project_point_to_surface"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.project_point_to_surface()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.rescale_plot"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.rescale_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.show"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.show()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.make_offset_surface"><code class="docutils literal notranslate"><span class="pre">make_offset_surface()</span></code></a></li>

@@ -6,8 +6,13 @@ import nurbspy as nrb
 nrb.set_plot_options()
 
 # Shape (2, 5): x coordinates in row zero, y coordinates in row one.
-P = np.array([[0., 0.5, 1.5, 2.5, 3.],
-              [0., 1.5, 2.0, 0.5, 1.]])
+P = [
+    nrb.Point(0.0, 0.0),
+    nrb.Point(0.5, 1.5),
+    nrb.Point(1.5, 2.0),
+    nrb.Point(2.5, 0.5),
+    nrb.Point(3.0, 1.0),
+]
 p = 3
 U = np.array([0., 0., 0., 0., 0.5, 1., 1., 1., 1.])
 W = np.array([1., 1., 3., 1., 1.])

@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=9e8e7855"></script>
+    <script src="../_static/documentation_options.js?v=2572fa48"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -49,7 +49,8 @@
     <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/api/nurbspy.graphics.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="nurbspy.numpy.nurbs_surface_ruled module" href="nurbspy.numpy.nurbs_surface_ruled.html" />
+    <link rel="next" title="nurbspy.mesh module" href="nurbspy.mesh.html" />
+    <link rel="prev" title="nurbspy.visualization.sampling module" href="nurbspy.visualization.sampling.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -169,6 +170,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/curvature_continuity.html">Curvature continuity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_curve.html">Point projection onto a curve</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -200,11 +202,30 @@
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../figures.html">Reproducible figures and PNG frames</a></li>
 </ul>
 
     </div>
@@ -449,7 +470,8 @@ missing edges explicitly.</p>
 <p>The box tracks the axes’ x/y/z limits at render time (see
 _AutoUpdatingBox), so it is safe to call this before a caller makes
 further changes to the limits or box aspect ratio – e.g. right after
-plotting data, as rescale_plot() does.</p>
+plotting data, as rescale_plot() does. Repeated calls update and return
+the same artist. The decorative box never contributes to data limits.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -554,7 +576,7 @@ Features include improved font selections, tick marks, grid appearance, and colo
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>fontsize</strong><span class="classifier">int, optional</span></dt><dd><p>Font size for text elements in the plot. Default is 13.</p>
+<dt><strong>fontsize</strong><span class="classifier">int, optional</span></dt><dd><p>Font size for text elements in the plot. Default is 14.</p>
 </dd>
 <dt><strong>grid</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to show grid lines on the plot. Default is True.</p>
 </dd>
@@ -564,7 +586,8 @@ Features include improved font selections, tick marks, grid appearance, and colo
 </dd>
 <dt><strong>margin</strong><span class="classifier">float, optional</span></dt><dd><p>Margin size for axes. Default is 0.05.</p>
 </dd>
-<dt><strong>color_order</strong><span class="classifier">str, optional</span></dt><dd><p>Color order to be used for plot lines. Options include “python” and “matlab”. Default is “matlab”.</p>
+<dt><strong>color_order</strong><span class="classifier">str or iterable of colors, optional</span></dt><dd><p>Color cycle for plot lines. Named options are “python”, “default”
+(an alias for “python”), and “matlab”. Default is “matlab”.</p>
 </dd>
 </dl>
 </dd>
@@ -611,13 +634,22 @@ consistent.</p></li>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="nurbspy.numpy.nurbs_surface_ruled.html"
+       href="nurbspy.visualization.sampling.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">nurbspy.numpy.nurbs_surface_ruled module</p>
+        <p class="prev-next-title">nurbspy.visualization.sampling module</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="nurbspy.mesh.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">nurbspy.mesh module</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>

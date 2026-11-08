@@ -6,7 +6,7 @@ import nurbspy as nrb
 nrb.set_plot_options()
 
 circle = nrb.CircularArc(
-    O=np.array([0., 0., 0.]),
+    O=nrb.Point(0., 0., 0.),
     X=np.array([1., 0., 0.]),
     Y=np.array([0., 1., 0.]),
     R=1., theta_start=0., theta_end=2 * np.pi,

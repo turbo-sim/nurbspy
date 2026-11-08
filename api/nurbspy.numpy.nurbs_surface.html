@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=9e8e7855"></script>
+    <script src="../_static/documentation_options.js?v=2572fa48"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -170,6 +170,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/curvature_continuity.html">Curvature continuity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_curve.html">Point projection onto a curve</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -201,11 +202,30 @@
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../figures.html">Reproducible figures and PNG frames</a></li>
 </ul>
 
     </div>
@@ -428,6 +448,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_bspline_derivatives"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.compute_bspline_derivatives()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_nurbs_coordinates"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.compute_nurbs_coordinates()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_nurbs_derivatives"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.compute_nurbs_derivatives()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.edit"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.edit()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_curvature"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_curvature()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_derivative"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_derivative()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_isocurve_u"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_isocurve_u()</span></code></a></li>
@@ -444,6 +465,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_surface"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.plot_surface()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.project_point_to_surface"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.project_point_to_surface()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.rescale_plot"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.rescale_plot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.show"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.show()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.make_offset_surface"><code class="docutils literal notranslate"><span class="pre">make_offset_surface()</span></code></a></li>
@@ -463,12 +485,13 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="nurbspy.numpy.nurbs_surface.NurbsSurface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nurbspy.numpy.nurbs_surface.</span></span><span class="sig-name descname"><span class="pre">NurbsSurface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_degree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_degree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_knots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_knots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/numpy/nurbs_surface.html#NurbsSurface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.numpy.nurbs_surface.NurbsSurface" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SurfaceMeshMixin</span></code>, <a class="reference internal" href="nurbspy.serialization.html#nurbspy.serialization.GeometryYamlMixin" title="nurbspy.serialization.GeometryYamlMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeometryYamlMixin</span></code></a></p>
 <p>Create a NURBS (Non-Uniform Rational Basis Spline) surface object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>control_points</strong><span class="classifier">ndarray with shape (ndim, n+1, m+1)</span></dt><dd><p>Array containing the coordinates of the control points
+<dt><strong>control_points</strong><span class="classifier">ndarray with shape (ndim, n+1, m+1) or rectangular grid of Point</span></dt><dd><p>Point grids use points[u_index][v_index]; numerical inputs retain coordinate-first layout.
+Array containing the coordinates of the control points
 The first dimension of <cite>P</cite> spans the coordinates of the control points (any number of dimensions)
 The second dimension of <cite>P</cite> spans the u-direction control points (0, 1, …, n)
 The third dimension of <cite>P</cite> spans the v-direction control points (0, 1, …, m)</p>
@@ -511,32 +534,44 @@ Set the multiplicity of the first and last entries equal to <cite>q+1</cite> to 
 <tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_nurbs_derivatives" title="nurbspy.numpy.nurbs_surface.NurbsSurface.compute_nurbs_derivatives"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_nurbs_derivatives</span></code></a>(P, W, p, q, U, V, ...)</p></td>
 <td><p>Compute the derivatives of a NURBS surface in ordinary space up to to the desired orders</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_curvature" title="nurbspy.numpy.nurbs_surface.NurbsSurface.get_curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_curvature</span></code></a>(u, v)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.edit" title="nurbspy.numpy.nurbs_surface.NurbsSurface.edit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">edit</span></code></a>(**kwargs)</p></td>
+<td><p>Edit a host copy and return a new NumPy geometry on Apply, or None.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">export</span></code>(path, *[, nu, nv, require_closed, ...])</p></td>
+<td><p>Write .stl through Trimesh; see export_stl for sampling/solid limits.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_yaml</span></code>(source)</p></td>
+<td><p>Load a path or text stream into the class's NumPy or JAX backend.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_curvature" title="nurbspy.numpy.nurbs_surface.NurbsSurface.get_curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_curvature</span></code></a>(u, v)</p></td>
 <td><p>Evaluate the mean and gaussian curvatures of the surface the input (u,v) parametrization</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_derivative" title="nurbspy.numpy.nurbs_surface.NurbsSurface.get_derivative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_derivative</span></code></a>(u, v, order_u, order_v)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_derivative" title="nurbspy.numpy.nurbs_surface.NurbsSurface.get_derivative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_derivative</span></code></a>(u, v, order_u, order_v)</p></td>
 <td><p>Evaluate the derivative of the surface for the input u-parametrization</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_isocurve_u" title="nurbspy.numpy.nurbs_surface.NurbsSurface.get_isocurve_u"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_isocurve_u</span></code></a>(u0)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_isocurve_u" title="nurbspy.numpy.nurbs_surface.NurbsSurface.get_isocurve_u"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_isocurve_u</span></code></a>(u0)</p></td>
 <td><p>Create a NURBS curve object that contains the surface isoparametric curve S(u0,v)</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_isocurve_v" title="nurbspy.numpy.nurbs_surface.NurbsSurface.get_isocurve_v"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_isocurve_v</span></code></a>(v0)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_isocurve_v" title="nurbspy.numpy.nurbs_surface.NurbsSurface.get_isocurve_v"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_isocurve_v</span></code></a>(v0)</p></td>
 <td><p>Create a NURBS curve object that contains the surface isoparametric curve S(u,v0)</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_normals" title="nurbspy.numpy.nurbs_surface.NurbsSurface.get_normals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normals</span></code></a>(u, v)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_normals" title="nurbspy.numpy.nurbs_surface.NurbsSurface.get_normals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normals</span></code></a>(u, v)</p></td>
 <td><p>Evaluate the unitary vectors normal to the surface the input (u,v) parametrization</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_value" title="nurbspy.numpy.nurbs_surface.NurbsSurface.get_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_value</span></code></a>(u, v)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_value" title="nurbspy.numpy.nurbs_surface.NurbsSurface.get_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_value</span></code></a>(u, v)</p></td>
 <td><p>Evaluate the coordinates of the surface corresponding to the (u,v) parametrization</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot" title="nurbspy.numpy.nurbs_surface.NurbsSurface.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>([fig, ax, surface, surface_color, ...])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot" title="nurbspy.numpy.nurbs_surface.NurbsSurface.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>([fig, ax, surface, surface_color, ...])</p></td>
+<td><p>Plot a scalar, planar, or spatial patch; return <code class="docutils literal notranslate"><span class="pre">(fig,</span> <span class="pre">ax)</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_boundary" title="nurbspy.numpy.nurbs_surface.NurbsSurface.plot_boundary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_boundary</span></code></a>(fig, ax[, color, linewidth, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_boundary" title="nurbspy.numpy.nurbs_surface.NurbsSurface.plot_boundary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_boundary</span></code></a>(fig, ax[, color, linewidth, ...])</p></td>
 <td><p>Plot the isoparametric curves at the boundary</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_control_points" title="nurbspy.numpy.nurbs_surface.NurbsSurface.plot_control_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_control_points</span></code></a>(fig, ax[, color, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_control_points" title="nurbspy.numpy.nurbs_surface.NurbsSurface.plot_control_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_control_points</span></code></a>(fig, ax[, color, ...])</p></td>
 <td><p>Plot the control points</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_curvature" title="nurbspy.numpy.nurbs_surface.NurbsSurface.plot_curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_curvature</span></code></a>([fig, ax, curvature_type])</p></td>
+<td><p>Delegate rendering to the shared visualization functions.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_isocurve_u" title="nurbspy.numpy.nurbs_surface.NurbsSurface.plot_isocurve_u"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_isocurve_u</span></code></a>(fig, ax, u_values[, color, ...])</p></td>
 <td><p>Plot isoparametric curves in the u-direction</p></td>
@@ -545,13 +580,25 @@ Set the multiplicity of the first and last entries equal to <cite>q+1</cite> to 
 <td><p>Plot isoparametric curves in the v-direction</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_normals" title="nurbspy.numpy.nurbs_surface.NurbsSurface.plot_normals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_normals</span></code></a>(fig, ax[, number_u, number_v, ...])</p></td>
-<td><p>Plot the normal vectors</p></td>
+<td><p>Plot normals with a length proportional to the surface dimensions.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.project_point_to_surface" title="nurbspy.numpy.nurbs_surface.NurbsSurface.project_point_to_surface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_point_to_surface</span></code></a>(P[, maxiter, ftol, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_surface" title="nurbspy.numpy.nurbs_surface.NurbsSurface.plot_surface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_surface</span></code></a>(fig, ax[, color, alpha, ...])</p></td>
+<td><p>Draw geometry, optionally coloured by mean or Gaussian curvature.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.project_point_to_surface" title="nurbspy.numpy.nurbs_surface.NurbsSurface.project_point_to_surface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_point_to_surface</span></code></a>(P[, maxiter, ftol, ...])</p></td>
 <td><p>Solve the point projection problem for the prescribed point <cite>P</cite></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.rescale_plot" title="nurbspy.numpy.nurbs_surface.NurbsSurface.rescale_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rescale_plot</span></code></a>(fig, ax)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.rescale_plot" title="nurbspy.numpy.nurbs_surface.NurbsSurface.rescale_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rescale_plot</span></code></a>(fig, ax)</p></td>
 <td><p>Adjust the aspect ratio of the figure</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.show" title="nurbspy.numpy.nurbs_surface.NurbsSurface.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>(**kwargs)</p></td>
+<td><p>Inspect with the shared interactive viewer; use backend=matplotlib for static plots.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tessellate</span></code>([nu, nv])</p></td>
+<td><p>Sample this surface as NumPy vertices/triangles; see tessellate_surfaces.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_yaml</span></code>([destination])</p></td>
+<td><p>Save geometry to a UTF-8 path/text stream, or return YAML text.</p></td>
 </tr>
 </tbody>
 </table>
@@ -559,12 +606,6 @@ Set the multiplicity of the first and last entries equal to <cite>q+1</cite> to 
 <div class="pst-scrollable-table-container"><table class="table">
 <tbody>
 <tr class="row-odd"><td><p><strong>PointToSurfaceProjectionProblem</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>plot_curvature</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_surface</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -835,6 +876,12 @@ The fourth dimension spans (u,v) parametrization sample points</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.numpy.nurbs_surface.NurbsSurface.edit">
+<span class="sig-name descname"><span class="pre">edit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/numpy/nurbs_surface.html#NurbsSurface.edit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.edit" title="Link to this definition">#</a></dt>
+<dd><p>Edit a host copy and return a new NumPy geometry on Apply, or None.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="nurbspy.numpy.nurbs_surface.NurbsSurface.get_curvature">
 <span class="sig-name descname"><span class="pre">get_curvature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/numpy/nurbs_surface.html#NurbsSurface.get_curvature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_curvature" title="Link to this definition">#</a></dt>
 <dd><p>Evaluate the mean and gaussian curvatures of the surface the input (u,v) parametrization</p>
@@ -979,7 +1026,8 @@ The second dimension of <cite>S</cite> spans the (u,v) parametrization sample po
 <dl class="py method">
 <dt class="sig sig-object py" id="nurbspy.numpy.nurbs_surface.NurbsSurface.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'blue'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis_off</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ticks_off</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isocurves_u</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isocurves_v</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/numpy/nurbs_surface.html#NurbsSurface.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Plot a scalar, planar, or spatial patch; return <code class="docutils literal notranslate"><span class="pre">(fig,</span> <span class="pre">ax)</span></code>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="nurbspy.numpy.nurbs_surface.NurbsSurface.plot_boundary">
@@ -996,7 +1044,8 @@ The second dimension of <cite>S</cite> spans the (u,v) parametrization sample po
 <dl class="py method">
 <dt class="sig sig-object py" id="nurbspy.numpy.nurbs_surface.NurbsSurface.plot_curvature">
 <span class="sig-name descname"><span class="pre">plot_curvature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/numpy/nurbs_surface.html#NurbsSurface.plot_curvature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_curvature" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Delegate rendering to the shared visualization functions.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="nurbspy.numpy.nurbs_surface.NurbsSurface.plot_isocurve_u">
@@ -1013,13 +1062,14 @@ The second dimension of <cite>S</cite> spans the (u,v) parametrization sample po
 <dl class="py method">
 <dt class="sig sig-object py" id="nurbspy.numpy.nurbs_surface.NurbsSurface.plot_normals">
 <span class="sig-name descname"><span class="pre">plot_normals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_u</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_v</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.075</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/numpy/nurbs_surface.html#NurbsSurface.plot_normals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_normals" title="Link to this definition">#</a></dt>
-<dd><p>Plot the normal vectors</p>
+<dd><p>Plot normals with a length proportional to the surface dimensions.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="nurbspy.numpy.nurbs_surface.NurbsSurface.plot_surface">
 <span class="sig-name descname"><span class="pre">plot_surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'blue'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/numpy/nurbs_surface.html#NurbsSurface.plot_surface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_surface" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Draw geometry, optionally coloured by mean or Gaussian curvature.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="nurbspy.numpy.nurbs_surface.NurbsSurface.project_point_to_surface">
@@ -1053,6 +1103,12 @@ convergence. Default is 1e-6.</p>
 <dt class="sig sig-object py" id="nurbspy.numpy.nurbs_surface.NurbsSurface.rescale_plot">
 <span class="sig-name descname"><span class="pre">rescale_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/numpy/nurbs_surface.html#NurbsSurface.rescale_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.rescale_plot" title="Link to this definition">#</a></dt>
 <dd><p>Adjust the aspect ratio of the figure</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.numpy.nurbs_surface.NurbsSurface.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/numpy/nurbs_surface.html#NurbsSurface.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.show" title="Link to this definition">#</a></dt>
+<dd><p>Inspect with the shared interactive viewer; use backend=matplotlib for static plots.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1124,6 +1180,7 @@ convergence. Default is 1e-6.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_bspline_derivatives"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.compute_bspline_derivatives()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_nurbs_coordinates"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.compute_nurbs_coordinates()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.compute_nurbs_derivatives"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.compute_nurbs_derivatives()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.edit"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.edit()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_curvature"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_curvature()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_derivative"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_derivative()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.get_isocurve_u"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.get_isocurve_u()</span></code></a></li>
@@ -1140,6 +1197,7 @@ convergence. Default is 1e-6.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.plot_surface"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.plot_surface()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.project_point_to_surface"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.project_point_to_surface()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.rescale_plot"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.rescale_plot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.NurbsSurface.show"><code class="docutils literal notranslate"><span class="pre">NurbsSurface.show()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.numpy.nurbs_surface.make_offset_surface"><code class="docutils literal notranslate"><span class="pre">make_offset_surface()</span></code></a></li>

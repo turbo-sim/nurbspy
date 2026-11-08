@@ -11,7 +11,8 @@ z = np.array([[0., 1., 0.],
               [1., 2., 1.],
               [1., 2., 1.],
               [0., 1., 0.]])
-P = np.stack([x, y, z])  # Shape (3, 4, 3): coordinates, u index, v index.
+P = [[nrb.Point(x[i, j], y[i, j], z[i, j]) for j in range(x.shape[1])]
+     for i in range(x.shape[0])]  # points[u_index][v_index]
 W = np.ones((4, 3))
 W[1:3, 1] = 3.
 p, q = 2, 2

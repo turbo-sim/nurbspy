@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=9e8e7855"></script>
+    <script src="../../../_static/documentation_options.js?v=2572fa48"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -169,6 +169,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/curvature_continuity.html">Curvature continuity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_curve.html">Point projection onto a curve</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -200,11 +201,30 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../figures.html">Reproducible figures and PNG frames</a></li>
 </ul>
 
     </div>
@@ -354,12 +374,16 @@
   <h1>Source code for nurbspy.jax.nurbs_surface</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Differentiable tensor-product NURBS surfaces with the NumPy surface API.&quot;&quot;&quot;</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">.._control_points</span><span class="w"> </span><span class="kn">import</span> <span class="n">surface_control_points</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">comb</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">equinox</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">eqx</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..serialization</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeometryYamlMixin</span> <span class="k">as</span> <span class="n">_GeometryYamlMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..mesh</span><span class="w"> </span><span class="kn">import</span> <span class="n">SurfaceMeshMixin</span> <span class="k">as</span> <span class="n">_SurfaceMeshMixin</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_basis_functions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">compute_basis_polynomials</span><span class="p">,</span>
@@ -459,7 +483,7 @@
 
 <div class="viewcode-block" id="NurbsSurface">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">NurbsSurface</span><span class="p">(</span><span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NurbsSurface</span><span class="p">(</span><span class="n">_SurfaceMeshMixin</span><span class="p">,</span> <span class="n">_GeometryYamlMixin</span><span class="p">,</span> <span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A differentiable surface with paired parameters and NumPy-compatible shapes.</span>
 
 <span class="sd">    ``control_points`` has shape (ndim, Nu, Nv), and ``weights`` has shape</span>
@@ -503,7 +527,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">surface_type</span> <span class="o">=</span> <span class="s2">&quot;Void&quot;</span>
             <span class="k">return</span>
-        <span class="n">P</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">control_points</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">surface_control_points</span><span class="p">(</span><span class="n">control_points</span><span class="p">,</span> <span class="n">jnp</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">P</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">or</span> <span class="nb">min</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;control_points must have shape (ndim, Nu, Nv)&quot;</span><span class="p">)</span>
         <span class="n">W</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
@@ -807,18 +831,22 @@
 </div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_as_numpy_surface</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transfer geometry to the host for Matplotlib/CAD-style utilities only.&quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">..numpy.nurbs_surface</span><span class="w"> </span><span class="kn">import</span> <span class="n">NurbsSurface</span> <span class="k">as</span> <span class="n">NumpySurface</span>
 
-        <span class="k">return</span> <span class="n">NumpySurface</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">),</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">,</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">),</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="p">),</span>
-        <span class="p">)</span>
+<div class="viewcode-block" id="NurbsSurface.show">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.show">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inspect with the shared interactive viewer; use backend=matplotlib for static plots.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">show</span>
+        <span class="k">return</span> <span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NurbsSurface.edit">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.edit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">edit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Edit a host copy and return a new NumPy geometry on Apply, or None.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">edit</span>
+        <span class="k">return</span> <span class="n">edit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="NurbsSurface.plot">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot">[docs]</a>
@@ -827,7 +855,7 @@
         <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">surface</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">surface_color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+        <span class="n">surface_color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span>
         <span class="n">colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">boundary</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">control_points</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -840,32 +868,51 @@
         <span class="n">isocurves_v</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot on the host with the NumPy API; plotting is outside JIT and autodiff.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_as_numpy_surface</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-            <span class="n">fig</span><span class="p">,</span>
-            <span class="n">ax</span><span class="p">,</span>
-            <span class="n">surface</span><span class="p">,</span>
-            <span class="n">surface_color</span><span class="p">,</span>
-            <span class="n">colorbar</span><span class="p">,</span>
-            <span class="n">boundary</span><span class="p">,</span>
-            <span class="n">control_points</span><span class="p">,</span>
-            <span class="n">normals</span><span class="p">,</span>
-            <span class="n">axis_off</span><span class="p">,</span>
-            <span class="n">ticks_off</span><span class="p">,</span>
-            <span class="n">Nu</span><span class="p">,</span>
-            <span class="n">Nv</span><span class="p">,</span>
-            <span class="n">isocurves_u</span><span class="p">,</span>
-            <span class="n">isocurves_v</span><span class="p">,</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">surface_plot</span>
+
+        <span class="k">return</span> <span class="n">surface_plot</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">surface</span><span class="o">=</span><span class="n">surface</span><span class="p">,</span>
+            <span class="n">surface_color</span><span class="o">=</span><span class="n">surface_color</span><span class="p">,</span>
+            <span class="n">colorbar</span><span class="o">=</span><span class="n">colorbar</span><span class="p">,</span>
+            <span class="n">boundary</span><span class="o">=</span><span class="n">boundary</span><span class="p">,</span>
+            <span class="n">control_points</span><span class="o">=</span><span class="n">control_points</span><span class="p">,</span>
+            <span class="n">normals</span><span class="o">=</span><span class="n">normals</span><span class="p">,</span>
+            <span class="n">axis_off</span><span class="o">=</span><span class="n">axis_off</span><span class="p">,</span>
+            <span class="n">ticks_off</span><span class="o">=</span><span class="n">ticks_off</span><span class="p">,</span>
+            <span class="n">Nu</span><span class="o">=</span><span class="n">Nu</span><span class="p">,</span>
+            <span class="n">Nv</span><span class="o">=</span><span class="n">Nv</span><span class="p">,</span>
+            <span class="n">isocurves_u</span><span class="o">=</span><span class="n">isocurves_u</span><span class="p">,</span>
+            <span class="n">isocurves_v</span><span class="o">=</span><span class="n">isocurves_v</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NurbsSurface.plot_surface">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot_surface">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_surface</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.30</span><span class="p">,</span> <span class="n">colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">Nu</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">Nv</span><span class="o">=</span><span class="mi">50</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fig</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+        <span class="n">colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">Nu</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">Nv</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw sampled surface values or curvature colors on host axes.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_as_numpy_surface</span><span class="p">()</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span>
-            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">colorbar</span><span class="p">,</span> <span class="n">Nu</span><span class="p">,</span> <span class="n">Nv</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">surface_plot_surface</span>
+
+        <span class="k">return</span> <span class="n">surface_plot_surface</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+            <span class="n">colorbar</span><span class="o">=</span><span class="n">colorbar</span><span class="p">,</span>
+            <span class="n">Nu</span><span class="o">=</span><span class="n">Nu</span><span class="p">,</span>
+            <span class="n">Nv</span><span class="o">=</span><span class="n">Nv</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
@@ -875,39 +922,78 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">fig</span><span class="p">,</span>
         <span class="n">ax</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
         <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-        <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>
         <span class="n">south</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">north</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">east</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">west</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw the four boundary curves on host axes.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_as_numpy_surface</span><span class="p">()</span><span class="o">.</span><span class="n">plot_boundary</span><span class="p">(</span>
-            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="p">,</span> <span class="n">linestyle</span><span class="p">,</span> <span class="n">south</span><span class="p">,</span> <span class="n">north</span><span class="p">,</span> <span class="n">east</span><span class="p">,</span> <span class="n">west</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">surface_plot_boundary</span>
+
+        <span class="k">return</span> <span class="n">surface_plot_boundary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span>
+            <span class="n">south</span><span class="o">=</span><span class="n">south</span><span class="p">,</span>
+            <span class="n">north</span><span class="o">=</span><span class="n">north</span><span class="p">,</span>
+            <span class="n">east</span><span class="o">=</span><span class="n">east</span><span class="p">,</span>
+            <span class="n">west</span><span class="o">=</span><span class="n">west</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NurbsSurface.plot_isocurve_u">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot_isocurve_u">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_isocurve_u</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">u_values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fig</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">,</span>
+        <span class="n">u_values</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw sections with fixed u on host axes.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_as_numpy_surface</span><span class="p">()</span><span class="o">.</span><span class="n">plot_isocurve_u</span><span class="p">(</span>
-            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">u_values</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="p">,</span> <span class="n">linestyle</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">surface_plot_isocurve_u</span>
+
+        <span class="k">return</span> <span class="n">surface_plot_isocurve_u</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">u_values</span><span class="o">=</span><span class="n">u_values</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NurbsSurface.plot_isocurve_v">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot_isocurve_v">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_isocurve_v</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">v_values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fig</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">,</span>
+        <span class="n">v_values</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw sections with fixed v on host axes.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_as_numpy_surface</span><span class="p">()</span><span class="o">.</span><span class="n">plot_isocurve_v</span><span class="p">(</span>
-            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">v_values</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="p">,</span> <span class="n">linestyle</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">surface_plot_isocurve_v</span>
+
+        <span class="k">return</span> <span class="n">surface_plot_isocurve_v</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">v_values</span><span class="o">=</span><span class="n">v_values</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
@@ -917,37 +1003,84 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">fig</span><span class="p">,</span>
         <span class="n">ax</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
         <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-        <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>
         <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-        <span class="n">markerstyle</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+        <span class="n">markerstyle</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw the control net on host axes.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_as_numpy_surface</span><span class="p">()</span><span class="o">.</span><span class="n">plot_control_points</span><span class="p">(</span>
-            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="p">,</span> <span class="n">linestyle</span><span class="p">,</span> <span class="n">markersize</span><span class="p">,</span> <span class="n">markerstyle</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">surface_plot_control_points</span>
+
+        <span class="k">return</span> <span class="n">surface_plot_control_points</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span>
+            <span class="n">markersize</span><span class="o">=</span><span class="n">markersize</span><span class="p">,</span>
+            <span class="n">markerstyle</span><span class="o">=</span><span class="n">markerstyle</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NurbsSurface.plot_normals">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot_normals">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_normals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">number_u</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">number_v</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.075</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_normals</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fig</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">,</span>
+        <span class="n">number_u</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">number_v</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">scale</span><span class="o">=</span><span class="mf">0.075</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw sampled unit normals on host axes.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_as_numpy_surface</span><span class="p">()</span><span class="o">.</span><span class="n">plot_normals</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">number_u</span><span class="p">,</span> <span class="n">number_v</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span></div>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">surface_plot_normals</span>
+
+        <span class="k">return</span> <span class="n">surface_plot_normals</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">number_u</span><span class="o">=</span><span class="n">number_u</span><span class="p">,</span>
+            <span class="n">number_v</span><span class="o">=</span><span class="n">number_v</span><span class="p">,</span>
+            <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NurbsSurface.rescale_plot">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.rescale_plot">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">rescale_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rescale_plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fig</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set equal three-dimensional plot scales on the host.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_as_numpy_surface</span><span class="p">()</span><span class="o">.</span><span class="n">rescale_plot</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span></div>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">surface_rescale_plot</span>
+
+        <span class="k">return</span> <span class="n">surface_rescale_plot</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NurbsSurface.plot_curvature">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.plot_curvature">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_curvature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">curvature_type</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_curvature</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">curvature_type</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot mean or Gaussian curvature over parameter space on the host.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_as_numpy_surface</span><span class="p">()</span><span class="o">.</span><span class="n">plot_curvature</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">curvature_type</span><span class="p">)</span></div>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">surface_plot_curvature</span>
+
+        <span class="k">return</span> <span class="n">surface_plot_curvature</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">curvature_type</span><span class="o">=</span><span class="n">curvature_type</span><span class="p">,</span>
+        <span class="p">)</span></div>
 </div>
 
 

@@ -1,0 +1,871 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nurbspy.visualization.figure_hosts &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2572fa48"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/nurbspy/visualization/figure_hosts';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/_modules/nurbspy/visualization/figure_hosts.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/point_projection.html">Point projection onto curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../figures.html">Reproducible figures and PNG frames</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2F_modules/nurbspy/visualization/figure_hosts.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for nurbspy.visualization.figure_hosts</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Desktop, headless PNG, and Dash hosts for the shared Figure renderer.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">gzip</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">html</span><span class="w"> </span><span class="kn">import</span> <span class="n">escape</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.desktop</span><span class="w"> </span><span class="kn">import</span> <span class="n">_module_map</span><span class="p">,</span> <span class="n">_script_json</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_packed_figure</span><span class="p">(</span><span class="n">figure</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">gzip</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">_script_json</span><span class="p">(</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="n">payload</span><span class="o">=</span><span class="n">figure</span><span class="o">.</span><span class="n">_payload</span><span class="p">(),</span> <span class="n">modules</span><span class="o">=</span><span class="n">_module_map</span><span class="p">())</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(),</span> <span class="n">mtime</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="figure_html">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.figure_html">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">figure_html</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">export</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Use local data only; native windows fetch startup data over their bridge.</span>
+
+<span class="sd">    Keeping the native HTML small avoids NavigateToString&#39;s UTF-16 size limit.</span>
+<span class="sd">    Headless export can inline the same data without that WebView2 restriction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">packed</span> <span class="o">=</span> <span class="n">_packed_figure</span><span class="p">(</span><span class="n">figure</span><span class="p">)</span> <span class="k">if</span> <span class="n">inline</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;&quot;&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;</span>
+<span class="s2">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;&quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">escape</span><span class="p">(</span><span class="n">figure</span><span class="o">.</span><span class="n">title</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&quot;&quot;&lt;/title&gt;</span>
+<span class="s2">&lt;style&gt;[hidden]{display:none!important}html,body{height:100%;margin:0;background:white;font:14px system-ui}</span>
+<span class="s2">body{display:flex;flex-direction:column;box-sizing:border-box;padding:16px;gap:12px}</span>
+<span class="s2">#figure{min-height:0;flex:1}footer{display:flex;align-items:center;justify-content:flex-end;gap:10px}</span>
+<span class="s2">#error{flex:1;color:#a7342b}#error:empty{display:none}</span>
+<span class="s2">footer button{font:inherit;padding:9px 18px;border:1px solid #cbd7de;border-radius:7px;background:white;color:#294956;cursor:pointer}</span>
+<span class="s2">footer button:disabled{opacity:.45;cursor:wait}#apply{background:#0072bd;color:white;border-color:#0072bd}</span>
+<span class="s2">&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div id=&quot;figure&quot;&gt;&lt;/div&gt;&lt;footer&gt;&lt;span id=&quot;error&quot; role=&quot;alert&quot;&gt;&lt;/span&gt;</span>
+<span class="s2">&lt;button id=&quot;close&quot; disabled&gt;Close&lt;/button&gt;&lt;button id=&quot;apply&quot; disabled&gt;Apply&lt;/button&gt;&lt;/footer&gt;</span>
+<span class="s2">&lt;script type=&quot;module&quot;&gt;</span>
+<span class="s2">const packed=&quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">_script_json</span><span class="p">(</span><span class="n">packed</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;;const readOnly=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">read_only</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;;const exporting=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">export</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;;&quot;</span> <span class="o">+</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">const close=document.getElementById(&#39;close&#39;),apply=document.getElementById(&#39;apply&#39;),error=document.getElementById(&#39;error&#39;);</span>
+<span class="s2">close.textContent=readOnly?&#39;Close&#39;:&#39;Cancel&#39;;apply.hidden=readOnly;</span>
+<span class="s2">function fail(e){error.textContent=e.message||String(e);window.nurbspyError=error.textContent;}</span>
+<span class="s2">async function mount(){</span>
+<span class="s2">    const startup=packed===null?await window.pywebview.api.startup_data():packed;</span>
+<span class="s2">    const bytes=Uint8Array.from(atob(startup),c=&gt;c.charCodeAt(0));</span>
+<span class="s2">    const config=await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream(&#39;gzip&#39;))).json();</span>
+<span class="s2">    const map=document.createElement(&#39;script&#39;);map.type=&#39;importmap&#39;;map.textContent=JSON.stringify(config.modules);document.head.append(map);</span>
+<span class="s2">    const </span><span class="si">{mountFigure}</span><span class="s2">=await import(&#39;nurbspy/figure&#39;);</span>
+<span class="s2">    const options={readOnly,export:exporting};</span>
+<span class="s2">    if(!exporting){</span>
+<span class="s2">        const api=window.pywebview.api;</span>
+<span class="s2">        options.inspect=async(name,packet)=&gt;{const r=await api.inspect(name,packet);if(r.error)throw new Error(r.error);return r;};</span>
+<span class="s2">        options.evaluate=async(name,packet)=&gt;{</span>
+<span class="s2">            const r=await api.evaluate(name,packet);if(r.error)throw new Error(r.error);</span>
+<span class="s2">            const a=Uint8Array.from(atob(r.vertices),c=&gt;c.charCodeAt(0));</span>
+<span class="s2">            return {...r,positions:new Float32Array(a.buffer)};</span>
+<span class="s2">        };</span>
+<span class="s2">        options.scenes=async state=&gt;{const r=await api.scenes(state);if(r.error)throw new Error(r.error);return r;};</span>
+<span class="s2">        options.onState=state=&gt;api.capture(state);</span>
+<span class="s2">    }else{</span>
+<span class="s2">        document.querySelector(&#39;footer&#39;).hidden=true;document.body.style.padding=&#39;0&#39;;document.body.style.gap=&#39;0&#39;;</span>
+<span class="s2">    }</span>
+<span class="s2">    window.nurbspyFigure=await mountFigure(&#39;figure&#39;,config.payload,options);</span>
+<span class="s2">    close.disabled=apply.disabled=false;</span>
+<span class="s2">    return true;</span>
+<span class="s2">}</span>
+<span class="s2">function start(){window.nurbspyReady=mount().catch(e=&gt;{fail(e);throw e;});}</span>
+<span class="s2">if(exporting||window.pywebview?.api)start();else window.addEventListener(&#39;pywebviewready&#39;,start,{once:true});</span>
+<span class="s2">async function finish(accept){</span>
+<span class="s2">    try{</span>
+<span class="s2">        close.disabled=apply.disabled=true;</span>
+<span class="s2">        if(accept||readOnly){await window.nurbspyFigure.ready();const r=await window.pywebview.api.finish(window.nurbspyFigure.snapshot(),true);if(r.error)throw new Error(r.error);}</span>
+<span class="s2">        else await window.pywebview.api.finish(null,false);</span>
+<span class="s2">    }catch(e){close.disabled=apply.disabled=false;fail(e);}</span>
+<span class="s2">}</span>
+<span class="s2">close.addEventListener(&#39;click&#39;,()=&gt;finish(false));apply.addEventListener(&#39;click&#39;,()=&gt;finish(true));</span>
+<span class="s2">window.addEventListener(&#39;keydown&#39;,e=&gt;{if(e.key===&#39;Escape&#39;&amp;&amp;!exporting){e.preventDefault();finish(false);}});</span>
+<span class="s2">&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;&quot;&quot;&quot;</span></div>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_FigureBridge</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">figure</span><span class="p">,</span> <span class="n">read_only</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_figure</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_only</span> <span class="o">=</span> <span class="n">figure</span><span class="p">,</span> <span class="n">read_only</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_models</span> <span class="o">=</span> <span class="n">figure</span><span class="o">.</span><span class="n">_models</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_latest</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_window</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_accepted</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_close_pending</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_startup</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">startup_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_startup</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_startup</span> <span class="o">=</span> <span class="n">_packed_figure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_figure</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_startup</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">packet</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_only</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Figure is not accepting edits&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_models</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">render_packet</span><span class="p">(</span><span class="n">packet</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">OverflowError</span><span class="p">)</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">inspect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">packet</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_models</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">packet</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">OverflowError</span><span class="p">)</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">scenes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.figure</span><span class="w"> </span><span class="kn">import</span> <span class="n">Figure</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">Figure</span><span class="o">.</span><span class="n">from_state</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">current</span><span class="o">.</span><span class="n">_payload</span><span class="p">()</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">OverflowError</span><span class="p">)</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">capture</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_latest</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validated_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate against the session&#39;s fixed geometry types and topology.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.figure</span><span class="w"> </span><span class="kn">import</span> <span class="n">Figure</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">Figure</span><span class="o">.</span><span class="n">from_state</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_figure</span><span class="o">.</span><span class="n">names</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Interactive sessions cannot add or remove objects&quot;</span><span class="p">)</span>
+        <span class="n">candidate_models</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">_models</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">candidate</span> <span class="o">=</span> <span class="n">candidate_models</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">initial_state</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">_validated_arrays</span><span class="p">(</span><span class="n">candidate</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_only</span> <span class="ow">and</span> <span class="n">candidate</span> <span class="o">!=</span> <span class="n">model</span><span class="o">.</span><span class="n">initial_state</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A viewer cannot change geometry&quot;</span><span class="p">)</span>
+        <span class="n">normalized</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">to_state</span><span class="p">()</span>
+        <span class="n">normalized</span><span class="p">[</span><span class="s2">&quot;objects&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">normalized</span><span class="p">[</span><span class="s2">&quot;objects&quot;</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_figure</span><span class="o">.</span><span class="n">names</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">normalized</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">finish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">accept</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Figure window has closed&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">accept</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_figure</span><span class="o">.</span><span class="n">_accept</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validated_state</span><span class="p">(</span><span class="n">state</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_accepted</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_window</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">OverflowError</span><span class="p">)</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">closing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># WinForms invokes this event synchronously on its GUI thread. Cancel</span>
+        <span class="c1"># this first close, let JS finish capture asynchronously, then destroy</span>
+        <span class="c1"># the window through finish(). Calling evaluate_js here would deadlock.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_only</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_close_pending</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_close_pending</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_request_view_close</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_request_view_close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_window</span><span class="o">.</span><span class="n">evaluate_js</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;(async()=&gt;{</span>
+<span class="s1">                try{</span>
+<span class="s1">                    if(!window.nurbspyFigure){await window.pywebview.api.finish(null,false);return;}</span>
+<span class="s1">                    await window.nurbspyFigure.ready();</span>
+<span class="s1">                    const result=await window.pywebview.api.finish(window.nurbspyFigure.snapshot(),true);</span>
+<span class="s1">                    if(result.error)throw new Error(result.error);</span>
+<span class="s1">                }catch(error){</span>
+<span class="s1">                    document.getElementById(&#39;error&#39;).textContent=error.message||String(error);</span>
+<span class="s1">                    await window.pywebview.api.close_failed();</span>
+<span class="s1">                }</span>
+<span class="s1">            })()&#39;&#39;&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_close_pending</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">close_failed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_close_pending</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="open_figure">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.open_figure">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">open_figure</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">read_only</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">threading</span><span class="o">.</span><span class="n">main_thread</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Desktop visualization must run on Python&#39;s main thread&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">400</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Window dimensions must be integers of at least 400 pixels&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">webview</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;pywebview is required for desktop visualization; run poetry install or pip install nurbspy&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">error</span>
+    <span class="n">bridge</span> <span class="o">=</span> <span class="n">_FigureBridge</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">read_only</span><span class="p">)</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">webview</span><span class="o">.</span><span class="n">create_window</span><span class="p">(</span><span class="n">figure</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="n">figure_html</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="n">read_only</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                                  <span class="n">js_api</span><span class="o">=</span><span class="n">bridge</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">min_size</span><span class="o">=</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">))</span>
+    <span class="n">bridge</span><span class="o">.</span><span class="n">_window</span> <span class="o">=</span> <span class="n">window</span>
+    <span class="n">window</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">closing</span> <span class="o">+=</span> <span class="n">bridge</span><span class="o">.</span><span class="n">closing</span>
+    <span class="n">webview</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">http_server</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">private_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">bridge</span><span class="o">.</span><span class="n">_accepted</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">read_only</span><span class="p">:</span>
+        <span class="n">geometries</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">figure</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">figure</span><span class="o">.</span><span class="n">names</span><span class="p">}</span>
+        <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">geometries</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">geometries</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">geometries</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_launch_browser</span><span class="p">(</span><span class="n">playwright</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Use an isolated headless engine, never a user&#39;s browser profile.&quot;&quot;&quot;</span>
+    <span class="n">failures</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;msedge&#39;</span><span class="p">,</span> <span class="s1">&#39;chrome&#39;</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">playwright</span><span class="o">.</span><span class="n">chromium</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span><span class="n">headless</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15000</span><span class="p">,</span>
+                <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;--use-angle=swiftshader&#39;</span><span class="p">,</span> <span class="s1">&#39;--enable-unsafe-swiftshader&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="n">failures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;PNG export needs a Chromium engine. Run `python -m playwright install chromium` &quot;</span>
+                       <span class="s2">&quot;or install Microsoft Edge/Google Chrome. &quot;</span> <span class="o">+</span> <span class="s1">&#39;; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">failures</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="render_png">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.render_png">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">render_png</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">timeout</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">timeout</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span> <span class="ow">or</span> <span class="n">timeout</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;timeout must be finite and positive&quot;</span><span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">playwright.sync_api</span><span class="w"> </span><span class="kn">import</span> <span class="n">sync_playwright</span>
+    <span class="n">logical</span> <span class="o">=</span> <span class="n">figure</span><span class="o">.</span><span class="n">rendering</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">width</span><span class="o">/</span><span class="n">logical</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">],</span> <span class="n">height</span><span class="o">/</span><span class="n">logical</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">])</span>
+    <span class="n">css_width</span><span class="p">,</span> <span class="n">css_height</span> <span class="o">=</span> <span class="n">width</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span> <span class="n">height</span><span class="o">/</span><span class="n">scale</span>
+    <span class="k">with</span> <span class="n">sync_playwright</span><span class="p">()</span> <span class="k">as</span> <span class="n">playwright</span><span class="p">:</span>
+        <span class="n">browser</span> <span class="o">=</span> <span class="n">_launch_browser</span><span class="p">(</span><span class="n">playwright</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">page</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">new_page</span><span class="p">(</span><span class="n">viewport</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">css_width</span><span class="p">),</span> <span class="n">height</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">css_height</span><span class="p">)),</span>
+                                    <span class="n">device_scale_factor</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+            <span class="n">page</span><span class="o">.</span><span class="n">set_default_timeout</span><span class="p">(</span><span class="n">timeout</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span>
+            <span class="n">page</span><span class="o">.</span><span class="n">set_content</span><span class="p">(</span><span class="n">figure_html</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">export</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">wait_until</span><span class="o">=</span><span class="s1">&#39;load&#39;</span><span class="p">)</span>
+            <span class="n">page</span><span class="o">.</span><span class="n">wait_for_function</span><span class="p">(</span><span class="s1">&#39;window.nurbspyReady !== undefined || window.nurbspyError&#39;</span><span class="p">)</span>
+            <span class="n">page</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;async milliseconds=&gt;{</span>
+<span class="s1">                let timer;</span>
+<span class="s1">                try{await Promise.race([</span>
+<span class="s1">                    (async()=&gt;{await window.nurbspyReady;await document.fonts.ready;await window.nurbspyFigure.ready();})(),</span>
+<span class="s1">                    new Promise((_,reject)=&gt;{timer=setTimeout(()=&gt;reject(new Error(&#39;Figure export timed out&#39;)),milliseconds);})</span>
+<span class="s1">                ]);}finally{clearTimeout(timer);}</span>
+<span class="s1">            }&#39;&#39;&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s1">&#39;window.nurbspyFigure.snapshot()&#39;</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">screenshot</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">css_width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">css_height</span><span class="p">),</span>
+                                   <span class="n">animations</span><span class="o">=</span><span class="s1">&#39;disabled&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">state</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">browser</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="render_frames">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.render_frames">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">render_frames</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">progress</span><span class="p">,</span> <span class="n">timeout</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Stream native-evaluated scenes into one isolated renderer, then save PNGs.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">playwright.sync_api</span><span class="w"> </span><span class="kn">import</span> <span class="n">sync_playwright</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.figure</span><span class="w"> </span><span class="kn">import</span> <span class="n">Figure</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">timeout</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">timeout</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span> <span class="ow">or</span> <span class="n">timeout</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;timeout must be finite and positive&quot;</span><span class="p">)</span>
+    <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">first</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">Figure</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Frames must be Figure objects&quot;</span><span class="p">)</span>
+    <span class="n">logical</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">first</span><span class="o">.</span><span class="n">rendering</span><span class="p">)</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">width</span><span class="o">/</span><span class="n">logical</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">],</span> <span class="n">height</span><span class="o">/</span><span class="n">logical</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">])</span>
+    <span class="n">css_width</span><span class="p">,</span> <span class="n">css_height</span> <span class="o">=</span> <span class="n">width</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span> <span class="n">height</span><span class="o">/</span><span class="n">scale</span>
+    <span class="n">directory</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">paths</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="n">sync_playwright</span><span class="p">()</span> <span class="k">as</span> <span class="n">playwright</span><span class="p">:</span>
+        <span class="n">browser</span> <span class="o">=</span> <span class="n">_launch_browser</span><span class="p">(</span><span class="n">playwright</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">page</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">new_page</span><span class="p">(</span><span class="n">viewport</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">css_width</span><span class="p">),</span> <span class="n">height</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">css_height</span><span class="p">)),</span>
+                                    <span class="n">device_scale_factor</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+            <span class="n">page</span><span class="o">.</span><span class="n">set_default_timeout</span><span class="p">(</span><span class="n">timeout</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span>
+            <span class="n">page</span><span class="o">.</span><span class="n">set_content</span><span class="p">(</span><span class="n">figure_html</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">export</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">wait_until</span><span class="o">=</span><span class="s1">&#39;load&#39;</span><span class="p">)</span>
+            <span class="n">page</span><span class="o">.</span><span class="n">wait_for_function</span><span class="p">(</span><span class="s1">&#39;window.nurbspyReady !== undefined || window.nurbspyError&#39;</span><span class="p">)</span>
+            <span class="n">page</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s1">&#39;async()=&gt;{await window.nurbspyReady;await document.fonts.ready;}&#39;</span><span class="p">)</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">first</span>
+            <span class="n">previous</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">while</span> <span class="n">current</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">Figure</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Frames must be Figure objects&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">rendering</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">!=</span> <span class="n">logical</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">)):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All frames must have the same logical figure dimensions&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">paths</span><span class="p">:</span>
+                    <span class="n">state</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">to_state</span><span class="p">()</span>
+                    <span class="n">resampled</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">!=</span> <span class="n">previous</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span>
+                                    <span class="p">(</span><span class="s1">&#39;resolution&#39;</span><span class="p">,</span> <span class="s1">&#39;preview_resolution&#39;</span><span class="p">,</span> <span class="s1">&#39;preview_quality&#39;</span><span class="p">,</span> <span class="s1">&#39;quality&#39;</span><span class="p">))</span>
+                    <span class="n">changed</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;objects&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                               <span class="k">if</span> <span class="n">resampled</span> <span class="ow">or</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">previous</span><span class="p">[</span><span class="s1">&#39;objects&#39;</span><span class="p">]</span>
+                               <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">!=</span> <span class="n">previous</span><span class="p">[</span><span class="s1">&#39;objects&#39;</span><span class="p">][</span><span class="n">name</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="s1">&#39;display&#39;</span><span class="p">))]</span>
+                    <span class="n">payload</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">_payload</span><span class="p">(</span><span class="n">changed</span><span class="p">)</span> <span class="k">if</span> <span class="n">changed</span> <span class="k">else</span> <span class="nb">dict</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">scenes</span><span class="o">=</span><span class="p">{})</span>
+                    <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;patch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="c1"># One JSON string avoids Playwright&#39;s recursive per-number</span>
+                    <span class="c1"># protocol encoding for large sampled scenes.</span>
+                    <span class="n">encoded</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">payload</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">milliseconds</span><span class="o">=</span><span class="n">timeout</span><span class="o">*</span><span class="mi">1000</span><span class="p">),</span>
+                                         <span class="n">allow_nan</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">))</span>
+                    <span class="n">page</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;async encoded=&gt;{</span>
+<span class="s1">                        const {payload,milliseconds}=JSON.parse(encoded);</span>
+<span class="s1">                        let timer;</span>
+<span class="s1">                        try{await Promise.race([</span>
+<span class="s1">                            window.nurbspyFigure.update(payload),</span>
+<span class="s1">                            new Promise((_,reject)=&gt;{timer=setTimeout(()=&gt;reject(new Error(&#39;Frame export timed out&#39;)),milliseconds);})</span>
+<span class="s1">                        ]);}finally{clearTimeout(timer);}</span>
+<span class="s1">                    }&#39;&#39;&#39;</span><span class="p">,</span> <span class="n">encoded</span><span class="p">)</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span><span class="si">:</span><span class="s1">05d</span><span class="si">}</span><span class="s1">.png&#39;</span>
+                <span class="n">page</span><span class="o">.</span><span class="n">screenshot</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span>
+                                <span class="n">clip</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">css_width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">css_height</span><span class="p">),</span> <span class="n">animations</span><span class="o">=</span><span class="s1">&#39;disabled&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">current</span><span class="o">.</span><span class="n">camera</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">current</span><span class="o">.</span><span class="n">set_camera</span><span class="p">(</span><span class="o">**</span><span class="n">page</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s1">&#39;window.nurbspyFigure.snapshot().camera&#39;</span><span class="p">))</span>
+                <span class="n">previous</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">to_state</span><span class="p">()</span>
+                <span class="n">paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">progress</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">progress</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">),</span> <span class="n">path</span><span class="p">)</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">paths</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">browser</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="figure_layout">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.figure_layout">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">figure_layout</span><span class="p">(</span><span class="n">component</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dash</span><span class="w"> </span><span class="kn">import</span> <span class="n">dcc</span><span class="p">,</span> <span class="n">html</span>
+    <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">component</span><span class="o">.</span><span class="n">viewport_id</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">component</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">minWidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)),</span>
+        <span class="n">dcc</span><span class="o">.</span><span class="n">Store</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">component</span><span class="o">.</span><span class="n">scene_id</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">component</span><span class="o">.</span><span class="n">_figure</span><span class="o">.</span><span class="n">_payload</span><span class="p">()),</span>
+        <span class="n">dcc</span><span class="o">.</span><span class="n">Store</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">component</span><span class="o">.</span><span class="n">state_id</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">component</span><span class="o">.</span><span class="n">_figure</span><span class="o">.</span><span class="n">to_state</span><span class="p">()),</span>
+        <span class="n">dcc</span><span class="o">.</span><span class="n">Store</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">component</span><span class="o">.</span><span class="n">ready_id</span><span class="p">),</span>
+    <span class="p">],</span> <span class="nb">id</span><span class="o">=</span><span class="n">component</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;100%&#39;</span><span class="p">,</span> <span class="n">minWidth</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="register_figure">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.register_figure">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">register_figure</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">app</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Stateless host routes; each browser retains its own complete figure Store.&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dash</span><span class="w"> </span><span class="kn">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Output</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">send_from_directory</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.figure</span><span class="w"> </span><span class="kn">import</span> <span class="n">Figure</span>
+    <span class="n">registered</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s1">&#39;_nurbspy_explorer_ids&#39;</span><span class="p">,</span> <span class="nb">set</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">component</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="n">registered</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;An explorer with id </span><span class="si">{</span><span class="n">component</span><span class="o">.</span><span class="n">id</span><span class="si">!r}</span><span class="s1"> is already registered&#39;</span><span class="p">)</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">routes_pathname_prefix</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">registered</span><span class="p">:</span>
+        <span class="n">assets</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="s1">&#39;web_assets&#39;</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;/_nurbspy_web/&lt;path:filename&gt;&#39;</span><span class="p">,</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;nurbspy_web_assets_</span><span class="si">{</span><span class="nb">id</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">view_func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">filename</span><span class="p">:</span> <span class="n">send_from_directory</span><span class="p">(</span><span class="n">assets</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;/_nurbspy_web/figure/</span><span class="si">{</span><span class="n">component</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">models</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">_figure</span><span class="o">.</span><span class="n">_models</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">unpack</span><span class="p">():</span>
+        <span class="n">packet</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">(</span><span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">packet</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">set</span><span class="p">(</span><span class="n">packet</span><span class="p">)</span> <span class="o">!=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;packet&#39;</span><span class="p">}</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">packet</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Expected object name and packet&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">models</span><span class="p">[</span><span class="n">packet</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]],</span> <span class="n">packet</span><span class="p">[</span><span class="s1">&#39;packet&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">inspect</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">model</span><span class="p">,</span> <span class="n">packet</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">packet</span><span class="p">))</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">OverflowError</span><span class="p">)</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">)),</span> <span class="mi">422</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">scenes</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">Figure</span><span class="o">.</span><span class="n">from_state</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">(</span><span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span><span class="o">.</span><span class="n">_payload</span><span class="p">())</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">OverflowError</span><span class="p">)</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">)),</span> <span class="mi">422</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">model</span><span class="p">,</span> <span class="n">packet</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">resolution</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">render_packet</span><span class="p">(</span><span class="n">packet</span><span class="p">))</span>
+            <span class="n">positions</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">quality</span><span class="p">,</span> <span class="n">revision</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">_render_update</span><span class="p">(</span><span class="n">packet</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">positions</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">mimetype</span><span class="o">=</span><span class="s1">&#39;application/octet-stream&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;X-Nurbspy-Revision&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="n">revision</span><span class="p">),</span> <span class="s1">&#39;X-Nurbspy-Quality&#39;</span><span class="p">:</span><span class="n">quality</span><span class="p">,</span> <span class="s1">&#39;Cache-Control&#39;</span><span class="p">:</span><span class="s1">&#39;no-store&#39;</span><span class="p">})</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">OverflowError</span><span class="p">)</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">)),</span> <span class="mi">422</span>
+
+    <span class="n">routes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">=</span><span class="n">inspect</span><span class="p">,</span> <span class="n">scenes</span><span class="o">=</span><span class="n">scenes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">component</span><span class="o">.</span><span class="n">read_only</span><span class="p">:</span>
+        <span class="n">routes</span><span class="p">[</span><span class="s1">&#39;edit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">evaluate</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">routes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="n">base</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;nurbspy_figure_</span><span class="si">{</span><span class="n">component</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="nb">id</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">handler</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">readOnly</span><span class="o">=</span><span class="n">component</span><span class="o">.</span><span class="n">read_only</span><span class="p">,</span> <span class="n">stateStore</span><span class="o">=</span><span class="n">component</span><span class="o">.</span><span class="n">state_id</span><span class="p">,</span>
+                   <span class="n">base</span><span class="o">=</span><span class="n">app</span><span class="o">.</span><span class="n">get_relative_path</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
+    <span class="n">module</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">get_relative_path</span><span class="p">(</span><span class="s1">&#39;/_nurbspy_web/figure.js&#39;</span><span class="p">)</span>
+    <span class="n">callback</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;async function(payload){</span>
+<span class="s2">        const </span><span class="si">{mountFigure}</span><span class="s2">=await import(MODULE);</span>
+<span class="s2">        const options=OPTIONS;</span>
+<span class="s2">        const post=async(path,body)=&gt;{</span>
+<span class="s2">            const r=await fetch(options.base+&#39;/&#39;+path,{method:&#39;POST&#39;,headers:{&#39;Content-Type&#39;:&#39;application/json&#39;},body:JSON.stringify(body)});</span>
+<span class="s2">            if(!r.ok){const e=await r.json();throw new Error(e.error||&#39;Figure request failed&#39;);}return r;</span>
+<span class="s2">        };</span>
+<span class="s2">        options.inspect=async(name,packet)=&gt;(await post(&#39;inspect&#39;,{name,packet})).json();</span>
+<span class="s2">        options.scenes=async state=&gt;(await post(&#39;scenes&#39;,state)).json();</span>
+<span class="s2">        if(!options.readOnly)options.evaluate=async(name,packet)=&gt;{</span>
+<span class="s2">            const r=await post(&#39;edit&#39;,{name,packet});</span>
+<span class="s2">            if(r.headers.get(&#39;Content-Type&#39;)?.includes(&#39;application/json&#39;)){</span>
+<span class="s2">                const data=await r.json(),bytes=Uint8Array.from(atob(data.vertices),c=&gt;c.charCodeAt(0));</span>
+<span class="s2">                return {...data,positions:new Float32Array(bytes.buffer)};</span>
+<span class="s2">            }</span>
+<span class="s2">            return {revision:Number(r.headers.get(&#39;X-Nurbspy-Revision&#39;)),</span>
+<span class="s2">                quality:r.headers.get(&#39;X-Nurbspy-Quality&#39;),positions:new Float32Array(await r.arrayBuffer())};</span>
+<span class="s2">        };</span>
+<span class="s2">        options.onState=state=&gt;window.dash_clientside.set_props(options.stateStore,{data:state});</span>
+<span class="s2">        await mountFigure(ROOT,payload,options);return {mounted:true};</span>
+<span class="s2">    }&quot;&quot;&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;MODULE&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">module</span><span class="p">))</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;OPTIONS&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">options</span><span class="p">))</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;ROOT&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">component</span><span class="o">.</span><span class="n">viewport_id</span><span class="p">))</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">clientside_callback</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="n">Output</span><span class="p">(</span><span class="n">component</span><span class="o">.</span><span class="n">ready_id</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">),</span> <span class="n">Input</span><span class="p">(</span><span class="n">component</span><span class="o">.</span><span class="n">scene_id</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">))</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">_nurbspy_explorer_ids</span> <span class="o">=</span> <span class="n">registered</span> <span class="o">|</span> <span class="p">{</span><span class="n">component</span><span class="o">.</span><span class="n">id</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">component</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

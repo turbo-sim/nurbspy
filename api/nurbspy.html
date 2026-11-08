@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=9e8e7855"></script>
+    <script src="../_static/documentation_options.js?v=2572fa48"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -170,6 +170,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/curvature_continuity.html">Curvature continuity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_curve.html">Point projection onto a curve</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -201,11 +202,30 @@
 <li class="toctree-l4"><a class="reference internal" href="nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../figures.html">Reproducible figures and PNG frames</a></li>
 </ul>
 
     </div>
@@ -573,6 +593,117 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.visualization.html">nurbspy.visualization package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure"><code class="docutils literal notranslate"><span class="pre">Figure</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.add"><code class="docutils literal notranslate"><span class="pre">Figure.add()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.copy"><code class="docutils literal notranslate"><span class="pre">Figure.copy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.edit"><code class="docutils literal notranslate"><span class="pre">Figure.edit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.fit"><code class="docutils literal notranslate"><span class="pre">Figure.fit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.from_state"><code class="docutils literal notranslate"><span class="pre">Figure.from_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.from_yaml"><code class="docutils literal notranslate"><span class="pre">Figure.from_yaml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.geometry"><code class="docutils literal notranslate"><span class="pre">Figure.geometry()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.mesh"><code class="docutils literal notranslate"><span class="pre">Figure.mesh()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.names"><code class="docutils literal notranslate"><span class="pre">Figure.names</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.quality"><code class="docutils literal notranslate"><span class="pre">Figure.quality</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.remove"><code class="docutils literal notranslate"><span class="pre">Figure.remove()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.savefig"><code class="docutils literal notranslate"><span class="pre">Figure.savefig()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.saveframes"><code class="docutils literal notranslate"><span class="pre">Figure.saveframes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.scatter"><code class="docutils literal notranslate"><span class="pre">Figure.scatter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.set_camera"><code class="docutils literal notranslate"><span class="pre">Figure.set_camera()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.settings"><code class="docutils literal notranslate"><span class="pre">Figure.settings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.show"><code class="docutils literal notranslate"><span class="pre">Figure.show()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.to_html"><code class="docutils literal notranslate"><span class="pre">Figure.to_html()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.to_state"><code class="docutils literal notranslate"><span class="pre">Figure.to_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.to_yaml"><code class="docutils literal notranslate"><span class="pre">Figure.to_yaml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.Figure.update"><code class="docutils literal notranslate"><span class="pre">Figure.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.GeometryEditor"><code class="docutils literal notranslate"><span class="pre">GeometryEditor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.GeometryView"><code class="docutils literal notranslate"><span class="pre">GeometryView</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.GeometryView.figure_from_state"><code class="docutils literal notranslate"><span class="pre">GeometryView.figure_from_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.GeometryView.layout"><code class="docutils literal notranslate"><span class="pre">GeometryView.layout</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.GeometryView.read_only"><code class="docutils literal notranslate"><span class="pre">GeometryView.read_only</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.GeometryView.register"><code class="docutils literal notranslate"><span class="pre">GeometryView.register()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.edit"><code class="docutils literal notranslate"><span class="pre">edit()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.visualization.html#nurbspy.visualization.show"><code class="docutils literal notranslate"><span class="pre">show()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.visualization.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.colormap_tables"><code class="docutils literal notranslate"><span class="pre">colormap_tables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.control_point_normal"><code class="docutils literal notranslate"><span class="pre">control_point_normal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.display_options"><code class="docutils literal notranslate"><span class="pre">display_options()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.export_preview"><code class="docutils literal notranslate"><span class="pre">export_preview()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.frenet_frames"><code class="docutils literal notranslate"><span class="pre">frenet_frames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.isocurve_parameters"><code class="docutils literal notranslate"><span class="pre">isocurve_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.scalar_field"><code class="docutils literal notranslate"><span class="pre">scalar_field()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.surface_isocurves"><code class="docutils literal notranslate"><span class="pre">surface_isocurves()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.dash.html#nurbspy.visualization.dash.GeometryEditor"><code class="docutils literal notranslate"><span class="pre">GeometryEditor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.dash.html#nurbspy.visualization.dash.GeometryView"><code class="docutils literal notranslate"><span class="pre">GeometryView</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.desktop.html#nurbspy.visualization.desktop.edit"><code class="docutils literal notranslate"><span class="pre">edit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.desktop.html#nurbspy.visualization.desktop.show"><code class="docutils literal notranslate"><span class="pre">show()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure"><code class="docutils literal notranslate"><span class="pre">Figure</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.figure_html"><code class="docutils literal notranslate"><span class="pre">figure_html()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.figure_layout"><code class="docutils literal notranslate"><span class="pre">figure_layout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.open_figure"><code class="docutils literal notranslate"><span class="pre">open_figure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.register_figure"><code class="docutils literal notranslate"><span class="pre">register_figure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.render_frames"><code class="docutils literal notranslate"><span class="pre">render_frames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.render_png"><code class="docutils literal notranslate"><span class="pre">render_png()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.html.html">nurbspy.visualization.html module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.html.html#nurbspy.visualization.html.export_html"><code class="docutils literal notranslate"><span class="pre">export_html()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.curve_plot"><code class="docutils literal notranslate"><span class="pre">curve_plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.curve_plot_control_points"><code class="docutils literal notranslate"><span class="pre">curve_plot_control_points()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.curve_plot_curvature"><code class="docutils literal notranslate"><span class="pre">curve_plot_curvature()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.curve_plot_curve"><code class="docutils literal notranslate"><span class="pre">curve_plot_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.curve_plot_frenet_serret"><code class="docutils literal notranslate"><span class="pre">curve_plot_frenet_serret()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.curve_plot_torsion"><code class="docutils literal notranslate"><span class="pre">curve_plot_torsion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.curve_rescale_plot"><code class="docutils literal notranslate"><span class="pre">curve_rescale_plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot"><code class="docutils literal notranslate"><span class="pre">surface_plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot_boundary"><code class="docutils literal notranslate"><span class="pre">surface_plot_boundary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot_control_points"><code class="docutils literal notranslate"><span class="pre">surface_plot_control_points()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot_curvature"><code class="docutils literal notranslate"><span class="pre">surface_plot_curvature()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot_isocurve_u"><code class="docutils literal notranslate"><span class="pre">surface_plot_isocurve_u()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot_isocurve_v"><code class="docutils literal notranslate"><span class="pre">surface_plot_isocurve_v()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot_normals"><code class="docutils literal notranslate"><span class="pre">surface_plot_normals()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot_surface"><code class="docutils literal notranslate"><span class="pre">surface_plot_surface()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_rescale_plot"><code class="docutils literal notranslate"><span class="pre">surface_rescale_plot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.automatic_axes"><code class="docutils literal notranslate"><span class="pre">automatic_axes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.descriptor"><code class="docutils literal notranslate"><span class="pre">descriptor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.grid"><code class="docutils literal notranslate"><span class="pre">grid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.preview_axes"><code class="docutils literal notranslate"><span class="pre">preview_axes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.sampling_from_descriptor"><code class="docutils literal notranslate"><span class="pre">sampling_from_descriptor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.topologies"><code class="docutils literal notranslate"><span class="pre">topologies()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.validate_preview_quality"><code class="docutils literal notranslate"><span class="pre">validate_preview_quality()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.validate_quality"><code class="docutils literal notranslate"><span class="pre">validate_quality()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -591,6 +722,33 @@
 <li class="toctree-l2"><a class="reference internal" href="nurbspy.graphics.html#nurbspy.graphics.scale_graphics_y"><code class="docutils literal notranslate"><span class="pre">scale_graphics_y()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nurbspy.graphics.html#nurbspy.graphics.set_plot_options"><code class="docutils literal notranslate"><span class="pre">set_plot_options()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nurbspy.graphics.html#nurbspy.graphics.style_3d_axes"><code class="docutils literal notranslate"><span class="pre">style_3d_axes()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.mesh.html">nurbspy.mesh module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.mesh.html#nurbspy.mesh.export_stl"><code class="docutils literal notranslate"><span class="pre">export_stl()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.mesh.html#nurbspy.mesh.export_stl_bytes"><code class="docutils literal notranslate"><span class="pre">export_stl_bytes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.mesh.html#nurbspy.mesh.tessellate_surfaces"><code class="docutils literal notranslate"><span class="pre">tessellate_surfaces()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.point.html">nurbspy.point module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.point.html#nurbspy.point.Point"><code class="docutils literal notranslate"><span class="pre">Point</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.point.html#nurbspy.point.Point.x"><code class="docutils literal notranslate"><span class="pre">Point.x</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.point.html#nurbspy.point.Point.y"><code class="docutils literal notranslate"><span class="pre">Point.y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.point.html#nurbspy.point.Point.z"><code class="docutils literal notranslate"><span class="pre">Point.z</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.serialization.html">nurbspy.serialization module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.serialization.html#nurbspy.serialization.GeometryYamlMixin"><code class="docutils literal notranslate"><span class="pre">GeometryYamlMixin</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.serialization.html#nurbspy.serialization.GeometryYamlMixin.from_yaml"><code class="docutils literal notranslate"><span class="pre">GeometryYamlMixin.from_yaml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.serialization.html#nurbspy.serialization.GeometryYamlMixin.to_yaml"><code class="docutils literal notranslate"><span class="pre">GeometryYamlMixin.to_yaml()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nurbspy.web_explorer.html">nurbspy.web_explorer module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nurbspy.web_explorer.html#nurbspy.web_explorer.NurbsExplorer"><code class="docutils literal notranslate"><span class="pre">NurbsExplorer</span></code></a></li>
 </ul>
 </li>
 </ul>

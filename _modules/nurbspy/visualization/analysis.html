@@ -1,0 +1,844 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nurbspy.visualization.analysis &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=2572fa48"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/nurbspy/visualization/analysis';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/_modules/nurbspy/visualization/analysis.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/point_projection.html">Point projection onto curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../figures.html">Reproducible figures and PNG frames</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2F_modules/nurbspy/visualization/analysis.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for nurbspy.visualization.analysis</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Native Python quantities and export previews for the geometry viewer.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">cumulative_trapezoid</span>
+
+<span class="n">CURVE_FIELDS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Parameter u&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;curvature&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Curvature&quot;</span><span class="p">,</span> <span class="s2">&quot;1/length&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;torsion&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Torsion&quot;</span><span class="p">,</span> <span class="s2">&quot;1/length&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;arc_length&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Cumulative arc length&quot;</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;speed&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Parameter speed&quot;</span><span class="p">,</span> <span class="s2">&quot;length/parameter&quot;</span><span class="p">),</span>
+<span class="p">}</span>
+<span class="n">SURFACE_FIELDS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Parameter u&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Parameter v&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;mean_curvature&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Mean curvature&quot;</span><span class="p">,</span> <span class="s2">&quot;1/length&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;gaussian_curvature&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Gaussian curvature&quot;</span><span class="p">,</span> <span class="s2">&quot;1/length²&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;principal_min&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Minimum principal curvature&quot;</span><span class="p">,</span> <span class="s2">&quot;1/length&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;principal_max&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Maximum principal curvature&quot;</span><span class="p">,</span> <span class="s2">&quot;1/length&quot;</span><span class="p">),</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="display_options">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.display_options">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">display_options</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">surface</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate optional initial UI settings; they never alter model geometry.&quot;&quot;&quot;</span>
+    <span class="n">defaults</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">view</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">,</span>
+        <span class="n">quality</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">axes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">orientation_cube</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">quantity</span><span class="o">=</span><span class="s2">&quot;solid&quot;</span><span class="p">,</span>
+        <span class="n">colormap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span>
+        <span class="n">geometry_color</span><span class="o">=</span><span class="s2">&quot;#0072bd&quot;</span> <span class="k">if</span> <span class="n">surface</span> <span class="k">else</span> <span class="s2">&quot;#000000&quot;</span><span class="p">,</span>
+        <span class="n">control_color</span><span class="o">=</span><span class="s2">&quot;#ff7f0e&quot;</span><span class="p">,</span>
+        <span class="n">selected_color</span><span class="o">=</span><span class="s2">&quot;#2ca02c&quot;</span><span class="p">,</span>
+        <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">curve_depth_test</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">mesh</span><span class="o">=</span><span class="s2">&quot;off&quot;</span><span class="p">,</span>
+        <span class="n">mesh_u</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+        <span class="n">mesh_v</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+        <span class="n">frames</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">frame_count</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">frame_scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">control_points</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">control_polygon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">boundary</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">isocurves</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">isocurves_u</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">isocurves_v</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">isocurves_color</span><span class="o">=</span><span class="s2">&quot;#536d7d&quot;</span><span class="p">,</span>
+        <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">limits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">set</span><span class="p">(</span><span class="n">options</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">defaults</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown initial display options&quot;</span><span class="p">)</span>
+        <span class="n">defaults</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+    <span class="n">choices</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">view</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;3d&quot;</span><span class="p">,</span> <span class="s2">&quot;xy&quot;</span><span class="p">,</span> <span class="s2">&quot;yz&quot;</span><span class="p">,</span> <span class="s2">&quot;zx&quot;</span><span class="p">),</span>
+        <span class="n">quality</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="s2">&quot;fast&quot;</span><span class="p">,</span> <span class="s2">&quot;fine&quot;</span><span class="p">),</span>
+        <span class="n">quantity</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;solid&quot;</span><span class="p">,</span> <span class="o">*</span><span class="p">(</span><span class="n">SURFACE_FIELDS</span> <span class="k">if</span> <span class="n">surface</span> <span class="k">else</span> <span class="n">CURVE_FIELDS</span><span class="p">)),</span>
+        <span class="n">colormap</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">colormap_tables</span><span class="p">()),</span>
+        <span class="n">mesh</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">,</span> <span class="s2">&quot;display&quot;</span><span class="p">,</span> <span class="s2">&quot;export&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">surface</span> <span class="k">else</span> <span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">,),</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">choices</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">defaults</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid display </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;axes&quot;</span><span class="p">,</span> <span class="s2">&quot;grid&quot;</span><span class="p">,</span> <span class="s2">&quot;orientation_cube&quot;</span><span class="p">,</span> <span class="s2">&quot;frames&quot;</span><span class="p">,</span> <span class="s2">&quot;control_points&quot;</span><span class="p">,</span> <span class="s2">&quot;control_polygon&quot;</span><span class="p">,</span> <span class="s2">&quot;boundary&quot;</span><span class="p">,</span> <span class="s2">&quot;isocurves&quot;</span><span class="p">,</span> <span class="s2">&quot;reverse&quot;</span><span class="p">,</span> <span class="s2">&quot;curve_depth_test&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">defaults</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Display </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be a boolean&quot;</span><span class="p">)</span>
+    <span class="n">limits</span> <span class="o">=</span> <span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;limits&quot;</span><span class="p">]</span>
+    <span class="n">opacity</span> <span class="o">=</span> <span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;opacity&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opacity</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opacity</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">opacity</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">opacity</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Display opacity must be between zero and one&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">limits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">limits</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">limits</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span>
+                <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">limits</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="n">limits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">limits</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Display limits must be two finite increasing numbers or None&quot;</span><span class="p">)</span>
+        <span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;limits&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">limits</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">surface</span> <span class="ow">and</span> <span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;frames&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Frenet frames require a curve&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;isocurves_u&quot;</span><span class="p">,</span> <span class="s2">&quot;isocurves_v&quot;</span><span class="p">):</span>
+        <span class="n">defaults</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">_isocurve_values</span><span class="p">(</span><span class="n">defaults</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">surface</span> <span class="ow">and</span> <span class="p">(</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;isocurves&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;isocurves_u&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;isocurves_v&quot;</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isocurves require a surface&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;geometry_color&quot;</span><span class="p">,</span> <span class="s2">&quot;control_color&quot;</span><span class="p">,</span> <span class="s2">&quot;selected_color&quot;</span><span class="p">,</span> <span class="s2">&quot;isocurves_color&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">defaults</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span>
+            <span class="sa">r</span><span class="s2">&quot;#[0-9a-fA-F]</span><span class="si">{6}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">defaults</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Display </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be a six-digit hex colour&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s2">&quot;mesh_u&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">160</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;mesh_v&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">160</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;frame_count&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span>
+    <span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">defaults</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="ow">not</span> <span class="n">low</span> <span class="o">&lt;=</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="n">high</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Display </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be an integer from </span><span class="si">{</span><span class="n">low</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">high</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;frame_scale&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="mf">0.005</span> <span class="o">&lt;=</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mf">0.5</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Display frame_scale must be from 0.005 to 0.5&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">defaults</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_isocurve_values</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">30</span>
+            <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+                   <span class="ow">or</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">values</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">a</span> <span class="o">&gt;=</span> <span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">values</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Display </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be up to 30 finite increasing parameters or None&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="isocurve_parameters">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.isocurve_parameters">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">isocurve_parameters</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve fixed native parameters; None chooses five interior isocurves.&quot;&quot;&quot;</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">_isocurve_values</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">&quot;isocurves_&quot;</span> <span class="o">+</span> <span class="n">direction</span><span class="p">)</span>
+    <span class="n">knots</span><span class="p">,</span> <span class="n">degree</span> <span class="o">=</span> <span class="p">(</span><span class="n">geometry</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">geometry</span><span class="o">.</span><span class="n">p</span><span class="p">)</span> <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">&quot;u&quot;</span> <span class="k">else</span> <span class="p">(</span><span class="n">geometry</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">geometry</span><span class="o">.</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">low</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">knots</span><span class="p">[</span><span class="n">degree</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">knots</span><span class="p">[</span><span class="o">-</span><span class="n">degree</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">low</span> <span class="o">+</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.08</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">low</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">high</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">values</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Isocurve </span><span class="si">{</span><span class="n">direction</span><span class="si">}</span><span class="s2"> parameters must lie in [</span><span class="si">{</span><span class="n">low</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">high</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="surface_isocurves">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.surface_isocurves">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">surface_isocurves</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fixed_u</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fixed_v</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample exact parameter curves together using the surface&#39;s current grid.</span>
+
+<span class="sd">    A u-isocurve fixes u and varies v, matching get_isocurve_u(). The existing</span>
+<span class="sd">    preview/full axes bound the work and retain knot samples without introducing</span>
+<span class="sd">    independently editable curve snapshots.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lines</span><span class="p">,</span> <span class="n">us</span><span class="p">,</span> <span class="n">vs</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">direction</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">axis</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="n">fixed_u</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">v</span><span class="p">)),</span> <span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">fixed_v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+    <span class="p">):</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">isocurve_parameters</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">axis</span><span class="p">)))</span>
+            <span class="n">constant</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">axis</span><span class="p">),</span> <span class="n">value</span><span class="p">)</span>
+            <span class="n">us</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constant</span> <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">&quot;u&quot;</span> <span class="k">else</span> <span class="n">axis</span><span class="p">)</span>
+            <span class="n">vs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">axis</span> <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">&quot;u&quot;</span> <span class="k">else</span> <span class="n">constant</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;curves&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">geometry</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">us</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">vs</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">points</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isocurves did not evaluate to finite real coordinates&quot;</span><span class="p">)</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="o">-</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">)</span>
+        <span class="n">line</span><span class="p">[</span><span class="s2">&quot;points&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">offset</span><span class="p">:</span><span class="n">offset</span> <span class="o">+</span> <span class="n">count</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">offset</span> <span class="o">+=</span> <span class="n">count</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;curves&quot;</span><span class="p">:</span> <span class="n">lines</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="colormap_tables">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.colormap_tables">[docs]</a>
+<span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">colormap_tables</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Small display lookup tables; no Matplotlib window or pyplot is needed.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">colormaps</span>
+
+    <span class="n">names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span> <span class="s2">&quot;plasma&quot;</span><span class="p">,</span> <span class="s2">&quot;magma&quot;</span><span class="p">,</span> <span class="s2">&quot;inferno&quot;</span><span class="p">,</span> <span class="s2">&quot;cividis&quot;</span><span class="p">,</span> <span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="s2">&quot;RdBu&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">colormaps</span><span class="p">[</span><span class="n">name</span><span class="p">](</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">128</span><span class="p">))[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span>
+    <span class="p">}</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_regular_samples</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mark knot joins without the differentiability needed by a diagnostic.&quot;&quot;&quot;</span>
+    <span class="n">valid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">u</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">directions</span> <span class="o">=</span> <span class="p">[(</span><span class="n">geometry</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">geometry</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">u</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">directions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">geometry</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">geometry</span><span class="o">.</span><span class="n">q</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">knots</span><span class="p">,</span> <span class="n">degree</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">directions</span><span class="p">:</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">knots</span><span class="p">[</span><span class="n">degree</span><span class="p">],</span> <span class="n">knots</span><span class="p">[</span><span class="o">-</span><span class="n">degree</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">unique</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">knots</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">knot</span><span class="p">,</span> <span class="n">multiplicity</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">unique</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">knot</span> <span class="o">&lt;</span> <span class="n">end</span> <span class="ow">and</span> <span class="n">degree</span> <span class="o">-</span> <span class="n">multiplicity</span> <span class="o">&lt;</span> <span class="n">order</span><span class="p">:</span>
+                <span class="n">valid</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">knot</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e-12</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">valid</span>
+
+
+<div class="viewcode-block" id="scalar_field">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.scalar_field">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">scalar_field</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate a selected field with native nurbspy derivatives and geometry.</span>
+
+<span class="sd">    Lengths use the model&#39;s coordinate units. Arc length is cumulative numerical</span>
+<span class="sd">    quadrature on a dense, knot-aware grid. Nonregular/undefined values are null</span>
+<span class="sd">    in the JSON result, not invented zero values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">SURFACE_FIELDS</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">CURVE_FIELDS</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown quantity for this geometry&quot;</span><span class="p">)</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;u&quot;</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">u</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;v&quot;</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;speed&quot;</span><span class="p">:</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">geometry</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;arc_length&quot;</span><span class="p">:</span>
+            <span class="n">grid</span><span class="p">,</span> <span class="n">distance</span> <span class="o">=</span> <span class="n">_arc_grid</span><span class="p">(</span><span class="n">geometry</span><span class="p">)</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;curvature&quot;</span><span class="p">:</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">get_curvature</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;torsion&quot;</span><span class="p">:</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="mi">3</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">get_torsion</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">mean</span><span class="p">,</span> <span class="n">gaussian</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">get_curvature</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;mean_curvature&quot;</span><span class="p">:</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="n">mean</span>
+            <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;gaussian_curvature&quot;</span><span class="p">:</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="n">gaussian</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">root</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">mean</span> <span class="o">*</span> <span class="n">mean</span> <span class="o">-</span> <span class="n">gaussian</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="n">mean</span> <span class="o">-</span> <span class="n">root</span> <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;principal_min&quot;</span> <span class="k">else</span> <span class="n">mean</span> <span class="o">+</span> <span class="n">root</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">valid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">_regular_samples</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="n">label</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="n">finite</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">valid</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span>
+        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="n">unit</span><span class="p">,</span>
+        <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">if</span> <span class="n">ok</span> <span class="k">else</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">value</span><span class="p">,</span> <span class="n">ok</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">valid</span><span class="p">)],</span>
+        <span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">finite</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span> <span class="nb">float</span><span class="p">(</span><span class="n">finite</span><span class="o">.</span><span class="n">max</span><span class="p">())]</span> <span class="k">if</span> <span class="n">finite</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;undefined&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">((</span><span class="o">~</span><span class="n">valid</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span>
+    <span class="p">}</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_arc_grid</span><span class="p">(</span><span class="n">geometry</span><span class="p">):</span>
+    <span class="n">knots</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">geometry</span><span class="o">.</span><span class="n">U</span><span class="p">)</span>
+    <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">knots</span><span class="p">[</span><span class="n">geometry</span><span class="o">.</span><span class="n">p</span><span class="p">],</span> <span class="n">knots</span><span class="p">[</span><span class="o">-</span><span class="n">geometry</span><span class="o">.</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="mi">1001</span><span class="p">),</span> <span class="n">knots</span><span class="p">[(</span><span class="n">knots</span> <span class="o">&gt;=</span> <span class="n">start</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">knots</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">)]]</span>
+    <span class="p">)</span>
+    <span class="n">speed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">geometry</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">cumulative_trapezoid</span><span class="p">(</span><span class="n">speed</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">grid</span><span class="p">,</span> <span class="n">distance</span>
+
+
+<div class="viewcode-block" id="frenet_frames">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.frenet_frames">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">frenet_frames</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample native T/N/B frames at approximately equal arc-length intervals.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Frame count must be an integer from 2 to 30&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="mf">0.005</span> <span class="o">&lt;=</span> <span class="n">scale</span> <span class="o">&lt;=</span> <span class="mf">0.5</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Frame scale must be from 0.005 to 0.5&quot;</span><span class="p">)</span>
+    <span class="n">grid</span><span class="p">,</span> <span class="n">distance</span> <span class="o">=</span> <span class="n">_arc_grid</span><span class="p">(</span><span class="n">geometry</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">distance</span><span class="p">))</span> <span class="ow">or</span> <span class="n">distance</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;frames&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;omitted&quot;</span><span class="p">:</span> <span class="n">count</span><span class="p">}</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">distance</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">count</span><span class="p">),</span> <span class="n">distance</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">):</span>
+        <span class="n">tangent</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">geometry</span><span class="o">.</span><span class="n">get_tangent</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+        <span class="n">normal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">geometry</span><span class="o">.</span><span class="n">get_normal</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+        <span class="n">binormal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">geometry</span><span class="o">.</span><span class="n">get_binormal</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">geometry</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+    <span class="n">valid</span> <span class="o">=</span> <span class="n">_regular_samples</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">values</span> <span class="ow">in</span> <span class="p">(</span><span class="n">tangent</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">binormal</span><span class="p">):</span>
+        <span class="n">valid</span> <span class="o">&amp;=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="n">positions</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+            <span class="s2">&quot;tangent&quot;</span><span class="p">:</span> <span class="n">tangent</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+            <span class="s2">&quot;normal&quot;</span><span class="p">:</span> <span class="n">normal</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+            <span class="s2">&quot;binormal&quot;</span><span class="p">:</span> <span class="n">binormal</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">valid</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;frames&quot;</span><span class="p">:</span> <span class="n">frames</span><span class="p">,</span>
+        <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">distance</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span><span class="p">),</span>
+        <span class="s2">&quot;omitted&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">((</span><span class="o">~</span><span class="n">valid</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="control_point_normal">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.control_point_normal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">control_point_normal</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Native normal at the selected control point&#39;s fixed Greville location.</span>
+
+<span class="sd">    This associates a parameter with a control point; it does not assert that</span>
+<span class="sd">    the point lies on the geometry. Undefined normals are explicit nulls.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">shape</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Control-point index is out of range&quot;</span><span class="p">)</span>
+    <span class="n">surface</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+    <span class="n">directions</span> <span class="o">=</span> <span class="p">[(</span><span class="n">geometry</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">geometry</span><span class="o">.</span><span class="n">p</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">surface</span><span class="p">:</span>
+        <span class="n">directions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">geometry</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">geometry</span><span class="o">.</span><span class="n">q</span><span class="p">))</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">knots</span><span class="p">,</span> <span class="n">degree</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">directions</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">degree</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">direction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;A degree-zero direction has no geometric normal.&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="n">parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="nb">float</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">knots</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]),</span>
+                    <span class="n">knots</span><span class="p">[</span><span class="n">degree</span><span class="p">],</span>
+                    <span class="n">knots</span><span class="p">[</span><span class="o">-</span><span class="n">degree</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">parameters</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span> <span class="k">if</span> <span class="n">surface</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">surface</span> <span class="k">else</span> <span class="mi">2</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_regular_samples</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">v</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">direction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+            <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;The geometry is not sufficiently smooth at this parameter location.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">):</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+            <span class="n">geometry</span><span class="o">.</span><span class="n">get_normals</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">if</span> <span class="n">surface</span> <span class="k">else</span> <span class="n">geometry</span><span class="o">.</span><span class="n">get_normal</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">direction</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">direction</span><span class="p">))</span> <span class="ow">or</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="mf">1e-12</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">direction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+            <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;The normal is undefined here (zero curvature or a singular geometry).&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">direction</span><span class="o">=</span><span class="p">(</span><span class="n">direction</span> <span class="o">/</span> <span class="n">length</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="export_preview">
+<a class="viewcode-back" href="../../../api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.export_preview">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">export_preview</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">nv</span><span class="o">=</span><span class="mi">40</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate one export mesh and encode the STL from that exact mesh.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..mesh</span><span class="w"> </span><span class="kn">import</span> <span class="n">_prepare_stl_mesh</span>
+
+    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="p">(</span><span class="n">nu</span><span class="p">,</span> <span class="n">nv</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="ow">not</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="mi">160</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Export mesh samples must be integers from 2 to 160&quot;</span><span class="p">)</span>
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">_prepare_stl_mesh</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="n">nu</span><span class="p">,</span> <span class="n">nv</span><span class="o">=</span><span class="n">nv</span><span class="p">)</span>
+    <span class="n">vertices</span><span class="p">,</span> <span class="n">triangles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">faces</span><span class="p">)</span>
+    <span class="n">encoded</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">file_type</span><span class="o">=</span><span class="s2">&quot;stl&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;vertices&quot;</span><span class="p">:</span> <span class="n">vertices</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+        <span class="s2">&quot;triangles&quot;</span><span class="p">:</span> <span class="n">triangles</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+        <span class="s2">&quot;stl&quot;</span><span class="p">:</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">encoded</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;nu&quot;</span><span class="p">:</span> <span class="n">nu</span><span class="p">,</span>
+        <span class="s2">&quot;nv&quot;</span><span class="p">:</span> <span class="n">nv</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

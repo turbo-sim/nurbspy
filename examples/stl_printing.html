@@ -1,0 +1,988 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Torus and oloid: from NURBS to a printable STL &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=2572fa48"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/stl_printing';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/examples/stl_printing.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API reference" href="../api_reference.html" />
+    <link rel="prev" title="Point projection onto a surface" href="point_projection_surface.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../theory/bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/point_projection.html">Point projection onto curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Torus and oloid: from NURBS to a printable STL</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../figures.html">Reproducible figures and PNG frames</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/edit/main/docs/source/examples/stl_printing.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2Fexamples/stl_printing.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/examples/stl_printing.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Torus and oloid: from NURBS to a printable STL</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-example">Run the example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometry-and-dimensions">Geometry and dimensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#every-tessellation-and-export-control">Every tessellation and export control</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-the-settings-explicitly">Choose the settings explicitly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seam-merging-is-different-from-mesh-accuracy">Seam merging is different from mesh accuracy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#presets-and-observed-mesh-sizes">Presets and observed mesh sizes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-into-a-slicer">Importing into a slicer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-scripts">Complete scripts</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="torus-and-oloid-from-nurbs-to-a-printable-stl">
+<h1>Torus and oloid: from NURBS to a printable STL<a class="headerlink" href="#torus-and-oloid-from-nurbs-to-a-printable-stl" title="Link to this heading">#</a></h1>
+<p>These two scripts each construct one object with native nurbspy classes, export a
+binary STL file, check the reloaded mesh, and open the original NURBS construction
+in the editor with its control net and background grid. Trimesh and
+NetworkX are standard dependencies. PNG export uses an isolated headless browser;
+see the <a class="reference internal" href="../figures.html"><span class="std std-doc">figure guide</span></a> for browser setup.</p>
+<section id="run-the-example">
+<h2>Run the example<a class="headerlink" href="#run-the-example" title="Link to this heading">#</a></h2>
+<p>From the repository root:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>demos/02_surfaces/21_stl_torus.py
+python<span class="w"> </span>demos/02_surfaces/22_stl_oloid.py
+</pre></div>
+</div>
+<p>The default <code class="docutils literal notranslate"><span class="pre">print</span></code> preset writes <code class="docutils literal notranslate"><span class="pre">torus_print.stl</span></code> under
+<code class="docutils literal notranslate"><span class="pre">demos/02_surfaces/output/21_stl_torus/</span></code> and <code class="docutils literal notranslate"><span class="pre">oloid_print.stl</span></code> under
+<code class="docutils literal notranslate"><span class="pre">demos/02_surfaces/output/22_stl_oloid/</span></code>. Each script reloads its STL with Trimesh
+and checks that the mesh is closed and consistently oriented. The editor shows
+the editable NURBS rather than a frozen mesh overlay. These STL files describe
+the initial construction, before interactive edits.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>demos/02_surfaces/21_stl_torus.py<span class="w"> </span>--quality<span class="w"> </span>preview
+python<span class="w"> </span>demos/02_surfaces/22_stl_oloid.py<span class="w"> </span>--quality<span class="w"> </span>fine<span class="w"> </span>--no-show
+python<span class="w"> </span>demos/02_surfaces/21_stl_torus.py<span class="w"> </span>--output-dir<span class="w"> </span>my_stl_files
+</pre></div>
+</div>
+<p>STL has no units: select millimetres when importing these files into a slicer.
+<code class="docutils literal notranslate"><span class="pre">--no-show</span></code> writes and validates the mesh without opening the editor.
+For matching PNG and offline interactive HTML files, use the separate exporter:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>docs/export_demo_figures.py<span class="w"> </span>--only<span class="w"> </span>02_surfaces/21_stl_torus<span class="w"> </span>02_surfaces/22_stl_oloid
+</pre></div>
+</div>
+<p>Both formats are written alongside each STL in its corresponding output folder.
+The <a class="reference internal" href="../figures.html"><span class="std std-doc">Figure guide</span></a> describes the public export methods.</p>
+</section>
+<section id="geometry-and-dimensions">
+<h2>Geometry and dimensions<a class="headerlink" href="#geometry-and-dimensions" title="Link to this heading">#</a></h2>
+<p><strong>Torus.</strong> <code class="docutils literal notranslate"><span class="pre">make_torus(major_radius=30,</span> <span class="pre">minor_radius=10)</span></code> makes an exact rational
+circular profile with <code class="docutils literal notranslate"><span class="pre">CircularArc</span></code>, then revolves it through <span class="math notranslate nohighlight">\(2\pi\)</span> with
+<code class="docutils literal notranslate"><span class="pre">NurbsSurfaceRevolution</span></code>. Radii are in millimetres. The major radius is the distance
+from the rotation axis to the tube centreline; the minor radius is the tube radius.
+The resulting dimensions are <span class="math notranslate nohighlight">\(80\times80\times20\)</span> mm. Keep <span class="math notranslate nohighlight">\(R&gt;r&gt;0\)</span> for a ring torus.
+Here <span class="math notranslate nohighlight">\(u\)</span> follows the revolution and <span class="math notranslate nohighlight">\(v\)</span> follows the tube profile.</p>
+<p><strong>Oloid.</strong> <code class="docutils literal notranslate"><span class="pre">make_oloid(radius=20,</span> <span class="pre">boundary_points=181)</span></code> uses equal-radius circles
+in perpendicular planes, whose centres are one radius apart. Paired contact
+points define two native <code class="docutils literal notranslate"><span class="pre">NurbsSurfaceRuled</span></code> patches. The approximate dimensions
+are <span class="math notranslate nohighlight">\(60\times40\times40\)</span> mm. The boundaries are sampled degree-one NURBS curves:
+this is an approximation to an oloid, not an exact analytic representation.
+Dimensions are rounded: for example, the preview mesh spans about 39.9959 mm
+in <span class="math notranslate nohighlight">\(y\)</span>, slightly below the ideal 40 mm.
+Here <span class="math notranslate nohighlight">\(u\)</span> follows the paired boundary points and <span class="math notranslate nohighlight">\(v\)</span> runs along each straight ruling.</p>
+<p>The symmetric construction needs an <strong>odd <code class="docutils literal notranslate"><span class="pre">boundary_points</span></code> count of at least
+five</strong>. More boundary points improve the underlying curved-boundary approximation.
+Increasing export <code class="docutils literal notranslate"><span class="pre">nu</span></code> alone cannot recover curvature missing from those
+piecewise-linear boundaries.</p>
+</section>
+<section id="every-tessellation-and-export-control">
+<h2>Every tessellation and export control<a class="headerlink" href="#every-tessellation-and-export-control" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>API default</p></th>
+<th class="head"><p>Meaning and how to choose it</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">nu</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">80</span></code></p></td>
+<td><p>Integer regular sample count along <span class="math notranslate nohighlight">\(u\)</span>, at least two. Increase where geometry changes strongly in this direction. Torus: around the major circle. Oloid: along the curved boundaries.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">nv</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">30</span></code></p></td>
+<td><p>Integer regular sample count along <span class="math notranslate nohighlight">\(v\)</span>, at least two. Torus: around the tube. Oloid: across the straight rulings, where fewer samples are normally needed. Bilinear cells can still be slightly warped, so check refinement rather than assuming every quad is planar.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">require_closed</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
+<td><p>Export-only switch. Set <strong><code class="docutils literal notranslate"><span class="pre">True</span></code> for these solid-printing examples</strong>. Rejects open edges and requires consistent winding, positive volume, and one face-connected shell. It does not cap openings or detect self-intersections.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">weld_tolerance</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>Export-only approximate seam-merging length in the same units as the coordinates. <code class="docutils literal notranslate"><span class="pre">None</span></code> selects <span class="math notranslate nohighlight">\(10^{-10}\)</span> times the largest extent. It controls vertex merging, <strong>not geometric approximation accuracy</strong>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">path</span></code></p></td>
+<td><p>Required</p></td>
+<td><p>Output <code class="docutils literal notranslate"><span class="pre">.stl</span></code> path. The exporter writes binary STL and returns a <code class="docutils literal notranslate"><span class="pre">Path</span></code>. The demo creates its output directory first.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">surface.tessellate(nu=...,</span> <span class="pre">nv=...)</span></code> and
+<code class="docutils literal notranslate"><span class="pre">nrb.tessellate_surfaces(patches,</span> <span class="pre">nu=...,</span> <span class="pre">nv=...)</span></code> return NumPy vertices and faces.
+They accept only the two sampling controls: welding and closed-shell checks belong
+to export. Knot breaks are included automatically, so the actual number of
+samples can exceed the requested regular counts. Before seam/degenerate cleanup,
+a grid typically produces <span class="math notranslate nohighlight">\(2(N_u-1)(N_v-1)\)</span> triangles per patch. Doubling both
+sample counts therefore roughly quadruples the mesh size.</p>
+<p>The plotting arguments <strong><code class="docutils literal notranslate"><span class="pre">Nu</span></code> and <code class="docutils literal notranslate"><span class="pre">Nv</span></code> are capitalized</strong> and independent of the
+lowercase export arguments. In the demo, native model plots use <code class="docutils literal notranslate"><span class="pre">Nu=73,</span> <span class="pre">Nv=41</span></code>;
+changing those values changes the display, not the STL.</p>
+<section id="choose-the-settings-explicitly">
+<h3>Choose the settings explicitly<a class="headerlink" href="#choose-the-settings-explicitly" title="Link to this heading">#</a></h3>
+<p>For a single torus surface:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torus</span> <span class="o">=</span> <span class="n">make_torus</span><span class="p">(</span><span class="n">major_radius</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">minor_radius</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span> <span class="o">=</span> <span class="n">torus</span><span class="o">.</span><span class="n">tessellate</span><span class="p">(</span><span class="n">nu</span><span class="o">=</span><span class="mi">129</span><span class="p">,</span> <span class="n">nv</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>  <span class="c1"># inspect without writing</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">torus</span><span class="o">.</span><span class="n">export</span><span class="p">(</span>
+    <span class="s2">&quot;torus.stl&quot;</span><span class="p">,</span>
+    <span class="n">nu</span><span class="o">=</span><span class="mi">129</span><span class="p">,</span>
+    <span class="n">nv</span><span class="o">=</span><span class="mi">65</span><span class="p">,</span>
+    <span class="n">require_closed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">weld_tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>For the two-patch oloid, use the shared multi-patch exporter so that it can merge
+the seams and validate the complete object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">patches</span> <span class="o">=</span> <span class="n">make_oloid</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">boundary_points</span><span class="o">=</span><span class="mi">181</span><span class="p">)</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">nrb</span><span class="o">.</span><span class="n">export_stl</span><span class="p">(</span>
+    <span class="n">patches</span><span class="p">,</span>
+    <span class="s2">&quot;oloid.stl&quot;</span><span class="p">,</span>
+    <span class="n">nu</span><span class="o">=</span><span class="mi">181</span><span class="p">,</span>
+    <span class="n">nv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">require_closed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">weld_tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>These snippets use the builders from the example script and <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">nurbspy</span> <span class="pre">as</span> <span class="pre">nrb</span></code>.
+The script’s <code class="docutils literal notranslate"><span class="pre">QUALITY</span></code> dictionary is the single place to change preset sampling
+and oloid boundary density.</p>
+</section>
+<section id="seam-merging-is-different-from-mesh-accuracy">
+<h3>Seam merging is different from mesh accuracy<a class="headerlink" href="#seam-merging-is-different-from-mesh-accuracy" title="Link to this heading">#</a></h3>
+<p>Keep <code class="docutils literal notranslate"><span class="pre">weld_tolerance=None</span></code> initially. Its default is about <span class="math notranslate nohighlight">\(8\times10^{-9}\)</span> mm
+for the torus and <span class="math notranslate nohighlight">\(6\times10^{-9}\)</span> mm for the oloid: intended for numerical seam
+noise, not manufacturing gaps. If independently generated, otherwise compatible
+seams differ by tiny round-off errors, an explicit value such as
+<code class="docutils literal notranslate"><span class="pre">weld_tolerance=1e-7</span></code> mm can be tried after checking the actual gap. Keep it much
+smaller than the smallest feature and mesh-edge spacing that must survive.
+Increasing it indiscriminately can merge real features.</p>
+<p>Trimesh merges using decimal rounding of normalized coordinates. Consequently,
+this value is an approximate rounding scale, not a guaranteed Euclidean merge
+radius. Values must be at least <span class="math notranslate nohighlight">\(10^{-15}\)</span> times the object’s largest extent and
+smaller than that extent. Corresponding patch boundaries still need matching
+sample locations; this parameter cannot repair incompatible parameterizations
+or missing faces.</p>
+</section>
+</section>
+<section id="presets-and-observed-mesh-sizes">
+<h2>Presets and observed mesh sizes<a class="headerlink" href="#presets-and-observed-mesh-sizes" title="Link to this heading">#</a></h2>
+<p>These are starting points for the dimensions above, not a printer accuracy guarantee.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Preset</p></th>
+<th class="head"><p>Torus <code class="docutils literal notranslate"><span class="pre">nu,</span> <span class="pre">nv</span></code></p></th>
+<th class="head"><p>Oloid boundary points</p></th>
+<th class="head"><p>Oloid <code class="docutils literal notranslate"><span class="pre">nu,</span> <span class="pre">nv</span></code></p></th>
+<th class="head"><p>Torus triangles</p></th>
+<th class="head"><p>Oloid triangles</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">preview</span></code></p></td>
+<td><p>33, 17</p></td>
+<td><p>61</p></td>
+<td><p>61, 3</p></td>
+<td><p>1,024</p></td>
+<td><p>480</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">print</span></code></p></td>
+<td><p>129, 65</p></td>
+<td><p>181</p></td>
+<td><p>181, 5</p></td>
+<td><p>16,384</p></td>
+<td><p>2,880</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fine</span></code></p></td>
+<td><p>257, 129</p></td>
+<td><p>361</p></td>
+<td><p>361, 9</p></td>
+<td><p>65,536</p></td>
+<td><p>11,520</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The default STL sizes are about 800 KiB and 141 KiB. The script prints actual
+triangle counts, file sizes, bounding dimensions, and enclosed volume after reload.
+The torus has analytic volume <span class="math notranslate nohighlight">\(2\pi^2Rr^2\approx59{,}217.6\)</span> mm<span class="math notranslate nohighlight">\(^3\)</span>; observed STL
+volumes were about 57,327.9, 59,098.0, and 59,187.7 mm<span class="math notranslate nohighlight">\(^3\)</span> for the three presets.
+The progression gives a useful convergence check, but volume agreement alone
+does not bound local surface error.</p>
+<p>Start with <code class="docutils literal notranslate"><span class="pre">preview</span></code> to inspect orientation and shape. Compare <code class="docutils literal notranslate"><span class="pre">print</span></code> with
+<code class="docutils literal notranslate"><span class="pre">fine</span></code>, checking silhouettes, critical dimensions, and small features against
+your required tolerance. Count-based tessellation is not adaptive and has no
+chord-error setting. A larger or more curved model may need more samples than
+these examples. For the oloid, refine boundary points as well as export sampling.</p>
+</section>
+<section id="importing-into-a-slicer">
+<h2>Importing into a slicer<a class="headerlink" href="#importing-into-a-slicer" title="Link to this heading">#</a></h2>
+<p>STL carries <strong>no units</strong>. These examples use millimetre-sized coordinates; select
+millimetres on import and check the dimensions above. Layer height, nozzle size,
+infill, print orientation, and support generation are slicer settings, not
+nurbspy tessellation controls. A closed mesh does not establish that a particular
+orientation can be printed without supports.</p>
+<p>The examples verify watertightness and positive volume after reading the files
+back, but do not perform general self-intersection checks. Export validation
+supports one connected shell; separate solids should be exported separately,
+and nested cavity shells are not supported by <code class="docutils literal notranslate"><span class="pre">require_closed=True</span></code>. STL uses
+float32 coordinates, so keep objects near the origin and avoid coordinate offsets
+that overwhelm small features.</p>
+</section>
+<section id="complete-scripts">
+<h2>Complete scripts<a class="headerlink" href="#complete-scripts" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Export a closed torus STL, then edit its original NURBS construction.</span>
+
+<span class="sd">Reload and validate the STL using Trimesh. The editor opens one construction</span>
+<span class="sd">with its control net and background grid. STL coordinates are millimetres;</span>
+<span class="sd">the file records the initial geometry before interactive edits.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">trimesh</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nurbspy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nrb</span>
+
+<span class="n">QUALITY_LEVEL</span> <span class="o">=</span> <span class="s2">&quot;print&quot;</span>  <span class="c1"># STL mesh sampling: &quot;preview&quot;, &quot;print&quot;, or &quot;fine&quot;.</span>
+<span class="n">OUTPUT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;output&quot;</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span>
+<span class="c1"># Samples in each STL parameter direction; these do not control display quality.</span>
+<span class="n">QUALITY</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;preview&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span> <span class="s2">&quot;print&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">129</span><span class="p">,</span> <span class="mi">65</span><span class="p">),</span> <span class="s2">&quot;fine&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">257</span><span class="p">,</span> <span class="mi">129</span><span class="p">)}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">make_torus</span><span class="p">(</span><span class="n">major_radius</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span> <span class="n">minor_radius</span><span class="o">=</span><span class="mf">10.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exact ring torus: major radius is measured to the tube centreline [mm].&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">([</span><span class="n">major_radius</span><span class="p">,</span> <span class="n">minor_radius</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="n">major_radius</span> <span class="o">&gt;</span> <span class="n">minor_radius</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Use finite radii with major_radius &gt; minor_radius &gt; 0&quot;</span><span class="p">)</span>
+    <span class="n">profile</span> <span class="o">=</span> <span class="n">nrb</span><span class="o">.</span><span class="n">CircularArc</span><span class="p">(</span>
+        <span class="n">nrb</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">major_radius</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+        <span class="n">minor_radius</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">NurbsCurve</span>
+    <span class="k">return</span> <span class="n">nrb</span><span class="o">.</span><span class="n">NurbsSurfaceRevolution</span><span class="p">(</span>
+        <span class="n">profile</span><span class="p">,</span>
+        <span class="n">nrb</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">NurbsSurface</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_demo</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="s2">&quot;print&quot;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write one closed STL and return its editable NURBS figure.&quot;&quot;&quot;</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">QUALITY</span><span class="p">[</span><span class="n">quality</span><span class="p">]</span>
+    <span class="n">patches</span> <span class="o">=</span> <span class="p">[</span><span class="n">make_torus</span><span class="p">()]</span>
+    <span class="n">output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+    <span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;torus_</span><span class="si">{</span><span class="n">quality</span><span class="si">}</span><span class="s2">.stl&quot;</span>
+    <span class="c1"># The exporter merges coincident seam vertices with its scale-relative default.</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">nu</span><span class="o">=</span><span class="n">settings</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nv</span><span class="o">=</span><span class="n">settings</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">require_closed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">trimesh</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">mesh</span><span class="o">.</span><span class="n">is_watertight</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">mesh</span><span class="o">.</span><span class="n">is_volume</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s2">&quot;The reloaded STL must be a closed, consistently oriented volume&quot;</span>
+        <span class="p">)</span>
+    <span class="n">dimensions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">faces</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> triangles; </span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> KiB; &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;size </span><span class="si">{</span><span class="n">dimensions</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> mm; volume </span><span class="si">{</span><span class="n">mesh</span><span class="o">.</span><span class="n">volume</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> mm^3&quot;</span>
+    <span class="p">)</span>
+    <span class="n">figure</span> <span class="o">=</span> <span class="n">nrb</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span>
+        <span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Torus patch 1&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Torus: NURBS construction for STL export&quot;</span><span class="p">,</span>
+        <span class="n">display</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">control_points</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">control_polygon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">patch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">patches</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">start</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">figure</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Torus patch </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="n">figure</span><span class="o">.</span><span class="n">edit</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;STL has no units: select millimetres in your slicer.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">figure</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">run_demo</span><span class="p">(</span><span class="n">OUTPUT</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="n">QUALITY_LEVEL</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--quality&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">QUALITY</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">QUALITY_LEVEL</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--output-dir&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">OUTPUT</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--no-show&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Export without opening the editor&quot;</span>
+    <span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">run_demo</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">quality</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">no_show</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Export a closed oloid STL, then edit its original NURBS construction.</span>
+
+<span class="sd">Reload and validate the STL using Trimesh. The editor opens one construction</span>
+<span class="sd">with its control net and background grid. STL coordinates are millimetres;</span>
+<span class="sd">the file records the initial geometry before interactive edits.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">trimesh</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nurbspy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nrb</span>
+
+<span class="n">QUALITY_LEVEL</span> <span class="o">=</span> <span class="s2">&quot;print&quot;</span>  <span class="c1"># STL mesh sampling: &quot;preview&quot;, &quot;print&quot;, or &quot;fine&quot;.</span>
+<span class="n">OUTPUT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;output&quot;</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span>
+<span class="c1"># Samples in each STL parameter direction; these do not control display quality.</span>
+<span class="n">QUALITY</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;preview&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">61</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">61</span><span class="p">),</span>
+    <span class="s2">&quot;print&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">181</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">181</span><span class="p">),</span>
+    <span class="s2">&quot;fine&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">361</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">361</span><span class="p">),</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">make_oloid</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">boundary_points</span><span class="o">=</span><span class="mi">181</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Two ruled NURBS patches with piecewise-linear sampled boundaries [mm].&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span> <span class="ow">or</span> <span class="n">radius</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;radius must be finite and positive&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">boundary_points</span><span class="p">,</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">))</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">boundary_points</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">))</span>
+        <span class="ow">or</span> <span class="n">boundary_points</span> <span class="o">&lt;</span> <span class="mi">5</span>
+        <span class="ow">or</span> <span class="n">boundary_points</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;boundary_points must be an odd integer of at least five&quot;</span><span class="p">)</span>
+    <span class="c1"># Equal-radius circles in perpendicular planes; centres one radius apart.</span>
+    <span class="c1"># Cluster samples near the ends and keep a symmetric grid for matching seams.</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">boundary_points</span><span class="p">))</span>
+    <span class="n">c</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">cos_phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">c</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">sin_phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cos_phi</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">cos_phi</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">sin_phi</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span>  <span class="c1"># exact common seam endpoints</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="n">nrb</span><span class="o">.</span><span class="n">NurbsCurve</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">nrb</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">radius</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">)],</span>
+        <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">patches</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sign</span> <span class="ow">in</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">second</span> <span class="o">=</span> <span class="n">nrb</span><span class="o">.</span><span class="n">NurbsCurve</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">nrb</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">radius</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">x</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sign</span> <span class="o">*</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">z</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cos_phi</span><span class="p">,</span> <span class="n">sin_phi</span><span class="p">)</span>
+            <span class="p">],</span>
+            <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nrb</span><span class="o">.</span><span class="n">NurbsSurfaceRuled</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">)</span><span class="o">.</span><span class="n">NurbsSurface</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">patches</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_demo</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="s2">&quot;print&quot;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write one closed STL and return its editable NURBS figure.&quot;&quot;&quot;</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">QUALITY</span><span class="p">[</span><span class="n">quality</span><span class="p">]</span>
+    <span class="n">patches</span> <span class="o">=</span> <span class="n">make_oloid</span><span class="p">(</span><span class="n">boundary_points</span><span class="o">=</span><span class="n">settings</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+    <span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;oloid_</span><span class="si">{</span><span class="n">quality</span><span class="si">}</span><span class="s2">.stl&quot;</span>
+    <span class="c1"># The exporter merges coincident seam vertices with its scale-relative default.</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">nu</span><span class="o">=</span><span class="n">settings</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nv</span><span class="o">=</span><span class="n">settings</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">require_closed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">nrb</span><span class="o">.</span><span class="n">export_stl</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">trimesh</span><span class="o">.</span><span class="n">load_mesh</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">mesh</span><span class="o">.</span><span class="n">is_watertight</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">mesh</span><span class="o">.</span><span class="n">is_volume</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s2">&quot;The reloaded STL must be a closed, consistently oriented volume&quot;</span>
+        <span class="p">)</span>
+    <span class="n">dimensions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">faces</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> triangles; </span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1024</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> KiB; &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;size </span><span class="si">{</span><span class="n">dimensions</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> mm; volume </span><span class="si">{</span><span class="n">mesh</span><span class="o">.</span><span class="n">volume</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> mm^3&quot;</span>
+    <span class="p">)</span>
+    <span class="n">figure</span> <span class="o">=</span> <span class="n">nrb</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span>
+        <span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Oloid patch 1&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Oloid: NURBS construction for STL export&quot;</span><span class="p">,</span>
+        <span class="n">display</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">control_points</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">control_polygon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">patch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">patches</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">start</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">figure</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Oloid patch </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="n">figure</span><span class="o">.</span><span class="n">edit</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;STL has no units: select millimetres in your slicer.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">figure</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">run_demo</span><span class="p">(</span><span class="n">OUTPUT</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="n">QUALITY_LEVEL</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--quality&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">QUALITY</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">QUALITY_LEVEL</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--output-dir&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">OUTPUT</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--no-show&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Export without opening the editor&quot;</span>
+    <span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">run_demo</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">quality</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">no_show</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="point_projection_surface.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Point projection onto a surface</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../api_reference.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-example">Run the example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometry-and-dimensions">Geometry and dimensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#every-tessellation-and-export-control">Every tessellation and export control</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-the-settings-explicitly">Choose the settings explicitly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seam-merging-is-different-from-mesh-accuracy">Seam merging is different from mesh accuracy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#presets-and-observed-mesh-sizes">Presets and observed mesh sizes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-into-a-slicer">Importing into a slicer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-scripts">Complete scripts</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

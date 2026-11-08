@@ -1,0 +1,825 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>nurbspy.visualization.figure module &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=2572fa48"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/nurbspy.visualization.figure';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/api/nurbspy.visualization.figure.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="nurbspy.visualization.figure_hosts module" href="nurbspy.visualization.figure_hosts.html" />
+    <link rel="prev" title="nurbspy.visualization.desktop module" href="nurbspy.visualization.desktop.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../theory/bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../theory/point_projection.html">Point projection onto curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="nurbspy.html">nurbspy package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="nurbspy.visualization.html">nurbspy.visualization package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../figures.html">Reproducible figures and PNG frames</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/edit/main/docs/source/api/nurbspy.visualization.figure.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2Fapi/nurbspy.visualization.figure.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/nurbspy.visualization.figure.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>nurbspy.visualization.figure module</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure"><code class="docutils literal notranslate"><span class="pre">Figure</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.add"><code class="docutils literal notranslate"><span class="pre">Figure.add()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.copy"><code class="docutils literal notranslate"><span class="pre">Figure.copy()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.edit"><code class="docutils literal notranslate"><span class="pre">Figure.edit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.fit"><code class="docutils literal notranslate"><span class="pre">Figure.fit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.from_state"><code class="docutils literal notranslate"><span class="pre">Figure.from_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.from_yaml"><code class="docutils literal notranslate"><span class="pre">Figure.from_yaml()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.geometry"><code class="docutils literal notranslate"><span class="pre">Figure.geometry()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.mesh"><code class="docutils literal notranslate"><span class="pre">Figure.mesh()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.names"><code class="docutils literal notranslate"><span class="pre">Figure.names</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.quality"><code class="docutils literal notranslate"><span class="pre">Figure.quality</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.remove"><code class="docutils literal notranslate"><span class="pre">Figure.remove()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.savefig"><code class="docutils literal notranslate"><span class="pre">Figure.savefig()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.saveframes"><code class="docutils literal notranslate"><span class="pre">Figure.saveframes()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.scatter"><code class="docutils literal notranslate"><span class="pre">Figure.scatter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.set_camera"><code class="docutils literal notranslate"><span class="pre">Figure.set_camera()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.settings"><code class="docutils literal notranslate"><span class="pre">Figure.settings()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.show"><code class="docutils literal notranslate"><span class="pre">Figure.show()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.to_html"><code class="docutils literal notranslate"><span class="pre">Figure.to_html()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.to_state"><code class="docutils literal notranslate"><span class="pre">Figure.to_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.to_yaml"><code class="docutils literal notranslate"><span class="pre">Figure.to_yaml()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.update"><code class="docutils literal notranslate"><span class="pre">Figure.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-nurbspy.visualization.figure">
+<span id="nurbspy-visualization-figure-module"></span><h1>nurbspy.visualization.figure module<a class="headerlink" href="#module-nurbspy.visualization.figure" title="Link to this heading">#</a></h1>
+<p>Reproducible figures using the shared native geometry model and Three.js viewport.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nurbspy.visualization.figure.</span></span><span class="sig-name descname"><span class="pre">Figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'geometry'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NURBS</span> <span class="pre">figure'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preview_resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preview_quality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'coarse'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">750</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#ffffff'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Named geometry snapshots, camera, display settings, and PNG export.</p>
+<p>Numerical geometry stays in the existing NumPy/JAX classes. This object
+coordinates the existing per-geometry model; no numerical evaluator or second
+renderer is introduced. Geometry inputs and returned snapshots are independent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>names</strong></dt><dd></dd>
+<dt><a class="reference internal" href="#nurbspy.visualization.figure.Figure.quality" title="nurbspy.visualization.figure.Figure.quality"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quality</span></code></a></dt><dd><p>Display preset of the active object, or the initial preset if empty.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.visualization.figure.Figure.add" title="nurbspy.visualization.figure.Figure.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add</span></code></a>(geometry, *, name[, display, visible])</p></td>
+<td><p>Add a named, independently styled copy of a curve or surface.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.visualization.figure.Figure.edit" title="nurbspy.visualization.figure.Figure.edit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">edit</span></code></a>(*[, width, height, preview_quality])</p></td>
+<td><p>Apply commits the figure and returns geometry (a name mapping for several objects).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.visualization.figure.Figure.fit" title="nurbspy.visualization.figure.Figure.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>()</p></td>
+<td><p>Request a fresh fit to all visible objects on the next render.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.visualization.figure.Figure.geometry" title="nurbspy.visualization.figure.Figure.geometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geometry</span></code></a>([name])</p></td>
+<td><p>Return an independent NumPy geometry; use update() to accept changes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.visualization.figure.Figure.mesh" title="nurbspy.visualization.figure.Figure.mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mesh</span></code></a>(vertices, triangles, *[, color, wireframe])</p></td>
+<td><p>Add a read-only triangle mesh, for example an STL reloaded from disk.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.visualization.figure.Figure.savefig" title="nurbspy.visualization.figure.Figure.savefig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">savefig</span></code></a>(destination, *[, width, height, timeout])</p></td>
+<td><p>Render a PNG without a visible window, with the saved framing and overlays.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.visualization.figure.Figure.saveframes" title="nurbspy.visualization.figure.Figure.saveframes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">saveframes</span></code></a>(frames, directory, *[, width, ...])</p></td>
+<td><p>Export an iterable of Figures as PNGs while reusing one browser.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.visualization.figure.Figure.scatter" title="nurbspy.visualization.figure.Figure.scatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scatter</span></code></a>(points, *[, color, size, depth_test])</p></td>
+<td><p>Add read-only sample markers, retained in YAML and PNG exports.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.visualization.figure.Figure.set_camera" title="nurbspy.visualization.figure.Figure.set_camera"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_camera</span></code></a>(**settings)</p></td>
+<td><p>Set camera fields; orientation is determined by position/target/up.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.visualization.figure.Figure.settings" title="nurbspy.visualization.figure.Figure.settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">settings</span></code></a>([name])</p></td>
+<td><p>Return an independent object's appearance/diagnostic settings.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.visualization.figure.Figure.show" title="nurbspy.visualization.figure.Figure.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>(*[, width, height, preview_quality])</p></td>
+<td><p>Open a blocking native viewer; retain camera and display changes on close.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.visualization.figure.Figure.to_html" title="nurbspy.visualization.figure.Figure.to_html"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_html</span></code></a>([destination, variants])</p></td>
+<td><p>Export a standalone, read-only interactive HTML without a Python server.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nurbspy.visualization.figure.Figure.to_state" title="nurbspy.visualization.figure.Figure.to_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_state</span></code></a>()</p></td>
+<td><p>Return a versioned, JSON-compatible, self-contained figure snapshot.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nurbspy.visualization.figure.Figure.update" title="nurbspy.visualization.figure.Figure.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code></a>([name, geometry, display, visible])</p></td>
+<td><p>Replace geometry or merge settings, suitable for scripted frame loops.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>copy</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>from_state</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>from_yaml</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>remove</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>to_yaml</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometry</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.add" title="Link to this definition">#</a></dt>
+<dd><p>Add a named, independently styled copy of a curve or surface.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.copy" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.edit">
+<span class="sig-name descname"><span class="pre">edit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">780</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preview_quality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.edit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.edit" title="Link to this definition">#</a></dt>
+<dd><p>Apply commits the figure and returns geometry (a name mapping for several objects).</p>
+<p>Cancel and the window close button leave this figure unchanged.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.fit" title="Link to this definition">#</a></dt>
+<dd><p>Request a fresh fit to all visible objects on the next render.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.from_state">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.from_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.from_state" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.from_yaml">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.from_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.from_yaml" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.geometry">
+<span class="sig-name descname"><span class="pre">geometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.geometry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.geometry" title="Link to this definition">#</a></dt>
+<dd><p>Return an independent NumPy geometry; use update() to accept changes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.mesh">
+<span class="sig-name descname"><span class="pre">mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">triangles</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#b9cbd6'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wireframe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.mesh" title="Link to this definition">#</a></dt>
+<dd><p>Add a read-only triangle mesh, for example an STL reloaded from disk.</p>
+<p>Vertices have shape (count, 3); triangles are integer vertex-index triples.
+The overlay is retained in YAML/HTML/PNG but is not editable NURBS geometry.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.names">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">names</span></span><a class="headerlink" href="#nurbspy.visualization.figure.Figure.names" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.quality">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quality</span></span><a class="headerlink" href="#nurbspy.visualization.figure.Figure.quality" title="Link to this definition">#</a></dt>
+<dd><p>Display preset of the active object, or the initial preset if empty.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.remove">
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.remove"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.remove" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.savefig">
+<span class="sig-name descname"><span class="pre">savefig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">destination</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.savefig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.savefig" title="Link to this definition">#</a></dt>
+<dd><p>Render a PNG without a visible window, with the saved framing and overlays.</p>
+<p>A different output aspect ratio adds background margins; it never refits
+the geometry. Requires a Playwright Chromium engine or installed Edge/Chrome.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.saveframes">
+<span class="sig-name descname"><span class="pre">saveframes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'frame'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.saveframes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.saveframes" title="Link to this definition">#</a></dt>
+<dd><p>Export an iterable of Figures as PNGs while reusing one browser.</p>
+<p>A generator can update and yield this same Figure on every iteration.
+Frames are rendered before the generator advances. <code class="docutils literal notranslate"><span class="pre">progress(index,</span>
+<span class="pre">path)</span></code> is called after each saved frame, with a one-based index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.scatter">
+<span class="sig-name descname"><span class="pre">scatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#263238'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.scatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.scatter" title="Link to this definition">#</a></dt>
+<dd><p>Add read-only sample markers, retained in YAML and PNG exports.</p>
+<p>Inputs have shape (dimension, count) or are a sequence of Point objects.
+Planar coordinates are promoted to z=0. Size is in logical pixels;
+depth_test=False makes markers an overlay visible above the surfaces.
+Markers are annotations, not editable NURBS geometry objects.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.set_camera">
+<span class="sig-name descname"><span class="pre">set_camera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.set_camera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.set_camera" title="Link to this definition">#</a></dt>
+<dd><p>Set camera fields; orientation is determined by position/target/up.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.settings">
+<span class="sig-name descname"><span class="pre">settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.settings" title="Link to this definition">#</a></dt>
+<dd><p>Return an independent object’s appearance/diagnostic settings.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">780</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preview_quality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.show" title="Link to this definition">#</a></dt>
+<dd><p>Open a blocking native viewer; retain camera and display changes on close.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.to_html">
+<span class="sig-name descname"><span class="pre">to_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.to_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.to_html" title="Link to this definition">#</a></dt>
+<dd><p>Export a standalone, read-only interactive HTML without a Python server.</p>
+<p>Optional <code class="docutils literal notranslate"><span class="pre">variants</span></code> maps labels to Figures. Switching variants retains
+camera and display choices. Geometry/scientific calculations are frozen
+at export; navigation, appearance and layer visibility remain interactive.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.to_state">
+<span class="sig-name descname"><span class="pre">to_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.to_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.to_state" title="Link to this definition">#</a></dt>
+<dd><p>Return a versioned, JSON-compatible, self-contained figure snapshot.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.to_yaml">
+<span class="sig-name descname"><span class="pre">to_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.to_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.to_yaml" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nurbspy.visualization.figure.Figure.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geometry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nurbspy/visualization/figure.html#Figure.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nurbspy.visualization.figure.Figure.update" title="Link to this definition">#</a></dt>
+<dd><p>Replace geometry or merge settings, suitable for scripted frame loops.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="nurbspy.visualization.desktop.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">nurbspy.visualization.desktop module</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nurbspy.visualization.figure_hosts.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">nurbspy.visualization.figure_hosts module</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure"><code class="docutils literal notranslate"><span class="pre">Figure</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.add"><code class="docutils literal notranslate"><span class="pre">Figure.add()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.copy"><code class="docutils literal notranslate"><span class="pre">Figure.copy()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.edit"><code class="docutils literal notranslate"><span class="pre">Figure.edit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.fit"><code class="docutils literal notranslate"><span class="pre">Figure.fit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.from_state"><code class="docutils literal notranslate"><span class="pre">Figure.from_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.from_yaml"><code class="docutils literal notranslate"><span class="pre">Figure.from_yaml()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.geometry"><code class="docutils literal notranslate"><span class="pre">Figure.geometry()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.mesh"><code class="docutils literal notranslate"><span class="pre">Figure.mesh()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.names"><code class="docutils literal notranslate"><span class="pre">Figure.names</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.quality"><code class="docutils literal notranslate"><span class="pre">Figure.quality</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.remove"><code class="docutils literal notranslate"><span class="pre">Figure.remove()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.savefig"><code class="docutils literal notranslate"><span class="pre">Figure.savefig()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.saveframes"><code class="docutils literal notranslate"><span class="pre">Figure.saveframes()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.scatter"><code class="docutils literal notranslate"><span class="pre">Figure.scatter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.set_camera"><code class="docutils literal notranslate"><span class="pre">Figure.set_camera()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.settings"><code class="docutils literal notranslate"><span class="pre">Figure.settings()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.show"><code class="docutils literal notranslate"><span class="pre">Figure.show()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.to_html"><code class="docutils literal notranslate"><span class="pre">Figure.to_html()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.to_state"><code class="docutils literal notranslate"><span class="pre">Figure.to_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.to_yaml"><code class="docutils literal notranslate"><span class="pre">Figure.to_yaml()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nurbspy.visualization.figure.Figure.update"><code class="docutils literal notranslate"><span class="pre">Figure.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

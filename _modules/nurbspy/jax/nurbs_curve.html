@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=9e8e7855"></script>
+    <script src="../../../_static/documentation_options.js?v=2572fa48"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -169,6 +169,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/curvature_continuity.html">Curvature continuity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_curve.html">Point projection onto a curve</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -200,11 +201,30 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../figures.html">Reproducible figures and PNG frames</a></li>
 </ul>
 
     </div>
@@ -352,7 +372,9 @@
                 <article class="bd-article">
                   
   <h1>Source code for nurbspy.jax.nurbs_curve</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_operator</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">.._control_points</span><span class="w"> </span><span class="kn">import</span> <span class="n">curve_control_points</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_operator</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
@@ -360,14 +382,14 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">optimistix</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optx</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">quadax</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qdx</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..serialization</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeometryYamlMixin</span> <span class="k">as</span> <span class="n">_GeometryYamlMixin</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.nurbs_basis_functions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">compute_basis_polynomials</span><span class="p">,</span>
     <span class="n">compute_all_basis_polynomials_derivatives</span><span class="p">,</span>
     <span class="n">_compute_basis_derivatives</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..graphics</span><span class="w"> </span><span class="kn">import</span> <span class="n">style_3d_axes</span><span class="p">,</span> <span class="n">close_3d_box</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">arclength</span> <span class="k">as</span> <span class="n">_arc</span>
 
 
@@ -640,12 +662,13 @@
 <span class="c1"># ----------------------------------------------------------- #</span>
 <div class="viewcode-block" id="NurbsCurve">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">NurbsCurve</span><span class="p">(</span><span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NurbsCurve</span><span class="p">(</span><span class="n">_GeometryYamlMixin</span><span class="p">,</span> <span class="n">eqx</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a NURBS (Non-Uniform Rational Basis Spline) curve object</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    control_points : ndarray with shape (ndim, n+1)</span>
+<span class="sd">    control_points : ndarray with shape (ndim, n+1) or sequence of Point</span>
+<span class="sd">        Numerical inputs remain coordinate-first; Point sequences are point-first.</span>
 <span class="sd">        Array containing the coordinates of the control points</span>
 <span class="sd">        The first dimension of `P` spans the coordinates of the control points (any number of dimensions)</span>
 <span class="sd">        The second dimension of `P` spans the u-direction control points (0,1,...,n)</span>
@@ -724,7 +747,7 @@
             <span class="k">return</span>
 
         <span class="c1"># Convert inputs to JAX arrays</span>
-        <span class="n">P</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">control_points</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">curve_control_points</span><span class="p">(</span><span class="n">control_points</span><span class="p">,</span> <span class="n">jnp</span><span class="p">)</span>
         <span class="n">W</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">degree</span>
         <span class="n">U</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">knots</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">knots</span><span class="p">)</span>
@@ -1391,9 +1414,24 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_points</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">max_iters</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
 
-    <span class="c1"># ---------------------------------------------------------------------------------------------------------------- #</span>
-    <span class="c1"># Define functions for plotting</span>
-    <span class="c1"># ---------------------------------------------------------------------------------------------------------------- #</span>
+
+
+<div class="viewcode-block" id="NurbsCurve.show">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.show">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inspect with the shared interactive viewer; use backend=matplotlib for static plots.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">show</span>
+        <span class="k">return</span> <span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NurbsCurve.edit">
+<a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.edit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">edit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Edit a host copy and return a new NumPy geometry on Apply, or None.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">edit</span>
+        <span class="k">return</span> <span class="n">edit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="NurbsCurve.plot">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
@@ -1407,122 +1445,47 @@
         <span class="n">ticks_off</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">rescale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a plot and return the figure and axes handles&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot host geometry through the shared NumPy plotting implementation.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">curve_plot</span>
 
-        <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-
-            <span class="c1"># One dimension (law of evolution)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-                <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$u$ parameter&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;NURBS curve value&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-                <span class="c1"># ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
-                <span class="c1"># ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
-                <span class="c1"># for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)</span>
-                <span class="c1"># for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)</span>
-                <span class="k">if</span> <span class="n">ticks_off</span><span class="p">:</span>
-                    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
-                    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
-                <span class="k">if</span> <span class="n">axis_off</span><span class="p">:</span>
-                    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-
-            <span class="c1"># Two dimensions (plane curve)</span>
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-                <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x$ axis&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y$ axis&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-                <span class="c1"># ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
-                <span class="c1"># ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
-                <span class="c1"># for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(12)</span>
-                <span class="c1"># for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(12)</span>
-                <span class="k">if</span> <span class="n">ticks_off</span><span class="p">:</span>
-                    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
-                    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
-                <span class="k">if</span> <span class="n">axis_off</span><span class="p">:</span>
-                    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-
-            <span class="c1"># Three dimensions (space curve)</span>
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-                <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
-                <span class="n">style_3d_axes</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">elev</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">azim</span><span class="o">=-</span><span class="mi">120</span><span class="p">,</span> <span class="n">pane_alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x$ axis&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y$ axis&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;$z$ axis&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-                <span class="c1"># ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
-                <span class="c1"># ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
-                <span class="c1"># ax_xy.zaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
-                <span class="c1"># for t in ax.xaxis.get_major_ticks(): t.label.set_fontsize(8)</span>
-                <span class="c1"># for t in ax.yaxis.get_major_ticks(): t.label.set_fontsize(8)</span>
-                <span class="c1"># for t in ax.zaxis.get_major_ticks(): t.label.set_fontsize(8)</span>
-                <span class="k">if</span> <span class="n">ticks_off</span><span class="p">:</span>
-                    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
-                    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
-                    <span class="n">ax</span><span class="o">.</span><span class="n">set_zticks</span><span class="p">([])</span>
-                <span class="k">if</span> <span class="n">axis_off</span><span class="p">:</span>
-                    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The number of dimensions must be 1, 2 or 3&quot;</span><span class="p">)</span>
-
-        <span class="c1"># Add objects to the plot</span>
-        <span class="k">if</span> <span class="n">curve</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">plot_curve</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">control_points</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">plot_control_points</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">frenet_serret</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">plot_frenet_serret</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
-
-        <span class="c1"># Set the scaling of the axes</span>
-        <span class="k">if</span> <span class="n">rescale</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">rescale_plot</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+        <span class="k">return</span> <span class="n">curve_plot</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">curve</span><span class="o">=</span><span class="n">curve</span><span class="p">,</span>
+            <span class="n">control_points</span><span class="o">=</span><span class="n">control_points</span><span class="p">,</span>
+            <span class="n">frenet_serret</span><span class="o">=</span><span class="n">frenet_serret</span><span class="p">,</span>
+            <span class="n">axis_off</span><span class="o">=</span><span class="n">axis_off</span><span class="p">,</span>
+            <span class="n">ticks_off</span><span class="o">=</span><span class="n">ticks_off</span><span class="p">,</span>
+            <span class="n">rescale</span><span class="o">=</span><span class="n">rescale</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NurbsCurve.plot_curve">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curve">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_curve</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">u1</span><span class="o">=</span><span class="mf">0.00</span><span class="p">,</span> <span class="n">u2</span><span class="o">=</span><span class="mf">1.00</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fig</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+        <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+        <span class="n">u1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">u2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the coordinates of the NURBS curve&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot sampled coordinates on host axes.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">curve_plot_curve</span>
 
-        <span class="c1"># One dimension (law of evolution)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="mi">501</span><span class="p">)</span>
-            <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-            <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-
-        <span class="c1"># Two dimensions (plane curve)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="mi">501</span><span class="p">)</span>
-            <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-            <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-
-        <span class="c1"># Three dimensions (space curve)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="mi">501</span><span class="p">)</span>
-            <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-            <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The number of dimensions must be 1, 2 or 3&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+        <span class="k">return</span> <span class="n">curve_plot_curve</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">u1</span><span class="o">=</span><span class="n">u1</span><span class="p">,</span>
+            <span class="n">u2</span><span class="o">=</span><span class="n">u2</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NurbsCurve.plot_control_points">
@@ -1532,268 +1495,104 @@
         <span class="n">fig</span><span class="p">,</span>
         <span class="n">ax</span><span class="p">,</span>
         <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span>
-        <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-.&quot;</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+        <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-.&#39;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
         <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-        <span class="n">markerstyle</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+        <span class="n">markerstyle</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the control points of the NURBS curve&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the control polygon on host axes.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">curve_plot_control_points</span>
 
-        <span class="c1"># One dimension (law of evolution)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">Px</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span>
-            <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">Px</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
-            <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">Px</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="n">markerstyle</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_markersize</span><span class="p">(</span><span class="n">markersize</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgecolor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_markerfacecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_zorder</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-            <span class="c1"># line.set_label(&#39; &#39;)</span>
-
-        <span class="c1"># Two dimensions (plane curve)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">Px</span><span class="p">,</span> <span class="n">Py</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span>
-            <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Px</span><span class="p">,</span> <span class="n">Py</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="n">markerstyle</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_markersize</span><span class="p">(</span><span class="n">markersize</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgecolor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_markerfacecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_zorder</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-            <span class="c1"># line.set_label(&#39; &#39;)</span>
-
-        <span class="c1"># Three dimensions (space curve)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="n">Px</span><span class="p">,</span> <span class="n">Py</span><span class="p">,</span> <span class="n">Pz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span>
-            <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Px</span><span class="p">,</span> <span class="n">Py</span><span class="p">,</span> <span class="n">Pz</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="n">markerstyle</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_markersize</span><span class="p">(</span><span class="n">markersize</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="n">linewidth</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgecolor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_markerfacecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">set_zorder</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-            <span class="c1"># line.set_label(&#39; &#39;)</span>
-
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The number of dimensions must be 2 or 3&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+        <span class="k">return</span> <span class="n">curve_plot_control_points</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">markersize</span><span class="o">=</span><span class="n">markersize</span><span class="p">,</span>
+            <span class="n">markerstyle</span><span class="o">=</span><span class="n">markerstyle</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NurbsCurve.plot_frenet_serret">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot_frenet_serret">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_frenet_serret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">frame_number</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">frame_scale</span><span class="o">=</span><span class="mf">0.10</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot some Frenet-Serret reference frames along the NURBS curve&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_frenet_serret</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fig</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">,</span>
+        <span class="n">frame_number</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">frame_scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot geometric reference frames on host axes.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">curve_plot_frenet_serret</span>
 
-        <span class="c1"># Compute the tangent, normal and binormal unitary vectors</span>
-        <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">frame_number</span><span class="p">)</span>
-        <span class="n">position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-        <span class="n">tangent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tangent</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-        <span class="n">normal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_normal</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-        <span class="n">binormal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_binormal</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-
-        <span class="c1"># Compute a length scale (fraction of the curve arc length)</span>
-        <span class="n">scale</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">frame_scale</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_arclength</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
-
-        <span class="c1"># Two dimensions (plane curve)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-
-            <span class="c1"># Plot the frames of reference</span>
-            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">frame_number</span><span class="p">):</span>
-
-                <span class="c1"># Plot the tangent vector</span>
-                <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">position</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
-                <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">tangent</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">7.5</span><span class="p">)</span>
-
-                <span class="c1"># Plot the normal vector</span>
-                <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">position</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
-                <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">normal</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">7.5</span><span class="p">)</span>
-
-            <span class="c1"># Plot the origin of the vectors</span>
-            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">position</span>
-            <span class="p">(</span><span class="n">points</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-            <span class="n">points</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-            <span class="n">points</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
-            <span class="n">points</span><span class="o">.</span><span class="n">set_markersize</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-            <span class="n">points</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="mf">1.25</span><span class="p">)</span>
-            <span class="n">points</span><span class="o">.</span><span class="n">set_markeredgecolor</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
-            <span class="n">points</span><span class="o">.</span><span class="n">set_markerfacecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
-            <span class="n">points</span><span class="o">.</span><span class="n">set_zorder</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-            <span class="c1"># points.set_label(&#39; &#39;)</span>
-
-        <span class="c1"># Three dimensions (space curve)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-
-            <span class="c1"># Plot the frames of reference</span>
-            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">frame_number</span><span class="p">):</span>
-
-                <span class="c1"># Plot the tangent vector</span>
-                <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">position</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
-                <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">tangent</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-                <span class="c1"># Plot the norma vector</span>
-                <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">position</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
-                <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">normal</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-                <span class="c1"># Plot the binormal vector</span>
-                <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">position</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
-                <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">binormal</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-            <span class="c1"># Plot the origin of the vectors</span>
-            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">position</span>
-            <span class="p">(</span><span class="n">points</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
-            <span class="n">points</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-            <span class="n">points</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
-            <span class="n">points</span><span class="o">.</span><span class="n">set_markersize</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-            <span class="n">points</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="mf">1.25</span><span class="p">)</span>
-            <span class="n">points</span><span class="o">.</span><span class="n">set_markeredgecolor</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
-            <span class="n">points</span><span class="o">.</span><span class="n">set_markerfacecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
-            <span class="n">points</span><span class="o">.</span><span class="n">set_zorder</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-            <span class="c1"># points.set_label(&#39; &#39;)</span>
-
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The number of dimensions must be 2 or 3&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+        <span class="k">return</span> <span class="n">curve_plot_frenet_serret</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">frame_number</span><span class="o">=</span><span class="n">frame_number</span><span class="p">,</span>
+            <span class="n">frame_scale</span><span class="o">=</span><span class="n">frame_scale</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NurbsCurve.rescale_plot">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.rescale_plot">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">rescale_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adjust the aspect ratio of the figure&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rescale_plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fig</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set equal spatial plot scales on the host.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">curve_rescale_plot</span>
 
-        <span class="c1"># Two dimensions (plane curve)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-
-            <span class="c1"># Set the aspect ratio of the data</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
-
-            <span class="c1"># Adjust pad</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-
-        <span class="c1"># Three dimensions (space curve)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-
-            <span class="c1"># Set axes aspect ratio</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">autoscale</span><span class="p">(</span><span class="n">enable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
-            <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
-            <span class="n">z_min</span><span class="p">,</span> <span class="n">z_max</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_zlim</span><span class="p">()</span>
-            <span class="n">x_mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_min</span> <span class="o">+</span> <span class="n">x_max</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-            <span class="n">y_mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_min</span> <span class="o">+</span> <span class="n">y_max</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-            <span class="n">z_mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">z_min</span> <span class="o">+</span> <span class="n">z_max</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-            <span class="c1"># L = jnp.max((x_max - x_min, y_max - y_min, z_max - z_min)) / 2</span>
-            <span class="n">L</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_max</span> <span class="o">-</span> <span class="n">x_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">-</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">z_max</span> <span class="o">-</span> <span class="n">z_min</span><span class="p">]))</span> <span class="o">/</span> <span class="mi">2</span>
-
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim3d</span><span class="p">(</span><span class="n">x_mid</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">x_mid</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim3d</span><span class="p">(</span><span class="n">y_mid</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">y_mid</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_zlim3d</span><span class="p">(</span><span class="n">z_mid</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">z_mid</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span>
-
-            <span class="c1"># Draw the full box outline now that the limits are final</span>
-            <span class="n">close_3d_box</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
-
-            <span class="c1"># Adjust pad</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">curve_rescale_plot</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NurbsCurve.plot_curvature">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot_curvature">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_curvature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_curvature</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+        <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot curvature over the parameter interval on the host.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">curve_plot_curvature</span>
 
-        <span class="c1"># Create the figure</span>
-        <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$u$ parameter&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Curvature&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-        <span class="c1"># ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
-        <span class="c1"># ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
-        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_major_ticks</span><span class="p">():</span>
-            <span class="n">t</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_major_ticks</span><span class="p">():</span>
-            <span class="n">t</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
-        <span class="c1"># ax_xy.set_xticks([])</span>
-        <span class="c1"># ax_xy.set_yticks([])</span>
-        <span class="c1"># ax_xy.axis(&#39;off&#39;)</span>
-
-        <span class="c1"># Plot the curvature distribution</span>
-        <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">501</span><span class="p">)</span>
-        <span class="n">curvature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_curvature</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-        <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">curvature</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mf">1.25</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_markersize</span><span class="p">(</span><span class="mf">3.5</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgecolor</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_markerfacecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
-
-        <span class="c1"># Adjust pad</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">w_pad</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">h_pad</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+        <span class="k">return</span> <span class="n">curve_plot_curvature</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NurbsCurve.plot_torsion">
 <a class="viewcode-back" href="../../../api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.plot_torsion">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_torsion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_torsion</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+        <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot torsion over the parameter interval on the host.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..visualization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">curve_plot_torsion</span>
 
-        <span class="c1"># Create the figure</span>
-        <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$u$ parameter&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Torsion&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-        <span class="c1"># ax_xy.xaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
-        <span class="c1"># ax_xy.yaxis.set_major_formatter(mpl.ticker.FormatStrFormatter(&#39;%.1f&#39;))</span>
-        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_major_ticks</span><span class="p">():</span>
-            <span class="n">t</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_major_ticks</span><span class="p">():</span>
-            <span class="n">t</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
-        <span class="c1"># ax_xy.set_xticks([])</span>
-        <span class="c1"># ax_xy.set_yticks([])</span>
-        <span class="c1"># ax_xy.axis(&#39;off&#39;)</span>
-
-        <span class="c1"># Plot the curvature distribution</span>
-        <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">501</span><span class="p">)</span>
-        <span class="n">torsion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_torsion</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-        <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">torsion</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mf">1.25</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="n">linestyle</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_marker</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_markersize</span><span class="p">(</span><span class="mf">3.5</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_markeredgecolor</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
-        <span class="n">line</span><span class="o">.</span><span class="n">set_markerfacecolor</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
-
-        <span class="c1"># Set the aspect ratio of the figure</span>
-        <span class="n">ratio</span> <span class="o">=</span> <span class="mf">1.00</span>
-        <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
-        <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span><span class="p">))</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">)</span>
-
-        <span class="c1"># Adjust pad</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">w_pad</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">h_pad</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+        <span class="k">return</span> <span class="n">curve_plot_torsion</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span>
+        <span class="p">)</span></div>
 </div>
 
 

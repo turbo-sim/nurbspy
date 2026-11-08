@@ -9,6 +9,9 @@ These pages are generated from the package's Python docstrings.
 | Curves and their differential geometry | {class}`nurbspy.numpy.nurbs_curve.NurbsCurve` |
 | Exact circular arcs | {class}`nurbspy.numpy.nurbs_curve_circular_arc.CircularArc` |
 | Tensor-product surfaces | {class}`nurbspy.numpy.nurbs_surface.NurbsSurface` |
+| Interactive geometry inspection/editing | [Visualization guide](visualization.md) |
+| Saved views, multiple geometries, PNG export and animation frames | [`nurbspy.Figure`](figures.md) |
+| In-memory external STL export | `nurbspy.export_stl_bytes` |
 | Extrusions | {class}`nurbspy.numpy.nurbs_surface_extruded.NurbsSurfaceExtruded` |
 | Repeated JAX curve evaluation | {func}`nurbspy.jax.prepared.prepare_curve` |
 | Repeated JAX surface evaluation | {func}`nurbspy.jax.prepared.prepare_surface` |

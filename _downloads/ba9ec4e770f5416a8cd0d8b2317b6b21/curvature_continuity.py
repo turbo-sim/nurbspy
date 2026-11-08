@@ -5,8 +5,12 @@ import nurbspy as nrb
 
 nrb.set_plot_options()
 
-PA = np.array([[-2., -1., -1., 0.],
-               [ 1.,  1.,  0., 0.]])
+PA = [
+    nrb.Point(-2.0, 1.0),
+    nrb.Point(-1.0, 1.0),
+    nrb.Point(-1.0, 0.0),
+    nrb.Point(0.0, 0.0),
+]
 left = nrb.NurbsCurve(control_points=PA)
 join = left.get_value(1.)[:, 0]
 d1 = left.get_derivative(1., 1)[:, 0]
@@ -14,11 +18,10 @@ d2 = left.get_derivative(1., 2)[:, 0]
 speed_ratio, mu = 0.6, 0.4
 
 # For cubic Bezier: C'(0)=3(P1-P0), C''(0)=6(P2-2P1+P0).
-PB = np.empty((2, 4))
-PB[:, 0] = join
-PB[:, 1] = join + speed_ratio * d1 / 3
-PB[:, 2] = (speed_ratio**2 * d2 + mu * d1) / 6 + 2 * PB[:, 1] - PB[:, 0]
-PB[:, 3] = [2., 1.]
+p0 = join
+p1 = join + speed_ratio * d1 / 3
+p2 = (speed_ratio**2 * d2 + mu * d1) / 6 + 2 * p1 - p0
+PB = [nrb.Point(*p0), nrb.Point(*p1), nrb.Point(*p2), nrb.Point(2., 1.)]
 right = nrb.NurbsCurve(control_points=PB)
 
 

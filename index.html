@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=9e8e7855"></script>
+    <script src="_static/documentation_options.js?v=2572fa48"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -173,6 +173,7 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/curvature_continuity.html">Curvature continuity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/point_projection_curve.html">Point projection onto a curve</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -204,11 +205,30 @@
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="figures.html">Reproducible figures and PNG frames</a></li>
 </ul>
 
     </div>
@@ -434,7 +454,7 @@
 <h1>Welcome to nurbspy!<a class="headerlink" href="#welcome-to-nurbspy" title="Link to this heading">#</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">nurbspy</span></code> is a Python package for working with Non-Uniform Rational B-Splines (NURBS), a mathematical representation of parametric curves and surfaces widely used in computer-aided design and engineering.</p>
 <p>The package provides a compact interface for constructing and manipulating <strong>Bézier, B-Spline, and NURBS curves and surfaces</strong> directly from control points, weights, and knot vectors. The resulting geometries are represented using NumPy arrays and can be readily integrated into scientific computing workflows.</p>
-<p>With <code class="docutils literal notranslate"><span class="pre">nurbspy</span></code>, you can evaluate curves and surfaces at arbitrary parameter values, compute analytical derivatives and geometric quantities such as tangents, normals, and curvature, project points onto parametric geometries, and visualize the results with Matplotlib. The emphasis is on exposing the underlying NURBS mathematics through a small and transparent Python API.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">nurbspy</span></code>, you can evaluate curves and surfaces at arbitrary parameter values, compute analytical derivatives and geometric quantities such as tangents, normals, and curvature, project points onto parametric geometries, and inspect or edit geometry in a shared interactive viewer, with Matplotlib retained for static and diagnostic plots. The emphasis is on exposing the underlying NURBS mathematics through a small and transparent Python API.</p>
 <p><code class="docutils literal notranslate"><span class="pre">nurbspy</span></code> is <strong>not a fully-featured CAD kernel</strong>. It does not provide trimming, Boolean operations, boundary-representation solid modeling, topology management, or STEP/IGES import and export. Applications requiring those capabilities are better served by a complete geometry kernel such as OpenCascade. The scope of <code class="docutils literal notranslate"><span class="pre">nurbspy</span></code> is intentionally narrower: <strong>representing, evaluating, and differentiating parametric curves and surfaces in Python</strong> while keeping the geometry directly accessible to numerical code.</p>
 <section id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h2>

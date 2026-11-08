@@ -1,0 +1,710 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Interactive geometry viewing and editing &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=2572fa48"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'visualization';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/visualization.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Reproducible figures and PNG frames" href="figures.html" />
+    <link rel="prev" title="Saving and loading geometry" href="geometry_io.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory/bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/point_projection.html">Point projection onto curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="figures.html">Reproducible figures and PNG frames</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/edit/main/docs/source/visualization.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2Fvisualization.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/visualization.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Interactive geometry viewing and editing</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#desktop">Desktop</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#embedded-in-a-research-application">Embedded in a research application</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#controls-and-appearance">Controls and appearance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostics-and-meshes">Diagnostics and meshes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#options-and-examples">Options and examples</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="interactive-geometry-viewing-and-editing">
+<h1>Interactive geometry viewing and editing<a class="headerlink" href="#interactive-geometry-viewing-and-editing" title="Link to this heading">#</a></h1>
+<p>Curves and surfaces share one interactive renderer, with optional editing.
+Numerical evaluation stays in Python; NumPy and JAX inputs use the same interface.
+The implementation is in <code class="docutils literal notranslate"><span class="pre">nurbspy.visualization</span></code>, with thin geometry methods.
+Main’s Point inputs, YAML exchange, and external mesh exporter are preserved.</p>
+<p>For persistent camera/display settings, multiple named geometries, PNG export,
+and scripted animation frames, see <a class="reference internal" href="figures.html"><span class="std std-doc">Reproducible figures</span></a>.</p>
+<section id="desktop">
+<h2>Desktop<a class="headerlink" href="#desktop" title="Link to this heading">#</a></h2>
+<p>Desktop visualization and Dash embedding are standard dependencies. From the checkout:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>For a release containing these changes, use <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">nurbspy</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">nurbspy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nrb</span>
+
+<span class="n">curve</span> <span class="o">=</span> <span class="n">nrb</span><span class="o">.</span><span class="n">NurbsCurve</span><span class="p">([</span>
+    <span class="n">nrb</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="n">nrb</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="n">nrb</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">])</span>
+<span class="n">curve</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">edited</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">edit</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">edited</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">edited</span><span class="o">.</span><span class="n">to_yaml</span><span class="p">(</span><span class="s2">&quot;edited_curve.yaml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">show()</span></code> opens a read-only native window and returns <code class="docutils literal notranslate"><span class="pre">None</span></code> on close. <code class="docutils literal notranslate"><span class="pre">edit()</span></code>
+returns a new NumPy geometry on Apply, or <code class="docutils literal notranslate"><span class="pre">None</span></code> on cancellation. Inputs remain
+unchanged, including JAX objects. Two-coordinate inputs are promoted to spatial
+geometry with zero Z at the visualization boundary. Accepted edits are outside
+JIT/autodiff; YAML can restore them through either numerical backend.</p>
+<p>The native window uses pywebview and a direct Python bridge. It starts no
+Flask/Dash app, local HTTP asset server, or external browser. Call it on the main
+thread; calls block until the window closes. Windows uses WebView2; other systems
+need their supported native webview runtime. Native UI was previously checked
+on Windows; macOS/Linux interactive behaviour is not claimed as verified here.</p>
+<p>Equivalent function-oriented entry points are available:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">nurbspy.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">show</span><span class="p">,</span> <span class="n">edit</span><span class="p">,</span> <span class="n">plot</span>
+<span class="n">show</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">view</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">edited</span> <span class="o">=</span> <span class="n">edit</span><span class="p">(</span><span class="n">curve</span><span class="p">)</span>
+<span class="n">figure</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">curve</span><span class="p">)</span>                 <span class="c1"># Optional static Matplotlib figure</span>
+<span class="n">show</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;matplotlib&quot;</span><span class="p">)</span>          <span class="c1"># Explicit static window</span>
+</pre></div>
+</div>
+<p>Interactive <code class="docutils literal notranslate"><span class="pre">show()</span></code> and <code class="docutils literal notranslate"><span class="pre">edit()</span></code> accept <code class="docutils literal notranslate"><span class="pre">quality=&quot;fine&quot;,</span> <span class="pre">preview_quality=&quot;full&quot;</span></code>
+to retain the fine display grid while dragging. The default <code class="docutils literal notranslate"><span class="pre">preview_quality=&quot;coarse&quot;</span></code>
+keeps the reduced drag preview for larger geometries. The option also applies to
+<code class="docutils literal notranslate"><span class="pre">Figure</span></code> and embedded <code class="docutils literal notranslate"><span class="pre">GeometryView</span></code>/<code class="docutils literal notranslate"><span class="pre">GeometryEditor</span></code> components; see
+<a class="reference internal" href="figures.html#automatic-display-quality"><span class="std std-ref">automatic display quality</span></a>.</p>
+<p>Existing <code class="docutils literal notranslate"><span class="pre">.plot()</span></code> signatures and diagnostic plots remain available. The primary
+interactive geometry examples use <code class="docutils literal notranslate"><span class="pre">.show()</span></code> and <code class="docutils literal notranslate"><span class="pre">.edit()</span></code>.</p>
+</section>
+<section id="embedded-in-a-research-application">
+<h2>Embedded in a research application<a class="headerlink" href="#embedded-in-a-research-application" title="Link to this heading">#</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">install</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dash</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dash</span><span class="p">,</span> <span class="n">html</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nurbspy.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeometryEditor</span>
+
+<span class="n">editor</span> <span class="o">=</span> <span class="n">GeometryEditor</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;blade&quot;</span><span class="p">)</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Dash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Main</span><span class="p">([</span><span class="n">editor</span><span class="o">.</span><span class="n">layout</span><span class="p">])</span>
+<span class="n">editor</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">GeometryView</span></code> for read-only inspection. It omits editing controls and edit
+endpoints while retaining display/diagnostic options. The host owns its app,
+server, layout, authentication, and analyses; the component starts no server.
+Register each unique ID once before serving requests. Application URL prefixes
+and multiple independent components are supported.</p>
+<p>Subscribe to <code class="docutils literal notranslate"><span class="pre">editor.state_id</span></code> in a Dash callback to consume full accepted models.
+<code class="docutils literal notranslate"><span class="pre">editor.geometry_from_state(state)</span></code> reconstructs a native NumPy geometry. Only
+committed full-quality updates publish state after the edit queue drains;
+transient previews do not trigger expensive host analysis. The examples omit
+application-specific readouts. Geometry save/load remains ordinary Python code.</p>
+</section>
+<section id="controls-and-appearance">
+<h2>Controls and appearance<a class="headerlink" href="#controls-and-appearance" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Solid colour by default: black curves, blue surfaces, orange control net/points,
+and a white background. Editors highlight the active point in green and enlarge
+it slightly; viewers keep all points in their normal colour and size, including
+after clicking a point. Display has two colour pickers in viewers
+and an additional selected-point colour picker in editors.</p></li>
+<li><p>The horizontal header contains the Navigation dropdown, Fit, Reset in editors,
+Display, and Edit in editors. It wraps in narrow containers.</p></li>
+<li><p>Display/Edit open the right inspector; clicking the active button, its close
+button, or Escape closes it. Switching panes preserves model/camera/settings.</p></li>
+<li><p>Inspector inputs share aligned label/control columns and consistent field
+widths. In narrow panes, numeric fields and dropdowns stack below their labels.</p></li>
+<li><p>Navigation hints, coordinate footers, and desktop explanatory messages are
+omitted in both modes. Error feedback and action buttons remain available.</p></li>
+<li><p>Navigation offers Arcball, Orbit, and Trackball. The ViewCube supplies face,
+edge, corner, orbit/roll, Home, and isometric orientations.</p></li>
+<li><p>3D, XY, YZ, and ZX are views of one spatial model. Planar views lock mouse
+motion to the selected plane and optionally show ticked axes.</p></li>
+<li><p>Grids render behind geometry. Orthographic points have white faces and coloured
+outlines; glossy spatial spheres match their apparent size through zoom/depth.</p></li>
+<li><p>Edit includes X coordinate, Y coordinate, Z coordinate, positive weight inputs,
+and axis/plane/Normal direction drag constraints. Press Enter or leave a field
+to commit. Reset restores the original coordinates/weights.</p></li>
+</ul>
+<p>Normal direction is available in 3D. Python evaluates the curve Frenet normal or
+surface normal at a Greville parameter associated with the point. The direction
+is fixed for each drag and refreshed afterward. Undefined normals are reported
+instead of guessed. Orthographic dragging preserves the hidden coordinate;
+numeric fields can explicitly change any coordinate.</p>
+</section>
+<section id="diagnostics-and-meshes">
+<h2>Diagnostics and meshes<a class="headerlink" href="#diagnostics-and-meshes" title="Link to this heading">#</a></h2>
+<p>Display offers curve curvature, torsion, cumulative arc length, parameter speed,
+and u; surfaces offer mean/Gaussian and principal curvatures, u, and v. Parameter
+speed is <span class="math notranslate nohighlight">\(\|dC/du\|\)</span>, not physical velocity. Colormaps include viridis, plasma,
+magma, inferno, cividis, coolwarm, and RdBu, with reversal, limits, and a colour bar.
+Undefined values are grey. Curve Frenet frames are opt-in.</p>
+<p>Mesh overlays are off by default. Select a mesh in Display to enable it.
+Display mesh shows rendering triangles. STL export mesh generates a processed
+export preview and enables Download STL. Both use main’s Trimesh/NetworkX export
+pipeline, including its validation. The old experimental writer is not required.
+The current edited model is exported. Samples along u/v are configurable;
+STL remains unitless and sampled. Open patches remain open. See
+<a class="reference internal" href="geometry_io.html"><span class="std std-doc">geometry I/O</span></a> for exporter limits and code-level save/load.</p>
+<p>Editing uses lower-detail previews and a full-quality update on release. Requests
+coalesce; stale results are ignored. Invalid edits roll back to accepted geometry.
+The GUI accepts real finite geometry and positive weights; numerical constructors
+retain their broader complex/arbitrary-dimensional support.</p>
+<p>Undo/redo, file dialogs, trimming, control-point insertion/deletion, and continuity
+constraints across several patches are outside this integration’s scope.</p>
+</section>
+<section id="options-and-examples">
+<h2>Options and examples<a class="headerlink" href="#options-and-examples" title="Link to this heading">#</a></h2>
+<p>Display quality defaults to <strong>Auto</strong>, with <strong>Fast</strong> and <strong>Fine</strong> alternatives in
+Display. Geometry-aware sampling is cached during interaction and reassessed on
+edit release. Numeric <code class="docutils literal notranslate"><span class="pre">resolution</span></code> remains an advanced fixed-sampling override.
+See <a class="reference internal" href="figures.html#automatic-display-quality"><span class="std std-ref">automatic display quality</span></a>.</p>
+<p>The complete current behaviour is available as
+<a class="reference download internal" download="" href="_downloads/cf68cf684b20863d03fe7d6a47ed2dcf/VIEWER_EDITOR_BEHAVIOR.md"><code class="xref download docutils literal notranslate"><span class="pre">the</span> <span class="pre">main</span> <span class="pre">behaviour</span> <span class="pre">specification</span></code></a>. Runnable demos
+are indexed in <a class="reference download internal" download="" href="_downloads/1bdef4bc915cad4cc48c3083372585d3/README.md"><code class="xref download docutils literal notranslate"><span class="pre">the</span> <span class="pre">demo</span> <span class="pre">index</span></code></a>. Every current
+script defines geometry/settings directly, without CLI arguments.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="geometry_io.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Saving and loading geometry</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="figures.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Reproducible figures and PNG frames</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#desktop">Desktop</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#embedded-in-a-research-application">Embedded in a research application</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#controls-and-appearance">Controls and appearance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostics-and-meshes">Diagnostics and meshes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#options-and-examples">Options and examples</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

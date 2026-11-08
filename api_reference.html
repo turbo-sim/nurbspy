@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=9e8e7855"></script>
+    <script src="_static/documentation_options.js?v=2572fa48"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
@@ -50,7 +50,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="nurbspy package" href="api/nurbspy.html" />
-    <link rel="prev" title="Point projection onto a surface" href="examples/point_projection_surface.html" />
+    <link rel="prev" title="Torus and oloid: from NURBS to a printable STL" href="examples/stl_printing.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -170,6 +170,7 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/curvature_continuity.html">Curvature continuity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/point_projection_curve.html">Point projection onto a curve</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -201,11 +202,30 @@
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="figures.html">Reproducible figures and PNG frames</a></li>
 </ul>
 
     </div>
@@ -442,19 +462,28 @@
 <tr class="row-even"><td><p>Tensor-product surfaces</p></td>
 <td><p><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface" title="nurbspy.numpy.nurbs_surface.NurbsSurface"><code class="xref py py-class docutils literal notranslate"><span class="pre">nurbspy.numpy.nurbs_surface.NurbsSurface</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Extrusions</p></td>
+<tr class="row-odd"><td><p>Interactive geometry inspection/editing</p></td>
+<td><p><a class="reference internal" href="visualization.html"><span class="std std-doc">Visualization guide</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Saved views, multiple geometries, PNG export and animation frames</p></td>
+<td><p><a class="reference internal" href="figures.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">nurbspy.Figure</span></code></span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>In-memory external STL export</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nurbspy.export_stl_bytes</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Extrusions</p></td>
 <td><p><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_extruded.html#nurbspy.numpy.nurbs_surface_extruded.NurbsSurfaceExtruded" title="nurbspy.numpy.nurbs_surface_extruded.NurbsSurfaceExtruded"><code class="xref py py-class docutils literal notranslate"><span class="pre">nurbspy.numpy.nurbs_surface_extruded.NurbsSurfaceExtruded</span></code></a></p></td>
 </tr>
-<tr class="row-even"><td><p>Repeated JAX curve evaluation</p></td>
+<tr class="row-odd"><td><p>Repeated JAX curve evaluation</p></td>
 <td><p><a class="reference internal" href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.prepare_curve" title="nurbspy.jax.prepared.prepare_curve"><code class="xref py py-func docutils literal notranslate"><span class="pre">nurbspy.jax.prepared.prepare_curve()</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Repeated JAX surface evaluation</p></td>
+<tr class="row-even"><td><p>Repeated JAX surface evaluation</p></td>
 <td><p><a class="reference internal" href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.prepare_surface" title="nurbspy.jax.prepared.prepare_surface"><code class="xref py py-func docutils literal notranslate"><span class="pre">nurbspy.jax.prepared.prepare_surface()</span></code></a></p></td>
 </tr>
-<tr class="row-even"><td><p>Repeated JAX arc-length evaluation</p></td>
+<tr class="row-odd"><td><p>Repeated JAX arc-length evaluation</p></td>
 <td><p><a class="reference internal" href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.prepare_arclength" title="nurbspy.jax.arclength.prepare_arclength"><code class="xref py py-func docutils literal notranslate"><span class="pre">nurbspy.jax.arclength.prepare_arclength()</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Repeated projection onto a fixed JAX surface</p></td>
+<tr class="row-even"><td><p>Repeated projection onto a fixed JAX surface</p></td>
 <td><p><a class="reference internal" href="api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.prepare_surface_projection" title="nurbspy.jax.prepared_projection.prepare_surface_projection"><code class="xref py py-func docutils literal notranslate"><span class="pre">nurbspy.jax.prepared_projection.prepare_surface_projection()</span></code></a></p></td>
 </tr>
 </tbody>
@@ -495,12 +524,12 @@ shapes and differentiation contracts are documented in the
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="examples/point_projection_surface.html"
+       href="examples/stl_printing.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Point projection onto a surface</p>
+        <p class="prev-next-title">Torus and oloid: from NURBS to a printable STL</p>
       </div>
     </a>
     <a class="right-next"
