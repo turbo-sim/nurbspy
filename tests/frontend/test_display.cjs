@@ -39,6 +39,7 @@ function check(name,test){test();checks++;console.log('PASS',name);}
     check('Surface boundaries follow the native tensor-product sampling order',()=>{
         assert.deepEqual(display.boundaryIndices(9),[[0,1,2],[6,7,8],[0,3,6],[2,5,8]]);
         assert.deepEqual(display.boundaryIndices(4),[[0,1],[2,3],[0,2],[1,3]]);
+        assert.deepEqual(display.boundaryIndices(6,[2,3]),[[0,1,2],[3,4,5],[0,3],[2,5]]);
         assert.throws(()=>display.boundaryIndices(8),/square/);
     });
     const context={console,THREE,...display,Float32Array};
