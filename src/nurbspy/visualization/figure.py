@@ -78,6 +78,7 @@ class Figure:
         self.camera = None
         self._objects = {}
         self._markers = []
+        self._meshes = []
         self.active = None
         if geometry is not None:
             self.add(geometry, name=name, display=display)
@@ -139,6 +140,27 @@ class Figure:
                                   size=float(size), depth_test=depth_test))
         return self
 
+    def mesh(self, vertices, triangles, *, color="#b9cbd6", wireframe=False):
+        """Add a read-only triangle mesh, for example an STL reloaded from disk.
+
+        Vertices have shape (count, 3); triangles are integer vertex-index triples.
+        The overlay is retained in YAML/HTML/PNG but is not editable NURBS geometry.
+        """
+        vertices, triangles = np.asarray(vertices), np.asarray(triangles)
+        if (vertices.ndim != 2 or vertices.shape[1] != 3 or not len(vertices)
+                or vertices.dtype.kind not in "iuf" or not np.isfinite(vertices).all()):
+            raise ValueError("Mesh vertices must be finite real coordinates with shape (count, 3)")
+        if (triangles.ndim != 2 or triangles.shape[1] != 3 or not len(triangles)
+                or triangles.dtype.kind not in "iu" or np.min(triangles) < 0 or np.max(triangles) >= len(vertices)):
+            raise ValueError("Mesh triangles must contain valid integer vertex-index triples")
+        if not isinstance(color, str) or not re.fullmatch(r"#[0-9a-fA-F]{6}", color):
+            raise ValueError("Mesh color must be a six-digit hex colour")
+        if type(wireframe) is not bool:
+            raise ValueError("Mesh wireframe must be a boolean")
+        self._meshes.append(dict(vertices=vertices.astype(float).tolist(), triangles=triangles.astype(int).tolist(),
+                                 color=color, wireframe=wireframe))
+        return self
+
     def settings(self, name=None):
         """Return an independent object's appearance/diagnostic settings."""
         return deepcopy(self._objects[self.active if name is None else name]["display"])
@@ -195,11 +217,13 @@ class Figure:
                              objects=self._objects))
         if self._markers:
             state["markers"] = deepcopy(self._markers)
+        if self._meshes:
+            state["meshes"] = deepcopy(self._meshes)
         return state
 
     @classmethod
     def from_state(cls, state):
-        if not isinstance(state, dict) or set(state)-{"markers"} != {"format", "version", "title", "resolution", "preview_resolution", "rendering", "camera", "active", "objects"}:
+        if not isinstance(state, dict) or set(state)-{"markers", "meshes"} != {"format", "version", "title", "resolution", "preview_resolution", "rendering", "camera", "active", "objects"}:
             raise ValueError("Expected a versioned nurbspy figure document")
         if state["format"] != "nurbspy-figure" or type(state["version"]) is not int or state["version"] != 1:
             raise ValueError("Unsupported figure format or version")
@@ -221,6 +245,13 @@ class Figure:
             if not isinstance(marker, dict) or set(marker) != {"points", "color", "size", "depth_test"}:
                 raise ValueError("Invalid scatter annotation")
             figure.scatter(**marker)
+        meshes = state.get("meshes", [])
+        if not isinstance(meshes, list):
+            raise ValueError("Figure meshes must be a list")
+        for mesh in meshes:
+            if not isinstance(mesh, dict) or set(mesh) != {"vertices", "triangles", "color", "wireframe"}:
+                raise ValueError("Invalid mesh annotation")
+            figure.mesh(**mesh)
         figure.active, figure.camera = state["active"], _camera(state["camera"])
         figure.to_state()
         return figure

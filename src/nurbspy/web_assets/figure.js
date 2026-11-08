@@ -78,6 +78,7 @@ export async function mountFigure(rootId,payload,options={}){
         const points=Object.entries(owners).filter(([name])=>state.objects[name].visible)
             .flatMap(([,owner])=>owner.handles.map(h=>h.position));
         for(const marker of state.markers||[])for(let i=0;i<marker.points[0].length;i++)points.push(new THREE.Vector3(...marker.points.map(axis=>axis[i])));
+        for(const mesh of state.meshes||[])for(const vertex of mesh.vertices)points.push(new THREE.Vector3(...vertex));
         return new THREE.Box3().setFromPoints(points.length?points:[new THREE.Vector3()]);
     }
     function beforeRender(){
@@ -141,7 +142,7 @@ export async function mountFigure(rootId,payload,options={}){
             history,historyKey:active,
         });
         owners[active]=core;
-        core.original=clone(originals[active]);
+        core.original=clone(originals[active]||payload.scenes[active].model);
         if(selections[active])core.setSelection(selections[active].indices,selections[active].active);
         for(const name of names().filter(n=>n!==active)){
             const hidden=document.createElement('div');hidden.hidden=true;root.append(hidden);
@@ -163,6 +164,17 @@ export async function mountFigure(rootId,payload,options={}){
             core.scene.add(points);
         }
         core.renderer.setClearColor(state.rendering.background,1);
+        for(const record of state.meshes||[]){
+            const geometry=new THREE.BufferGeometry();
+            geometry.setAttribute('position',new THREE.Float32BufferAttribute(record.vertices.flat(),3));
+            geometry.setIndex(record.triangles.flat());geometry.computeVertexNormals();
+            const mesh=new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({color:record.color,side:THREE.DoubleSide,roughness:.65,metalness:.02}));
+            core.scene.add(mesh);
+            if(record.wireframe){
+                const wire=new THREE.LineSegments(new THREE.WireframeGeometry(geometry),new THREE.LineBasicMaterial({color:'#4e6575',transparent:true,opacity:.3}));
+                core.scene.add(wire);
+            }
+        }
         core.viewport.style.background=state.rendering.background;
         const tools=root.querySelector('.nrb-camera-tools');
         const label=document.createElement('label');label.className='nrb-navigation';
@@ -233,6 +245,7 @@ export async function mountFigure(rootId,payload,options={}){
         const reusable=state.active===next.state.active &&
             JSON.stringify(names())===JSON.stringify(Object.keys(next.state.objects)) &&
             JSON.stringify(state.markers||[])===JSON.stringify(next.state.markers||[]) &&
+            JSON.stringify(state.meshes||[])===JSON.stringify(next.state.meshes||[]) &&
             names().every(name=>JSON.stringify(state.objects[name].display)===JSON.stringify(next.state.objects[name].display) &&
                 JSON.stringify(payload.scenes[name].topologies)===JSON.stringify(next.scenes[name].topologies) &&
                 JSON.stringify(payload.scenes[name].control_shape)===JSON.stringify(next.scenes[name].control_shape));
