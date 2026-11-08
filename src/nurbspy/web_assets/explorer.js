@@ -80,6 +80,8 @@ const css = `
 .nrb-web .nrb-planar-axes .nrb-axis-title{font:italic 13px system-ui,sans-serif}
 .nrb-web .nrb-footer{padding:8px 15px;display:flex;justify-content:flex-end;border-top:1px solid #e7edf0;font-size:11px;min-height:32px}
 .nrb-web .nrb-status{color:#597483;text-align:right}.nrb-web .nrb-status.nrb-error{color:#b23b32}
+.nrb-web .nrb-selection-tools{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.nrb-web .nrb-selection-box{position:absolute;z-index:5;pointer-events:none;border:1px dashed #0072bd;background:#0072bd18}
 .nrb-web.nrb-updating .nrb-status{color:#9c6a19}.nrb-web .nrb-failure{padding:25px;color:#9b342e}
 @keyframes nrb-panel-in{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:translateX(0)}}
 @media(prefers-reduced-motion:reduce){.nrb-web .nrb-config-panel{animation:none}}
@@ -157,6 +159,7 @@ export class Explorer {
         this.inFlight = null;
         this.sendTimer = null;
         this.selected = 0;
+        this.selectedIndices = new Set([0]);
         this.handles = [];
         this.drag = null;
         this.original = clone(initial.model);
@@ -191,7 +194,10 @@ export class Explorer {
         const fit=element('button',{type:'button',title:'Fit all control points in the view'},'Fit');
         cameraActions.append(this.navigationLabel,fit);
         if(!this.readOnly){
-            this.resetButton=element('button',{type:'button',title:'Restore the original control points and weights'},'Reset');cameraActions.append(this.resetButton);
+            this.undoButton=element('button',{type:'button',disabled:'','aria-label':'Undo geometry edit',title:'Undo (Ctrl/Command+Z)'},'Undo');
+            this.redoButton=element('button',{type:'button',disabled:'','aria-label':'Redo geometry edit',title:'Redo (Ctrl/Command+Shift+Z)'},'Redo');
+            this.resetButton=element('button',{type:'button',title:'Restore the original control points and weights'},'Reset');
+            cameraActions.append(this.undoButton,this.redoButton,this.resetButton);
         }
         const panelActions=element('div',{class:'nrb-panel-actions','aria-label':'Inspector panels'});
         cameraTools.append(cameraActions,panelActions);
@@ -231,6 +237,7 @@ export class Explorer {
         this.status=element('span',{class:'nrb-status',role:'status'});
         this.statusBar.append(this.status);this.root.replaceChildren(heading,workspace,this.statusBar);
         this.onInspectorKey=event=>{
+            if(this.editing?.keyDown(event))return;
             if(event.key!=='Escape'||!this.activePanel)return;
             event.preventDefault();event.stopPropagation();
             const panel=this.panels[this.activePanel];this.setPanelOpen(false,panel.kind);panel.toggle.focus();
@@ -244,6 +251,8 @@ export class Explorer {
         this.handleCheck.addEventListener('change',()=>{this.handles.forEach(handle=>handle.visible=this.handleCheck.checked);this.render();});
         fit.addEventListener('click',()=>this.fit());
         this.resetButton?.addEventListener('click',()=>this.editing.reset());
+        this.undoButton?.addEventListener('click',()=>this.editing.travel());
+        this.redoButton?.addEventListener('click',()=>this.editing.travel(true));
     }
 
     setPanelOpen(open,kind='display') {
@@ -474,7 +483,9 @@ export class Explorer {
         if (!data.error && acknowledged && flight.quality === 'full' && !newerLocal && !this.pending) {
             this.options.onChange?.(clone(data.model));
         }
+        if(acknowledged)this.editing?.acknowledge(data,flight);
         if (this.pending && !this.inFlight) this.flush();
+        this.editing?.updateHistory();
         this.options.onBusyChange?.(Boolean(this.pending || this.inFlight || this.drag));
     }
 
@@ -496,10 +507,20 @@ export class Explorer {
         return this.shape && this.shape.length === 2 ? `(${Math.floor(index / this.shape[1])}, ${index % this.shape[1]})` : String(index);
     }
 
-    select(index) {
-        this.selected = Math.min(Math.max(index, 0), this.handles.length - 1);
+    setSelection(indices,active=indices.at(-1)) {
+        this.selectedIndices=new Set(indices.filter(index=>Number.isInteger(index)&&index>=0&&index<this.handles.length));
+        this.selected=this.selectedIndices.has(active)?active:(this.selectedIndices.values().next().value??-1);
         this.root.dataset.selectedPoint = String(this.selected);
+        this.root.dataset.selectedPoints=JSON.stringify([...this.selectedIndices]);
         this.updateSelection(); this.render();
+    }
+
+    select(index,{toggle=false,preserve=false}={}) {
+        index=Math.min(Math.max(index,0),this.handles.length-1);
+        const indices=new Set(this.selectedIndices||[this.selected]);
+        if(toggle){if(indices.has(index))indices.delete(index);else indices.add(index);}
+        else if(!preserve||!indices.has(index)){indices.clear();indices.add(index);}
+        this.setSelection([...indices],index);
     }
 
     getWeight() {
@@ -508,11 +529,11 @@ export class Explorer {
     }
 
     updateSelection() {
-        if (!this.model || !this.handles[this.selected]) return;
+        if (!this.model) return;
         this.editing?.updateSelection();
         this.handles.forEach((handle, i) => {
             handle.visible=this.handleCheck?.checked??true;
-            const active=!this.readOnly && i===this.selected;
+            const active=!this.readOnly && (this.selectedIndices?.has(i)??i===this.selected);
             handle.material=active ? this.selectedMaterial : this.pointMaterial;
             if (handle.userData.outline) handle.userData.outline.material=active ? this.selectedOutlineMaterial : this.outlineMaterial;
         });
@@ -653,7 +674,7 @@ export class Explorer {
 
     pickControlPoint(event) {
         if(!this.handles?.length||this.setRay(event)===false)return null;
-        return this.raycaster.intersectObjects(this.handles,false)[0]?.object||null;
+        return this.raycaster.intersectObjects(this.handles.filter(h=>h.visible!==false),false)[0]?.object||null;
     }
 
     pointerDown(event) {
@@ -671,6 +692,8 @@ export class Explorer {
     enqueue(action, immediate = false, quality = 'full') {
         if (this.readOnly) return;
         this.pending = {action, quality, model: clone(this.model), generation: this.localGeneration};
+        this.pending.historyToken=this.editing?.history?.transaction?.token;
+        this.editing?.updateHistory();
         this.options.onBusyChange?.(true);
         this.setStatus('Updating in Python…'); this.root.classList?.add('nrb-updating');
         if (immediate) this.flush();
@@ -733,7 +756,7 @@ export class Explorer {
                 this.options?.beforeRender?.();
                 this.handles.forEach((handle,index)=>{
                     const radius=this.is2D?planarHandleRadius(this.camera,rectangle.height):spatialHandleRadius(this.camera,rectangle.height,handle.position);
-                    handle.scale.setScalar(radius*(!this.readOnly&&index===this.selected?1.15:1));
+                    handle.scale.setScalar(radius*(!this.readOnly&&(this.selectedIndices?.has(index)??index===this.selected)?1.15:1));
                 });
                 this.references?.updateTicks(this.camera,width,height,{enabled:framed&&Boolean(this.gridCheck?.checked),plane:this.viewMode,rectangle});
                 renderLayeredScene(this.renderer,this.referenceScene,this.scene,this.camera,width,height,framed||this.options?.aspect?rectangle:null);
@@ -751,6 +774,7 @@ export class Explorer {
         clearTimeout(this.sendTimer);
         if (this.renderFrame !== null) cancelAnimationFrame(this.renderFrame);
         this.controller?.abort();
+        this.editing?.destroy();
         this.scientific?.destroy();
         this.viewCube?.destroy();
         this.planarAxes?.destroy();

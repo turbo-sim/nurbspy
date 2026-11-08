@@ -2,6 +2,7 @@
 import * as THREE from './vendor/three.module.js';
 import {Explorer} from './explorer.js';
 import {planarHandleRadius,spatialHandleRadius} from './display.js';
+import {EditHistory} from './history.js';
 
 const clone=value=>JSON.parse(JSON.stringify(value));
 const mounted=new Map();
@@ -27,11 +28,21 @@ export async function mountFigure(rootId,payload,options={}){
     let state=clone(payload.state),owners=Object.create(null),core,selector,visibility,timer,disposed=false,lastPublished='';
     const originals=Object.fromEntries(Object.entries(payload.scenes).map(([name,scene])=>[name,clone(scene.model)]));
     let building=true;
+    const selections=Object.create(null);
+    const geometryBusy=()=>Object.values(owners).some(e=>e.pending||e.inFlight||e.drag||e.editing?.box||e.cameraAnimating);
+    const history=options.readOnly?null:new EditHistory({
+        busy:()=>building||geometryBusy(),
+        changed:()=>{core?.editing?.updateHistory();publish();},
+        restore:async(name,model,selection)=>{
+            if(state.active!==name)await activate(name);
+            await core.editing.restore(model,selection);
+        },
+    });
     const names=()=>Object.keys(state.objects);
-    const busy=()=>Object.values(owners).some(e=>e.pending||e.inFlight||e.drag||e.cameraAnimating);
+    const busy=()=>geometryBusy()||Boolean(history?.restoring);
     const diagnosticsBusy=()=>Object.values(owners).some(e=>e.scientific.running||e.scientific.pending);
-    function capture(){
-        if(busy())throw new Error('Wait for the current edit or camera animation to finish.');
+    function capture(ignoreHistory=false){
+        if(ignoreHistory?geometryBusy():busy())throw new Error('Wait for the current edit or camera animation to finish.');
         const result=clone(state);
         for(const [name,e] of Object.entries(owners)){
             result.objects[name].display=displayState(e);
@@ -106,6 +117,7 @@ export async function mountFigure(rootId,payload,options={}){
         core.resize();core.render();
     }
     function clear(){
+        for(const [name,e] of Object.entries(owners))if(e.editing)selections[name]=e.editing.selection();
         for(const [name,e] of Object.entries(owners)){
             if(e===core)continue;
             core.scene.remove(e.scene);e.removalObserver.disconnect();e.scientific.destroy();e.planarAxes.destroy();
@@ -126,9 +138,11 @@ export async function mountFigure(rootId,payload,options={}){
             readOnly:Boolean(options.readOnly),aspect:state.rendering.width/state.rendering.height,
             inspect:inspect(active),evaluate:options.evaluate?packet=>options.evaluate(active,packet):undefined,
             beforeRender,afterRender:publish,onBusyChange:publish,
+            history,historyKey:active,
         });
         owners[active]=core;
         core.original=clone(originals[active]);
+        if(selections[active])core.setSelection(selections[active].indices,selections[active].active);
         for(const name of names().filter(n=>n!==active)){
             const hidden=document.createElement('div');hidden.hidden=true;root.append(hidden);
             const owner=new Explorer(hidden,sceneFor(name),{readOnly:true,shared:core,inspect:inspect(name)});
@@ -170,18 +184,13 @@ export async function mountFigure(rootId,payload,options={}){
         });
         selector.addEventListener('change',async()=>{
             const selected=selector.value;
-            try{
-                await ready();state=capture();
-                for(const [name,e] of Object.entries(owners))payload.scenes[name].model=clone(e.acceptedModel);
-                // Re-evaluate accepted geometry through the host before rebuilding.
-                if(options.scenes)payload=await options.scenes(state);
-                state.active=selected;clear();build(state.camera);await ready();publish();
-            }catch(error){selector.value=active;core.setStatus(error.message,true);}
+            try{if(history?.locked){selector.value=state.active;return;}await activate(selected);}
+            catch(error){selector.value=state.active;core.setStatus(error.message,true);}
         });
         // A shared selector changes inspectors; it never fits or moves the camera.
         const box=bounds(),extent=Math.max(box.getSize(new THREE.Vector3()).length(),1e-6);
         core.references?.setBounds(box,extent,core.is2D?core.viewMode:false);
-        restoreCamera(saved);building=false;
+        restoreCamera(saved);building=false;core.editing?.updateHistory();
         let legendIndex=0;
         for(const [name,e] of Object.entries(owners)){
             e.scientific.legend.style.top=`${17+legendIndex*84}px`;
@@ -198,10 +207,16 @@ export async function mountFigure(rootId,payload,options={}){
             core.resize();
         }
     }
-    async function ready(){
+    async function activate(name){
+        await ready(true);state=capture(true);
+        for(const [key,e] of Object.entries(owners))payload.scenes[key].model=clone(e.acceptedModel);
+        if(options.scenes)payload=await options.scenes(state);
+        state.active=name;clear();build(state.camera);await ready(true);publish();
+    }
+    async function ready(ignoreHistory=false){
         for(let i=0;i<3600;i++){
             if(disposed)throw new Error('Figure has been disposed.');
-            if(!busy()&&!diagnosticsBusy()){
+            if(!(ignoreHistory?geometryBusy():busy())&&!diagnosticsBusy()){
                 const error=Object.values(owners).find(e=>e.scientific.lastError)?.scientific.lastError;
                 if(error)throw new Error(error);
                 core.render();await frame();await frame();return;
