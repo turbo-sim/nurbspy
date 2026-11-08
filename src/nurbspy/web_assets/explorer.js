@@ -78,7 +78,7 @@ const css = `
 .nrb-web .nrb-planar-axes path,.nrb-web .nrb-planar-axes rect{stroke:#4f5c66;stroke-width:1;fill:none}
 .nrb-web .nrb-planar-axes text{font:11px system-ui,sans-serif;fill:#36434c;stroke:none;font-variant-numeric:tabular-nums}
 .nrb-web .nrb-planar-axes .nrb-axis-title{font:italic 13px system-ui,sans-serif}
-.nrb-web .nrb-footer{padding:8px 15px;display:flex;justify-content:flex-end;border-top:1px solid #e7edf0;font-size:11px;min-height:32px}
+.nrb-web .nrb-footer{position:absolute;top:12px;left:12px;max-width:calc(100% - 24px);z-index:3;pointer-events:none;padding:5px 9px;background:#fffffff2;border:1px solid #e0e6eb;border-radius:5px;font-size:11px}
 .nrb-web .nrb-status{color:#597483;text-align:right}.nrb-web .nrb-status.nrb-error{color:#b23b32}
 .nrb-web .nrb-selection-tools{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
 .nrb-web .nrb-selection-box{position:absolute;z-index:5;pointer-events:none;border:1px dashed #0072bd;background:#0072bd18}
@@ -235,7 +235,9 @@ export class Explorer {
         this.scientific=new ScientificDisplay(this,this.configSections,initial);
         this.statusBar=element('div',{class:'nrb-footer',hidden:''});
         this.status=element('span',{class:'nrb-status',role:'status'});
-        this.statusBar.append(this.status);this.root.replaceChildren(heading,workspace,this.statusBar);
+        // Edit feedback must not resize the canvas or shift the drag coordinates.
+        this.statusBar.append(this.status);this.viewport.append(this.statusBar);
+        this.root.replaceChildren(heading,workspace);
         this.onInspectorKey=event=>{
             if(this.editing?.keyDown(event))return;
             if(event.key!=='Escape'||!this.activePanel)return;
@@ -631,7 +633,7 @@ export class Explorer {
             const half = this.orthoHalf || 3, aspect = rectangle.width / rectangle.height;
             this.camera.left = -half * aspect; this.camera.right = half * aspect;
             this.camera.top = half; this.camera.bottom = -half;
-        } else this.camera.aspect = width / height;
+        } else this.camera.aspect = rectangle.width / rectangle.height;
         this.camera.updateProjectionMatrix();
         this.controls.handleResize?.();
         if (this.navigation==='arcball' && !this.cameraAnimating) this.controls.setCamera(this.camera);
