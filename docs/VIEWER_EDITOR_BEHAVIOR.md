@@ -86,7 +86,7 @@ show(geometry, backend="matplotlib")
 - Browser sessions hold independent model state; there is no global mutable
   current geometry. The original Python input remains unchanged.
 - Read-only components omit the Edit button, Reset, edit store, edit callback, and
-  HTTP edit endpoint. Camera, display, diagnostics, and coordinate inspection remain.
+  HTTP edit endpoint. Camera, display, and diagnostics remain.
 - A Flask-only public mounting helper is not implemented. The current embedded
   adapter is Dash, using the host's Flask server.
 
@@ -112,23 +112,25 @@ show(geometry, backend="matplotlib")
 | Curve | Black, using wide-line rendering |
 | Surface | Blue, with lighting for solid rendering |
 | Control points and polygon/net | Orange |
-| Selected control point | Green |
+| Selected control point (editor only) | Green |
 | Background | White |
 | Reference grid | Visible, subdued, behind geometry |
 | Spatial projection/navigation | 3D perspective / Arcball |
 | Ticked axes | Off until enabled in an orthographic view |
 | Surface boundaries / control polygon | Visible |
-| Scalar field / Frenet frames / export mesh | Off in the base defaults |
+| Scalar field / Frenet frames / display mesh / export mesh | Off by default |
 
-The seven current demos start in solid colour. Some demos deliberately enable
-an orthographic projection, ticked axes, or display mesh to illustrate those
+The seven current demos start in solid colour with mesh overlays off. Some demos
+deliberately enable an orthographic projection or ticked axes to illustrate those
 features; these are script settings, not global defaults.
 
 - Orthographic handles are white-filled circles with coloured outlines. Their
   nominal radius is 4.5 CSS pixels; the outer ring extends to 1.08 times that.
 - Spatial handles are glossy spheres. Their apparent outer size matches the
   orthographic handles, using per-point camera depth, projection scale, and zoom.
-- Selected handles are 15 percent larger in both modes.
+- Selected handles in editors are 15 percent larger in both projections.
+- Viewers keep all handles in their normal colour and size, including on initial
+  load and after clicking a point.
 - Handle sizing is updated in the shared render path, not independently by fit,
   selection, and geometry-update handlers.
 - Handles render above the control polygon/net and geometry. The grid renders
@@ -150,11 +152,17 @@ wraps controls onto additional rows in narrow windows or embedded containers.
 - Only one pane is open at a time. Switching or closing panes preserves settings,
   geometry, selection, and camera orientation. Pane resizing does not fit the model.
 - Each inspector group can be collapsed independently; the pane scrolls if needed.
+- Both panes use shared label/control columns. Dropdowns and numeric fields fill
+  the same control width, including coordinates, weights, scientific limits,
+  frame settings, and mesh sampling. Colour pickers and checkboxes align with
+  that column. Narrow panes stack dropdowns and numeric fields below their labels.
 - Read-only mode has Display, but no Edit or Reset.
 - The Python/nurbspy badge, repeated Position paragraph, and application-analysis
   midpoint/weight-range readout have been removed.
-- Edit contains the controls without instructional paragraphs. Readiness,
-  validation errors, selected coordinates, and evaluation status use the status area.
+- Both modes omit navigation hints, point-coordinate footers, desktop explanatory
+  text, and idle evaluation messages. Coordinates remain available in Edit inputs.
+  The status area appears for progress, constraint readiness, and errors, then
+  disappears when cleared. Desktop action buttons and error feedback remain.
 
 ## 6. Navigation and projections
 
@@ -273,9 +281,9 @@ Surface mesh or Frenet–Serret frames.
 
 - View: projection, optional ticked axes, and reference grid.
 - Geometry: solid colour picker and optional surface boundary curves.
-- Control points: polygon/net visibility, shared point/polygon colour, and
-  independently configurable selected-point colour.
-- Restore default colours restores all three colour choices.
+- Control points: polygon/net visibility and shared point/polygon colour.
+  Editors also have an independently configurable selected-point colour.
+- Restore default colours restores the two viewer or three editor colour choices.
 - The control-polygon toggle hides net lines, not the point handles. An independent
   hide-handles option is not currently implemented.
 
@@ -340,8 +348,17 @@ The export contract is:
   or disconnected shells. The viewer must propagate these constraints honestly.
 
 The torus/oloid printing demonstration remains separate. The new shared viewport
-currently edits one curve or one surface; it is not a multi-patch assembly editor
-and does not enforce seam continuity between independent patches.
+can display several named geometries through `nurbspy.Figure` and edit one active
+object at a time. It does not enforce seam continuity between independent patches.
+
+`Figure` coordinates the existing per-geometry model and one shared Three.js
+camera/renderer. It stores a versioned geometry-and-display snapshot, captures
+interactive camera/settings, restores YAML views, and exports headless PNGs.
+The figure aspect ratio is fixed; changing output proportions adds margins.
+Python loops can change camera or geometry and save numbered frames. Desktop
+Apply commits the whole figure; Cancel leaves it unchanged. Embedded figures use
+per-browser Stores rather than shared mutable session state. See the
+[figure guide](source/figures.md) for the API and browser requirements.
 
 ## 10. Responsiveness, data integrity, and dependencies
 
@@ -356,7 +373,8 @@ and does not enforce seam continuity between independent patches.
 - Cached sampling locations and topology are present. This is not a claim that the
   full prepared-basis reuse described by main roadmap item 11 is implemented.
 - Disposal removes observers, listeners, requests, navigation controls, and GPU resources.
-- Optional extras are `desktop` (pywebview) and `web` (Dash). The older prototype `viewer` extra was not ported. Base numerical use should not require a GUI.
+- pywebview and Dash are standard dependencies for the primary visualization
+  interfaces. GUI frameworks remain lazily imported; numerical use starts no GUI.
 - Desktop assets are local/self-contained, with no CDN requirement. The bootstrap
   handles WebView2's HTML size limit and requires a modern engine with import maps
   and gzip `DecompressionStream`. Vendor licenses/manifest must ship with the wheel.

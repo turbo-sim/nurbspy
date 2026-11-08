@@ -31,6 +31,21 @@ const {pathToFileURL}=require('node:url');
         assert.equal(owner.pointMaterial.color.getHexString(),'ffffff');
         assert.equal(owner.selectedOutlineMaterial.color.getHexString(),'8544cc');
     });
+    check('Surface opacity survives solid/diagnostic material switches and restores depth writing',()=>{
+        const solid=new THREE.MeshStandardMaterial(),field=new THREE.MeshBasicMaterial(),fill=new THREE.MeshStandardMaterial();
+        const owner={geometryObject:{material:field},render(){}};
+        const display={owner,isSurface:true,solidMaterial:solid,colorMaterial:field,exportFill:{material:fill},
+            geometryColor:{value:'#0072bd'},controlColor:{value:'#ff7f0e'},quantity:{value:'u'},
+            field:{},opacity:{value:.25},legend:{}};
+        ScientificDisplay.prototype.applyColors.call(display);
+        for(const material of [solid,field,fill]){
+            assert.equal(material.opacity,.25);assert.equal(material.transparent,true);assert.equal(material.depthWrite,false);
+        }
+        display.opacity.value=1;display.quantity.value='solid';
+        ScientificDisplay.prototype.applyColors.call(display);
+        assert.equal(owner.geometryObject.material,solid);
+        for(const material of [solid,field,fill]){assert.equal(material.opacity,1);assert.equal(material.depthWrite,true);}
+    });
     const jobs=[],applied=[];
     const display=Object.create(ScientificDisplay.prototype);
     Object.assign(display,{alive:true,serial:1,running:false,pending:{revision:1,quality:'full'},

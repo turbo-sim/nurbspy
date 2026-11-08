@@ -15,6 +15,26 @@ class GeometryView(_GeometryModel):
 
     _editable = False
 
+    def __init__(self, geometry, **options):
+        from .figure import Figure
+        self._figure = geometry.copy() if isinstance(geometry, Figure) else None
+        if self._figure is not None:
+            figure = self._figure
+            for key in ('title', 'resolution', 'preview_resolution'):
+                if key in options:
+                    setattr(figure, key, options.pop(key))
+            if 'display' in options:
+                figure.update(display=options.pop('display'))
+            options.update(title=figure.title, resolution=figure.resolution,
+                           preview_resolution=figure.preview_resolution, display=figure.settings())
+            geometry = figure.geometry()
+        super().__init__(geometry, **options)
+
+    def figure_from_state(self, state):
+        """Restore a per-browser figure Store without mutating shared server state."""
+        from .figure import Figure
+        return Figure.from_state(state)
+
     @property
     def read_only(self):
         return not self._editable
@@ -22,11 +42,15 @@ class GeometryView(_GeometryModel):
     @property
     def layout(self):
         """Mount only stores/capabilities required by this component mode."""
+        if self._figure is not None:
+            from .figure_hosts import figure_layout
+            return figure_layout(self)
         try:
             from dash import dcc, html
         except ImportError as error:
             raise ImportError(
-                "Install Dash with: pip install 'nurbspy[web]'"
+                "Dash is required for application embedding. "
+                "Install nurbspy's dependencies with pip install nurbspy or poetry install."
             ) from error
         scene = deepcopy(self._initial_scene)
         if self.read_only:
@@ -47,6 +71,9 @@ class GeometryView(_GeometryModel):
 
     def register(self, app):
         """Attach the shared viewer and only the endpoints allowed by its mode."""
+        if self._figure is not None:
+            from .figure_hosts import register_figure
+            return register_figure(self, app)
         from dash import Input, Output, State
         from dash.exceptions import PreventUpdate
         from flask import Response, jsonify, request, send_from_directory

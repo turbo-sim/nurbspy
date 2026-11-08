@@ -30,6 +30,11 @@ Use the following command to install the default NumPy backend:
 pip install nurbspy
 ```
 
+The standard dependencies include pywebview for desktop visualization and Dash
+for embedding the shared interactive viewer in applications. Three.js assets are
+bundled with nurbspy. Opening a desktop window also requires the platform's native
+webview runtime, such as WebView2 on Windows.
+
 Numba is optional. To accelerate basis-function evaluation, install:
 
 ```bash

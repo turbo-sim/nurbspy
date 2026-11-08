@@ -56,4 +56,5 @@ examples/index
 api_reference
 geometry_io
 visualization
+figures
 ```

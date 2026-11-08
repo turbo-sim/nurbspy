@@ -1,4 +1,4 @@
-"""Optional desktop visualization and embeddable geometry editing.
+"""Desktop visualization and embeddable geometry editing.
 
 Importing this module does not import pywebview, Dash, or Flask. Frameworks are
 loaded only when opening a desktop window or requesting a Dash layout.
@@ -6,6 +6,7 @@ loaded only when opening a desktop window or requesting a Dash layout.
 
 from .dash import GeometryView, GeometryEditor
 from .desktop import edit
+from .figure import Figure
 
 
 def plot(geometry, *args, **kwargs):
@@ -30,4 +31,4 @@ def show(geometry, *, backend="interactive", **kwargs):
     raise ValueError("backend must be interactive or matplotlib")
 
 
-__all__ = ["GeometryView", "GeometryEditor", "edit", "show", "plot"]
+__all__ = ["Figure", "GeometryView", "GeometryEditor", "edit", "show", "plot"]

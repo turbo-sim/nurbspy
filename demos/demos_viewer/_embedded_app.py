@@ -1,9 +1,5 @@
 """Shared Dash application builder for the separate embedded geometry demos."""
 
-from pathlib import Path
-import sys
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 import numpy as np
 from dash import Dash, html
 from nurbspy.visualization import GeometryView, GeometryEditor

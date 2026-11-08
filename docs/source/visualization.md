@@ -5,15 +5,18 @@ Numerical evaluation stays in Python; NumPy and JAX inputs use the same interfac
 The implementation is in `nurbspy.visualization`, with thin geometry methods.
 Main's Point inputs, YAML exchange, and external mesh exporter are preserved.
 
+For persistent camera/display settings, multiple named geometries, PNG export,
+and scripted animation frames, see [Reproducible figures](figures.md).
+
 ## Desktop
 
-Install the optional desktop dependency from the checkout:
+Desktop visualization and Dash embedding are standard dependencies. From the checkout:
 
 ```powershell
-poetry install --extras desktop
+poetry install
 ```
 
-Or install an included release using `pip install "nurbspy[desktop]"`.
+For a release containing these changes, use `pip install nurbspy`.
 
 ```python
 import nurbspy as nrb
@@ -57,7 +60,7 @@ interactive geometry examples use `.show()` and `.edit()`.
 ## Embedded in a research application
 
 ```powershell
-poetry install --extras web
+poetry install
 ```
 
 ```python
@@ -88,11 +91,18 @@ application-specific readouts. Geometry save/load remains ordinary Python code.
 ## Controls and appearance
 
 - Solid colour by default: black curves, blue surfaces, orange control net/points,
-  green selection, and a white background. Display has three colour pickers.
+  and a white background. Editors highlight the active point in green and enlarge
+  it slightly; viewers keep all points in their normal colour and size, including
+  after clicking a point. Display has two colour pickers in viewers
+  and an additional selected-point colour picker in editors.
 - The horizontal header contains the Navigation dropdown, Fit, Reset in editors,
   Display, and Edit in editors. It wraps in narrow containers.
 - Display/Edit open the right inspector; clicking the active button, its close
   button, or Escape closes it. Switching panes preserves model/camera/settings.
+- Inspector inputs share aligned label/control columns and consistent field
+  widths. In narrow panes, numeric fields and dropdowns stack below their labels.
+- Navigation hints, coordinate footers, and desktop explanatory messages are
+  omitted in both modes. Error feedback and action buttons remain available.
 - Navigation offers Arcball, Orbit, and Trackball. The ViewCube supplies face,
   edge, corner, orbit/roll, Home, and isometric orientations.
 - 3D, XY, YZ, and ZX are views of one spatial model. Planar views lock mouse
@@ -117,6 +127,7 @@ speed is $\|dC/du\|$, not physical velocity. Colormaps include viridis, plasma,
 magma, inferno, cividis, coolwarm, and RdBu, with reversal, limits, and a colour bar.
 Undefined values are grey. Curve Frenet frames are opt-in.
 
+Mesh overlays are off by default. Select a mesh in Display to enable it.
 Display mesh shows rendering triangles. STL export mesh generates a processed
 export preview and enables Download STL. Both use main's Trimesh/NetworkX export
 pipeline, including its validation. The old experimental writer is not required.

@@ -17,6 +17,16 @@ export function fieldLimits(field,manual){
     return [low,high];
 }
 
+function applyOpacity(display){
+    const opacity=Number(display.opacity?.value??1);
+    for(const material of new Set([display.owner.geometryObject?.material,display.solidMaterial,display.colorMaterial,display.exportFill?.material])){
+        if(!material)continue;
+        material.opacity=opacity;
+        if(opacity<1&&!material.transparent){material.transparent=true;material.needsUpdate=true;}
+        if(display.isSurface)material.depthWrite=opacity>=1;
+    }
+}
+
 export function fieldColors(values,table,limits,reverse=false){
     const result=new Float32Array(values.length*3),color=new THREE.Color();
     values.forEach((value,index)=>{
@@ -51,15 +61,17 @@ export class ScientificDisplay {
         };
         const check=(label)=>{const control=node('input',{type:'checkbox','aria-label':label});return row(label,control);};
         this.geometryColor=row(this.isSurface?'Surface colour':'Curve colour',node('input',{type:'color','aria-label':'Geometry colour',value:this.isSurface?'#0072bd':'#000000'}));
+        this.opacity=number('Opacity',1,0,1,.05);
+        this.opacity.addEventListener('input',()=>this.applyColors());
         target=sections.controls;
         this.controlColor=row('Points & polygon colour',node('input',{type:'color','aria-label':'Points and polygon colour',value:'#ff7f0e'}));
-        this.selectedColor=row('Selected point colour',node('input',{type:'color','aria-label':'Selected point colour',value:'#2ca02c'}));
+        if(!owner.readOnly)this.selectedColor=row('Selected point colour',node('input',{type:'color','aria-label':'Selected point colour',value:'#2ca02c'}));
         this.geometryColor.addEventListener('input',()=>this.applyColors());
         this.controlColor.addEventListener('input',()=>this.applyColors());
-        this.selectedColor.addEventListener('input',()=>this.applyColors());
+        this.selectedColor?.addEventListener('input',()=>this.applyColors());
         const restore=node('button',{type:'button',class:'nrb-colour-reset'},'Restore default colours');panel.append(restore);
         restore.addEventListener('click',()=>{
-            this.geometryColor.value=this.isSurface?'#0072bd':'#000000';this.controlColor.value='#ff7f0e';this.selectedColor.value='#2ca02c';this.applyColors();
+            this.geometryColor.value=this.isSurface?'#0072bd':'#000000';this.controlColor.value='#ff7f0e';if(this.selectedColor)this.selectedColor.value='#2ca02c';this.applyColors();
         });
         target=sections.scientific;
         this.quantity=select('Quantity',[['solid','Solid colour'],...Object.entries(initial.fields||{})]);
@@ -102,10 +114,17 @@ export class ScientificDisplay {
         this.legend.append(this.legendTitle,this.gradient,range);owner.viewport.append(this.legend);
         this.frameLegend=node('div',{class:'nrb-frame-legend',hidden:''});owner.viewport.append(this.frameLegend);
         const settings=initial.display||{};
+        this.opacity.value=settings.opacity??1;
         for(const [key,input] of [['quantity',this.quantity],['colormap',this.map],['geometry_color',this.geometryColor],['control_color',this.controlColor],['selected_color',this.selectedColor],['mesh',this.meshMode],['mesh_u',this.nu],['mesh_v',this.nv],['frame_count',this.frameCount],['frame_scale',this.frameScale]]){
             if(input && settings[key]!==undefined)input.value=settings[key];
         }
         if(this.frames)this.frames.checked=Boolean(settings.frames);
+        this.reverse.checked=Boolean(settings.reverse);
+        this.auto.checked=!settings.limits;
+        if(settings.limits){this.minimum.value=settings.limits[0];this.maximum.value=settings.limits[1];}
+        owner.netCheck.checked=settings.control_polygon!==false;
+        if(owner.handleCheck)owner.handleCheck.checked=settings.control_points!==false;
+        if(owner.edgeCheck)owner.edgeCheck.checked=settings.boundary!==false;
         owner.axesCheck.checked=Boolean(settings.axes);owner.gridCheck.checked=settings.grid!==false;
         this.syncControls();
     }
@@ -128,7 +147,7 @@ export class ScientificDisplay {
     }
 
     applyColors(){
-        const e=this.owner,control=this.controlColor.value,selected=this.selectedColor.value;
+        const e=this.owner,control=this.controlColor.value,selected=this.selectedColor?.value||control;
         e.net?.material.color.set(control);
         if(e.is2D){e.outlineMaterial?.color.set(control);e.selectedOutlineMaterial?.color.set(selected);}
         else{e.pointMaterial?.color.set(control);e.selectedMaterial?.color.set(selected);e.selectedMaterial?.emissive.set(selected);}
@@ -143,6 +162,7 @@ export class ScientificDisplay {
             }
         }
         this.exportFill?.material.color.set(this.geometryColor.value);
+        applyOpacity(this);
         if(this.quantity.value==='solid' || this.meshMode?.value==='export')this.legend.hidden=true;
         e.render();
     }
@@ -155,6 +175,7 @@ export class ScientificDisplay {
 
     refresh(){
         if(!this.alive || !this.owner.geometryObject)return;
+        this.lastError=null;
         this.syncControls();
         const e=this.owner,exporting=this.meshMode?.value==='export',preview=e.displayQuality==='preview';
         if(preview)this.heldLimits=this.heldLimits||this.lastLimits;
@@ -200,6 +221,7 @@ export class ScientificDisplay {
             }else if(this.meshMode?.value==='display')notes.push(`${this.owner.topologies[this.owner.displayQuality].triangles.length.toLocaleString()} display triangles.`);
             this.note.textContent=notes.join(' ');this.owner.render();
         }catch(error){
+            this.lastError=error.message;
             if(this.alive&&request.revision===this.serial){this.note.textContent=error.message;this.field=null;this.legend.hidden=true;this.applyColors();}
         }finally{
             clearTimeout(timeout);this.running=false;if(this.pending)this.flush();
@@ -220,6 +242,7 @@ export class ScientificDisplay {
             else{attribute.array.set(rgb);attribute.needsUpdate=true;}
             if(!this.colorMaterial)this.colorMaterial=new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1});
             e.geometryObject.material=this.colorMaterial;
+            applyOpacity(this);
         }else{
             updateLineColors(geometry,rgb);e.geometryObject.material.color.set('#ffffff');
             e.geometryObject.material.vertexColors=true;e.geometryObject.material.needsUpdate=true;
@@ -268,6 +291,7 @@ export class ScientificDisplay {
         }
         geometry.computeVertexNormals();
         this.exportFill.visible=true;this.owner.geometryObject.visible=false;this.legend.hidden=true;
+        applyOpacity(this);
     }
 
     clearFrames(){

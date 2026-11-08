@@ -53,23 +53,21 @@ const css = `
 .nrb-web .nrb-workspace{display:flex;position:relative;flex:1;min-height:160px;min-width:0;--nrb-panel-width:min(310px,52%)}
 .nrb-web .nrb-canvas{position:relative;flex:1;min-width:0;min-height:160px;overflow:hidden;background:#fff}
 .nrb-web .nrb-renderer{position:absolute;inset:0;display:block;width:100%;height:100%;touch-action:none;outline:none;z-index:0}
-.nrb-web .nrb-hint{position:absolute;bottom:10px;left:14px;right:14px;pointer-events:none;color:#6b7d88;font-size:11px;line-height:1.5;z-index:2}
-.nrb-web.nrb-3d .nrb-hint{left:168px}
 .nrb-web .nrb-sidebar{flex:0 0 var(--nrb-panel-width);min-width:0;display:flex;flex-direction:column;border-left:1px solid #dde5eb;background:#fff;overflow:hidden}
 .nrb-web .nrb-panel-heading{display:flex;align-items:center;justify-content:space-between;padding:13px 16px 10px;border-bottom:1px solid #e7edf1}
 .nrb-web .nrb-panel-heading h4{font-size:14px;font-weight:650;margin:0}
 .nrb-web .nrb-panel-heading button{font-size:20px;line-height:1;min-height:26px;padding:1px 6px;border:0;color:#6b7d88}
-.nrb-web .nrb-config-panel{flex:1;overflow:auto;min-height:0;padding:0 16px 16px;scrollbar-width:thin;animation:nrb-panel-in .15s ease-out}
+.nrb-web .nrb-config-panel{flex:1;overflow:auto;min-height:0;padding:0 16px 16px;scrollbar-width:thin;scrollbar-gutter:stable;container-type:inline-size;animation:nrb-panel-in .15s ease-out}
 .nrb-web input.nrb-edit-weight-slider[type=range]{width:100%;margin:3px 0}
-.nrb-web .nrb-config-panel input.nrb-coordinate[type=number]{width:142px;max-width:65%;font-variant-numeric:tabular-nums}
 .nrb-web .nrb-config-group{border-bottom:1px solid #e6edf2}.nrb-web .nrb-config-group:last-of-type{border-bottom:0}
 .nrb-web .nrb-config-group>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;padding:13px 0;cursor:pointer;font-size:12px;font-weight:650;color:#314e61;user-select:none}
 .nrb-web .nrb-config-group>summary::-webkit-details-marker{display:none}.nrb-web .nrb-config-group>summary:after{content:'›';font-size:17px;font-weight:400;color:#8294a0}.nrb-web .nrb-config-group[open]>summary:after{transform:rotate(90deg)}
 .nrb-web .nrb-config-body{display:flex;flex-direction:column;gap:11px;padding:0 0 15px}
-.nrb-web .nrb-science-row{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px}
-.nrb-web .nrb-science-row select{max-width:155px;min-width:0;flex:1;font-size:12px}
+.nrb-web .nrb-science-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:center;gap:10px;min-height:30px;font-size:12px;overflow-wrap:anywhere}
+.nrb-web .nrb-science-row>select,.nrb-web .nrb-science-row>input[type=number]{width:100%;min-width:0;max-width:none;font:inherit}
+.nrb-web .nrb-science-row>input[type=number]{font-variant-numeric:tabular-nums}
+.nrb-web .nrb-science-row>input[type=checkbox]{justify-self:start;margin:0}
 .nrb-web .nrb-config-panel input[type=color]{width:34px;height:26px;padding:2px;border:1px solid #ccd7de;border-radius:5px;background:white;cursor:pointer;flex-shrink:0}
-.nrb-web .nrb-config-panel input[type=number]{width:66px;min-width:0;font-size:12px}
 .nrb-web input[type=checkbox]{accent-color:var(--nrb-accent)}
 .nrb-web .nrb-config-panel small,.nrb-web .nrb-science-note{font-size:11px;color:#71838e;line-height:1.5;white-space:normal}
 .nrb-web .nrb-science-note{display:block;margin-top:12px}.nrb-web .nrb-colour-reset{margin-top:12px;width:100%;font-size:12px}
@@ -80,12 +78,13 @@ const css = `
 .nrb-web .nrb-planar-axes path,.nrb-web .nrb-planar-axes rect{stroke:#4f5c66;stroke-width:1;fill:none}
 .nrb-web .nrb-planar-axes text{font:11px system-ui,sans-serif;fill:#36434c;stroke:none;font-variant-numeric:tabular-nums}
 .nrb-web .nrb-planar-axes .nrb-axis-title{font:italic 13px system-ui,sans-serif}
-.nrb-web .nrb-footer{padding:8px 15px;display:flex;justify-content:space-between;gap:12px;border-top:1px solid #e7edf0;font-size:11px;min-height:32px}
-.nrb-web .nrb-status{color:#597483;text-align:right}.nrb-web .nrb-status.nrb-error{color:#b23b32}.nrb-web .nrb-point{color:#465f6c;font-variant-numeric:tabular-nums}
+.nrb-web .nrb-footer{padding:8px 15px;display:flex;justify-content:flex-end;border-top:1px solid #e7edf0;font-size:11px;min-height:32px}
+.nrb-web .nrb-status{color:#597483;text-align:right}.nrb-web .nrb-status.nrb-error{color:#b23b32}
 .nrb-web.nrb-updating .nrb-status{color:#9c6a19}.nrb-web .nrb-failure{padding:25px;color:#9b342e}
 @keyframes nrb-panel-in{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:translateX(0)}}
 @media(prefers-reduced-motion:reduce){.nrb-web .nrb-config-panel{animation:none}}
-@media(max-width:650px){.nrb-web .nrb-heading{padding:10px;gap:8px}.nrb-web .nrb-hint{display:none}}
+@container(max-width:230px){.nrb-web .nrb-science-row:has(>select),.nrb-web .nrb-science-row:has(>input[type=number]){grid-template-columns:minmax(0,1fr);gap:5px}}
+@media(max-width:650px){.nrb-web .nrb-heading{padding:10px;gap:8px}}
 
 /* ViewCube styles adapted from turbo_moc; MIT attribution in viewcube.js. */
 .nrb-web .orientation-widget {position:absolute;bottom:10px;left:10px;width:144px;z-index:2;
@@ -140,7 +139,7 @@ function modelPoints(model, shape) {
     }));
 }
 
-class Explorer {
+export class Explorer {
     constructor(root, initial, options = {}) {
         this.root = root;
         this.options = options;
@@ -164,7 +163,7 @@ class Explorer {
         this.buildDOM(initial);
         this.buildScene(initial);
         this.apply(initial);
-        this.setViewMode(initial.display?.view || '3d');
+        if(!options.shared)this.setViewMode(initial.display?.view || '3d');
         this.removalObserver = new MutationObserver(() => {
             if (!root.isConnected) this.dispose();
         });
@@ -200,8 +199,6 @@ class Explorer {
 
         const workspace=element('div',{class:'nrb-workspace'});
         this.viewport=element('div',{class:'nrb-canvas'});
-        this.hint=element('div',{class:'nrb-hint'},'Drag background to rotate · scroll to zoom');
-        this.viewport.append(this.hint);
         this.panels={display:createInspector(this,'display','Display','display settings')};
         this.sidebar=this.panels.display.sidebar;this.configPanel=this.panels.display.body;
         this.displayToggle=this.panels.display.toggle;
@@ -222,6 +219,7 @@ class Explorer {
         this.configSections.view.append(element('small',{},'Ticks are available in the X–Y, Y–Z, and Z–X projections.'));
         if(initial.triangles?.length)this.edgeCheck=toggle(this.configSections.geometry,'Boundary curves',true);
         this.netCheck=toggle(this.configSections.controls,'Control polygon',true);
+        this.handleCheck=toggle(this.configSections.controls,'Control points',true);
         workspace.append(this.viewport,this.sidebar);panelActions.append(this.displayToggle);
         if(!this.readOnly){
             this.editing=new EditingControls(this);this.panels.edit=this.editing.panel;
@@ -229,9 +227,9 @@ class Explorer {
         }
         this.planarAxes=createPlanarAxes(this.viewport);
         this.scientific=new ScientificDisplay(this,this.configSections,initial);
-        const footer=element('div',{class:'nrb-footer'});
-        this.pointInfo=element('span',{class:'nrb-point'});this.status=element('span',{class:'nrb-status',role:'status'},'Loading geometry…');
-        footer.append(this.pointInfo,this.status);this.root.replaceChildren(heading,workspace,footer);
+        this.statusBar=element('div',{class:'nrb-footer',hidden:''});
+        this.status=element('span',{class:'nrb-status',role:'status'});
+        this.statusBar.append(this.status);this.root.replaceChildren(heading,workspace,this.statusBar);
         this.onInspectorKey=event=>{
             if(event.key!=='Escape'||!this.activePanel)return;
             event.preventDefault();event.stopPropagation();
@@ -243,6 +241,7 @@ class Explorer {
         this.axesCheck.addEventListener('change',()=>{this.syncDisplay();this.resize();});
         this.edgeCheck?.addEventListener('change',()=>{this.surfaceEdges?.forEach(edge=>edge.visible=this.edgeCheck.checked);this.render();});
         this.netCheck.addEventListener('change',()=>{if(this.net)this.net.visible=this.netCheck.checked;this.render();});
+        this.handleCheck.addEventListener('change',()=>{this.handles.forEach(handle=>handle.visible=this.handleCheck.checked);this.render();});
         fit.addEventListener('click',()=>this.fit());
         this.resetButton?.addEventListener('click',()=>this.editing.reset());
     }
@@ -255,6 +254,13 @@ class Explorer {
     }
 
     buildScene(initial) {
+        if(this.options?.shared){
+            const shared=this.options.shared;
+            this.scene=new THREE.Group();this.camera=shared.camera;this.controls=shared.controls;
+            this.renderer=shared.renderer;this.is2D=shared.is2D;this.viewMode=shared.viewMode;
+            this.render=()=>shared.render();this.resize=()=>{};this.fit=()=>{};
+            this.setHandleStyle();return;
+        }
         this.scene = new THREE.Scene();
         this.referenceScene = new THREE.Scene();
         this.dimension=3;
@@ -371,15 +377,19 @@ class Explorer {
         }
         if(this.references) this.references.floor.visible=Boolean(this.gridCheck?.checked && !(this.is2D&&this.axesCheck?.checked));
         this.surfaceEdges?.forEach(edge=>{edge.material.depthTest=!this.is2D;});
-        if(this.hint){
-            this.hint.hidden=Boolean(this.is2D&&this.axesCheck?.checked);
-            this.hint.textContent=this.readOnly ? (this.is2D?'Scroll to zoom · right-drag to pan':'Drag background to rotate · scroll to zoom') : (this.is2D?'Drag an orange point · scroll to zoom · right-drag to pan':'Drag an orange point · drag background to orbit · scroll to zoom');
-        }
         if(this.viewCube?.host) this.viewCube.host.hidden=this.is2D;
     }
 
     plotRectangle(width=this.viewport.clientWidth,height=this.viewport.clientHeight) {
-        return this.is2D&&this.axesCheck?.checked ? planarFrame(width,height) : {left:0,top:0,bottom:0,width,height};
+        const rectangle=this.is2D&&this.axesCheck?.checked ? planarFrame(width,height) : {left:0,top:0,bottom:0,width,height};
+        const aspect=this.options?.aspect;
+        if(aspect){
+            const fittedWidth=Math.min(rectangle.width,rectangle.height*aspect),fittedHeight=fittedWidth/aspect;
+            rectangle.left+=(rectangle.width-fittedWidth)/2;rectangle.top+=(rectangle.height-fittedHeight)/2;
+            rectangle.bottom+=(rectangle.height-fittedHeight)/2;
+            rectangle.width=fittedWidth;rectangle.height=fittedHeight;
+        }
+        return rectangle;
     }
 
     setNavigation(mode, {target, cancelCube=true} = {}) {
@@ -425,6 +435,7 @@ class Explorer {
     setStatus(message, error = false) {
         this.status.textContent = message;
         this.status.classList.toggle('nrb-error', error);
+        if(this.statusBar)this.statusBar.hidden=!message;
     }
 
     apply(data) {
@@ -448,10 +459,13 @@ class Explorer {
         }
         if (!data.error) this.updateGeometry(data);
         this.updateNet(data.control_lines);
+        // The first net is created after geometry colouring; apply its configured
+        // colour now too, so frame zero matches subsequent/restored frames.
+        this.scientific?.applyColors();
         if(data.error&&this.editing)this.editing.normalKey=null;
         this.updateSelection();
         const working = this.pending || this.inFlight || this.drag;
-        this.setStatus(data.error || (working ? 'Updating in Python…' : `Python evaluated · revision ${data.revision}`), Boolean(data.error));
+        this.setStatus(data.error || (working ? 'Updating in Python…' : ''), Boolean(data.error));
         this.root.classList?.toggle('nrb-updating',Boolean(working));
         if (first) {this.resize(); this.fit();}
         this.render();
@@ -496,11 +510,11 @@ class Explorer {
     updateSelection() {
         if (!this.model || !this.handles[this.selected]) return;
         this.editing?.updateSelection();
-        const coords = this.handles[this.selected].position.toArray().slice(0, this.model.control_points.length);
-        this.pointInfo.textContent = `P${this.pointLabel(this.selected)} = (${coords.map(x => Number(x.toFixed(4))).join(', ')})`;
         this.handles.forEach((handle, i) => {
-            handle.material=i===this.selected ? this.selectedMaterial : this.pointMaterial;
-            if (handle.userData.outline) handle.userData.outline.material=i===this.selected ? this.selectedOutlineMaterial : this.outlineMaterial;
+            handle.visible=this.handleCheck?.checked??true;
+            const active=!this.readOnly && i===this.selected;
+            handle.material=active ? this.selectedMaterial : this.pointMaterial;
+            if (handle.userData.outline) handle.userData.outline.material=active ? this.selectedOutlineMaterial : this.outlineMaterial;
         });
     }
 
@@ -606,7 +620,7 @@ class Explorer {
     fit() {
         if (!this.handles.length) return;
         this.viewCube?.cancel(false);
-        const box = new THREE.Box3().setFromPoints(this.handles.map(handle => handle.position));
+        const box = this.options?.bounds?.() || new THREE.Box3().setFromPoints(this.handles.map(handle => handle.position));
         const center = box.getCenter(new THREE.Vector3()), size = box.getSize(new THREE.Vector3());
         const extent = Math.max(size.length(), 1e-6);
         this.references?.setBounds(box,extent,this.is2D?this.viewMode:false);
@@ -716,14 +730,16 @@ class Explorer {
                 const framed=Boolean(this.is2D&&this.axesCheck?.checked);
                 const width=this.viewport.clientWidth,height=this.viewport.clientHeight,rectangle=this.plotRectangle(width,height);
                 this.camera.updateMatrixWorld();
+                this.options?.beforeRender?.();
                 this.handles.forEach((handle,index)=>{
                     const radius=this.is2D?planarHandleRadius(this.camera,rectangle.height):spatialHandleRadius(this.camera,rectangle.height,handle.position);
-                    handle.scale.setScalar(radius*(index===this.selected?1.15:1));
+                    handle.scale.setScalar(radius*(!this.readOnly&&index===this.selected?1.15:1));
                 });
-                this.references?.updateTicks(this.camera,width,height,{enabled:framed&&Boolean(this.gridCheck?.checked),plane:this.viewMode});
-                renderLayeredScene(this.renderer,this.referenceScene,this.scene,this.camera,width,height,framed?rectangle:null);
-                this.planarAxes?.update(this.camera,width,height,{enabled:framed,plane:this.viewMode});
+                this.references?.updateTicks(this.camera,width,height,{enabled:framed&&Boolean(this.gridCheck?.checked),plane:this.viewMode,rectangle});
+                renderLayeredScene(this.renderer,this.referenceScene,this.scene,this.camera,width,height,framed||this.options?.aspect?rectangle:null);
+                this.planarAxes?.update(this.camera,width,height,{enabled:framed,plane:this.viewMode,rectangle});
                 if(!this.is2D) this.viewCube?.update();
+                this.options?.afterRender?.();
             }
         });
     }

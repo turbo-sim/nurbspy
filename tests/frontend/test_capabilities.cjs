@@ -47,12 +47,16 @@ global.document={createElement:tag=>new Element(tag),getElementById:()=>null,hea
     const labels=core=>all(core.root).map(node=>node.attributes['aria-label']).filter(Boolean);
     const viewer=mount(true);
     assert.equal(viewer.editing,undefined);assert.deepEqual(Object.keys(viewer.panels),['display']);
-    for(const label of ['Selected control point','X coordinate','Y coordinate','Z coordinate','Drag constraint','Control point weight','Logarithmic weight slider'])assert.ok(!labels(viewer).includes(label));
+    for(const label of ['Selected control point','Selected point colour','X coordinate','Y coordinate','Z coordinate','Drag constraint','Control point weight','Logarithmic weight slider'])assert.ok(!labels(viewer).includes(label));
     assert.ok(!all(viewer.root).some(node=>node.textContent==='Reset'));
     console.log('PASS Viewer mode mounts display/navigation without edit controls or Reset');
     const editor=mount(false);
     assert.ok(editor.editing instanceof EditingControls);
-    for(const label of ['Selected control point','X coordinate','Y coordinate','Z coordinate','Drag constraint','Control point weight','Logarithmic weight slider'])assert.ok(labels(editor).includes(label));
+    for(const label of ['Selected control point','Selected point colour','X coordinate','Y coordinate','Z coordinate','Drag constraint','Control point weight','Logarithmic weight slider'])assert.ok(labels(editor).includes(label));
+    viewer.render=()=>{};viewer.scientific.applyColors();
+    viewer.scientific.controlColor.value='#8544cc';
+    all(viewer.root).find(node=>node.textContent==='Restore default colours').click();
+    assert.equal(viewer.scientific.controlColor.value,'#ff7f0e');
     for(const control of [editor.editing.pointSelect,editor.editing.weight,editor.editing.planeSelect])assert.ok(editor.panels.edit.sidebar.contains(control));
     for(const [axis,input] of editor.editing.coordinates.entries())assert.equal(input.parentElement.textContent,`${'XYZ'[axis]} coordinate`);
     assert.equal(editor.editing.planeSelect.children.find(node=>node.attributes.value==='normal').textContent,'Normal direction');

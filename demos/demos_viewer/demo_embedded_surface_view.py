@@ -1,9 +1,5 @@
 """Read-only embedded surface viewer, using the same core as the editor."""
 
-from pathlib import Path
-import sys
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 import numpy as np
 import nurbspy as nrb
 from _embedded_app import build_app

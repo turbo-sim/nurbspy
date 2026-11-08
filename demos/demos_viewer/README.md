@@ -5,7 +5,7 @@ All settings are readable values in the scripts, with no command-line options.
 The default appearance is solid colour; diagnostics are available in Display.
 
 ```powershell
-poetry install --extras desktop
+poetry install
 poetry run python demos/demos_viewer/demo_curve_view.py
 poetry run python demos/demos_viewer/demo_curve_edit.py
 poetry run python demos/demos_viewer/demo_surface_view.py
@@ -25,7 +25,7 @@ class's `from_yaml()` before viewing. Undo/redo and file dialogs are omitted.
 For host-owned Dash applications:
 
 ```powershell
-poetry install --extras web
+poetry install
 poetry run python demos/demos_viewer/demo_embedded_curve.py
 poetry run python demos/demos_viewer/demo_embedded_surface.py
 poetry run python demos/demos_viewer/demo_embedded_surface_view.py
@@ -37,6 +37,14 @@ support code, not another demo launcher. It selects `GeometryEditor` or read-onl
 is added. The host can subscribe to accepted model state for its own analysis.
 
 Display opens projections, colours, diagnostics, grids, frames, and mesh controls.
+
+For saved views and PNG output, run `demo_figure_save.py`. For a scripted sequence
+showing an oloid's generating line and smooth cubic ruled patches, run
+[`../oloid/demo_oloid_animation.py`](../oloid/demo_oloid_animation.py). It opens the
+visualizer, then exports synchronized overview, line-following and side-by-side
+PNG/GIF sequences when closed, with one-second pauses at each extreme.
+Both use `nurbspy.Figure`; see the
+[figure guide](../../docs/source/figures.md).
 Edit opens direct X/Y/Z coordinate fields, constrained dragging, and weights.
 Normal direction is fixed during a drag and refreshed afterward; it is available
 in 3D and may be undefined at singular/straight portions. The status line explains

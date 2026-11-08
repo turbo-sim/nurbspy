@@ -37,11 +37,12 @@ See the documentation for the [theory](https://turbo-sim.github.io/nurbspy/theor
 ## Interactive geometry viewing and editing
 
 The primary interactive geometry interface uses the shared `visualization/`
-renderer. Desktop windows start no web server. Install the optional desktop extra
-from this checkout, then run a curve or surface example:
+renderer. Desktop windows start no web server. Desktop visualization and Dash
+embedding are included in the standard dependencies. Install from this checkout,
+then run a curve or surface example:
 
 ```powershell
-poetry install --extras desktop
+poetry install
 poetry run python demos/demos_viewer/demo_curve_view.py
 poetry run python demos/demos_viewer/demo_curve_edit.py
 poetry run python demos/demos_viewer/demo_surface_view.py
@@ -65,11 +66,16 @@ and Reset. Original inputs are unchanged; Apply returns a new NumPy geometry,
 including for JAX inputs. YAML can restore that geometry through either backend.
 Undo/redo and file dialogs are deliberately omitted.
 
-For a host-owned Dash application, install `--extras web` and use
+For a host-owned Dash application, use
 `GeometryView` or `GeometryEditor`. See the [guide](docs/source/visualization.md)
 and [separate runnable examples](demos/demos_viewer/README.md). Existing
 `.plot()` methods retain their Matplotlib signatures; use `.show()`/`.edit()`
 for the new geometry experience or `show(backend="matplotlib")` explicitly.
+
+Use `nrb.Figure(geometry)` to retain camera and appearance settings, combine named
+geometries, save a self-contained YAML view, and export PNG files with the same
+Three.js renderer. Headless export and scripted frame generation are described
+in the [figure guide](docs/source/figures.md).
 
 ## Installation
 

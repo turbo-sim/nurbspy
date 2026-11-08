@@ -92,7 +92,7 @@ function nearVector(actual, expected) {
     const nativeThree={...THREE,WebGLRenderer:Renderer};
     const display=await import(pathToFileURL(path.join(assets,'display.js')).href);
     const {EditingControls}=await import(pathToFileURL(path.join(assets,'editing.js')).href);
-    const explorerContext={console,THREE:nativeThree,projectionPlanes:display.projectionPlanes,planarHandleRadius:display.planarHandleRadius,renderLayeredScene:display.renderLayeredScene,OrbitControls,TrackballControls,ArcballControls,
+    const explorerContext={console,THREE:nativeThree,projectionPlanes:display.projectionPlanes,planarHandleRadius:display.planarHandleRadius,spatialHandleRadius:display.spatialHandleRadius,renderLayeredScene:display.renderLayeredScene,OrbitControls,TrackballControls,ArcballControls,
         ResizeObserver:class {observe() {}},
         createViewCube:()=>({setHome(){},cancel(){this.cancelCount=(this.cancelCount||0)+1;}}),
         window:{devicePixelRatio:1}};
@@ -109,7 +109,7 @@ function nearVector(actual, expected) {
         e.shape=[2];e.model={control_points:[[0,1],[0,1],[0,0]],weights:[1,1]};
         e.handles=[new THREE.Mesh(e.pointGeometry,e.pointMaterial),new THREE.Mesh(e.pointGeometry,e.pointMaterial)];
         e.handles[0].position.set(0,0,0);e.handles[1].position.set(1,1,0);
-        e.pointInfo={};e.selected=0;
+        e.selected=0;
         e.editing=Object.create(EditingControls.prototype);e.editing.owner=e;
         e.editing.pointSelect={};e.editing.weight={};e.editing.weightSlider={};e.editing.position={};e.editing.planeSelect={};e.editing.constraintHint={};
         return e;
@@ -204,11 +204,38 @@ function nearVector(actual, expected) {
         assert.equal(e.model.control_points[2][0],2);
         assert.equal(e.model.control_points[0][0],1.5);assert.equal(e.model.control_points[1][0],-.5);
     });
-    check('Viewer point inspection changes selection without editing or capturing a drag',()=>{
+    check('Viewers keep normal point colours on load and inspection in every projection',()=>{
         const e=editor(),state=JSON.stringify(e.model);delete e.editing;e.readOnly=true;
         e.handles[1].userData.index=1;e.pickControlPoint=()=>e.handles[1];
-        e.pointerDown({button:0,preventDefault(){},stopImmediatePropagation(){}});
-        assert.equal(e.selected,1);assert.equal(e.drag,undefined);assert.equal(JSON.stringify(e.model),state);
+        for(const mode of ['3d','xy','yz','zx','3d']){
+            e.setViewMode(mode);e.select(0);
+            for(const handle of e.handles){
+                assert.equal(handle.material,e.pointMaterial);
+                if(handle.userData.outline)assert.equal(handle.userData.outline.material,e.outlineMaterial);
+            }
+            e.pointerDown({button:0,preventDefault(){},stopImmediatePropagation(){}});
+            assert.equal(e.selected,1);assert.equal(e.drag,undefined);assert.equal(JSON.stringify(e.model),state);
+            for(const handle of e.handles){
+                assert.equal(handle.material,e.pointMaterial);
+                if(handle.userData.outline)assert.equal(handle.userData.outline.material,e.outlineMaterial);
+            }
+        }
+    });
+    check('Only editors highlight and enlarge the active point in spatial and planar views',()=>{
+        let draw;
+        explorerContext.requestAnimationFrame=callback=>{draw=callback;return 1;};
+        explorerContext.renderLayeredScene=()=>{};
+        for(const readOnly of [false,true])for(const mode of ['3d','xy','yz','zx']){
+            const e=editor();e.readOnly=readOnly;if(readOnly)delete e.editing;
+            e.setViewMode(mode);e.select(1);e.renderFrame=null;e.viewCube=null;
+            Explorer.prototype.render.call(e);draw();
+            assert.equal(e.handles[1].material,readOnly?e.pointMaterial:e.selectedMaterial);
+            if(e.is2D)assert.equal(e.handles[1].userData.outline.material,readOnly?e.outlineMaterial:e.selectedOutlineMaterial);
+            e.handles.forEach((handle,index)=>{
+                const radius=e.is2D?display.planarHandleRadius(e.camera,450):display.spatialHandleRadius(e.camera,450,handle.position);
+                near(handle.scale.x/radius,!readOnly&&index===1?1.15:1);
+            });
+        }
     });
     console.log(`${checks} navigation checks passed`);
 })().catch(error=>{console.error(error);process.exitCode=1;});

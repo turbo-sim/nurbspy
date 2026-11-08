@@ -70,9 +70,9 @@ export function referenceLayers(initialPlanar=false) {
     const tickGrid=new THREE.LineSegments(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:'#c9d0d6',transparent:true,opacity:.65,depthWrite:false,depthTest:false}));
     tickGrid.frustumCulled=false;tickGrid.visible=false;
     let tickKey='';
-    return {floor,tickGrid,updateTicks(camera,width,height,{enabled,plane='xy'}){
+    return {floor,tickGrid,updateTicks(camera,width,height,{enabled,plane='xy',rectangle}){
         tickGrid.visible=enabled;if(!enabled)return;
-        const bounds=planarBounds(camera,width,height,plane);
+        const bounds=planarBounds(camera,width,height,plane,rectangle);
         const key=[width,height,plane,...bounds.low.toArray(),...bounds.high.toArray()].join(',');
         if(key===tickKey)return;tickKey=key;
         const {axes,xLow,xHigh,yLow,yHigh,xTicks,yTicks}=bounds,positions=[];
@@ -120,8 +120,8 @@ export const projectionPlanes=Object.freeze({
     zx:{horizontal:2,vertical:0,normal:1,labels:['z','x'],up:[1,0,0],direction:[0,1,0]},
 });
 
-export function planarBounds(camera,width,height,plane='xy') {
-    const frame=planarFrame(width,height),axes=projectionPlanes[plane];
+export function planarBounds(camera,width,height,plane='xy',rectangle=null) {
+    const frame=rectangle||planarFrame(width,height),axes=projectionPlanes[plane];
     const low=new THREE.Vector3(-1,-1,0).unproject(camera),high=new THREE.Vector3(1,1,0).unproject(camera);
     const xLow=low.getComponent(axes.horizontal),xHigh=high.getComponent(axes.horizontal);
     const yLow=low.getComponent(axes.vertical),yHigh=high.getComponent(axes.vertical);
@@ -163,11 +163,11 @@ export function createPlanarAxes(parent) {
     const host=make('svg',{'class':'nrb-planar-axes','aria-hidden':'true'});
     host.hidden=true;parent.append(host);
     let previous='';
-    return {host,update(camera,width,height,{enabled,grid,plane='xy'}){
+    return {host,update(camera,width,height,{enabled,grid,plane='xy',rectangle}){
         host.style.display=enabled?'block':'none';
         if(!enabled) return;
-        const {frame,axes,xLow,xHigh,yLow,yHigh,xTicks,yTicks}=planarBounds(camera,width,height,plane);
-        const key=[width,height,xLow,yLow,xHigh,yHigh,grid,plane].join(',');
+        const {frame,axes,xLow,xHigh,yLow,yHigh,xTicks,yTicks}=planarBounds(camera,width,height,plane,rectangle);
+        const key=[width,height,xLow,yLow,xHigh,yHigh,grid,plane,frame.left,frame.top,frame.width,frame.height].join(',');
         if(key===previous) return;
         previous=key;host.hidden=false;host.setAttribute('viewBox',`0 0 ${width} ${height}`);
         const {left,top}=frame, right=left+frame.width,bottom=top+frame.height;
@@ -184,8 +184,8 @@ export function createPlanarAxes(parent) {
             children.push(make('path',{d:`M${left},${y}h-5 M${right},${y}h-4`}),text(left-9,y+3.5,tickLabel(value),'end'));
         }
         children.push(make('rect',{x:left,y:top,width:frame.width,height:frame.height,fill:'none'}));
-        children.push(text(left+frame.width/2,height-7,axes.labels[0],'middle',{'class':'nrb-axis-title'}));
-        children.push(text(14,top+frame.height/2,axes.labels[1],'middle',{'class':'nrb-axis-title',transform:`rotate(-90 14 ${top+frame.height/2})`}));
+        children.push(text(left+frame.width/2,bottom+37,axes.labels[0],'middle',{'class':'nrb-axis-title'}));
+        children.push(text(left-40,top+frame.height/2,axes.labels[1],'middle',{'class':'nrb-axis-title',transform:`rotate(-90 ${left-40} ${top+frame.height/2})`}));
         host.replaceChildren(...children);
     },destroy(){host.remove();}};
 }

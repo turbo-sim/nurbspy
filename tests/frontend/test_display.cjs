@@ -98,6 +98,11 @@ function check(name,test){test();checks++;console.log('PASS',name);}
         camera.position.x=2;camera.zoom=2;camera.updateProjectionMatrix();camera.updateMatrixWorld(true);
         update();assert.notEqual(axes.host.children,first);assert.ok(xLabels().includes('0'));
         assert.ok(xLabels().includes('4'));assert.ok(!xLabels().includes('-4'));
+        const rectangle={left:140,top:30,bottom:60,width:520,height:360};
+        axes.update(camera,800,450,{enabled:true,plane:'xy',rectangle});
+        const border=axes.host.children.find(node=>node.tag==='rect');
+        assert.equal(border.attributes.x,140);assert.equal(border.attributes.y,30);
+        assert.equal(border.attributes.width,520);assert.equal(border.attributes.height,360);
         axes.update(camera,800,450,{enabled:false,grid:false});assert.equal(axes.host.style.display,'none');
         axes.destroy();assert.equal(axes.host.removed,true);
     });

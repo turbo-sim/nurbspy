@@ -46,6 +46,7 @@ def _module_map():
         "nurbspy/line-segments-geometry": "vendor/LineSegmentsGeometry.js",
         "nurbspy/line-material": "vendor/LineMaterial.js",
         "nurbspy/editor": "explorer.js",
+        "nurbspy/figure": "figure.js",
     }
     replacements = {
         "./three.core.js": "nurbspy/core",
@@ -59,6 +60,7 @@ def _module_map():
         "./science.js": "nurbspy/science",
         "./panels.js": "nurbspy/panels",
         "./editing.js": "nurbspy/editing",
+        "./explorer.js": "nurbspy/editor",
         "./vendor/Line2.js": "nurbspy/line",
         "./Line2.js": "nurbspy/line",
         "./LineSegments2.js": "nurbspy/line-segments",
@@ -101,13 +103,13 @@ def _window_html(model, *, read_only):
         + """</title><style>
 html,body{margin:0;height:100%;background:#ffffff;color:#203440;font:14px system-ui,sans-serif}
 body{display:flex;flex-direction:column;box-sizing:border-box;padding:16px;gap:12px}
-#geometry{min-height:0;flex:1;height:auto}.window-footer{display:flex;align-items:center;gap:10px}
-#message{flex:1;color:#536d79;font-size:12px}button{font:inherit;padding:9px 18px;border:1px solid #cbd7de;border-radius:7px;background:white;color:#294956;cursor:pointer}
+#geometry{min-height:0;flex:1;height:auto}.window-footer{display:flex;align-items:center;justify-content:flex-end;gap:10px}
+#message{flex:1;color:#536d79;font-size:12px}#message:empty{display:none}button{font:inherit;padding:9px 18px;border:1px solid #cbd7de;border-radius:7px;background:white;color:#294956;cursor:pointer}
 #apply{background:var(--nrb-accent,#0072BD);color:white;border-color:var(--nrb-accent,#0072BD)}button:disabled{opacity:.45;cursor:wait}
 button:focus-visible{outline:2px solid var(--nrb-accent,#0072BD);outline-offset:2px}#message.error{color:#a7342b}
 </style></head><body>
 <div id="geometry" role="region" aria-label="Geometry viewer"></div>
-<footer class="window-footer"><span id="message">Loading the Python geometry viewer…</span>
+<footer class="window-footer"><span id="message" role="alert"></span>
 <button id="cancel" type="button" disabled>"""
         + ("Close" if read_only else "Cancel")
         + """</button>
@@ -151,7 +153,7 @@ async function mount(){
         });
         if(result.error) throw new Error(result.error);
         apply.disabled=false;
-        message.textContent=readOnly ? 'View only · original geometry unchanged' : 'Edit points and weights, then Apply to return a new geometry. Cancel leaves the original unchanged.';
+        message.textContent='';
     }catch(error){fail(error);}
 }
 apply.addEventListener('click',async()=>{
@@ -265,38 +267,16 @@ def _open(
         raise ValueError(
             "Window width and height must be integers of at least 400 pixels"
         )
-    model = _GeometryModel(
-        geometry,
-        id="geometry",
-        title=title,
-        resolution=resolution,
-        preview_resolution=preview_resolution,
-        height="100%",
-        display=display,
-    )
-    try:
-        import webview
-    except ImportError as error:
-        raise ImportError(
-            "Install the desktop extra: pip install 'nurbspy[desktop]' "
-            "or poetry install --extras desktop"
-        ) from error
-    html = _window_html(model, read_only=read_only)
-    bridge = _DesktopBridge(model, read_only=read_only)
-    window = webview.create_window(
-        model.title,
-        html=html,
-        js_api=bridge,
-        width=width,
-        height=height,
-        min_size=(400, 400),
-    )
-    bridge._window = window
-    window.events.closed += bridge._on_closed
-    # Inline HTML and data-URL modules deliberately avoid pywebview's local-file
-    # asset server. The bridge is native IPC, not Flask/Dash/HTTP.
-    webview.start(http_server=False, private_mode=True)
-    return bridge._result
+    from .figure import Figure
+    from .figure_hosts import open_figure
+
+    if isinstance(geometry, Figure):
+        figure = geometry
+    else:
+        figure = Figure(geometry, title=title or "NURBS geometry",
+                        resolution=resolution, preview_resolution=preview_resolution,
+                        display=display)
+    return open_figure(figure, read_only=read_only, width=width, height=height)
 
 
 def show(geometry, **kwargs):

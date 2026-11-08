@@ -1,11 +1,5 @@
 """View a NURBS curve; all options are defined in this script."""
 
-from pathlib import Path
-import sys
-
-# Run this checkout directly, even if another nurbspy is installed.
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
-
 import numpy as np
 import nurbspy as nrb
 

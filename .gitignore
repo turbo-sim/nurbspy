@@ -58,3 +58,6 @@ coverage.xml
 cover/
 # Generated STL printing examples and comparison plots
 /output/stl_printing/
+/output/figures/
+/demos/demos_viewer/output/
+/output/figure_smoke.png

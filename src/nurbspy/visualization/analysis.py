@@ -35,12 +35,18 @@ def display_options(options, surface):
         geometry_color="#0072bd" if surface else "#000000",
         control_color="#ff7f0e",
         selected_color="#2ca02c",
+        opacity=1.0,
         mesh="off",
         mesh_u=40,
         mesh_v=40,
         frames=False,
         frame_count=8,
         frame_scale=0.1,
+        control_points=True,
+        control_polygon=True,
+        boundary=True,
+        reverse=False,
+        limits=None,
     )
     if options is not None:
         if not isinstance(options, dict) or set(options) - set(defaults):
@@ -55,9 +61,19 @@ def display_options(options, surface):
     for name, values in choices.items():
         if defaults[name] not in values:
             raise ValueError(f"Invalid display {name}")
-    for name in ("axes", "grid", "frames"):
+    for name in ("axes", "grid", "frames", "control_points", "control_polygon", "boundary", "reverse"):
         if not isinstance(defaults[name], bool):
             raise ValueError(f"Display {name} must be a boolean")
+    limits = defaults["limits"]
+    opacity = defaults["opacity"]
+    if isinstance(opacity, bool) or not isinstance(opacity, (int, float)) or not np.isfinite(opacity) or not 0 <= opacity <= 1:
+        raise ValueError("Display opacity must be between zero and one")
+    if limits is not None:
+        if (not isinstance(limits, (list, tuple)) or len(limits) != 2
+                or any(isinstance(x, bool) or not isinstance(x, (int, float)) or not np.isfinite(x) for x in limits)
+                or limits[0] >= limits[1]):
+            raise ValueError("Display limits must be two finite increasing numbers or None")
+        defaults["limits"] = list(limits)
     if surface and defaults["frames"]:
         raise ValueError("Frenet frames require a curve")
     for name in ("geometry_color", "control_color", "selected_color"):

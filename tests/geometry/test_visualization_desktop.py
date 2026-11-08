@@ -30,7 +30,7 @@ class Event:
 
 class Window:
     def __init__(self):
-        self.events = SimpleNamespace(closed=Event())
+        self.events = SimpleNamespace(closed=Event(), closing=Event())
         self.destroy_calls = 0
 
     def destroy(self):
@@ -113,7 +113,7 @@ def test_startup_is_self_contained_safe_and_below_webview2_size_limit(resolution
     configuration = json.loads(gzip.decompress(base64.b64decode(packed)))
     assert configuration["scene"]["title"] == title
     imports = configuration["modules"]["imports"]
-    assert len(imports) == 16
+    assert "nurbspy/figure" in imports and "nurbspy/editor" in imports
     for name, uri in imports.items():
         assert uri.startswith("data:text/javascript;base64,")
         source = base64.b64decode(uri.split(",", 1)[1]).decode("utf-8")
@@ -139,7 +139,7 @@ def install_fake_webview(monkeypatch, action):
 
 
 def test_blocking_desktop_entry_point_returns_only_after_accepted_close(monkeypatch):
-    created, window = install_fake_webview(monkeypatch, lambda bridge: bridge.accept(bridge._model.initial_state))
+    created, window = install_fake_webview(monkeypatch, lambda bridge: bridge.finish(bridge._figure.to_state(), True))
     original = curve()
     result = edit(original, width=900, height=600)
     assert result is not original
@@ -150,14 +150,14 @@ def test_blocking_desktop_entry_point_returns_only_after_accepted_close(monkeypa
 
 
 def test_show_is_read_only_and_returns_none(monkeypatch):
-    created, window = install_fake_webview(monkeypatch, lambda bridge: bridge.cancel())
+    created, window = install_fake_webview(monkeypatch, lambda bridge: bridge.finish(bridge._figure.to_state(), True))
     assert show(surface()) is None
     assert created["js_api"]._read_only and window.destroy_calls == 1
 
 
-def test_missing_optional_desktop_dependency_has_an_actionable_error(monkeypatch):
+def test_missing_desktop_dependency_has_an_actionable_error(monkeypatch):
     monkeypatch.setitem(sys.modules, "webview", None)
-    with pytest.raises(ImportError, match="desktop extra"):
+    with pytest.raises(ImportError, match="pywebview is required"):
         edit(curve())
 
 
@@ -177,7 +177,7 @@ def test_desktop_rejects_non_main_thread_before_starting_gui():
 
 
 @pytest.mark.parametrize("factory", [curve, surface])
-def test_geometry_methods_are_thin_optional_entry_points(monkeypatch, factory):
+def test_geometry_methods_are_thin_entry_points(monkeypatch, factory):
     import nurbspy.visualization as visualization
     original = factory()
     calls = []
@@ -211,9 +211,9 @@ assert GeometryEditor(curve,id='test',resolution=8).initial_state['type']=='Nurb
 try:
     curve.show()
 except ImportError as error:
-    assert 'desktop extra' in str(error)
+    assert 'pywebview is required' in str(error)
 else:
-    raise AssertionError('Expected optional desktop dependency error')
+    raise AssertionError('Expected missing desktop dependency error')
 print('base numerical imports remain independent')
 '''
     root = Path(__file__).resolve().parents[2]
