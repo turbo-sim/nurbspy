@@ -32,9 +32,17 @@ Representations, derivatives, lengths, frames, surface geometry and projection.
 
 :::{grid-item-card} Examples
 :link: examples/index
+gallery
 :link-type: doc
 
 Run complete scripts and compare their numerical and graphical outputs.
+:::
+
+:::{grid-item-card} Interactive gallery
+:link: gallery
+:link-type: doc
+
+Explore the curve and surface tutorials with interactive 3D figures.
 :::
 
 :::{grid-item-card} API reference

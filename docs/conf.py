@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 DOCS_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(DOCS_DIR))
 sys.path.insert(0, str(DOCS_DIR.parent / "src"))
 from nurbspy import __version__
 
@@ -27,7 +28,7 @@ docs_build_config = {
 extensions = [
     "sphinx.ext.autodoc", "sphinx.ext.autosummary", "sphinx.ext.viewcode",
     "sphinx.ext.mathjax", "numpydoc", "sphinxcontrib.bibtex", "myst_parser",
-    "sphinx_design",
+    "sphinx_design", "demo_gallery",
 ]
 source_suffix = {".rst": "restructuredtext", ".md": "myst"}
 root_doc = "index"
@@ -63,6 +64,7 @@ def setup(app):
 
 exclude_patterns = ["Thumbs.db", ".DS_Store"]
 html_theme = "sphinx_book_theme"
+html_static_path = [str(DOCS_DIR / "_static")]
 html_title = "nurbspy"
 html_baseurl = "https://turbo-sim.github.io/nurbspy/"
 html_theme_options = {

@@ -29,6 +29,9 @@ jobs:
     - name: Install dependencies (including dev)
       run: poetry install --with dev --extras jax
 
+    - name: Install browser for interactive gallery exports
+      run: poetry run python -m playwright install --with-deps chromium
+
     - name: Build Sphinx documentation
       run: |
         cd docs
