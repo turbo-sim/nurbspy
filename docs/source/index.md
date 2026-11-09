@@ -32,7 +32,6 @@ Representations, derivatives, lengths, frames, surface geometry and projection.
 
 :::{grid-item-card} Examples
 :link: examples/index
-gallery
 :link-type: doc
 
 Run complete scripts and compare their numerical and graphical outputs.
@@ -61,6 +60,7 @@ Browse the classes, constructors, and functions available in the package.
 getting_started/index
 theory/index
 examples/index
+gallery
 api_reference
 geometry_io
 visualization
