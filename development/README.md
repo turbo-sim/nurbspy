@@ -1,4 +1,4 @@
-# Numerical benchmarks
+# Numerical benchmarks and development studies
 
 - [NumPy / JAX comparison](jax_numpy_benchmark/report.html): broad backend
   parity checks, independent references, compilation/first-call/warm timings,
@@ -11,6 +11,9 @@
 - [Point projection](point_projection/report.md): production curve/surface
   sampled initialization and bounded refinement, with independent references
   and explicit numerical limitations.
+- [Surface fitting](surface_fitting/README.md): demonstrations progressing from
+  linear least squares to nonlinear rational-weight fitting, geometric
+  projection, and constrained optimization, using the existing geometry classes.
 
 Keep one documented benchmark per feature with measured data and source/
 environment fingerprints. Git history preserves previous implementations.

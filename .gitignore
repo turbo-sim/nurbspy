@@ -61,3 +61,4 @@ cover/
 /output/figures/
 /demos/**/output/
 /output/figure_smoke.png
+/development/surface_fitting/output/
