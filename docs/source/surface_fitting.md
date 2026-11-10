@@ -186,7 +186,9 @@ for arbitrary constraints.
 
 ```{eval-rst}
 .. autofunction:: nurbspy.fit_surface
+   :no-index:
 
 .. autoclass:: nurbspy.SurfaceFitResult
    :members:
+   :no-index:
 ```
