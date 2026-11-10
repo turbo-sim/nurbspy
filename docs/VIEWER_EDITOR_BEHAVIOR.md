@@ -3,7 +3,7 @@
 Ported from the reviewed experimental working tree on 7 November 2026.
 This is the current interface contract. The implementation preserves main's
 Point inputs, YAML serialization, numerical methods, and external STL pipeline.
-Undo/redo and viewer file dialogs are intentionally omitted. Save/load remain
+Editors provide session-local Undo/Redo; viewer file dialogs are omitted. Save/load remain
 ordinary Python methods. No GUI automation was used during this port.
 
 ## 1. Shared architecture
@@ -161,8 +161,9 @@ wraps controls onto additional rows in narrow windows or embedded containers.
   midpoint/weight-range readout have been removed.
 - Both modes omit navigation hints, point-coordinate footers, desktop explanatory
   text, and idle evaluation messages. Coordinates remain available in Edit inputs.
-  The status area appears for progress, constraint readiness, and errors, then
-  disappears when cleared. Desktop action buttons and error feedback remain.
+  Status feedback appears as an overlay for progress, constraint readiness, and
+  errors, then disappears when cleared. It never resizes the canvas or changes
+  camera framing during an edit. Desktop action buttons and error feedback remain.
 
 ## 6. Navigation and projections
 
@@ -191,6 +192,10 @@ projections of the same spatial model, not separate native 2D geometry renderers
   navigation choice is remembered. Full camera framing is not stored per projection.
 
 ### ViewCube
+
+The orientation cube is visible by default in 3D. Display > View > Orientation
+cube shows or hides it, and Figure state preserves the preference. Planar views
+hide the cube and disable the checkbox until a 3D projection is selected again.
 
 - Adapted from the turbomoc design, with six face, twelve edge, and eight corner
   orientation targets and a camera-linked orientation display.
@@ -257,14 +262,26 @@ is a unique geometric normal at the control point itself.
 - Weights are separate properties from control-point coordinates.
 - Reset restores the initial control points and weights and selects the first
   point. It does not reset the camera or display configuration.
-- Undo/redo is **not implemented**. Reset is not a substitute for undo history.
+- Undo/Redo restores coordinates and weights for completed drags, numeric edits,
+  weight-slider gestures, and Reset. Selection/camera/display changes add no step.
 
-Undo would restore the state before the last completed edit, for example moving
-a point back to its position before the last drag. Redo would apply that edit
-again. Conventional shortcuts are Ctrl+Z and Ctrl+Y (or Ctrl+Shift+Z). A whole
-drag should be one action, not a history entry per mouse event. This is distinct
-from Reset, which restores the complete starting geometry. It is optional for
-the first integration unless explicitly included in the implementation scope.
+One complete drag is one history step. Undo/Redo buttons and Ctrl+Z /
+Ctrl+Shift+Z (Command on macOS, with Ctrl+Y also supported) work in the focused
+editor, while inputs retain native text undo. History survives object switches,
+is independent per session, and is not serialized. It is bounded to 100 steps
+and approximately 16 MiB; a new committed edit clears Redo. Evaluations are
+serialized and only completed successful edits enter history.
+
+Shift-click toggles control points; Shift-left-drag adds a screen-space box
+selection. The Box select tool replaces the selection. Hidden handles are
+excluded; points behind a surface participate by their projected positions.
+All selected handles are green. Dragging any selected point translates the
+group using one displacement, preserving relative positions. Axis/plane
+constraints apply to the group; Normal uses the active point's frozen normal.
+The dropdown, coordinate inputs, and weight controls refer to the active point.
+A background click clears selection, while a background drag navigates.
+Shift-left-drag takes priority over navigation in editors. Escape cancels the
+current drag/rectangle before closing an inspector or native window.
 
 ### Native geometry saving and loading
 
@@ -310,6 +327,7 @@ orientation. Units are relative to the model's coordinate units.
   are held during a drag and refreshed at full quality.
 - Curve Frenet frames are opt-in, sampled at approximately equal arc-length spacing,
   with frame count and arrow scale controls. Undefined frames are omitted.
+  The coloured arrows are displayed without a T/N/B corner legend.
 
 ## 9. Mesh preview and STL
 
@@ -384,18 +402,18 @@ per-browser Stores rather than shared mutable session state. See the
 All settings and geometry are defined in readable scripts, without CLI arguments
 for the current examples.
 
-| Script in `demos/demos_viewer/` | Purpose |
+| Script in `demos/03_viewer/` | Purpose |
 | --- | --- |
-| `demo_curve_view.py` | Native read-only curve |
-| `demo_curve_edit.py` | Native curve editor; prints accepted coordinates/weights |
-| `demo_surface_view.py` | Native read-only surface |
-| `demo_surface_edit.py` | Native surface editor; prints accepted coordinates/weights |
-| `demo_embedded_curve.py` | Host-owned curve editor, port 8061 |
-| `demo_embedded_surface.py` | Host-owned surface editor, port 8062 |
-| `demo_embedded_surface_view.py` | Host-owned read-only surface, port 8063 |
+| `01_curve.py` | Native curve viewer/editor; prints accepted coordinates/weights |
+| `02_surface.py` | Native surface viewer/editor; prints accepted coordinates/weights |
+| `03_embedded.py` | Host-owned curve or surface viewer/editor, port 8061 |
 
-`_embedded_app.py` is support code, not a launcher. Duplicate desktop/combined
-embedded launchers were removed. Older Plotly curve/surface examples live in
+Each script exposes `EDITABLE` (`True` for editing, `False` for read-only viewing),
+and `DISPLAY` as global settings. Display quality defaults to Auto. The embedded demo also exposes
+`GEOMETRY` (`"curve"` or `"surface"`) and `PORT`.
+
+`03_embedded.py` contains its app builder at the top and both geometry
+definitions below. Older Plotly curve/surface examples live in
 the experimental checkout and were not ported. The existing main
 `demos/02_surfaces/21_stl_torus.py` and `22_stl_oloid.py` each export one
 construction using the external exporter, then open one editor with the grid.

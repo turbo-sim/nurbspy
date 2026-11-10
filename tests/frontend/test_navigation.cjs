@@ -237,5 +237,13 @@ function nearVector(actual, expected) {
             });
         }
     });
+    check('Multiple selected handles share highlighting and remain selected across projections',()=>{
+        const e=editor();e.setSelection([0,1],1);
+        for(const mode of ['3d','xy','yz','zx']){
+            e.setViewMode(mode);assert.equal(e.selected,1);assert.equal(e.selectedIndices.size,2);
+            for(const handle of e.handles)assert.equal(handle.material,e.selectedMaterial);
+        }
+        e.setSelection([]);for(const handle of e.handles)assert.equal(handle.material,e.pointMaterial);
+    });
     console.log(`${checks} navigation checks passed`);
 })().catch(error=>{console.error(error);process.exitCode=1;});

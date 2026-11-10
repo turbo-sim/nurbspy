@@ -11,11 +11,12 @@ If you also use JAX or Numba, include their extras in the install command.
 ## Desktop
 
 ```powershell
-poetry run python demos/demos_viewer/demo_curve_view.py
-poetry run python demos/demos_viewer/demo_surface_view.py
-poetry run python demos/demos_viewer/demo_curve_edit.py
-poetry run python demos/demos_viewer/demo_surface_edit.py
+poetry run python -m demos.03_viewer.01_curve
+poetry run python -m demos.03_viewer.02_surface
 ```
+
+Run each script with `EDITABLE = True` and `EDITABLE = False` to cover editor
+and read-only modes. Change the global `RESOLUTION` and `DISPLAY` settings as needed.
 
 - [ ] Windows open without launching a browser or server. View-only windows have no Edit or Reset.
 - [ ] Geometry starts in solid colour. Points/net are orange; editors highlight the selected point in green, while viewers retain its normal colour and size. Points remain a sensible, similar size in 3D and planar views while zooming.
@@ -27,17 +28,18 @@ poetry run python demos/demos_viewer/demo_surface_edit.py
 - [ ] In 3D, choose Normal direction, wait for readiness, and drag. The direction stays fixed during the drag and refreshes afterward. Undefined normals produce a useful message.
 - [ ] Try colour pickers, scalar quantities, colormaps, limits, and curve Frenet frames. Return to solid colour; the geometry and camera remain usable.
 - [ ] On a surface, try Display mesh and STL export mesh. Download an STL after editing and open it in your usual mesh viewer/slicer. Check shape, scale, and sampling; open patches need not be closed solids.
-- [ ] Reset restores the starting geometry. Apply returns edited coordinates/weights to the script; Cancel/window close returns no edited geometry. The original object stays unchanged. Undo/redo is intentionally absent.
+- [ ] Shift-click adds/removes points; Shift-drag adds a rectangle selection without moving the camera. Box select replaces the selection. Dragging a selected point translates the group with its relative positions intact. A background click clears selection, while background dragging navigates.
+- [ ] Coordinates and weight edit only the active point. Selection count and green highlights agree, including when selecting no points or using planar views.
+- [ ] Undo/Redo buttons and Ctrl+Z/Ctrl+Shift+Z (Command on macOS) reverse one completed drag, slider gesture, or numeric edit per step. Reset is undoable. A new edit after Undo clears Redo. History survives object switches; camera and selection changes do not add history. Input fields retain native text undo. Escape cancels a drag/rectangle before closing the pane.
+- [ ] Reset restores the starting geometry. Apply returns edited coordinates/weights to the script; Cancel/window close returns no edited geometry. The original object stays unchanged.
 
 ## Embedded applications
 
 ```powershell
-poetry run python demos/demos_viewer/demo_embedded_curve.py
-poetry run python demos/demos_viewer/demo_embedded_surface.py
-poetry run python demos/demos_viewer/demo_embedded_surface_view.py
+poetry run python -m demos.03_viewer.03_embedded
 ```
 
-- [ ] Open ports 8061, 8062, and 8063 respectively. Repeat the main navigation/display/edit checks; appearance matches desktop. Port 8063 is read-only.
+- [ ] Open port 8061 by default. Test both `GEOMETRY` settings (`"curve"`, `"surface"`) with both `EDITABLE` settings in this script. Repeat the main navigation/display/edit checks; appearance matches desktop. The global `PORT` selects the server port.
 - [ ] Separate tabs maintain independent geometry. Resize the page; the viewport and panes remain usable. No application-analysis readout appears.
 - [ ] Stop each server with Ctrl+C. Closing desktop windows ends their calls cleanly.
 

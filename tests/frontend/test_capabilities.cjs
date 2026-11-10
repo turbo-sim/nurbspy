@@ -48,7 +48,7 @@ global.document={createElement:tag=>new Element(tag),getElementById:()=>null,hea
     const viewer=mount(true);
     assert.equal(viewer.editing,undefined);assert.deepEqual(Object.keys(viewer.panels),['display']);
     for(const label of ['Selected control point','Selected point colour','X coordinate','Y coordinate','Z coordinate','Drag constraint','Control point weight','Logarithmic weight slider'])assert.ok(!labels(viewer).includes(label));
-    assert.ok(!all(viewer.root).some(node=>node.textContent==='Reset'));
+    assert.ok(!all(viewer.root).some(node=>['Reset','Undo','Redo','Box select'].includes(node.textContent)));
     console.log('PASS Viewer mode mounts display/navigation without edit controls or Reset');
     const editor=mount(false);
     assert.ok(editor.editing instanceof EditingControls);

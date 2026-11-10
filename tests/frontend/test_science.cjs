@@ -46,6 +46,16 @@ const {pathToFileURL}=require('node:url');
         assert.equal(owner.geometryObject.material,solid);
         for(const material of [solid,field,fill]){assert.equal(material.opacity,1);assert.equal(material.depthWrite,true);}
     });
+    check('Curve annotations can draw cleanly over surfaces without changing geometry',()=>{
+        const owner={geometryObject:{material:new THREE.MeshBasicMaterial()},render(){}};
+        const display={owner,isSurface:false,curveDepth:{checked:false},geometryColor:{value:'#0072bd'},
+            controlColor:{value:'#ff7f0e'},quantity:{value:'solid'},legend:{}};
+        ScientificDisplay.prototype.applyColors.call(display);assert.equal(owner.geometryObject.material.depthTest,false);
+        assert.equal(owner.geometryObject.renderOrder,10);
+        display.curveDepth.checked=true;ScientificDisplay.prototype.applyColors.call(display);
+        assert.equal(owner.geometryObject.material.depthTest,true);
+        assert.equal(owner.geometryObject.renderOrder,0);
+    });
     const jobs=[],applied=[];
     const display=Object.create(ScientificDisplay.prototype);
     Object.assign(display,{alive:true,serial:1,running:false,pending:{revision:1,quality:'full'},

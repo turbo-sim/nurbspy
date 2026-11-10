@@ -88,7 +88,7 @@ Trimesh/NetworkX requirements and no mesh extra.
 
 ## Illustrated 3D-printing example
 
-Added `demos/demos_surfaces/demo_stl_printing.py`, constructing an exact NURBS
+Added `demos/02_surfaces/15_stl_printing.py`, constructing an exact NURBS
 torus and two sampled ruled oloid patches. It exports solid STLs, reloads them
 for validation, plots native geometry beside actual STL triangles, and saves a
 comparison PNG. Preview/print/fine presets separate oloid boundary density from

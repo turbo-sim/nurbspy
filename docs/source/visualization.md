@@ -101,7 +101,7 @@ application-specific readouts. Geometry save/load remains ordinary Python code.
   it slightly; viewers keep all points in their normal colour and size, including
   after clicking a point. Display has two colour pickers in viewers
   and an additional selected-point colour picker in editors.
-- The horizontal header contains the Navigation dropdown, Fit, Reset in editors,
+- The horizontal header contains the Navigation dropdown, Fit, Undo/Redo and Reset in editors,
   Display, and Edit in editors. It wraps in narrow containers.
 - Display/Edit open the right inspector; clicking the active button, its close
   button, or Escape closes it. Switching panes preserves model/camera/settings.
@@ -118,6 +118,33 @@ application-specific readouts. Geometry save/load remains ordinary Python code.
 - Edit includes X coordinate, Y coordinate, Z coordinate, positive weight inputs,
   and axis/plane/Normal direction drag constraints. Press Enter or leave a field
   to commit. Reset restores the original coordinates/weights.
+
+Shift-click toggles points in the selection on Windows, Linux, and macOS.
+Shift-left-drag draws an additive selection rectangle; the **Box select** button
+in Edit provides a one-shot replacement selection. Rectangles use projected
+control-point positions, including points behind the surface, and ignore hidden
+handles. Click an unselected point to replace the selection, or drag any selected
+point to translate the whole group. A background click clears selection;
+background dragging retains camera navigation. Selection stays within the active
+object. The selected count is shown in Edit; its coordinate and weight fields
+affect only the active point. All selected points are highlighted in green.
+
+Group dragging uses one common displacement, preserving the selected points'
+relative positions. Axis/plane constraints apply to the entire group; Normal
+direction uses the active point's normal, frozen at drag start. Shift-left-drag
+takes priority over camera navigation in editors; Ctrl-drag/right-drag panning
+and Shift-wheel/middle-button camera gestures retain their existing mappings.
+
+Undo/Redo buttons and Ctrl+Z/Ctrl+Shift+Z (Command on macOS; Ctrl+Y is also
+supported) restore control-point coordinates and weights. Each drag, committed
+numeric edit, weight-slider gesture, or Reset is one step. Selection, camera, and
+appearance changes do not add steps. History follows chronological edits across
+object switches and belongs to one editor session/browser tab; it is not stored
+in YAML. It retains at most 100 entries and approximately 16 MiB of snapshots.
+A new committed edit clears the redo branch. History actions wait for geometry
+evaluation to finish, and failed evaluations do not create successful edit steps.
+Shortcuts act only in the focused editor; input fields retain native text undo.
+Escape cancels a drag or selection rectangle before closing an inspector.
 
 Normal direction is available in 3D. Python evaluates the curve Frenet normal or
 surface normal at a Greville parameter associated with the point. The direction
@@ -146,7 +173,7 @@ coalesce; stale results are ignored. Invalid edits roll back to accepted geometr
 The GUI accepts real finite geometry and positive weights; numerical constructors
 retain their broader complex/arbitrary-dimensional support.
 
-Undo/redo, file dialogs, trimming, control-point insertion/deletion, and continuity
+File dialogs, trimming, control-point insertion/deletion, and continuity
 constraints across several patches are outside this integration's scope.
 
 ## Options and examples
