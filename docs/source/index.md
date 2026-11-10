@@ -65,4 +65,5 @@ api_reference
 geometry_io
 visualization
 figures
+surface_fitting
 ```
