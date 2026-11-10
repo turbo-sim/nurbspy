@@ -74,7 +74,11 @@ def test_tutorial_opens_one_editor_with_auto_quality_and_grid(
         assert np.isfinite(figure.geometry(object_name).P).all()
         assert figure.settings(object_name)["grid"] is True
         assert figure.settings(object_name)["quality"] == "auto"
-    assert figure.settings()["control_points"] is True
+    if name == "demos.02_surfaces.13_oloid_ruled":
+        for object_name in figure.names:
+            assert figure.settings(object_name)["control_points"] is False
+    else:
+        assert figure.settings()["control_points"] is True
     assert figure.settings()["control_polygon"] is True
 
 
