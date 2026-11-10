@@ -7,6 +7,31 @@ README-only edits are omitted.
 
 ## Unreleased
 
+## [1.7.0] - 2026-11-10
+
+### Surface fitting
+
+- Add `fit_surface` and `SurfaceFitResult` for fixed-topology fitting with NumPy
+  and JAX geometry. Support fixed parameters, joint parameter optimization and
+  alternating point projection/refitting, with optional rational-weight fitting,
+  masks, bounds, regularization and explicitly reported convergence.
+- Keep unbounded fixed-parameter, fixed-weight fitting on NumPy/SciPy. Nonlinear
+  and bounded fits use optional JAX derivatives and Pounce interior point with
+  exact sparse Hessians; install `nurbspy[jax]` and `pysolver-view[pounce]>=0.8.2`
+  for those routes.
+- Add four standalone fitting demos and five development studies with derivative
+  checks, grid refinement, constrained fitting and self-contained HTML reports.
+
+### Projection, examples and documentation
+
+- Fix JAX point projection when tiny steps activate parameter bounds and preserve
+  the correction scale when a Newton direction is blocked.
+- Add a cached interactive curve/surface gallery with offline HTML and Python
+  downloads. Add oloid construction animations with overview and following views.
+- Expand viewer/editor regression coverage, document existing Figure and history
+  behavior, complete API reference pages and move experimental demos into
+  `development/`.
+
 ## [1.6.1] - 2026-11-08
 
 ### Interactive viewing and editing
