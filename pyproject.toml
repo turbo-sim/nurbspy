@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nurbspy"
-version = "1.7.0"
+version = "1.7.1"
 description = "Python library for B-Spline and NURBS curves and surfaces, with analytical derivatives, geometric analysis and support for shape optimization."
 authors = ["Roberto Agromayor <rober.agro@gmail.com>"]
 license = "MIT"
