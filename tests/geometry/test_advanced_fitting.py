@@ -85,7 +85,7 @@ def solver_modules():
 
 
 def test_joint_sparse_hessian_includes_parameter_couplings(modules):
-    import jax
+    jax = pytest.importorskip("jax")
 
     e, _ = modules
     joint, _, _, _ = solver_modules()
@@ -119,7 +119,7 @@ def test_joint_sparse_hessian_includes_parameter_couplings(modules):
 
 
 def test_constrained_full_lagrangian_hessian_matches_independent_derivatives(modules):
-    import jax
+    jax = pytest.importorskip("jax")
 
     e, _ = modules
     _, constrained, _, _ = solver_modules()
@@ -147,7 +147,7 @@ def test_constrained_full_lagrangian_hessian_matches_independent_derivatives(mod
 def test_projection_reuses_public_api_and_refreshes_changed_geometry(
     modules, monkeypatch
 ):
-    import jax
+    jax = pytest.importorskip("jax")
     import nurbspy.jax as nrb
 
     e, _ = modules
