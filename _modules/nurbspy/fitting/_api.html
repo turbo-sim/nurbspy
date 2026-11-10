@@ -1,0 +1,1131 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nurbspy.fitting._api &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery.css?v=12311f5c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=62544db9"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script defer="defer" src="../../../_static/gallery.js?v=de98829b"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/nurbspy/fitting/_api';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/_modules/nurbspy/fitting/_api.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../theory/point_projection.html">Point projection onto curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gallery.html">Interactive gallery</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.fitting.html">nurbspy.fitting package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../figures.html">Reproducible figures and PNG frames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../surface_fitting.html">Surface fitting</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2F_modules/nurbspy/fitting/_api.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for nurbspy.fitting._api</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Public fixed-topology fitting and correspondence strategies.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">import_module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">perf_counter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._common</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">FitLayout</span><span class="p">,</span>
+    <span class="n">control_penalty</span><span class="p">,</span>
+    <span class="n">evaluate</span><span class="p">,</span>
+    <span class="n">loss</span><span class="p">,</span>
+    <span class="n">parameter_domain</span><span class="p">,</span>
+    <span class="n">validate_parameters</span><span class="p">,</span>
+    <span class="n">validate_points</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._linear</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_linear</span>
+
+
+<div class="viewcode-block" id="SurfaceFitResult">
+<a class="viewcode-back" href="../../../surface_fitting.html#nurbspy.fitting.SurfaceFitResult">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SurfaceFitResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returned geometry, correspondences and explicitly reported convergence.</span>
+
+<span class="sd">    ``history`` is optional. Native observations have unknown acceptance and</span>
+<span class="sd">    identify their coordinates as last objective evaluations. The final entry</span>
+<span class="sd">    is the authoritative returned solution. ``timings`` separates compilation,</span>
+<span class="sd">    setup and warm solve; ``diagnostics`` retains solver and block-check metrics.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">surface</span><span class="p">:</span> <span class="nb">object</span>
+    <span class="n">parameters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">success</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">objective</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">rms</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">history</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">timings</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">diagnostics</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_positive</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">))</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">0</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be finite and positive&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_budget</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">))</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">))</span>
+        <span class="ow">or</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">1</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be a positive integer&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_sum_info</span><span class="p">(</span><span class="n">totals</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_seconds&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;iterations&quot;</span><span class="p">,</span> <span class="s2">&quot;nfev&quot;</span><span class="p">,</span> <span class="s2">&quot;njev&quot;</span><span class="p">,</span> <span class="s2">&quot;nhev&quot;</span><span class="p">):</span>
+            <span class="n">totals</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">totals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">value</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_endpoints</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">seconds</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">phase</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">iteration</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">layout</span><span class="o">.</span><span class="n">x0</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="n">seconds</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">event_kind</span><span class="o">=</span><span class="s2">&quot;initial&quot;</span><span class="p">,</span>
+            <span class="n">accepted</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">iteration</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="n">seconds</span><span class="o">=</span><span class="n">seconds</span><span class="p">,</span>
+            <span class="n">event_kind</span><span class="o">=</span><span class="s2">&quot;solution&quot;</span><span class="p">,</span>
+            <span class="n">accepted</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">phase</span><span class="o">=</span><span class="n">phase</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_finish</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">frames</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">preparation</span><span class="p">):</span>
+    <span class="n">begun</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="n">value</span><span class="p">,</span> <span class="n">rms</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="n">geometry</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">uv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;parameters&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">),</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">observed</span><span class="p">,</span> <span class="n">observed_rms</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">uv</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">surface</span><span class="o">=</span><span class="n">layout</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">state</span><span class="p">),</span>
+                <span class="n">parameters</span><span class="o">=</span><span class="n">uv</span><span class="p">,</span>
+                <span class="n">training_rms</span><span class="o">=</span><span class="n">observed_rms</span><span class="p">,</span>
+                <span class="n">rms</span><span class="o">=</span><span class="n">observed_rms</span><span class="p">,</span>
+                <span class="n">evaluation_objective</span><span class="o">=</span><span class="n">observed</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;objective&quot;</span><span class="p">,</span> <span class="n">observed</span><span class="p">)</span>
+        <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+    <span class="n">info</span><span class="p">[</span><span class="s2">&quot;setup_seconds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;setup_seconds&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">preparation</span>
+    <span class="n">info</span><span class="p">[</span><span class="s2">&quot;postprocess_seconds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">begun</span>
+    <span class="n">info</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;kkt_seconds&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">info</span><span class="p">[</span><span class="s2">&quot;variables&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="p">(</span>
+        <span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="k">if</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;correspondence&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;fixed&quot;</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="p">)</span>
+    <span class="n">info</span><span class="p">[</span><span class="s2">&quot;surface_variables&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">info</span><span class="p">[</span><span class="s2">&quot;objective_scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;objective_scale&quot;</span><span class="p">]</span>
+    <span class="n">info</span><span class="p">[</span><span class="s2">&quot;bound_violation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+        <span class="mf">0.0</span><span class="p">,</span>
+        <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">lower</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)[:</span> <span class="n">layout</span><span class="o">.</span><span class="n">size</span><span class="p">],</span> <span class="n">initial</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)),</span>
+        <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)[:</span> <span class="n">layout</span><span class="o">.</span><span class="n">size</span><span class="p">]</span> <span class="o">-</span> <span class="n">layout</span><span class="o">.</span><span class="n">upper</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)),</span>
+    <span class="p">)</span>
+    <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">parameter_domain</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">initial</span><span class="p">)</span>
+    <span class="n">info</span><span class="p">[</span><span class="s2">&quot;parameter_violation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+        <span class="mf">0.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">lower</span> <span class="o">-</span> <span class="n">parameters</span><span class="p">)),</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">parameters</span> <span class="o">-</span> <span class="n">upper</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="n">feasibility_tolerance</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tolerance&quot;</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;native_tolerance&quot;</span><span class="p">,</span> <span class="mf">1e-8</span><span class="p">))</span>
+    <span class="n">info</span><span class="p">[</span><span class="s2">&quot;feasibility_success&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="nb">max</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;bound_violation&quot;</span><span class="p">],</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;parameter_violation&quot;</span><span class="p">])</span>
+        <span class="o">&lt;=</span> <span class="n">feasibility_tolerance</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;feasibility_success&quot;</span><span class="p">]:</span>
+        <span class="n">info</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="n">success</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Returned state failed requested bound feasibility tolerance&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">info</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
+        <span class="s2">&quot;history_kind&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;linear_endpoints&quot;</span> <span class="k">if</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;solver&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;linear&quot;</span> <span class="k">else</span> <span class="s2">&quot;native_observations&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">timings</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">info</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_seconds&quot;</span><span class="p">)}</span>
+    <span class="k">return</span> <span class="n">SurfaceFitResult</span><span class="p">(</span>
+        <span class="n">geometry</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="nb">bool</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;success&quot;</span><span class="p">]),</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">]),</span>
+        <span class="nb">int</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;iterations&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
+        <span class="n">value</span><span class="p">,</span>
+        <span class="n">rms</span><span class="p">,</span>
+        <span class="n">history</span><span class="p">,</span>
+        <span class="n">timings</span><span class="p">,</span>
+        <span class="n">info</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="fit_surface">
+<a class="viewcode-back" href="../../../surface_fitting.html#nurbspy.fitting.fit_surface">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_surface</span><span class="p">(</span>
+    <span class="n">points</span><span class="p">,</span>
+    <span class="n">initial_surface</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">correspondence</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span>
+    <span class="n">initial_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">optimize_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">control_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">weight_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">control_bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">weight_bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">control_regularization</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">weight_regularization</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">objective_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
+    <span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">max_cycles</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">max_passes</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">record_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">print_convergence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">solver_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fit a supplied NURBS patch to positions shaped ``(N, dimension)``.</span>
+
+<span class="sd">    ``parameters`` supplies fixed paired labels shaped ``(N, 2)``. For</span>
+<span class="sd">    ``correspondence=&#39;joint&#39;`` or ``&#39;alternating&#39;``, supply optional</span>
+<span class="sd">    ``initial_parameters`` guesses instead; otherwise the existing surface</span>
+<span class="sd">    projector initializes them. Degrees, knots and control counts remain fixed.</span>
+<span class="sd">    Joint parameter optimization requires positive degrees and at least C1</span>
+<span class="sd">    interior continuity. Alternating fitting retains the projector&#39;s one-sided</span>
+<span class="sd">    treatment of C0 corners.</span>
+
+<span class="sd">    Fixed parameters and fixed weights use linear least squares when no free</span>
+<span class="sd">    coordinate has finite bounds. Other surface optimizations use optional JAX</span>
+<span class="sd">    reverse AD and exact sparse-Hessian Pounce interior point. The host solve</span>
+<span class="sd">    itself is not a JAX-transformable operation. NumPy inputs do not require JAX</span>
+<span class="sd">    for the linear route. Returned geometry uses the input backend.</span>
+
+<span class="sd">    Masks broadcast to the corresponding control/weight array; True means free.</span>
+<span class="sd">    Bounds are lower/upper pairs broadcast to those arrays. If all weights are</span>
+<span class="sd">    free, initial weights are normalized by W00 and that weight is fixed to one;</span>
+<span class="sd">    bounds then apply to normalized weights. A pre-existing fixed weight already</span>
+<span class="sd">    removes the common scale ambiguity, so its original scale is retained.</span>
+
+<span class="sd">    The objective is ``objective_scale`` times half the mean squared 3D (or</span>
+<span class="sd">    input-dimensional) error, plus ``sum(control_regularization * (P-P0)**2)/(2K)``</span>
+<span class="sd">    and ``weight_regularization * sum((log(w)-log(w0))**2)/(2*nfree_weights)``.</span>
+<span class="sd">    Regularization defaults to zero; geometric priors and bounds are explicit.</span>
+<span class="sd">    Iteration/cycle budget exits preserve unsuccessful status.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">begun</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">correspondence</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span> <span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="s2">&quot;alternating&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;correspondence must be &#39;fixed&#39;, &#39;joint&#39; or &#39;alternating&#39;&quot;</span><span class="p">)</span>
+    <span class="n">_positive</span><span class="p">(</span><span class="n">tolerance</span><span class="p">,</span> <span class="s2">&quot;tolerance&quot;</span><span class="p">)</span>
+    <span class="n">_positive</span><span class="p">(</span><span class="n">objective_scale</span><span class="p">,</span> <span class="s2">&quot;objective_scale&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">value</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">max_iterations</span><span class="p">,</span> <span class="s2">&quot;max_iterations&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">max_cycles</span><span class="p">,</span> <span class="s2">&quot;max_cycles&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">max_passes</span><span class="p">,</span> <span class="s2">&quot;max_passes&quot;</span><span class="p">),</span>
+    <span class="p">):</span>
+        <span class="n">_budget</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">record_history</span><span class="p">,</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">))</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+        <span class="n">print_convergence</span><span class="p">,</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;record_history and print_convergence must be booleans&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">callback</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;callback must be callable&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">solver_options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">solver_options</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;solver_options must be a dictionary of native Pounce options&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">weight_regularization</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">weight_regularization</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="n">weight_regularization</span> <span class="o">&lt;</span> <span class="mi">0</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;weight_regularization must be finite and nonnegative&quot;</span><span class="p">)</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">FitLayout</span><span class="p">(</span>
+        <span class="n">initial_surface</span><span class="p">,</span>
+        <span class="n">optimize_weights</span><span class="o">=</span><span class="n">optimize_weights</span><span class="p">,</span>
+        <span class="n">control_mask</span><span class="o">=</span><span class="n">control_mask</span><span class="p">,</span>
+        <span class="n">weight_mask</span><span class="o">=</span><span class="n">weight_mask</span><span class="p">,</span>
+        <span class="n">control_bounds</span><span class="o">=</span><span class="n">control_bounds</span><span class="p">,</span>
+        <span class="n">weight_bounds</span><span class="o">=</span><span class="n">weight_bounds</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">validate_points</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">layout</span><span class="o">.</span><span class="n">ndim</span><span class="p">)</span>
+    <span class="n">control_penalty</span><span class="p">(</span><span class="n">control_regularization</span><span class="p">,</span> <span class="n">layout</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">correspondence</span> <span class="o">==</span> <span class="s2">&quot;fixed&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Fixed correspondence fitting requires parameters&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">initial_parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Use parameters, not initial_parameters, for fixed correspondences&quot;</span>
+            <span class="p">)</span>
+        <span class="n">uv</span> <span class="o">=</span> <span class="n">validate_parameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">initial_surface</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Use initial_parameters for unknown correspondences&quot;</span><span class="p">)</span>
+        <span class="n">uv</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">initial_parameters</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="n">validate_parameters</span><span class="p">(</span>
+                <span class="n">initial_parameters</span><span class="p">,</span> <span class="n">initial_surface</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">),</span> <span class="s2">&quot;initial_parameters&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">objective_scale</span><span class="o">=</span><span class="n">objective_scale</span><span class="p">,</span>
+        <span class="n">control_regularization</span><span class="o">=</span><span class="n">control_regularization</span><span class="p">,</span>
+        <span class="n">weight_regularization</span><span class="o">=</span><span class="n">weight_regularization</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">preparation</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">begun</span>
+    <span class="n">bounded</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">correspondence</span> <span class="o">==</span> <span class="s2">&quot;fixed&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">layout</span><span class="o">.</span><span class="n">nweight_variables</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">bounded</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">solve_linear</span><span class="p">(</span>
+            <span class="n">layout</span><span class="p">,</span>
+            <span class="n">points</span><span class="p">,</span>
+            <span class="n">uv</span><span class="p">,</span>
+            <span class="n">control_regularization</span><span class="o">=</span><span class="n">control_regularization</span><span class="p">,</span>
+            <span class="n">tolerance</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">tolerance</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">),</span>
+            <span class="n">max_iterations</span><span class="o">=</span><span class="n">max_iterations</span><span class="p">,</span>
+            <span class="n">print_convergence</span><span class="o">=</span><span class="n">print_convergence</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">info</span><span class="p">[</span><span class="s2">&quot;correspondence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;fixed&quot;</span>
+        <span class="n">info</span><span class="p">[</span><span class="s2">&quot;tolerance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tolerance</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="n">_endpoints</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">uv</span><span class="p">,</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;solve_seconds&quot;</span><span class="p">],</span> <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;surface_fit&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
+                <span class="n">callback</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">_finish</span><span class="p">(</span>
+            <span class="n">layout</span><span class="p">,</span>
+            <span class="n">points</span><span class="p">,</span>
+            <span class="n">x</span><span class="p">,</span>
+            <span class="n">uv</span><span class="p">,</span>
+            <span class="n">info</span><span class="p">,</span>
+            <span class="n">frames</span> <span class="k">if</span> <span class="n">record_history</span> <span class="k">else</span> <span class="p">[],</span>
+            <span class="n">options</span><span class="p">,</span>
+            <span class="n">preparation</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">begun</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="s2">&quot;Nonlinear fitting requires NurbsPy&#39;s jax extra and pysolver-view[pounce]&quot;</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">error</span>
+    <span class="n">preparation</span> <span class="o">+=</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">begun</span>
+    <span class="n">initialization_compile</span> <span class="o">=</span> <span class="n">initialization_warmup</span> <span class="o">=</span> <span class="n">initialization_projection</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">with</span> <span class="n">jax</span><span class="o">.</span><span class="n">enable_x64</span><span class="p">():</span>
+        <span class="n">projector</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">correspondence</span> <span class="o">!=</span> <span class="s2">&quot;fixed&quot;</span> <span class="ow">and</span> <span class="p">(</span><span class="n">uv</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">layout</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">._projection</span><span class="w"> </span><span class="kn">import</span> <span class="n">SurfaceProjector</span>
+
+            <span class="n">begun</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+            <span class="n">projector</span> <span class="o">=</span> <span class="n">SurfaceProjector</span><span class="p">(</span>
+                <span class="n">layout</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">x0</span><span class="p">),</span>
+                <span class="n">points</span><span class="p">,</span>
+                <span class="n">initial_parameters</span><span class="o">=</span><span class="n">uv</span><span class="p">,</span>
+                <span class="n">tolerance</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">tolerance</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1e-9</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">projection_setup</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">begun</span>
+            <span class="n">initial_uv</span> <span class="o">=</span> <span class="n">uv</span>
+            <span class="n">projected</span><span class="p">,</span> <span class="n">distances</span><span class="p">,</span> <span class="n">projection_info</span> <span class="o">=</span> <span class="n">projector</span><span class="o">.</span><span class="n">project</span><span class="p">(</span>
+                <span class="n">layout</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">x0</span><span class="p">),</span> <span class="n">uv</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">layout</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                <span class="n">uv</span> <span class="o">=</span> <span class="n">projected</span> <span class="k">if</span> <span class="n">initial_uv</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">initial_uv</span>
+                <span class="n">frames</span> <span class="o">=</span> <span class="n">_endpoints</span><span class="p">(</span>
+                    <span class="n">layout</span><span class="p">,</span>
+                    <span class="n">layout</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span>
+                    <span class="n">uv</span><span class="p">,</span>
+                    <span class="n">projection_info</span><span class="p">[</span><span class="s2">&quot;solve_seconds&quot;</span><span class="p">],</span>
+                    <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;point_projection&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">frames</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;parameters&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projected</span>
+                <span class="n">info</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">success</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Existing NurbsPy point projection converged; surface is fixed&quot;</span><span class="p">,</span>
+                    <span class="n">iterations</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;NurbsPy JAX prepared surface projection&quot;</span><span class="p">,</span>
+                    <span class="n">nfev</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">njev</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">nhev</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">setup_seconds</span><span class="o">=</span><span class="n">projection_setup</span><span class="p">,</span>
+                    <span class="n">compile_seconds</span><span class="o">=</span><span class="n">projector</span><span class="o">.</span><span class="n">compile_seconds</span><span class="p">,</span>
+                    <span class="n">warmup_seconds</span><span class="o">=</span><span class="n">projector</span><span class="o">.</span><span class="n">warmup_seconds</span><span class="p">,</span>
+                    <span class="n">solve_seconds</span><span class="o">=</span><span class="n">projection_info</span><span class="p">[</span><span class="s2">&quot;solve_seconds&quot;</span><span class="p">],</span>
+                    <span class="n">projection_seconds</span><span class="o">=</span><span class="n">projection_info</span><span class="p">[</span><span class="s2">&quot;solve_seconds&quot;</span><span class="p">],</span>
+                    <span class="n">projection_calls</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">correspondence</span><span class="o">=</span><span class="n">correspondence</span><span class="p">,</span>
+                    <span class="n">tolerance</span><span class="o">=</span><span class="n">tolerance</span><span class="p">,</span>
+                    <span class="n">history_kind</span><span class="o">=</span><span class="s2">&quot;projection_endpoints&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">print_convergence</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Fixed surface: library projection RMS </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">distances</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="si">:</span><span class="s2">.6e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
+                        <span class="n">callback</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">_finish</span><span class="p">(</span>
+                    <span class="n">layout</span><span class="p">,</span>
+                    <span class="n">points</span><span class="p">,</span>
+                    <span class="n">layout</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span>
+                    <span class="n">projected</span><span class="p">,</span>
+                    <span class="n">info</span><span class="p">,</span>
+                    <span class="n">frames</span> <span class="k">if</span> <span class="n">record_history</span> <span class="k">else</span> <span class="p">[],</span>
+                    <span class="n">options</span><span class="p">,</span>
+                    <span class="n">preparation</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="n">uv</span> <span class="o">=</span> <span class="n">projected</span>
+            <span class="n">preparation</span> <span class="o">+=</span> <span class="n">projection_setup</span> <span class="o">+</span> <span class="n">projection_info</span><span class="p">[</span><span class="s2">&quot;solve_seconds&quot;</span><span class="p">]</span>
+            <span class="n">initialization_compile</span> <span class="o">=</span> <span class="n">projector</span><span class="o">.</span><span class="n">compile_seconds</span>
+            <span class="n">initialization_warmup</span> <span class="o">=</span> <span class="n">projector</span><span class="o">.</span><span class="n">warmup_seconds</span>
+            <span class="n">initialization_projection</span> <span class="o">=</span> <span class="n">projection_info</span><span class="p">[</span><span class="s2">&quot;solve_seconds&quot;</span><span class="p">]</span>
+        <span class="n">begun</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">._nonlinear</span><span class="w"> </span><span class="kn">import</span> <span class="n">SurfaceFitProblem</span><span class="p">,</span> <span class="n">solve</span>
+
+            <span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;pounce&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">&quot;Nonlinear fitting requires pip install &#39;nurbspy[jax]&#39; &#39;pysolver-view[pounce]&gt;=0.8.2&#39;&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">error</span>
+        <span class="n">preparation</span> <span class="o">+=</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">begun</span>
+        <span class="n">common</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">tolerance</span><span class="o">=</span><span class="n">tolerance</span><span class="p">,</span>
+            <span class="n">max_iterations</span><span class="o">=</span><span class="n">max_iterations</span><span class="p">,</span>
+            <span class="n">record_history</span><span class="o">=</span><span class="n">record_history</span><span class="p">,</span>
+            <span class="n">print_convergence</span><span class="o">=</span><span class="n">print_convergence</span><span class="p">,</span>
+            <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span>
+            <span class="n">solver_options</span><span class="o">=</span><span class="n">solver_options</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">correspondence</span> <span class="o">==</span> <span class="s2">&quot;fixed&quot;</span><span class="p">:</span>
+            <span class="n">problem</span> <span class="o">=</span> <span class="n">SurfaceFitProblem</span><span class="p">(</span>
+                <span class="n">layout</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">uv</span><span class="p">,</span> <span class="n">use_tensor_grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span>
+            <span class="p">)</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">frames</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="o">**</span><span class="n">common</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
+                <span class="n">frame</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="n">uv</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;surface_fit&quot;</span><span class="p">)</span>
+            <span class="n">info</span><span class="p">[</span><span class="s2">&quot;correspondence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;fixed&quot;</span>
+        <span class="k">elif</span> <span class="n">correspondence</span> <span class="o">==</span> <span class="s2">&quot;joint&quot;</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">uv</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">frames</span> <span class="o">=</span> <span class="n">_joint_fit</span><span class="p">(</span>
+                <span class="n">layout</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">uv</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">common</span><span class="p">,</span> <span class="n">max_passes</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">uv</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">frames</span> <span class="o">=</span> <span class="n">_alternating_fit</span><span class="p">(</span>
+                <span class="n">layout</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">uv</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">common</span><span class="p">,</span> <span class="n">max_cycles</span><span class="p">,</span> <span class="n">projector</span>
+            <span class="p">)</span>
+        <span class="n">info</span><span class="p">[</span><span class="s2">&quot;compile_seconds&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">initialization_compile</span>
+        <span class="n">info</span><span class="p">[</span><span class="s2">&quot;warmup_seconds&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">initialization_warmup</span>
+        <span class="n">info</span><span class="p">[</span><span class="s2">&quot;initial_projection_seconds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">initialization_projection</span>
+        <span class="n">info</span><span class="p">[</span><span class="s2">&quot;tolerance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tolerance</span>
+        <span class="k">return</span> <span class="n">_finish</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">uv</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">frames</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">preparation</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_joint_fit</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">uv</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">common</span><span class="p">,</span> <span class="n">max_passes</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">._joint</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointSurfaceFitProblem</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">._nonlinear</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve</span>
+
+    <span class="n">totals</span><span class="p">,</span> <span class="n">frames</span><span class="p">,</span> <span class="n">native</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">start</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">success</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span>
+    <span class="n">user_callback</span> <span class="o">=</span> <span class="n">common</span><span class="p">[</span><span class="s2">&quot;callback&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">stage</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_passes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">time_offset</span> <span class="o">=</span> <span class="n">totals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;solve_seconds&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">common</span><span class="p">[</span><span class="s2">&quot;print_convergence&quot;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Joint surface/parameter pass </span><span class="si">{</span><span class="n">stage</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">problem</span> <span class="o">=</span> <span class="n">JointSurfaceFitProblem</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">uv</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">observe</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">iteration</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;iteration&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span>
+                <span class="n">seconds</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;seconds&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">time_offset</span><span class="p">,</span>
+                <span class="n">local_pass</span><span class="o">=</span><span class="n">stage</span><span class="p">,</span>
+                <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;joint_fit&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">user_callback</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+        <span class="n">settings</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">common</span><span class="p">,</span>
+            <span class="n">tolerance</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">common</span><span class="p">[</span><span class="s2">&quot;tolerance&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1e-9</span><span class="p">),</span>
+            <span class="n">callback</span><span class="o">=</span><span class="n">observe</span> <span class="k">if</span> <span class="n">user_callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">full</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">observations</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="o">**</span><span class="n">settings</span><span class="p">)</span>
+        <span class="n">uv</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">parameters</span><span class="p">(</span><span class="n">full</span><span class="p">)</span>
+        <span class="n">begun</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+        <span class="n">gradient</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">full</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="n">layout</span><span class="o">.</span><span class="n">size</span> <span class="p">:]</span>
+        <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">get_bounds</span><span class="p">()</span>
+        <span class="n">global_lower</span><span class="p">,</span> <span class="n">global_upper</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">global_bounds</span>
+        <span class="n">multipliers</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">bound_multipliers</span>
+        <span class="n">real_lower</span> <span class="o">=</span> <span class="n">lower</span><span class="p">[</span><span class="n">layout</span><span class="o">.</span><span class="n">size</span> <span class="p">:]</span> <span class="o">==</span> <span class="n">global_lower</span><span class="p">[</span><span class="n">layout</span><span class="o">.</span><span class="n">size</span> <span class="p">:]</span>
+        <span class="n">real_upper</span> <span class="o">=</span> <span class="n">upper</span><span class="p">[</span><span class="n">layout</span><span class="o">.</span><span class="n">size</span> <span class="p">:]</span> <span class="o">==</span> <span class="n">global_upper</span><span class="p">[</span><span class="n">layout</span><span class="o">.</span><span class="n">size</span> <span class="p">:]</span>
+        <span class="n">residual</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">gradient</span>
+            <span class="o">-</span> <span class="n">multipliers</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">][</span><span class="n">layout</span><span class="o">.</span><span class="n">size</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">real_lower</span>
+            <span class="o">+</span> <span class="n">multipliers</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">][</span><span class="n">layout</span><span class="o">.</span><span class="n">size</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">real_upper</span>
+        <span class="p">)</span>
+        <span class="n">optimality</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">residual</span><span class="p">),</span> <span class="n">initial</span><span class="o">=</span><span class="mf">0.0</span><span class="p">))</span>
+        <span class="n">info</span><span class="p">[</span><span class="s2">&quot;audit_seconds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">begun</span>
+        <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">observations</span><span class="p">:</span>
+            <span class="n">frame</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">iteration</span><span class="o">=</span><span class="n">frame</span><span class="p">[</span><span class="s2">&quot;iteration&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span>
+                <span class="n">seconds</span><span class="o">=</span><span class="n">frame</span><span class="p">[</span><span class="s2">&quot;seconds&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">time_offset</span><span class="p">,</span>
+                <span class="n">local_pass</span><span class="o">=</span><span class="n">stage</span><span class="p">,</span>
+                <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;joint_fit&quot;</span><span class="p">,</span>
+                <span class="n">parameters</span><span class="o">=</span><span class="n">problem</span><span class="o">.</span><span class="n">parameters</span><span class="p">(</span><span class="n">frame</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]),</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">frame</span><span class="p">[</span><span class="s2">&quot;event_kind&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;solution&quot;</span><span class="p">:</span>
+                <span class="n">frame</span><span class="p">[</span><span class="s2">&quot;event_kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;local_solution&quot;</span>
+            <span class="k">elif</span> <span class="n">stage</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">frame</span><span class="p">[</span><span class="s2">&quot;event_kind&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;initial&quot;</span><span class="p">:</span>
+                <span class="n">frame</span><span class="p">[</span><span class="s2">&quot;event_kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sparsity_restart&quot;</span>
+            <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;native_history&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">iteration</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;iteration&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span>
+                <span class="n">seconds</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;seconds&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">time_offset</span><span class="p">,</span>
+                <span class="n">local_pass</span><span class="o">=</span><span class="n">stage</span><span class="p">,</span>
+                <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;joint_fit&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">native</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="n">_sum_info</span><span class="p">(</span><span class="n">totals</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+        <span class="n">offset</span> <span class="o">+=</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;iterations&quot;</span><span class="p">]</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;success&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">optimality</span> <span class="o">&lt;=</span> <span class="n">common</span><span class="p">[</span><span class="s2">&quot;tolerance&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">common</span><span class="p">[</span><span class="s2">&quot;print_convergence&quot;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;  Global parameter stationarity </span><span class="si">{</span><span class="n">optimality</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">; converged=</span><span class="si">{</span><span class="n">success</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">success</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;success&quot;</span><span class="p">]:</span>
+            <span class="k">break</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">full</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">frames</span><span class="p">:</span>
+        <span class="n">frames</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;event_kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;solution&quot;</span>
+    <span class="n">info</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="n">totals</span><span class="p">,</span>
+        <span class="n">success</span><span class="o">=</span><span class="n">success</span><span class="p">,</span>
+        <span class="n">correspondence</span><span class="o">=</span><span class="s2">&quot;joint&quot;</span><span class="p">,</span>
+        <span class="n">local_passes</span><span class="o">=</span><span class="n">stage</span><span class="p">,</span>
+        <span class="n">global_parameter_optimality</span><span class="o">=</span><span class="n">optimality</span><span class="p">,</span>
+        <span class="n">native_history</span><span class="o">=</span><span class="n">native</span><span class="p">,</span>
+        <span class="n">message</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Native IPM and global parameter stationarity converged&quot;</span>
+            <span class="k">if</span> <span class="n">success</span>
+            <span class="k">else</span> <span class="s2">&quot;Joint fitting stopped before global parameter convergence&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">full</span><span class="p">[:</span> <span class="n">layout</span><span class="o">.</span><span class="n">size</span><span class="p">],</span> <span class="n">uv</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">frames</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_alternating_fit</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">uv</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">common</span><span class="p">,</span> <span class="n">max_cycles</span><span class="p">,</span> <span class="n">projector</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">._nonlinear</span><span class="w"> </span><span class="kn">import</span> <span class="n">SurfaceFitProblem</span><span class="p">,</span> <span class="n">solve</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">._projection</span><span class="w"> </span><span class="kn">import</span> <span class="n">SurfaceProjector</span>
+
+    <span class="n">totals</span><span class="p">,</span> <span class="n">frames</span><span class="p">,</span> <span class="n">native</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">offset</span><span class="p">,</span> <span class="n">success</span><span class="p">,</span> <span class="n">projection_seconds</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="mf">0.0</span>
+    <span class="n">projection_setup</span> <span class="o">=</span> <span class="n">projection_compile</span> <span class="o">=</span> <span class="n">projection_warmup</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">if</span> <span class="n">projector</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">begun</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+        <span class="n">projector</span> <span class="o">=</span> <span class="n">SurfaceProjector</span><span class="p">(</span>
+            <span class="n">layout</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">x0</span><span class="p">),</span>
+            <span class="n">points</span><span class="p">,</span>
+            <span class="n">initial_parameters</span><span class="o">=</span><span class="n">uv</span><span class="p">,</span>
+            <span class="n">tolerance</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">common</span><span class="p">[</span><span class="s2">&quot;tolerance&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1e-9</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">projection_setup</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">begun</span>
+        <span class="n">projection_compile</span><span class="p">,</span> <span class="n">projection_warmup</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">projector</span><span class="o">.</span><span class="n">compile_seconds</span><span class="p">,</span>
+            <span class="n">projector</span><span class="o">.</span><span class="n">warmup_seconds</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">problem</span> <span class="o">=</span> <span class="n">SurfaceFitProblem</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">uv</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="n">user_callback</span> <span class="o">=</span> <span class="n">common</span><span class="p">[</span><span class="s2">&quot;callback&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">cycle</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_cycles</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">time_offset</span> <span class="o">=</span> <span class="n">totals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;solve_seconds&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">projection_seconds</span>
+        <span class="k">if</span> <span class="n">common</span><span class="p">[</span><span class="s2">&quot;print_convergence&quot;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Alternating cycle </span><span class="si">{</span><span class="n">cycle</span><span class="si">}</span><span class="s2">: surface fitting&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">observe</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">iteration</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;iteration&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span>
+                <span class="n">seconds</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;seconds&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">time_offset</span><span class="p">,</span>
+                <span class="n">outer_iteration</span><span class="o">=</span><span class="n">cycle</span><span class="p">,</span>
+                <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;surface_fit&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">user_callback</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+        <span class="n">x</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">observations</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span>
+            <span class="n">problem</span><span class="p">,</span>
+            <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">common</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">observe</span> <span class="k">if</span> <span class="n">user_callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">observations</span><span class="p">:</span>
+            <span class="n">frame</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">iteration</span><span class="o">=</span><span class="n">frame</span><span class="p">[</span><span class="s2">&quot;iteration&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span>
+                <span class="n">seconds</span><span class="o">=</span><span class="n">frame</span><span class="p">[</span><span class="s2">&quot;seconds&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">time_offset</span><span class="p">,</span>
+                <span class="n">outer_iteration</span><span class="o">=</span><span class="n">cycle</span><span class="p">,</span>
+                <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;surface_fit&quot;</span><span class="p">,</span>
+                <span class="n">parameters</span><span class="o">=</span><span class="n">uv</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">frame</span><span class="p">[</span><span class="s2">&quot;event_kind&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;solution&quot;</span><span class="p">:</span>
+                <span class="n">frame</span><span class="p">[</span><span class="s2">&quot;event_kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;surface_solution&quot;</span>
+            <span class="k">elif</span> <span class="n">cycle</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">frame</span><span class="p">[</span><span class="s2">&quot;event_kind&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;initial&quot;</span><span class="p">:</span>
+                <span class="n">frame</span><span class="p">[</span><span class="s2">&quot;event_kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;alternating_restart&quot;</span>
+            <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;native_history&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">iteration</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;iteration&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span>
+                <span class="n">seconds</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;seconds&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">time_offset</span><span class="p">,</span>
+                <span class="n">outer_iteration</span><span class="o">=</span><span class="n">cycle</span><span class="p">,</span>
+                <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;surface_fit&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">native</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="n">_sum_info</span><span class="p">(</span><span class="n">totals</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+        <span class="n">offset</span> <span class="o">+=</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;iterations&quot;</span><span class="p">]</span>
+        <span class="n">projected</span><span class="p">,</span> <span class="n">distances</span><span class="p">,</span> <span class="n">projection_info</span> <span class="o">=</span> <span class="n">projector</span><span class="o">.</span><span class="n">project</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">uv</span><span class="p">)</span>
+        <span class="n">projection_seconds</span> <span class="o">+=</span> <span class="n">projection_info</span><span class="p">[</span><span class="s2">&quot;solve_seconds&quot;</span><span class="p">]</span>
+        <span class="n">begun</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+        <span class="n">problem</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">projected</span><span class="p">)</span>
+        <span class="c1"># This correspondence update is part of the explicit block audit below;</span>
+        <span class="c1"># avoid charging the same basis preparation again to the next solve.</span>
+        <span class="n">problem</span><span class="o">.</span><span class="n">_pending_setup_seconds</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">multipliers</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">bound_multipliers</span>
+        <span class="n">gradient</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">surface_opt</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
+                <span class="nb">abs</span><span class="p">(</span><span class="n">gradient</span> <span class="o">-</span> <span class="n">multipliers</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">multipliers</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">]),</span> <span class="n">initial</span><span class="o">=</span><span class="mf">0.0</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">initial</span><span class="p">,</span> <span class="o">*</span><span class="n">layout</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">projected</span><span class="p">)</span> <span class="o">-</span> <span class="n">points</span>
+        <span class="n">su</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="o">*</span><span class="n">projected</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">sv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">get_derivative</span><span class="p">(</span><span class="o">*</span><span class="n">projected</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">gp</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;objective_scale&quot;</span><span class="p">]</span>
+            <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+            <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">su</span> <span class="o">*</span> <span class="n">error</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sv</span> <span class="o">*</span> <span class="n">error</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="p">)</span>
+        <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">parameter_domain</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">initial</span><span class="p">)</span>
+        <span class="n">projected_gradient</span> <span class="o">=</span> <span class="n">projected</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">projected</span> <span class="o">-</span> <span class="n">gp</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span>
+        <span class="c1"># The checked library projector verifies both one-sided conditions at</span>
+        <span class="c1"># exact C0 knots. A smooth gradient need not vanish on that corner.</span>
+        <span class="k">for</span> <span class="n">axis</span><span class="p">,</span> <span class="p">(</span><span class="n">knots</span><span class="p">,</span> <span class="n">degree</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+            <span class="p">((</span><span class="n">model</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">p</span><span class="p">),</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">q</span><span class="p">))</span>
+        <span class="p">):</span>
+            <span class="n">values</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">knots</span><span class="p">),</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">corners</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span>
+                <span class="p">(</span><span class="n">counts</span> <span class="o">&gt;=</span> <span class="n">degree</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">values</span> <span class="o">&gt;</span> <span class="n">lower</span><span class="p">[</span><span class="n">axis</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">values</span> <span class="o">&lt;</span> <span class="n">upper</span><span class="p">[</span><span class="n">axis</span><span class="p">])</span>
+            <span class="p">]</span>
+            <span class="n">projected_gradient</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">projected</span><span class="p">[:,</span> <span class="n">axis</span><span class="p">],</span> <span class="n">corners</span><span class="p">),</span> <span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">parameter_opt</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">projected_gradient</span><span class="p">),</span> <span class="n">initial</span><span class="o">=</span><span class="mf">0.0</span><span class="p">))</span>
+        <span class="n">totals</span><span class="p">[</span><span class="s2">&quot;audit_seconds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">totals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;audit_seconds&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">begun</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">common</span><span class="p">[</span><span class="s2">&quot;record_history&quot;</span><span class="p">]:</span>
+            <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">iteration</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span>
+                    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+                    <span class="n">parameters</span><span class="o">=</span><span class="n">projected</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+                    <span class="n">outer_iteration</span><span class="o">=</span><span class="n">cycle</span><span class="p">,</span>
+                    <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;point_projection&quot;</span><span class="p">,</span>
+                    <span class="n">event_kind</span><span class="o">=</span><span class="s2">&quot;projection&quot;</span><span class="p">,</span>
+                    <span class="n">accepted</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">seconds</span><span class="o">=</span><span class="n">totals</span><span class="p">[</span><span class="s2">&quot;solve_seconds&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">projection_seconds</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">user_callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">user_callback</span><span class="p">(</span>
+                <span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">iteration</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span>
+                    <span class="n">outer_iteration</span><span class="o">=</span><span class="n">cycle</span><span class="p">,</span>
+                    <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;point_projection&quot;</span><span class="p">,</span>
+                    <span class="n">event_kind</span><span class="o">=</span><span class="s2">&quot;projection&quot;</span><span class="p">,</span>
+                    <span class="n">surface_block_optimality</span><span class="o">=</span><span class="n">surface_opt</span><span class="p">,</span>
+                    <span class="n">parameter_block_optimality</span><span class="o">=</span><span class="n">parameter_opt</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">uv</span> <span class="o">=</span> <span class="n">projected</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">info</span><span class="p">[</span><span class="s2">&quot;success&quot;</span><span class="p">]</span>
+            <span class="ow">and</span> <span class="n">surface_opt</span> <span class="o">&lt;=</span> <span class="n">common</span><span class="p">[</span><span class="s2">&quot;tolerance&quot;</span><span class="p">]</span>
+            <span class="ow">and</span> <span class="n">parameter_opt</span> <span class="o">&lt;=</span> <span class="n">common</span><span class="p">[</span><span class="s2">&quot;tolerance&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">common</span><span class="p">[</span><span class="s2">&quot;print_convergence&quot;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;  Projection RMS </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">distances</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="si">:</span><span class="s2">.6e</span><span class="si">}</span><span class="s2">; surface </span><span class="si">{</span><span class="n">surface_opt</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">; parameters </span><span class="si">{</span><span class="n">parameter_opt</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">; converged=</span><span class="si">{</span><span class="n">success</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">success</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;success&quot;</span><span class="p">]:</span>
+            <span class="k">break</span>
+        <span class="n">problem</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">problem</span><span class="o">.</span><span class="n">_clear_cache</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">frames</span><span class="p">:</span>
+        <span class="n">frames</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;event_kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;solution&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;Surface and library projection blocks converged&quot;</span>
+        <span class="k">if</span> <span class="n">success</span>
+        <span class="k">else</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Surface fitting stopped: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;success&quot;</span><span class="p">]</span>
+            <span class="k">else</span> <span class="s2">&quot;Alternating cycle budget reached before both blocks converged&quot;</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">info</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="n">totals</span><span class="p">,</span>
+        <span class="n">success</span><span class="o">=</span><span class="n">success</span><span class="p">,</span>
+        <span class="n">correspondence</span><span class="o">=</span><span class="s2">&quot;alternating&quot;</span><span class="p">,</span>
+        <span class="n">outer_iterations</span><span class="o">=</span><span class="n">cycle</span><span class="p">,</span>
+        <span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span>
+        <span class="n">native_history</span><span class="o">=</span><span class="n">native</span><span class="p">,</span>
+        <span class="n">projection_seconds</span><span class="o">=</span><span class="n">projection_seconds</span><span class="p">,</span>
+        <span class="n">fit_seconds</span><span class="o">=</span><span class="n">totals</span><span class="p">[</span><span class="s2">&quot;solve_seconds&quot;</span><span class="p">],</span>
+        <span class="n">projection_calls</span><span class="o">=</span><span class="n">cycle</span><span class="p">,</span>
+        <span class="n">surface_block_optimality</span><span class="o">=</span><span class="n">surface_opt</span><span class="p">,</span>
+        <span class="n">parameter_block_optimality</span><span class="o">=</span><span class="n">parameter_opt</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">info</span><span class="p">[</span><span class="s2">&quot;solve_seconds&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">projection_seconds</span>
+    <span class="n">info</span><span class="p">[</span><span class="s2">&quot;setup_seconds&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">projection_setup</span>
+    <span class="n">info</span><span class="p">[</span><span class="s2">&quot;compile_seconds&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">projection_compile</span>
+    <span class="n">info</span><span class="p">[</span><span class="s2">&quot;warmup_seconds&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">projection_warmup</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">uv</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">frames</span>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

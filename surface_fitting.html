@@ -1,0 +1,763 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Surface fitting &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery.css?v=12311f5c" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=62544db9"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script defer="defer" src="_static/gallery.js?v=de98829b"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'surface_fitting';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/surface_fitting.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Reproducible figures and PNG frames" href="figures.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory/bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/point_projection.html">Point projection onto curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="gallery.html">Interactive gallery</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.fitting.html">nurbspy.fitting package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="figures.html">Reproducible figures and PNG frames</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Surface fitting</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/edit/main/docs/source/surface_fitting.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2Fsurface_fitting.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/surface_fitting.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Surface fitting</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#known-point-parameters">Known point parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unknown-point-parameters">Unknown point parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-and-visualization">Results and visualization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#development-studies-and-custom-constraints">Development studies and custom constraints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-reference">API reference</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="surface-fitting">
+<h1>Surface fitting<a class="headerlink" href="#surface-fitting" title="Link to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">nurbspy.fit_surface</span></code> fits one NURBS patch to sampled positions. The supplied
+initial surface defines the control-net size, degrees and knot vectors. The
+returned surface is independent of the initial geometry and uses its NumPy or
+JAX backend.</p>
+<p>The API separates two choices: whether point parameters are known, and whether
+rational weights are optimized. It supports known-label linear or rational
+fitting, joint surface/parameter fitting, and alternating projection/refitting.
+It keeps the patch topology, degrees and knots fixed throughout the solve.</p>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading">#</a></h2>
+<p>Unbounded fixed-parameter fitting with fixed weights uses NumPy/SciPy and does
+not need JAX or Pounce. Fits that optimize weights, point parameters, or have
+finite bounds on free control coordinates use optional JAX derivatives and Pounce
+interior point with exact sparse Hessians. For a source checkout:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="s2">&quot;.[jax]&quot;</span> <span class="s2">&quot;pysolver-view[pounce]&gt;=0.8.2&quot;</span>
+</pre></div>
+</div>
+<p>This is a Python-driven fitting operation. JAX differentiates its numerical
+objective; the complete Pounce solve is not itself a <code class="docutils literal notranslate"><span class="pre">jax.jit</span></code> operation or a
+function to differentiate through with <code class="docutils literal notranslate"><span class="pre">jax.grad</span></code>.</p>
+</section>
+<section id="known-point-parameters">
+<h2>Known point parameters<a class="headerlink" href="#known-point-parameters" title="Link to this heading">#</a></h2>
+<p>Let <code class="docutils literal notranslate"><span class="pre">points</span></code> have shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">dimension)</span></code> and <code class="docutils literal notranslate"><span class="pre">uv</span></code> have shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">2)</span></code>, with one
+parameter pair for each position. The parameters lie in the initial surface’s
+actual knot domain, which need not be the unit square.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">nurbspy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nrb</span>
+
+<span class="c1"># initial_surface is an existing NURBS surface with the desired degrees/knots.</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">nrb</span><span class="o">.</span><span class="n">fit_surface</span><span class="p">(</span>
+    <span class="n">points</span><span class="p">,</span>
+    <span class="n">initial_surface</span><span class="p">,</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="n">uv</span><span class="p">,</span>
+    <span class="n">optimize_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">print_convergence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fitted</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">surface</span>
+</pre></div>
+</div>
+<p>With fixed weights and fixed point parameters, rational basis values are known
+and fitting the control coordinates is linear least squares. Fixed weights do
+not have to be one. A unit-weight fit is a B-spline approximation.</p>
+<p>To also optimize positive rational weights:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">nrb</span><span class="o">.</span><span class="n">fit_surface</span><span class="p">(</span>
+    <span class="n">points</span><span class="p">,</span>
+    <span class="n">initial_surface</span><span class="p">,</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="n">uv</span><span class="p">,</span>
+    <span class="n">optimize_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">weight_bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">),</span>
+    <span class="n">print_convergence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">record_history</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>These calls hold every supplied parameter pair fixed. They minimize 3D
+correspondence errors and do not project the observations onto the changing
+surface. Optimized positive weights use logarithmic variables; the fitter
+removes their common scaling ambiguity without changing the initial geometry.
+The example weight bounds are optional modelling choices, not data inferred
+from the cloud.</p>
+<p><code class="docutils literal notranslate"><span class="pre">control_mask</span></code> and <code class="docutils literal notranslate"><span class="pre">weight_mask</span></code> select free entries (<code class="docutils literal notranslate"><span class="pre">True</span></code>) in the corresponding
+control/weight arrays. <code class="docutils literal notranslate"><span class="pre">control_bounds</span></code> and <code class="docutils literal notranslate"><span class="pre">weight_bounds</span></code> are lower/upper pairs
+that broadcast to those arrays. If all weights are initially free, the fitter
+normalizes them by <code class="docutils literal notranslate"><span class="pre">W00</span></code> and fixes that normalized weight to one; weight bounds
+then apply to the normalized values. An already fixed weight preserves the
+initial common weight scale. Finite bounds on free control coordinates select
+the Pounce route even when weights and point parameters are fixed.</p>
+</section>
+<section id="unknown-point-parameters">
+<h2>Unknown point parameters<a class="headerlink" href="#unknown-point-parameters" title="Link to this heading">#</a></h2>
+<p>An unlabeled cloud needs parameter estimates in addition to an initial patch.
+Choose <code class="docutils literal notranslate"><span class="pre">correspondence=&quot;joint&quot;</span></code> to optimize the surface and all point parameters
+in the same nonlinear problem:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">nrb</span><span class="o">.</span><span class="n">fit_surface</span><span class="p">(</span>
+    <span class="n">points</span><span class="p">,</span>
+    <span class="n">initial_surface</span><span class="p">,</span>
+    <span class="n">correspondence</span><span class="o">=</span><span class="s2">&quot;joint&quot;</span><span class="p">,</span>
+    <span class="n">optimize_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">initial_parameters</span><span class="o">=</span><span class="n">uv_guess</span><span class="p">,</span>
+    <span class="n">print_convergence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">record_history</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">initial_parameters</span></code> are guesses that may change. They are distinct from
+<code class="docutils literal notranslate"><span class="pre">parameters</span></code>, which specify known, fixed correspondences. If initial guesses
+are omitted, the fitter initializes them by projecting onto the initial patch.
+A suitable initial patch is still needed; automatic surface topology and patch
+construction are separate tasks.</p>
+<p>Choose <code class="docutils literal notranslate"><span class="pre">correspondence=&quot;alternating&quot;</span></code> to hold parameters fixed during each
+surface fit, then project onto the updated geometry:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">nrb</span><span class="o">.</span><span class="n">fit_surface</span><span class="p">(</span>
+    <span class="n">points</span><span class="p">,</span>
+    <span class="n">initial_surface</span><span class="p">,</span>
+    <span class="n">correspondence</span><span class="o">=</span><span class="s2">&quot;alternating&quot;</span><span class="p">,</span>
+    <span class="n">optimize_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">max_cycles</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">print_convergence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">record_history</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Projection reuses NurbsPy’s existing public JAX bounded-Newton implementation.
+It rebuilds sampled surface positions when geometry changes and reuses compiled
+code where possible. It does not introduce another projection solver.</p>
+<p>The joint method includes mixed surface/parameter curvature in its exact sparse
+Hessian. The alternating method solves smaller blocks, but can require many
+cycles. Success of individual surface fits does not establish convergence of
+the combined alternating problem. Both methods are local; successful
+termination does not certify a global minimum or globally nearest points.</p>
+<p>Joint parameter optimization requires positive degrees and continuously
+differentiable interior joins. Repeated interior knots are supported when they
+retain at least C1 continuity; C0 corners and discontinuous joins require a
+different stationarity treatment and are rejected by the joint solver. Fixed
+parameter fitting and the existing projector retain their own knot support.
+Alternating fitting uses the projector’s checked one-sided conditions at C0
+corners, where a smooth parameter gradient need not vanish.</p>
+</section>
+<section id="results-and-visualization">
+<h2>Results and visualization<a class="headerlink" href="#results-and-visualization" title="Link to this heading">#</a></h2>
+<p>The result provides the fitted <code class="docutils literal notranslate"><span class="pre">surface</span></code>, final <code class="docutils literal notranslate"><span class="pre">parameters</span></code>, <code class="docutils literal notranslate"><span class="pre">success</span></code>,
+<code class="docutils literal notranslate"><span class="pre">message</span></code>, <code class="docutils literal notranslate"><span class="pre">iterations</span></code>, <code class="docutils literal notranslate"><span class="pre">rms</span></code>, <code class="docutils literal notranslate"><span class="pre">objective</span></code>, <code class="docutils literal notranslate"><span class="pre">timings</span></code> and <code class="docutils literal notranslate"><span class="pre">diagnostics</span></code>.
+<code class="docutils literal notranslate"><span class="pre">record_history=True</span></code> also retains history for inspection or presentation.
+Native observations are distinguished from the authoritative returned solution;
+their labels preserve what the optimizer actually exposes.</p>
+<p><code class="docutils literal notranslate"><span class="pre">timings</span></code> separates setup/compilation from the warm solve. A budget exit remains
+unsuccessful even if the visible geometry already gives a small error.</p>
+<p>Use the existing <code class="docutils literal notranslate"><span class="pre">Figure</span></code> API to compare the fit with a reference:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span> <span class="o">=</span> <span class="n">nrb</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">surface</span><span class="p">,</span>
+    <span class="n">resolution</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Fitted surface&quot;</span><span class="p">,</span>
+    <span class="n">display</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;geometry_color&quot;</span><span class="p">:</span> <span class="s2">&quot;#147db3&quot;</span><span class="p">,</span> <span class="s2">&quot;control_points&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">figure</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+    <span class="n">original_surface</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Original surface&quot;</span><span class="p">,</span>
+    <span class="n">display</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;geometry_color&quot;</span><span class="p">:</span> <span class="s2">&quot;#ed8b23&quot;</span><span class="p">,</span> <span class="s2">&quot;opacity&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span>
+             <span class="s2">&quot;control_points&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;control_polygon&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">figure</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The four scripts in <code class="docutils literal notranslate"><span class="pre">demos/surface_fitting/</span></code> are self-contained single-fit
+examples. They use the same rational target: 01 fixes unit weights, 02 optimizes
+weights at known labels, 03 fits surface and labels jointly, and 04 alternates
+projection/refitting. All start from a separate flat surface and print their
+convergence information before opening the viewer.</p>
+</section>
+<section id="development-studies-and-custom-constraints">
+<h2>Development studies and custom constraints<a class="headerlink" href="#development-studies-and-custom-constraints" title="Link to this heading">#</a></h2>
+<p>Grid-refinement runs, analytic reference errors, timing comparisons and
+standalone HTML studies remain in <code class="docutils literal notranslate"><span class="pre">development/surface_fitting/</span></code>.</p>
+<p>Case 05 there defines its own area and orientation constraints. Variable bounds
+and fixed-coordinate choices can be reused, but those geometric restrictions
+belong to the particular application. A custom constrained problem must include
+the full constraint contribution to its Lagrangian Hessian and the appropriate
+sparsity pattern; the ordinary fitting Hessian pattern alone is not sufficient
+for arbitrary constraints.</p>
+</section>
+<section id="api-reference">
+<h2>API reference<a class="headerlink" href="#api-reference" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">nurbspy.</span></span><span class="sig-name descname"><span class="pre">fit_surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_surface</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correspondence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fixed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_bounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_bounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_regularization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_regularization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_cycles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_passes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">record_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_convergence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nurbspy/fitting/_api.html#fit_surface"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Fit a supplied NURBS patch to positions shaped <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">dimension)</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">parameters</span></code> supplies fixed paired labels shaped <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">2)</span></code>. For
+<code class="docutils literal notranslate"><span class="pre">correspondence='joint'</span></code> or <code class="docutils literal notranslate"><span class="pre">'alternating'</span></code>, supply optional
+<code class="docutils literal notranslate"><span class="pre">initial_parameters</span></code> guesses instead; otherwise the existing surface
+projector initializes them. Degrees, knots and control counts remain fixed.
+Joint parameter optimization requires positive degrees and at least C1
+interior continuity. Alternating fitting retains the projector’s one-sided
+treatment of C0 corners.</p>
+<p>Fixed parameters and fixed weights use linear least squares when no free
+coordinate has finite bounds. Other surface optimizations use optional JAX
+reverse AD and exact sparse-Hessian Pounce interior point. The host solve
+itself is not a JAX-transformable operation. NumPy inputs do not require JAX
+for the linear route. Returned geometry uses the input backend.</p>
+<p>Masks broadcast to the corresponding control/weight array; True means free.
+Bounds are lower/upper pairs broadcast to those arrays. If all weights are
+free, initial weights are normalized by W00 and that weight is fixed to one;
+bounds then apply to normalized weights. A pre-existing fixed weight already
+removes the common scale ambiguity, so its original scale is retained.</p>
+<p>The objective is <code class="docutils literal notranslate"><span class="pre">objective_scale</span></code> times half the mean squared 3D (or
+input-dimensional) error, plus <code class="docutils literal notranslate"><span class="pre">sum(control_regularization</span> <span class="pre">*</span> <span class="pre">(P-P0)**2)/(2K)</span></code>
+and <code class="docutils literal notranslate"><span class="pre">weight_regularization</span> <span class="pre">*</span> <span class="pre">sum((log(w)-log(w0))**2)/(2*nfree_weights)</span></code>.
+Regularization defaults to zero; geometric priors and bounds are explicit.
+Iteration/cycle budget exits preserve unsuccessful status.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nurbspy.</span></span><span class="sig-name descname"><span class="pre">SurfaceFitResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surface:</span> <span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">success:</span> <span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rms:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history:</span> <span class="pre">list</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timings:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diagnostics:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nurbspy/fitting/_api.html#SurfaceFitResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Returned geometry, correspondences and explicitly reported convergence.</p>
+<p><code class="docutils literal notranslate"><span class="pre">history</span></code> is optional. Native observations have unknown acceptance and
+identify their coordinates as last objective evaluations. The final entry
+is the authoritative returned solution. <code class="docutils literal notranslate"><span class="pre">timings</span></code> separates compilation,
+setup and warm solve; <code class="docutils literal notranslate"><span class="pre">diagnostics</span></code> retains solver and block-check metrics.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="figures.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Reproducible figures and PNG frames</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#known-point-parameters">Known point parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unknown-point-parameters">Unknown point parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-and-visualization">Results and visualization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#development-studies-and-custom-constraints">Development studies and custom constraints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-reference">API reference</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

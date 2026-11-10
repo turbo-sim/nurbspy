@@ -32,6 +32,7 @@
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery.css?v=12311f5c" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
@@ -40,9 +41,10 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=2572fa48"></script>
+    <script src="_static/documentation_options.js?v=62544db9"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script defer="defer" src="_static/gallery.js?v=de98829b"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -51,6 +53,7 @@
     <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/figures.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Surface fitting" href="surface_fitting.html" />
     <link rel="prev" title="Interactive geometry viewing and editing" href="visualization.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -174,8 +177,10 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="gallery.html">Interactive gallery</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.fitting.html">nurbspy.fitting package</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
@@ -227,6 +232,7 @@
 <li class="toctree-l1"><a class="reference internal" href="geometry_io.html">Saving and loading geometry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="visualization.html">Interactive geometry viewing and editing</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Reproducible figures and PNG frames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="surface_fitting.html">Surface fitting</a></li>
 </ul>
 
     </div>
@@ -575,6 +581,10 @@ Two-dimensional coordinates use z=0. Marker size is in logical pixels;
 <code class="docutils literal notranslate"><span class="pre">depth_test=False</span></code> keeps every measurement visible over the surfaces. Set it to
 <code class="docutils literal notranslate"><span class="pre">True</span></code> for normal surface occlusion. These annotations are preserved in Figure
 YAML and PNGs and do not appear among editable geometry objects.</p>
+<p><code class="docutils literal notranslate"><span class="pre">fig.mesh(vertices,</span> <span class="pre">triangles,</span> <span class="pre">color=&quot;#b9cbd6&quot;,</span> <span class="pre">wireframe=False)</span></code> similarly adds a
+read-only triangle mesh, such as an STL reloaded from disk. Vertices have shape
+<code class="docutils literal notranslate"><span class="pre">(count,</span> <span class="pre">3)</span></code> and triangles contain integer vertex-index triples. The mesh is
+preserved in YAML, HTML, and PNG; <code class="docutils literal notranslate"><span class="pre">wireframe=True</span></code> also draws its triangle edges.</p>
 <p><code class="docutils literal notranslate"><span class="pre">names</span></code> lists the objects; <code class="docutils literal notranslate"><span class="pre">geometry(name)</span></code> and <code class="docutils literal notranslate"><span class="pre">settings(name)</span></code> return independent
 copies. Modify a geometry copy and pass it back through <code class="docutils literal notranslate"><span class="pre">update(name,</span> <span class="pre">geometry=...)</span></code>.
 <code class="docutils literal notranslate"><span class="pre">remove(name)</span></code> removes an object. Omitting a name in <code class="docutils literal notranslate"><span class="pre">geometry()</span></code>, <code class="docutils literal notranslate"><span class="pre">settings()</span></code> or
@@ -602,6 +612,13 @@ can be supplied instead of a path.</p>
 </section>
 <section id="headless-export-and-scripted-animation">
 <h2>Headless export and scripted animation<a class="headerlink" href="#headless-export-and-scripted-animation" title="Link to this heading">#</a></h2>
+<p>For a self-contained interactive page, use <code class="docutils literal notranslate"><span class="pre">fig.to_html(&quot;surface.html&quot;)</span></code>.
+The file bundles the Three.js renderer and precomputed geometry; recipients
+need a browser, with no Python server or internet access. Optional named
+views use <code class="docutils literal notranslate"><span class="pre">fig.to_html(&quot;comparison.html&quot;,</span> <span class="pre">variants={&quot;Initial&quot;:</span> <span class="pre">fig,</span> <span class="pre">&quot;Final&quot;:</span> <span class="pre">other_fig})</span></code>.
+Camera and display choices persist when switching views. Measurement markers
+can be hidden independently. Geometry is read-only, and controls requiring
+new Python diagnostics are disabled; exported diagnostics remain available.</p>
 <p>Playwright is a standard dependency. PNG export uses an isolated headless browser,
 without opening a visible window or using your browser profile. It tries the
 Playwright Chromium engine, then installed Microsoft Edge or Google Chrome. If
@@ -635,7 +652,18 @@ than promising identical pixels across different platforms.</p>
 reuse one renderer. A generator can update and yield the same Figure for each
 frame; each frame is saved before the generator advances. The optional callback
 receives the one-based frame index and saved path. No animation class is required.</p>
-<p>Run <code class="docutils literal notranslate"><span class="pre">demos/demos_viewer/demo_figure_save.py</span></code> for interactive capture, restoration, and PNG export.</p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">04_figure_save.py</span></code> for interactive capture/restoration or
+<code class="docutils literal notranslate"><span class="pre">demos/oloid/demo_oloid_animation.py</span></code> for two reference circles, a moving straight
+generating line, and progressively revealed cubic ruled surface patches.
+It opens the visualizer before export and creates a seamless PNG/GIF sequence
+with two cosine development/undevelopment cycles and one-second holds at the
+fully formed and line-only states. It exports an overview GIF with three
+continuous camera orbits, a line-following GIF, and a synchronized side-by-side
+GIF. The following camera stays on the outward side of the active ruling, keeping
+the construction visible. The GIF join is at the line-only state. Export
+switches and all settings are global variables.
+The oloid’s cubic boundaries approximate the analytical circles with an adaptive,
+shared-knot fit; the surface stays linear along its straight rulings.</p>
 </section>
 <section id="embedded-dash-figures">
 <h2>Embedded Dash figures<a class="headerlink" href="#embedded-dash-figures" title="Link to this heading">#</a></h2>
@@ -674,6 +702,15 @@ browser’s Store; interactions do not mutate the shared server-side input figur
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Interactive geometry viewing and editing</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="surface_fitting.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Surface fitting</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>

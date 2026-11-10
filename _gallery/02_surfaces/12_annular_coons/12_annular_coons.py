@@ -1,0 +1,71 @@
+"""Construct an annular patch using circular Coons boundary curves.
+
+Define its boundary curves and display the resulting patch with its control
+net and parameter curves.
+
+Open one construction in the editor with a reference grid.
+Isocurves follow edits. Other annotations illustrate the initial construction.
+"""
+
+import numpy as np
+import nurbspy as nrb
+
+
+def main(show=True):
+    # Coons surface example: Annulus NURBS surface
+
+    # Define the outer circle
+    O = nrb.Point(0.0, 0.0, 0.0)
+    X = np.asarray([1.00, 0.00, 0.00])  # Abscissa direction
+    Y = np.asarray([0.00, 1.00, 0.00])  # Ordinate direction
+    R = 1.00  # Circle radius
+    theta_start = 0.00  # Start angle (set any arbitrary value)
+    theta_end = 2 * np.pi  # End angle (set any arbitrary value)
+    nurbsOuter = nrb.CircularArc(O, X, Y, R, theta_start, theta_end).NurbsCurve
+
+    # Define the inner circle
+    O = nrb.Point(0.0, 0.0, 0.0)
+    X = np.asarray([1.00, 0.00, 0.00])  # Abscissa direction
+    Y = np.asarray([0.00, 1.00, 0.00])  # Ordinate direction
+    R = 0.50  # Circle radius
+    nurbsInner = nrb.CircularArc(O, X, Y, R, theta_start, theta_end).NurbsCurve
+
+    # Define start closing boundary
+    P = [
+        nrb.Point(*nurbsOuter.P[:, 0]),
+        nrb.Point(*nurbsInner.P[:, 0]),
+    ]
+    W = np.asarray([nurbsOuter.W[0], nurbsInner.W[0]])
+    nurbsWest = nrb.NurbsCurve(control_points=P, weights=W)
+
+    # Define the west boundary (rational Bézier curve)
+    P = [
+        nrb.Point(*nurbsOuter.P[:, -1]),
+        nrb.Point(*nurbsInner.P[:, -1]),
+    ]
+    W = np.asarray([nurbsOuter.W[-1], nurbsInner.W[-1]])
+    nurbsEast = nrb.NurbsCurve(control_points=P, weights=W)
+
+    coonsNurbsSurface = nrb.NurbsSurfaceCoons(
+        nurbsOuter, nurbsInner, nurbsWest, nurbsEast
+    ).NurbsSurface
+    # coonsNurbsSurface = nrb.NurbsSurfaceRuled(nurbsOuter, nurbsInner).NurbsSurface
+
+    figure = nrb.Figure(
+        coonsNurbsSurface,
+        title="Annular Coons patch interpolating four boundary curves",
+        display=dict(
+            control_points=True,
+            control_polygon=True,
+            grid=True,
+            isocurves=True,
+            geometry_color="#0072bd",
+        ),
+    )
+    if show:
+        figure.edit()
+    return figure
+
+
+if __name__ == "__main__":
+    main()

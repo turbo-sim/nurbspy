@@ -32,6 +32,7 @@
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery.css?v=12311f5c" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
@@ -40,9 +41,10 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=2572fa48"></script>
+    <script src="_static/documentation_options.js?v=62544db9"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script defer="defer" src="_static/gallery.js?v=de98829b"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -175,8 +177,10 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="gallery.html">Interactive gallery</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.fitting.html">nurbspy.fitting package</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
@@ -228,6 +232,7 @@
 <li class="toctree-l1"><a class="reference internal" href="geometry_io.html">Saving and loading geometry</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Interactive geometry viewing and editing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="figures.html">Reproducible figures and PNG frames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="surface_fitting.html">Surface fitting</a></li>
 </ul>
 
     </div>
@@ -543,7 +548,7 @@ and a white background. Editors highlight the active point in green and enlarge
 it slightly; viewers keep all points in their normal colour and size, including
 after clicking a point. Display has two colour pickers in viewers
 and an additional selected-point colour picker in editors.</p></li>
-<li><p>The horizontal header contains the Navigation dropdown, Fit, Reset in editors,
+<li><p>The horizontal header contains the Navigation dropdown, Fit, Undo/Redo and Reset in editors,
 Display, and Edit in editors. It wraps in narrow containers.</p></li>
 <li><p>Display/Edit open the right inspector; clicking the active button, its close
 button, or Escape closes it. Switching panes preserves model/camera/settings.</p></li>
@@ -561,6 +566,30 @@ outlines; glossy spatial spheres match their apparent size through zoom/depth.</
 and axis/plane/Normal direction drag constraints. Press Enter or leave a field
 to commit. Reset restores the original coordinates/weights.</p></li>
 </ul>
+<p>Shift-click toggles points in the selection on Windows, Linux, and macOS.
+Shift-left-drag draws an additive selection rectangle; the <strong>Box select</strong> button
+in Edit provides a one-shot replacement selection. Rectangles use projected
+control-point positions, including points behind the surface, and ignore hidden
+handles. Click an unselected point to replace the selection, or drag any selected
+point to translate the whole group. A background click clears selection;
+background dragging retains camera navigation. Selection stays within the active
+object. The selected count is shown in Edit; its coordinate and weight fields
+affect only the active point. All selected points are highlighted in green.</p>
+<p>Group dragging uses one common displacement, preserving the selected points’
+relative positions. Axis/plane constraints apply to the entire group; Normal
+direction uses the active point’s normal, frozen at drag start. Shift-left-drag
+takes priority over camera navigation in editors; Ctrl-drag/right-drag panning
+and Shift-wheel/middle-button camera gestures retain their existing mappings.</p>
+<p>Undo/Redo buttons and Ctrl+Z/Ctrl+Shift+Z (Command on macOS; Ctrl+Y is also
+supported) restore control-point coordinates and weights. Each drag, committed
+numeric edit, weight-slider gesture, or Reset is one step. Selection, camera, and
+appearance changes do not add steps. History follows chronological edits across
+object switches and belongs to one editor session/browser tab; it is not stored
+in YAML. It retains at most 100 entries and approximately 16 MiB of snapshots.
+A new committed edit clears the redo branch. History actions wait for geometry
+evaluation to finish, and failed evaluations do not create successful edit steps.
+Shortcuts act only in the focused editor; input fields retain native text undo.
+Escape cancels a drag or selection rectangle before closing an inspector.</p>
 <p>Normal direction is available in 3D. Python evaluates the curve Frenet normal or
 surface normal at a Greville parameter associated with the point. The direction
 is fixed for each drag and refreshed afterward. Undefined normals are reported
@@ -585,7 +614,7 @@ STL remains unitless and sampled. Open patches remain open. See
 coalesce; stale results are ignored. Invalid edits roll back to accepted geometry.
 The GUI accepts real finite geometry and positive weights; numerical constructors
 retain their broader complex/arbitrary-dimensional support.</p>
-<p>Undo/redo, file dialogs, trimming, control-point insertion/deletion, and continuity
+<p>File dialogs, trimming, control-point insertion/deletion, and continuity
 constraints across several patches are outside this integration’s scope.</p>
 </section>
 <section id="options-and-examples">

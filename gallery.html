@@ -1,0 +1,928 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Interactive gallery &#8212; nurbspy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery.css?v=12311f5c" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=62544db9"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script defer="defer" src="_static/gallery.js?v=de98829b"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gallery';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/nurbspy/gallery.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API reference" href="api_reference.html" />
+    <link rel="prev" title="Torus and oloid: from NURBS to a printable STL" href="examples/stl_printing.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">nurbspy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="getting_started/index.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="theory/index.html">Theory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory/bezier.html">Bézier curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/bspline.html">B-spline curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/nurbs.html">NURBS curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/g2_continuity.html">G² continuity of NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/curve_arclength.html">Curve arc length and numerical integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/curve_parameterization.html">Arc-length parameterization and coordinate inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/frenet_serret.html">Frenet–Serret frames and torsion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_isocurves.html">Extracting isoparametric curves from surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_integrals.html">Surface area and surface integrals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/surface_differential_geometry.html">Surface differential geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/point_projection.html">Point projection onto curves and surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references/bibliography.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/basis_polynomials.html">Basis polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/curves.html">Bézier, B-spline, and NURBS curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/surfaces.html">Bézier, B-spline, and NURBS surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/circular_arc.html">An exact circular arc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/bilinear_surface.html">Bilinear surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/ruled_surface.html">Ruled surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/extruded_surface.html">Extruded surface: a full cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/revolution_surface.html">Surface of revolution: a torus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/coons_patch.html">Coons patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/curvature_continuity.html">Curvature continuity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/point_projection_curve.html">Point projection onto a curve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/point_projection_surface.html">Point projection onto a surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Interactive gallery</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.fitting.html">nurbspy.fitting package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve.html">nurbspy.jax.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_curve_circular_arc.html">nurbspy.jax.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface.html">nurbspy.jax.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_bilinear.html">nurbspy.jax.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_coons.html">nurbspy.jax.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_extruded.html">nurbspy.jax.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_revolution.html">nurbspy.jax.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_surface_ruled.html">nurbspy.jax.nurbs_surface_ruled module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.prepared.html">nurbspy.jax.prepared module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.prepared_projection.html">nurbspy.jax.prepared_projection module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.numpy.html">nurbspy.numpy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_basis_functions.html">nurbspy.numpy.nurbs_basis_functions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_curve.html">nurbspy.numpy.nurbs_curve module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_curve_circular_arc.html">nurbspy.numpy.nurbs_curve_circular_arc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface.html">nurbspy.numpy.nurbs_surface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_bilinear.html">nurbspy.numpy.nurbs_surface_bilinear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_coons.html">nurbspy.numpy.nurbs_surface_coons module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_extruded.html">nurbspy.numpy.nurbs_surface_extruded module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_revolution.html">nurbspy.numpy.nurbs_surface_revolution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.numpy.nurbs_surface_ruled.html">nurbspy.numpy.nurbs_surface_ruled module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.visualization.html">nurbspy.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.analysis.html">nurbspy.visualization.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.dash.html">nurbspy.visualization.dash module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.desktop.html">nurbspy.visualization.desktop module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.figure.html">nurbspy.visualization.figure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.figure_hosts.html">nurbspy.visualization.figure_hosts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.html.html">nurbspy.visualization.html module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.model.html">nurbspy.visualization.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.plotting.html">nurbspy.visualization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/nurbspy.visualization.sampling.html">nurbspy.visualization.sampling module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.graphics.html">nurbspy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.mesh.html">nurbspy.mesh module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.point.html">nurbspy.point module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.serialization.html">nurbspy.serialization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.web_explorer.html">nurbspy.web_explorer module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="geometry_io.html">Saving and loading geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Interactive geometry viewing and editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="figures.html">Reproducible figures and PNG frames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="surface_fitting.html">Surface fitting</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/edit/main/docs/source/gallery.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/nurbspy/issues/new?title=Issue%20on%20page%20%2Fgallery.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/gallery.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Interactive gallery</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#curves">Curves</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#surfaces">Surfaces</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="interactive-gallery">
+<h1>Interactive gallery<a class="headerlink" href="#interactive-gallery" title="Link to this heading">#</a></h1>
+<p>Explore the numbered curve and surface tutorials. Select a preview to rotate,
+zoom, and change its display settings. One figure is active at a time so the
+gallery stays responsive. Close it to return to the preview.</p>
+<p>Use <strong>Open full page</strong> for a larger view, <strong>Download HTML</strong> for an offline copy,
+or <strong>Python source</strong> to try the construction in the editor. The embedded figures
+are read-only views; run the Python scripts to edit their control points.</p>
+<section id="curves">
+<h2>Curves<a class="headerlink" href="#curves" title="Link to this heading">#</a></h2>
+<div class="nrb-gallery-grid">
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">01</span> Bézier (planar)</h3>
+<p>Construct and edit one planar Bezier curve.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/01_curves/01_bezier_planar/01_bezier_planar.html" data-demo-title="Bézier (planar)" aria-label="Explore Bézier (planar)">
+<img src="./_gallery/01_curves/01_bezier_planar/01_bezier_planar.png" alt="Bézier (planar)" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/01_curves/01_bezier_planar/01_bezier_planar.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/01_curves/01_bezier_planar/01_bezier_planar.html" download>Download HTML</a><a href="./_gallery/01_curves/01_bezier_planar/01_bezier_planar.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">02</span> Bézier (spatial)</h3>
+<p>Construct and edit one spatial Bezier curve.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/01_curves/02_bezier_spatial/02_bezier_spatial.html" data-demo-title="Bézier (spatial)" aria-label="Explore Bézier (spatial)">
+<img src="./_gallery/01_curves/02_bezier_spatial/02_bezier_spatial.png" alt="Bézier (spatial)" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/01_curves/02_bezier_spatial/02_bezier_spatial.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/01_curves/02_bezier_spatial/02_bezier_spatial.html" download>Download HTML</a><a href="./_gallery/01_curves/02_bezier_spatial/02_bezier_spatial.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">03</span> Rational Bézier (planar)</h3>
+<p>Construct and edit one planar rational Bezier curve.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/01_curves/03_rational_bezier_planar/03_rational_bezier_planar.html" data-demo-title="Rational Bézier (planar)" aria-label="Explore Rational Bézier (planar)">
+<img src="./_gallery/01_curves/03_rational_bezier_planar/03_rational_bezier_planar.png" alt="Rational Bézier (planar)" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/01_curves/03_rational_bezier_planar/03_rational_bezier_planar.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/01_curves/03_rational_bezier_planar/03_rational_bezier_planar.html" download>Download HTML</a><a href="./_gallery/01_curves/03_rational_bezier_planar/03_rational_bezier_planar.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">04</span> Rational Bézier (spatial)</h3>
+<p>Construct and edit one spatial rational Bezier curve.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/01_curves/04_rational_bezier_spatial/04_rational_bezier_spatial.html" data-demo-title="Rational Bézier (spatial)" aria-label="Explore Rational Bézier (spatial)">
+<img src="./_gallery/01_curves/04_rational_bezier_spatial/04_rational_bezier_spatial.png" alt="Rational Bézier (spatial)" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/01_curves/04_rational_bezier_spatial/04_rational_bezier_spatial.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/01_curves/04_rational_bezier_spatial/04_rational_bezier_spatial.html" download>Download HTML</a><a href="./_gallery/01_curves/04_rational_bezier_spatial/04_rational_bezier_spatial.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">05</span> B-spline (planar)</h3>
+<p>Construct and edit one planar B-spline curve.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/01_curves/05_bspline_planar/05_bspline_planar.html" data-demo-title="B-spline (planar)" aria-label="Explore B-spline (planar)">
+<img src="./_gallery/01_curves/05_bspline_planar/05_bspline_planar.png" alt="B-spline (planar)" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/01_curves/05_bspline_planar/05_bspline_planar.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/01_curves/05_bspline_planar/05_bspline_planar.html" download>Download HTML</a><a href="./_gallery/01_curves/05_bspline_planar/05_bspline_planar.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">06</span> B-spline (spatial)</h3>
+<p>Construct and edit one spatial B-spline curve.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/01_curves/06_bspline_spatial/06_bspline_spatial.html" data-demo-title="B-spline (spatial)" aria-label="Explore B-spline (spatial)">
+<img src="./_gallery/01_curves/06_bspline_spatial/06_bspline_spatial.png" alt="B-spline (spatial)" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/01_curves/06_bspline_spatial/06_bspline_spatial.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/01_curves/06_bspline_spatial/06_bspline_spatial.html" download>Download HTML</a><a href="./_gallery/01_curves/06_bspline_spatial/06_bspline_spatial.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">07</span> NURBS (planar)</h3>
+<p>Construct and edit one planar NURBS curve.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/01_curves/07_nurbs_planar/07_nurbs_planar.html" data-demo-title="NURBS (planar)" aria-label="Explore NURBS (planar)">
+<img src="./_gallery/01_curves/07_nurbs_planar/07_nurbs_planar.png" alt="NURBS (planar)" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/01_curves/07_nurbs_planar/07_nurbs_planar.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/01_curves/07_nurbs_planar/07_nurbs_planar.html" download>Download HTML</a><a href="./_gallery/01_curves/07_nurbs_planar/07_nurbs_planar.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">08</span> NURBS (spatial)</h3>
+<p>Construct and edit one spatial NURBS curve.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/01_curves/08_nurbs_spatial/08_nurbs_spatial.html" data-demo-title="NURBS (spatial)" aria-label="Explore NURBS (spatial)">
+<img src="./_gallery/01_curves/08_nurbs_spatial/08_nurbs_spatial.png" alt="NURBS (spatial)" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/01_curves/08_nurbs_spatial/08_nurbs_spatial.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/01_curves/08_nurbs_spatial/08_nurbs_spatial.html" download>Download HTML</a><a href="./_gallery/01_curves/08_nurbs_spatial/08_nurbs_spatial.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">09</span> Circular arc (planar)</h3>
+<p>Represent and edit one planar circular arc with rational NURBS.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/01_curves/09_circular_arc_planar/09_circular_arc_planar.html" data-demo-title="Circular arc (planar)" aria-label="Explore Circular arc (planar)">
+<img src="./_gallery/01_curves/09_circular_arc_planar/09_circular_arc_planar.png" alt="Circular arc (planar)" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/01_curves/09_circular_arc_planar/09_circular_arc_planar.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/01_curves/09_circular_arc_planar/09_circular_arc_planar.html" download>Download HTML</a><a href="./_gallery/01_curves/09_circular_arc_planar/09_circular_arc_planar.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">10</span> Circular arc (spatial)</h3>
+<p>Represent and edit one spatial circular arc with rational NURBS.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/01_curves/10_circular_arc_spatial/10_circular_arc_spatial.html" data-demo-title="Circular arc (spatial)" aria-label="Explore Circular arc (spatial)">
+<img src="./_gallery/01_curves/10_circular_arc_spatial/10_circular_arc_spatial.png" alt="Circular arc (spatial)" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/01_curves/10_circular_arc_spatial/10_circular_arc_spatial.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/01_curves/10_circular_arc_spatial/10_circular_arc_spatial.html" download>Download HTML</a><a href="./_gallery/01_curves/10_circular_arc_spatial/10_circular_arc_spatial.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">11</span> Derivatives (spatial)</h3>
+<p>Check analytical NURBS curve derivatives against finite differences.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/01_curves/11_derivatives_spatial/11_derivatives_spatial.html" data-demo-title="Derivatives (spatial)" aria-label="Explore Derivatives (spatial)">
+<img src="./_gallery/01_curves/11_derivatives_spatial/11_derivatives_spatial.png" alt="Derivatives (spatial)" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/01_curves/11_derivatives_spatial/11_derivatives_spatial.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/01_curves/11_derivatives_spatial/11_derivatives_spatial.html" download>Download HTML</a><a href="./_gallery/01_curves/11_derivatives_spatial/11_derivatives_spatial.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">12</span> Point projection (planar)</h3>
+<p>Find the closest point on a planar NURBS curve to a given point.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/01_curves/12_point_projection_planar/12_point_projection_planar.html" data-demo-title="Point projection (planar)" aria-label="Explore Point projection (planar)">
+<img src="./_gallery/01_curves/12_point_projection_planar/12_point_projection_planar.png" alt="Point projection (planar)" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/01_curves/12_point_projection_planar/12_point_projection_planar.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/01_curves/12_point_projection_planar/12_point_projection_planar.html" download>Download HTML</a><a href="./_gallery/01_curves/12_point_projection_planar/12_point_projection_planar.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">13</span> Merge</h3>
+<p>Join three compatible NURBS segments and edit the resulting curve.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/01_curves/13_merge/13_merge.html" data-demo-title="Merge" aria-label="Explore Merge">
+<img src="./_gallery/01_curves/13_merge/13_merge.png" alt="Merge" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/01_curves/13_merge/13_merge.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/01_curves/13_merge/13_merge.html" download>Download HTML</a><a href="./_gallery/01_curves/13_merge/13_merge.py" download>Python source</a></div>
+</article>
+</div></section>
+<section id="surfaces">
+<h2>Surfaces<a class="headerlink" href="#surfaces" title="Link to this heading">#</a></h2>
+<div class="nrb-gallery-grid">
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">01</span> Bilinear (planar)</h3>
+<p>Construct and edit one planar bilinear patch from four corner points.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/01_bilinear_planar/01_bilinear_planar.html" data-demo-title="Bilinear (planar)" aria-label="Explore Bilinear (planar)">
+<img src="./_gallery/02_surfaces/01_bilinear_planar/01_bilinear_planar.png" alt="Bilinear (planar)" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/01_bilinear_planar/01_bilinear_planar.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/01_bilinear_planar/01_bilinear_planar.html" download>Download HTML</a><a href="./_gallery/02_surfaces/01_bilinear_planar/01_bilinear_planar.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">02</span> Bilinear (spatial)</h3>
+<p>Construct and edit one warped bilinear patch from four corner points.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/02_bilinear_spatial/02_bilinear_spatial.html" data-demo-title="Bilinear (spatial)" aria-label="Explore Bilinear (spatial)">
+<img src="./_gallery/02_surfaces/02_bilinear_spatial/02_bilinear_spatial.png" alt="Bilinear (spatial)" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/02_bilinear_spatial/02_bilinear_spatial.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/02_bilinear_spatial/02_bilinear_spatial.html" download>Download HTML</a><a href="./_gallery/02_surfaces/02_bilinear_spatial/02_bilinear_spatial.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">03</span> Bézier</h3>
+<p>Construct a polynomial Bezier surface from a grid of control points.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/03_bezier/03_bezier.html" data-demo-title="Bézier" aria-label="Explore Bézier">
+<img src="./_gallery/02_surfaces/03_bezier/03_bezier.png" alt="Bézier" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/03_bezier/03_bezier.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/03_bezier/03_bezier.html" download>Download HTML</a><a href="./_gallery/02_surfaces/03_bezier/03_bezier.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">04</span> Rational Bézier</h3>
+<p>Illustrate how weights affect a rational Bezier surface.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/04_rational_bezier/04_rational_bezier.html" data-demo-title="Rational Bézier" aria-label="Explore Rational Bézier">
+<img src="./_gallery/02_surfaces/04_rational_bezier/04_rational_bezier.png" alt="Rational Bézier" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/04_rational_bezier/04_rational_bezier.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/04_rational_bezier/04_rational_bezier.html" download>Download HTML</a><a href="./_gallery/02_surfaces/04_rational_bezier/04_rational_bezier.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">05</span> B-spline</h3>
+<p>Construct a B-spline surface using explicit degrees and clamped knots.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/05_bspline/05_bspline.html" data-demo-title="B-spline" aria-label="Explore B-spline">
+<img src="./_gallery/02_surfaces/05_bspline/05_bspline.png" alt="B-spline" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/05_bspline/05_bspline.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/05_bspline/05_bspline.html" download>Download HTML</a><a href="./_gallery/02_surfaces/05_bspline/05_bspline.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">06</span> NURBS</h3>
+<p>Construct a NURBS surface with nonuniform control-point weights.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/06_nurbs/06_nurbs.html" data-demo-title="NURBS" aria-label="Explore NURBS">
+<img src="./_gallery/02_surfaces/06_nurbs/06_nurbs.png" alt="NURBS" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/06_nurbs/06_nurbs.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/06_nurbs/06_nurbs.html" download>Download HTML</a><a href="./_gallery/02_surfaces/06_nurbs/06_nurbs.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">07</span> Extruded profile</h3>
+<p>Extrude a NURBS profile along a fixed direction and edit the surface.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/07_extruded_profile/07_extruded_profile.html" data-demo-title="Extruded profile" aria-label="Explore Extruded profile">
+<img src="./_gallery/02_surfaces/07_extruded_profile/07_extruded_profile.png" alt="Extruded profile" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/07_extruded_profile/07_extruded_profile.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/07_extruded_profile/07_extruded_profile.html" download>Download HTML</a><a href="./_gallery/02_surfaces/07_extruded_profile/07_extruded_profile.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">08</span> Extruded cylinder</h3>
+<p>Extrude an exact circular profile along a fixed direction and edit the surface.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/08_extruded_cylinder/08_extruded_cylinder.html" data-demo-title="Extruded cylinder" aria-label="Explore Extruded cylinder">
+<img src="./_gallery/02_surfaces/08_extruded_cylinder/08_extruded_cylinder.png" alt="Extruded cylinder" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/08_extruded_cylinder/08_extruded_cylinder.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/08_extruded_cylinder/08_extruded_cylinder.html" download>Download HTML</a><a href="./_gallery/02_surfaces/08_extruded_cylinder/08_extruded_cylinder.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">09</span> Ruled profiles</h3>
+<p>Span straight lines between two weighted boundary profiles.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/09_ruled_profiles/09_ruled_profiles.html" data-demo-title="Ruled profiles" aria-label="Explore Ruled profiles">
+<img src="./_gallery/02_surfaces/09_ruled_profiles/09_ruled_profiles.png" alt="Ruled profiles" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/09_ruled_profiles/09_ruled_profiles.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/09_ruled_profiles/09_ruled_profiles.html" download>Download HTML</a><a href="./_gallery/02_surfaces/09_ruled_profiles/09_ruled_profiles.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">10</span> Ruled circles</h3>
+<p>Span straight lines between two crossed circular arcs.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/10_ruled_circles/10_ruled_circles.html" data-demo-title="Ruled circles" aria-label="Explore Ruled circles">
+<img src="./_gallery/02_surfaces/10_ruled_circles/10_ruled_circles.png" alt="Ruled circles" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/10_ruled_circles/10_ruled_circles.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/10_ruled_circles/10_ruled_circles.html" download>Download HTML</a><a href="./_gallery/02_surfaces/10_ruled_circles/10_ruled_circles.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">11</span> Coons</h3>
+<p>Interpolate four boundary curves with a Coons surface patch.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/11_coons/11_coons.html" data-demo-title="Coons" aria-label="Explore Coons">
+<img src="./_gallery/02_surfaces/11_coons/11_coons.png" alt="Coons" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/11_coons/11_coons.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/11_coons/11_coons.html" download>Download HTML</a><a href="./_gallery/02_surfaces/11_coons/11_coons.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">12</span> Annular Coons</h3>
+<p>Construct an annular patch using circular Coons boundary curves.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/12_annular_coons/12_annular_coons.html" data-demo-title="Annular Coons" aria-label="Explore Annular Coons">
+<img src="./_gallery/02_surfaces/12_annular_coons/12_annular_coons.png" alt="Annular Coons" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/12_annular_coons/12_annular_coons.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/12_annular_coons/12_annular_coons.html" download>Download HTML</a><a href="./_gallery/02_surfaces/12_annular_coons/12_annular_coons.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">13</span> Oloid ruled</h3>
+<p>Construct an oloid from two ruled surfaces spanning perpendicular circles.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/13_oloid_ruled/13_oloid_ruled.html" data-demo-title="Oloid ruled" aria-label="Explore Oloid ruled">
+<img src="./_gallery/02_surfaces/13_oloid_ruled/13_oloid_ruled.png" alt="Oloid ruled" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/13_oloid_ruled/13_oloid_ruled.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/13_oloid_ruled/13_oloid_ruled.html" download>Download HTML</a><a href="./_gallery/02_surfaces/13_oloid_ruled/13_oloid_ruled.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">14</span> Revolved profile</h3>
+<p>Revolve a weighted profile about an inclined axis.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/14_revolved_profile/14_revolved_profile.html" data-demo-title="Revolved profile" aria-label="Explore Revolved profile">
+<img src="./_gallery/02_surfaces/14_revolved_profile/14_revolved_profile.png" alt="Revolved profile" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/14_revolved_profile/14_revolved_profile.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/14_revolved_profile/14_revolved_profile.html" download>Download HTML</a><a href="./_gallery/02_surfaces/14_revolved_profile/14_revolved_profile.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">15</span> Revolved sphere</h3>
+<p>Generate a spherical patch by revolving a circular arc.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/15_revolved_sphere/15_revolved_sphere.html" data-demo-title="Revolved sphere" aria-label="Explore Revolved sphere">
+<img src="./_gallery/02_surfaces/15_revolved_sphere/15_revolved_sphere.png" alt="Revolved sphere" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/15_revolved_sphere/15_revolved_sphere.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/15_revolved_sphere/15_revolved_sphere.html" download>Download HTML</a><a href="./_gallery/02_surfaces/15_revolved_sphere/15_revolved_sphere.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">16</span> Revolved torus</h3>
+<p>Revolve a circular profile to construct and edit a rational torus.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/16_revolved_torus/16_revolved_torus.html" data-demo-title="Revolved torus" aria-label="Explore Revolved torus">
+<img src="./_gallery/02_surfaces/16_revolved_torus/16_revolved_torus.png" alt="Revolved torus" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/16_revolved_torus/16_revolved_torus.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/16_revolved_torus/16_revolved_torus.html" download>Download HTML</a><a href="./_gallery/02_surfaces/16_revolved_torus/16_revolved_torus.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">17</span> Derivatives</h3>
+<p>Check analytical NURBS surface derivatives against finite differences.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/17_derivatives/17_derivatives.html" data-demo-title="Derivatives" aria-label="Explore Derivatives">
+<img src="./_gallery/02_surfaces/17_derivatives/17_derivatives.png" alt="Derivatives" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/17_derivatives/17_derivatives.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/17_derivatives/17_derivatives.html" download>Download HTML</a><a href="./_gallery/02_surfaces/17_derivatives/17_derivatives.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">18</span> Point projection</h3>
+<p>Find the closest point on a NURBS surface to a given spatial point.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/18_point_projection/18_point_projection.html" data-demo-title="Point projection" aria-label="Explore Point projection">
+<img src="./_gallery/02_surfaces/18_point_projection/18_point_projection.png" alt="Point projection" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/18_point_projection/18_point_projection.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/18_point_projection/18_point_projection.html" download>Download HTML</a><a href="./_gallery/02_surfaces/18_point_projection/18_point_projection.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">19</span> Merge u</h3>
+<p>Join two compatible patches in the u parameter direction.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/19_merge_u/19_merge_u.html" data-demo-title="Merge u" aria-label="Explore Merge u">
+<img src="./_gallery/02_surfaces/19_merge_u/19_merge_u.png" alt="Merge u" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/19_merge_u/19_merge_u.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/19_merge_u/19_merge_u.html" download>Download HTML</a><a href="./_gallery/02_surfaces/19_merge_u/19_merge_u.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">20</span> Merge v</h3>
+<p>Join two compatible patches in the v parameter direction.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/20_merge_v/20_merge_v.html" data-demo-title="Merge v" aria-label="Explore Merge v">
+<img src="./_gallery/02_surfaces/20_merge_v/20_merge_v.png" alt="Merge v" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/20_merge_v/20_merge_v.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/20_merge_v/20_merge_v.html" download>Download HTML</a><a href="./_gallery/02_surfaces/20_merge_v/20_merge_v.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">21</span> STL torus</h3>
+<p>Export a closed torus STL, then edit its original NURBS construction.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/21_stl_torus/21_stl_torus.html" data-demo-title="STL torus" aria-label="Explore STL torus">
+<img src="./_gallery/02_surfaces/21_stl_torus/21_stl_torus.png" alt="STL torus" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/21_stl_torus/21_stl_torus.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/21_stl_torus/21_stl_torus.html" download>Download HTML</a><a href="./_gallery/02_surfaces/21_stl_torus/21_stl_torus.py" download>Python source</a></div>
+</article>
+<article class="nrb-demo-card">
+<h3><span class="nrb-demo-number">22</span> STL oloid</h3>
+<p>Export a closed oloid STL, then edit its original NURBS construction.</p>
+<button class="nrb-demo-preview" type="button" data-demo-html="./_gallery/02_surfaces/22_stl_oloid/22_stl_oloid.html" data-demo-title="STL oloid" aria-label="Explore STL oloid">
+<img src="./_gallery/02_surfaces/22_stl_oloid/22_stl_oloid.png" alt="STL oloid" width="1600" height="1200" loading="lazy" decoding="async">
+<span>Explore interactively</span></button>
+<div class="nrb-demo-viewer" hidden></div>
+<div class="nrb-demo-links"><a href="./_gallery/02_surfaces/22_stl_oloid/22_stl_oloid.html" target="_blank" rel="noopener">Open full page</a>
+<a href="./_gallery/02_surfaces/22_stl_oloid/22_stl_oloid.html" download>Download HTML</a><a href="./_gallery/02_surfaces/22_stl_oloid/22_stl_oloid.py" download>Python source</a></div>
+</article>
+</div><p>See the <a class="reference internal" href="figures.html"><span class="std std-doc">Figure guide</span></a> for saving your own interactive figures and PNGs.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="examples/stl_printing.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Torus and oloid: from NURBS to a printable STL</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="api_reference.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#curves">Curves</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#surfaces">Surfaces</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Roberto Agromayor.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

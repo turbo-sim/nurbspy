@@ -31,6 +31,7 @@
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery.css?v=12311f5c" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
@@ -39,9 +40,10 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=2572fa48"></script>
+    <script src="_static/documentation_options.js?v=62544db9"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script defer="defer" src="_static/gallery.js?v=de98829b"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
@@ -172,8 +174,10 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/stl_printing.html">Torus and oloid: from NURBS to a printable STL</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="gallery.html">Interactive gallery</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/nurbspy.html">nurbspy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/nurbspy.fitting.html">nurbspy.fitting package</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/nurbspy.jax.html">nurbspy.jax package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.arclength.html">nurbspy.jax.arclength module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/nurbspy.jax.nurbs_basis_functions.html">nurbspy.jax.nurbs_basis_functions module</a></li>
@@ -225,6 +229,7 @@
 <li class="toctree-l1"><a class="reference internal" href="geometry_io.html">Saving and loading geometry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="visualization.html">Interactive geometry viewing and editing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="figures.html">Reproducible figures and PNG frames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="surface_fitting.html">Surface fitting</a></li>
 </ul>
 
     </div>
@@ -382,6 +387,7 @@
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
@@ -565,11 +571,13 @@
 </li>
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.degree_u">degree_u (nurbspy.jax.prepared.PreparedSurfaceBasis attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.prepared.html#nurbspy.jax.prepared.PreparedSurfaceBasis.degree_v">degree_v (nurbspy.jax.prepared.PreparedSurfaceBasis attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.visualization.sampling.html#nurbspy.visualization.sampling.descriptor">descriptor() (in module nurbspy.visualization.sampling)</a>
+</li>
+      <li><a href="api/nurbspy.fitting.html#nurbspy.fitting.SurfaceFitResult.diagnostics">diagnostics (nurbspy.fitting.SurfaceFitResult attribute)</a>
 </li>
       <li><a href="api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.display_options">display_options() (in module nurbspy.visualization.analysis)</a>
 </li>
@@ -643,6 +651,8 @@
         <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.fit">(nurbspy.visualization.figure.Figure method)</a>
 </li>
       </ul></li>
+      <li><a href="api/nurbspy.fitting.html#nurbspy.fitting.fit_surface">fit_surface() (in module nurbspy.fitting)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem.fitness">fitness() (nurbspy.jax.nurbs_surface.NurbsSurface.PointToSurfaceProjectionProblem method)</a>
@@ -828,6 +838,14 @@
   </ul></td>
 </tr></table>
 
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.fitting.html#nurbspy.fitting.SurfaceFitResult.history">history (nurbspy.fitting.SurfaceFitResult attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -846,6 +864,8 @@
       <li><a href="api/nurbspy.jax.arclength.html#nurbspy.jax.arclength.ArcLengthInfo.intervals">intervals (nurbspy.jax.arclength.ArcLengthInfo attribute)</a>
 </li>
       <li><a href="api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.isocurve_parameters">isocurve_parameters() (in module nurbspy.visualization.analysis)</a>
+</li>
+      <li><a href="api/nurbspy.fitting.html#nurbspy.fitting.SurfaceFitResult.iterations">iterations (nurbspy.fitting.SurfaceFitResult attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -921,6 +941,8 @@
         <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.mesh">(nurbspy.visualization.figure.Figure method)</a>
 </li>
       </ul></li>
+      <li><a href="api/nurbspy.fitting.html#nurbspy.fitting.SurfaceFitResult.message">message (nurbspy.fitting.SurfaceFitResult attribute)</a>
+</li>
       <li><a href="api/nurbspy.html#nurbspy.minimal_example">minimal_example() (in module nurbspy)</a>
 </li>
       <li>
@@ -928,6 +950,8 @@
 
       <ul>
         <li><a href="api/nurbspy.html#module-nurbspy">nurbspy</a>
+</li>
+        <li><a href="api/nurbspy.fitting.html#module-nurbspy.fitting">nurbspy.fitting</a>
 </li>
         <li><a href="api/nurbspy.graphics.html#module-nurbspy.graphics">nurbspy.graphics</a>
 </li>
@@ -1045,6 +1069,13 @@
 
       <ul>
         <li><a href="api/nurbspy.html#module-nurbspy">module</a>
+</li>
+      </ul></li>
+      <li>
+    nurbspy.fitting
+
+      <ul>
+        <li><a href="api/nurbspy.fitting.html#module-nurbspy.fitting">module</a>
 </li>
       </ul></li>
       <li>
@@ -1363,6 +1394,10 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/nurbspy.fitting.html#nurbspy.fitting.SurfaceFitResult.objective">objective (nurbspy.fitting.SurfaceFitResult attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.open_figure">open_figure() (in module nurbspy.visualization.figure_hosts)</a>
 </li>
   </ul></td>
@@ -1378,6 +1413,8 @@
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.P">P (nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
 </li>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.p">p (nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
+</li>
+      <li><a href="api/nurbspy.fitting.html#nurbspy.fitting.SurfaceFitResult.parameters">parameters (nurbspy.fitting.SurfaceFitResult attribute)</a>
 </li>
       <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.plot">plot() (in module nurbspy.visualization)</a>
 
@@ -1561,10 +1598,10 @@
         <li><a href="api/nurbspy.visualization.figure.html#nurbspy.visualization.figure.Figure.remove">(nurbspy.visualization.figure.Figure method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.render_frames">render_frames() (in module nurbspy.visualization.figure_hosts)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.visualization.figure_hosts.html#nurbspy.visualization.figure_hosts.render_png">render_png() (in module nurbspy.visualization.figure_hosts)</a>
 </li>
       <li><a href="api/nurbspy.jax.nurbs_curve.html#nurbspy.jax.nurbs_curve.NurbsCurve.reparametrize_by_arclength">reparametrize_by_arclength() (nurbspy.jax.nurbs_curve.NurbsCurve method)</a>
@@ -1581,6 +1618,8 @@
         <li><a href="api/nurbspy.numpy.nurbs_surface.html#nurbspy.numpy.nurbs_surface.NurbsSurface.rescale_plot">(nurbspy.numpy.nurbs_surface.NurbsSurface method)</a>
 </li>
       </ul></li>
+      <li><a href="api/nurbspy.fitting.html#nurbspy.fitting.SurfaceFitResult.rms">rms (nurbspy.fitting.SurfaceFitResult attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1661,8 +1700,14 @@
 </li>
       <li><a href="api/nurbspy.graphics.html#nurbspy.graphics.style_3d_axes">style_3d_axes() (in module nurbspy.graphics)</a>
 </li>
-      <li><a href="api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.surface">surface (nurbspy.jax.prepared_projection.PreparedSurfaceProjection attribute)</a>
+      <li><a href="api/nurbspy.fitting.html#nurbspy.fitting.SurfaceFitResult.success">success (nurbspy.fitting.SurfaceFitResult attribute)</a>
 </li>
+      <li><a href="api/nurbspy.fitting.html#nurbspy.fitting.SurfaceFitResult.surface">surface (nurbspy.fitting.SurfaceFitResult attribute)</a>
+
+      <ul>
+        <li><a href="api/nurbspy.jax.prepared_projection.html#nurbspy.jax.prepared_projection.PreparedSurfaceProjection.surface">(nurbspy.jax.prepared_projection.PreparedSurfaceProjection attribute)</a>
+</li>
+      </ul></li>
       <li><a href="api/nurbspy.visualization.analysis.html#nurbspy.visualization.analysis.surface_isocurves">surface_isocurves() (in module nurbspy.visualization.analysis)</a>
 </li>
       <li><a href="api/nurbspy.visualization.plotting.html#nurbspy.visualization.plotting.surface_plot">surface_plot() (in module nurbspy.visualization.plotting)</a>
@@ -1685,6 +1730,8 @@
 </li>
       <li><a href="api/nurbspy.jax.nurbs_surface.html#nurbspy.jax.nurbs_surface.NurbsSurface.surface_type">surface_type (nurbspy.jax.nurbs_surface.NurbsSurface attribute)</a>
 </li>
+      <li><a href="api/nurbspy.fitting.html#nurbspy.fitting.SurfaceFitResult">SurfaceFitResult (class in nurbspy.fitting)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1692,6 +1739,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/nurbspy.mesh.html#nurbspy.mesh.tessellate_surfaces">tessellate_surfaces() (in module nurbspy.mesh)</a>
+</li>
+      <li><a href="api/nurbspy.fitting.html#nurbspy.fitting.SurfaceFitResult.timings">timings (nurbspy.fitting.SurfaceFitResult attribute)</a>
 </li>
       <li><a href="api/nurbspy.visualization.html#nurbspy.visualization.Figure.to_html">to_html() (nurbspy.visualization.Figure method)</a>
 

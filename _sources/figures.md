@@ -142,6 +142,11 @@ Two-dimensional coordinates use z=0. Marker size is in logical pixels;
 `True` for normal surface occlusion. These annotations are preserved in Figure
 YAML and PNGs and do not appear among editable geometry objects.
 
+`fig.mesh(vertices, triangles, color="#b9cbd6", wireframe=False)` similarly adds a
+read-only triangle mesh, such as an STL reloaded from disk. Vertices have shape
+`(count, 3)` and triangles contain integer vertex-index triples. The mesh is
+preserved in YAML, HTML, and PNG; `wireframe=True` also draws its triangle edges.
+
 `names` lists the objects; `geometry(name)` and `settings(name)` return independent
 copies. Modify a geometry copy and pass it back through `update(name, geometry=...)`.
 `remove(name)` removes an object. Omitting a name in `geometry()`, `settings()` or
@@ -170,6 +175,14 @@ and ViewCube are omitted. PNG is the supported output format; a binary stream
 can be supplied instead of a path.
 
 ## Headless export and scripted animation
+
+For a self-contained interactive page, use `fig.to_html("surface.html")`.
+The file bundles the Three.js renderer and precomputed geometry; recipients
+need a browser, with no Python server or internet access. Optional named
+views use `fig.to_html("comparison.html", variants={"Initial": fig, "Final": other_fig})`.
+Camera and display choices persist when switching views. Measurement markers
+can be hidden independently. Geometry is read-only, and controls requiring
+new Python diagnostics are disabled; exported diagnostics remain available.
 
 Playwright is a standard dependency. PNG export uses an isolated headless browser,
 without opening a visible window or using your browser profile. It tries the
@@ -210,7 +223,18 @@ reuse one renderer. A generator can update and yield the same Figure for each
 frame; each frame is saved before the generator advances. The optional callback
 receives the one-based frame index and saved path. No animation class is required.
 
-Run `demos/demos_viewer/demo_figure_save.py` for interactive capture, restoration, and PNG export.
+Run `04_figure_save.py` for interactive capture/restoration or
+`demos/oloid/demo_oloid_animation.py` for two reference circles, a moving straight
+generating line, and progressively revealed cubic ruled surface patches.
+It opens the visualizer before export and creates a seamless PNG/GIF sequence
+with two cosine development/undevelopment cycles and one-second holds at the
+fully formed and line-only states. It exports an overview GIF with three
+continuous camera orbits, a line-following GIF, and a synchronized side-by-side
+GIF. The following camera stays on the outward side of the active ruling, keeping
+the construction visible. The GIF join is at the line-only state. Export
+switches and all settings are global variables.
+The oloid's cubic boundaries approximate the analytical circles with an adaptive,
+shared-knot fit; the surface stays linear along its straight rulings.
 
 ## Embedded Dash figures
 

@@ -37,6 +37,13 @@ Representations, derivatives, lengths, frames, surface geometry and projection.
 Run complete scripts and compare their numerical and graphical outputs.
 :::
 
+:::{grid-item-card} Interactive gallery
+:link: gallery
+:link-type: doc
+
+Explore the curve and surface tutorials with interactive 3D figures.
+:::
+
 :::{grid-item-card} API reference
 :link: api_reference
 :link-type: doc
@@ -53,8 +60,10 @@ Browse the classes, constructors, and functions available in the package.
 getting_started/index
 theory/index
 examples/index
+gallery
 api_reference
 geometry_io
 visualization
 figures
+surface_fitting
 ```

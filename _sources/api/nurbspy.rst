@@ -12,6 +12,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   nurbspy.fitting
    nurbspy.jax
    nurbspy.numpy
    nurbspy.visualization
