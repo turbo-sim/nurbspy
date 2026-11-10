@@ -56,9 +56,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
-# Generated STL printing examples and comparison plots
-/output/stl_printing/
-/output/figures/
+# Generated demo assets and local verification output
+/output/
 /demos/**/output/
-/output/figure_smoke.png
 /development/surface_fitting/output/

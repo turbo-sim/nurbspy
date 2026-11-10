@@ -36,7 +36,7 @@ def main(show=True):
         title="Oloid: boundaries and straight rulings",
         display=dict(
             grid=True,
-            control_points=True,
+            control_points=False,
             control_polygon=True,
             isocurves=True,
             isocurves_u=rulings,
@@ -47,7 +47,7 @@ def main(show=True):
         patches[1],
         name="Second patch",
         display=dict(
-            control_points=True,
+            control_points=False,
             control_polygon=True,
             isocurves=True,
             isocurves_u=rulings,

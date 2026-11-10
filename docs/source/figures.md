@@ -210,7 +210,18 @@ reuse one renderer. A generator can update and yield the same Figure for each
 frame; each frame is saved before the generator advances. The optional callback
 receives the one-based frame index and saved path. No animation class is required.
 
-Run `demos/demos_viewer/demo_figure_save.py` for interactive capture, restoration, and PNG export.
+Run `04_figure_save.py` for interactive capture/restoration or
+`demos/oloid/demo_oloid_animation.py` for two reference circles, a moving straight
+generating line, and progressively revealed cubic ruled surface patches.
+It opens the visualizer before export and creates a seamless PNG/GIF sequence
+with two cosine development/undevelopment cycles and one-second holds at the
+fully formed and line-only states. It exports an overview GIF with three
+continuous camera orbits, a line-following GIF, and a synchronized side-by-side
+GIF. The following camera stays on the outward side of the active ruling, keeping
+the construction visible. The GIF join is at the line-only state. Export
+switches and all settings are global variables.
+The oloid's cubic boundaries approximate the analytical circles with an adaptive,
+shared-knot fit; the surface stays linear along its straight rulings.
 
 ## Embedded Dash figures
 
