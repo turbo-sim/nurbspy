@@ -191,7 +191,14 @@ def refine(data, costs, seed, lower, upper, point, knot_vectors, degrees,
         safe = jnp.where(direction != 0, direction, 1.0)
         fraction = jnp.where(direction > 0, (upper - x) / safe,
                              jnp.where(direction < 0, (lower - x) / safe, jnp.inf))
-        return direction * jnp.clip(jnp.min(fraction), 0.0, 1.0)
+        limiting = jnp.min(fraction)
+        scaled = direction * jnp.clip(limiting, 0.0, 1.0)
+        # Construct the limiting displacement from the exact bound. Multiplying
+        # by the ray fraction alone may leave a tiny positive interior remainder,
+        # which prevents exact active-set recognition on the next iteration.
+        blocking = (fraction == limiting) & (limiting <= 1) & (direction != 0)
+        exact = jnp.where(direction > 0, upper - x, lower - x)
+        return jnp.where(blocking, exact, scaled)
 
     def condition(state):
         iteration, _, done = state
@@ -219,8 +226,10 @@ def refine(data, costs, seed, lower, upper, point, knot_vectors, degrees,
         direction = feasible_direction(x, direction * width)
         # A blocked Newton direction can still have feasible steepest descent.
         # This changes the direction within this solve, never its initial seed.
-        magnitude = jnp.max(jnp.abs(gradient))
-        descent = -0.25 * gradient / jnp.where(magnitude > 0, magnitude, 1.0)
+        # Keep the local curvature scale when Newton points outside the box.
+        # A fixed-length fallback can exhaust backtracking for a tiny correction.
+        descent = -gradient / scale
+        descent /= jnp.maximum(1.0, jnp.max(jnp.abs(descent)) / 0.25)
         descent = feasible_direction(x, descent * width)
         uphill = (~jnp.all(jnp.isfinite(direction))
                   | (jnp.dot(objective.gradient, direction) >= 0))
@@ -238,6 +247,12 @@ def refine(data, costs, seed, lower, upper, point, knot_vectors, degrees,
         small_step = spatial_step <= xtol * (1.0 + jnp.linalg.norm(objective.position - point))
         small_change = jnp.abs(values[index] - objective.value) <= ftol * jnp.maximum(1.0, objective.value)
         stagnant = jnp.all(updated == x) | (small_step & small_change)
+        # A tiny feasible step can activate a bound while another coordinate is
+        # still nonstationary. Let the next iteration solve on that new face.
+        newly_bound = ((updated == lower) & (x != lower)) | (
+            (updated == upper) & (x != upper)
+        )
+        stagnant &= ~jnp.any(newly_bound)
         return iteration + 1, updated, converged | ~accepted | stagnant
 
     _, x, _ = jax.lax.while_loop(condition, step, (0, seed, jnp.array(False)))

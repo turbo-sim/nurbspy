@@ -510,3 +510,60 @@ def test_compressed_rational_cubic_finds_polynomial_image_minimum(reverse):
     parameters = curve.project_points(queries)
     actual = jnp.sum((curve.get_value(parameters) - queries) ** 2, axis=0)
     assert_allclose(actual, expected, rtol=0, atol=1e-8)
+
+
+@pytest.mark.parametrize("query_x,epsilon", [(0.3, 1e-16), (0.277, 2.3e-16)])
+@pytest.mark.parametrize("swap", [False, True])
+def test_surface_projection_continues_after_tiny_step_activates_a_bound(
+    query_x, epsilon, swap
+):
+    """A bound transition must allow a subsequent free-coordinate Newton step."""
+    # A skew plane gives a closed-form bound-constrained minimizer.
+    controls = jnp.array(
+        [[[0.0, 1.0], [1.0, 2.0]], [[0.0, 1.0], [0.0, 1.0]], [[0.0, 0.0], [0.0, 0.0]]]
+    )
+    surface = nrb.NurbsSurface(controls.transpose(0, 2, 1) if swap else controls)
+    seed = jnp.array([[0.6, epsilon] if swap else [epsilon, 0.6]])
+    prepared = nrb.PreparedSurfaceProjection(
+        surface=surface,
+        sample_parameters=seed,
+        sampled_points=surface.get_value(seed[:, 0], seed[:, 1]),
+        samples_per_span=1,
+    )
+    result = prepared.project_point(
+        jnp.array([query_x, 0.4, 1.0]), ftol=1e-14, gtol=1e-12, xtol=1e-12
+    )
+    assert_allclose(
+        result,
+        jnp.array([(query_x + 0.4) / 2, 0.0] if swap else [0.0, (query_x + 0.4) / 2]),
+        atol=1e-12,
+    )
+
+
+@pytest.mark.parametrize("reverse", [False, True])
+@pytest.mark.parametrize("swap", [False, True])
+def test_near_surface_projection_scales_blocked_newton_fallback(reverse, swap):
+    """Feasible descent must retain the scale of a tiny projection correction."""
+    controls = jnp.array(
+        [[[0.0, 1.0], [1.0, 2.0]], [[0.0, 1.0], [0.0, 1.0]], [[0.0, 0.0], [0.0, 0.0]]]
+    )
+    if reverse:
+        controls = controls[:, ::-1, :]
+    surface = nrb.NurbsSurface(controls.transpose(0, 2, 1) if swap else controls)
+    seed = jnp.array([[0.0 if reverse else 1.0, 0.4]])
+    expected = jnp.array([0.0 if reverse else 1.0, 0.4 - 2.55e-8])
+    if swap:
+        seed, expected = seed[:, ::-1], expected[::-1]
+    prepared = nrb.PreparedSurfaceProjection(
+        surface=surface,
+        sample_parameters=seed,
+        sampled_points=surface.get_value(seed[:, 0], seed[:, 1]),
+        samples_per_span=1,
+    )
+    result = prepared.project_point(
+        jnp.array([1.4 - 1e-9, 0.4 - 5e-8, 1e-7]),
+        ftol=1e-14,
+        gtol=1e-10,
+        xtol=1e-14,
+    )
+    assert_allclose(result, expected, atol=1e-10)
