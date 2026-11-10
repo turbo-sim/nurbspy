@@ -16,6 +16,7 @@ Subpackages
    nurbspy.fitting
    nurbspy.jax
    nurbspy.numpy
+   nurbspy.visualization
 
 Submodules
 ----------
@@ -24,3 +25,7 @@ Submodules
    :maxdepth: 4
 
    nurbspy.graphics
+   nurbspy.mesh
+   nurbspy.point
+   nurbspy.serialization
+   nurbspy.web_explorer
